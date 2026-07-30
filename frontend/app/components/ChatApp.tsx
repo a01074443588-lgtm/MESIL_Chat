@@ -31,6 +31,7 @@ import {
   type NotificationSoundMode,
 } from "../notificationSound";
 import { synchronizeWebPushSubscription } from "../pushNotifications";
+import { isRecentWakeNotification } from "../wakeNotification.mjs";
 import {
   clearReviewerLanding,
   readReviewerLanding,
@@ -518,6 +519,7 @@ export function ChatApp() {
   const synchronizeAfterWake = useCallback(async () => {
     if (!me || me.must_change_password || wakeSyncInFlightRef.current) return;
     wakeSyncInFlightRef.current = true;
+    const wakeSyncStartedAt = Date.now();
     try {
       const previousRooms = roomsRef.current;
       const previousById = new Map(previousRooms.map((room) => [room.id, room]));
@@ -562,7 +564,8 @@ export function ChatApp() {
             ...roomMessages.filter(
               (message) =>
                 new Date(message.created_at).getTime() > previousMessageAt &&
-                message.sender_id !== me.id,
+                message.sender_id !== me.id &&
+                isRecentWakeNotification(message.created_at, wakeSyncStartedAt),
             ),
           );
         }

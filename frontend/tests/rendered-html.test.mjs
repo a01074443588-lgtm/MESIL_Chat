@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import {
+  isRecentWakeNotification,
+  WAKE_NOTIFICATION_MAX_AGE_MS,
+} from "../app/wakeNotification.mjs";
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -75,6 +79,25 @@ test("keeps app updates automatic and protects message drafts", async () => {
   assert.match(updateManager, /sessionStorage/);
   assert.match(globalStyles, /\.app-update-banner/);
   assert.match(serviceWorker, /type === "SKIP_WAITING"/);
+});
+
+test("plays wake catch-up sound only for messages from the last minute", () => {
+  const now = Date.parse("2026-07-30T12:00:00.000Z");
+
+  assert.equal(WAKE_NOTIFICATION_MAX_AGE_MS, 60_000);
+  assert.equal(
+    isRecentWakeNotification("2026-07-30T11:59:30.000Z", now),
+    true,
+  );
+  assert.equal(
+    isRecentWakeNotification("2026-07-30T11:58:59.999Z", now),
+    false,
+  );
+  assert.equal(
+    isRecentWakeNotification("2026-07-30T11:40:00.000Z", now),
+    false,
+  );
+  assert.equal(isRecentWakeNotification("not-a-date", now), false);
 });
 
 test("keeps product metadata, security flow, and PWA assets aligned", async () => {
@@ -205,6 +228,7 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(notificationPanel, /메딕 시험 소리 듣기/);
   assert.match(notificationSound, /\/sounds\/mesil-medic-voice-v2\.wav/);
   assert.match(notificationSound, /playCommentNotification/);
+  assert.match(chatApp, /isRecentWakeNotification\(message\.created_at, wakeSyncStartedAt\)/);
   assert.match(chatApp, /<PeriodWorkDesk/);
   assert.match(
     chatApp,
