@@ -133,11 +133,13 @@ def test_web_push_retries_once_for_temporary_failure(monkeypatch, tmp_path):
 
         room_id = uuid4()
         message_id = uuid4()
+        comment_id = uuid4()
         assert (
             send_web_push_to_users(
                 {user_id},
                 room_id=room_id,
                 message_id=message_id,
+                comment_id=comment_id,
                 notification_kind="comment",
             )
             == 1
@@ -148,6 +150,25 @@ def test_web_push_retries_once_for_temporary_failure(monkeypatch, tmp_path):
         assert comment_payload["url"] == (
             f"/?room={room_id}&message={message_id}"
         )
+        assert comment_payload["tag"] == f"mesil-chat-comment-{comment_id}"
+
+        next_comment_id = uuid4()
+        assert (
+            send_web_push_to_users(
+                {user_id},
+                room_id=room_id,
+                message_id=message_id,
+                comment_id=next_comment_id,
+                notification_kind="comment",
+            )
+            == 1
+        )
+        next_comment_payload = json.loads(sent_payloads[-1]["data"])
+        assert next_comment_payload["url"] == comment_payload["url"]
+        assert next_comment_payload["tag"] == (
+            f"mesil-chat-comment-{next_comment_id}"
+        )
+        assert next_comment_payload["tag"] != comment_payload["tag"]
 
 
 def test_expired_push_endpoint_requires_new_browser_subscription(

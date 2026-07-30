@@ -47,6 +47,7 @@ self.addEventListener("push", (event) => {
       const isTestNotification = payload.tag === "mesil-chat-test";
       if (
         !isTestNotification &&
+        payload.kind !== "comment" &&
         windows.some((client) => client.visibilityState === "visible")
       ) {
         return;

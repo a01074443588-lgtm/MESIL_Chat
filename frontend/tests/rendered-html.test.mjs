@@ -179,7 +179,19 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(serviceWorker, /offline\.html/);
   assert.match(serviceWorker, /showNotification/);
   assert.match(serviceWorker, /isTestNotification/);
+  assert.match(serviceWorker, /payload\.kind !== "comment"/);
   assert.match(serviceWorker, /notificationclick/);
+  assert.match(chatApp, /new URLSearchParams\(window\.location\.search\)/);
+  assert.match(chatApp, /searchParams\.get\("room"\)/);
+  assert.match(chatApp, /searchParams\.get\("message"\)/);
+  assert.match(
+    chatApp,
+    /rooms\.find\(\(room\) => room\.id === target\.roomId\)/,
+  );
+  assert.match(chatApp, /message\.room_id === target\.roomId/);
+  assert.match(chatApp, /`\/api\/messages\/\$\{target\.messageId\}`/);
+  assert.match(chatApp, /잘못되었거나 접근 권한이 없는 알림 주소/);
+  assert.match(chatApp, /window\.history\.replaceState/);
   assert.match(chatApp, /알림 설정/);
   assert.match(notificationSound, /typeof window === "undefined"\) return "all"/);
   assert.match(pushNotifications, /synchronizeWebPushSubscription/);

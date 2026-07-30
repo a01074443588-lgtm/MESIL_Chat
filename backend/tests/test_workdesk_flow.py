@@ -607,6 +607,7 @@ def test_floor_resident_photo_detail_and_processor_workdesk(monkeypatch):
                 {
                     "room_id": UUID(room_id),
                     "message_id": UUID(message["id"]),
+                    "comment_id": UUID(comment.json()["id"]),
                     "notification_kind": "comment",
                 },
             )

@@ -6,6 +6,7 @@ import type {
   JobCode,
   ManagedRoom,
   Message,
+  MessageDetail,
   OrgUnit,
   PositionTitle,
   Resident,
@@ -90,6 +91,43 @@ const messageNatureLabels = {
 
 type MessageNature = "chat" | keyof typeof messageNatureLabels;
 
+type NotificationNavigationTarget = {
+  roomId: string;
+  messageId: string | null;
+};
+
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function clearNotificationNavigationTarget() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("room");
+  url.searchParams.delete("message");
+  window.history.replaceState(
+    window.history.state,
+    "",
+    `${url.pathname}${url.search}${url.hash}`,
+  );
+}
+
+function readNotificationNavigationTarget(): NotificationNavigationTarget | null {
+  const searchParams = new URLSearchParams(window.location.search);
+  const roomId = searchParams.get("room")?.trim() ?? "";
+  const messageId = searchParams.get("message")?.trim() || null;
+  const hasNotificationTarget =
+    searchParams.has("room") || searchParams.has("message");
+
+  if (!hasNotificationTarget) return null;
+  if (
+    !uuidPattern.test(roomId) ||
+    (messageId !== null && !uuidPattern.test(messageId))
+  ) {
+    clearNotificationNavigationTarget();
+    return null;
+  }
+  return { roomId, messageId };
+}
+
 export function ChatApp() {
   const [loading, setLoading] = useState(true);
   const [me, setMe] = useState<User | null>(null);
@@ -137,6 +175,7 @@ export function ChatApp() {
   const lastWakeSyncAtRef = useRef(0);
   const hiddenAtRef = useRef<number | null>(null);
   const reviewerLandingAttemptedRef = useRef(false);
+  const notificationNavigationAttemptedRef = useRef(false);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const currentUserId = me?.id ?? null;
   const currentUserRole = me?.role ?? null;
@@ -316,6 +355,7 @@ export function ChatApp() {
           apiFetch<Message[]>(`/api/rooms/${roomId}/messages`),
           apiFetch<Resident[]>(`/api/rooms/${roomId}/residents`),
         ]);
+        messagesRef.current = nextMessages;
         setMessages(nextMessages);
         setResidents(nextResidents);
         setSelectedResidentId("");
@@ -323,8 +363,10 @@ export function ChatApp() {
         setReportImage(false);
         const last = nextMessages.at(-1);
         if (last) await markRead(roomId, last.id);
+        return nextMessages;
       } catch (reason) {
         setError(reason instanceof Error ? reason.message : "채팅방을 열지 못했습니다.");
+        return null;
       }
     },
     [markRead],
@@ -413,6 +455,65 @@ export function ChatApp() {
       window.queueMicrotask(() => void openRoom(targetRoom.id));
     }
   }, [me, openRoom, passwordChangeRequired, rooms]);
+
+  useEffect(() => {
+    if (
+      !currentUserId ||
+      me?.is_reviewer_session ||
+      passwordChangeRequired ||
+      rooms.length === 0 ||
+      notificationNavigationAttemptedRef.current
+    ) {
+      return;
+    }
+
+    const target = readNotificationNavigationTarget();
+    notificationNavigationAttemptedRef.current = true;
+    if (!target) return;
+
+    const targetRoom = rooms.find((room) => room.id === target.roomId);
+    if (!targetRoom) {
+      clearNotificationNavigationTarget();
+      return;
+    }
+
+    window.queueMicrotask(() => {
+      void openRoom(targetRoom.id).then(async (nextMessages) => {
+        if (!nextMessages) return;
+        if (target.messageId) {
+          let targetMessage = nextMessages.find(
+            (message) =>
+              message.id === target.messageId &&
+              message.room_id === target.roomId,
+          );
+          if (!targetMessage) {
+            try {
+              const detail = await apiFetch<MessageDetail>(
+                `/api/messages/${target.messageId}`,
+              );
+              if (detail.message.room_id === target.roomId) {
+                targetMessage = detail.message;
+              }
+            } catch {
+              // 잘못되었거나 접근 권한이 없는 알림 주소는 조용히 무시합니다.
+            }
+          }
+          if (!targetMessage) {
+            clearNotificationNavigationTarget();
+            return;
+          }
+          openMessageDetail(targetMessage.id);
+        }
+        clearNotificationNavigationTarget();
+      });
+    });
+  }, [
+    currentUserId,
+    me?.is_reviewer_session,
+    openRoom,
+    passwordChangeRequired,
+    rooms,
+  ]);
 
   const synchronizeAfterWake = useCallback(async () => {
     if (!me || me.must_change_password || wakeSyncInFlightRef.current) return;

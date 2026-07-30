@@ -6392,6 +6392,7 @@ async def add_message_comment(
             push_recipient_ids,
             room_id=message.room_id,
             message_id=message.id,
+            comment_id=comment.id,
             notification_kind="comment",
         )
     await manager.send_to_users(

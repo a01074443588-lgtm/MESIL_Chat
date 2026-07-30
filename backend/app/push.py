@@ -39,6 +39,7 @@ def send_web_push_to_users(
     *,
     room_id: UUID | None = None,
     message_id: UUID | None = None,
+    comment_id: UUID | None = None,
     notification_kind: Literal["message", "comment"] = "message",
     is_test: bool = False,
 ) -> int:
@@ -55,7 +56,7 @@ def send_web_push_to_users(
         kind = "test"
     elif notification_kind == "comment":
         body = "새 댓글이 도착했습니다."
-        tag = f"mesil-chat-comment-{message_id or room_id}"
+        tag = f"mesil-chat-comment-{comment_id or message_id or room_id}"
         kind = "comment"
     else:
         body = "새 메시지가 도착했습니다."
