@@ -6375,17 +6375,7 @@ async def add_message_comment(
         )
         or 0
     )
-    participant_ids = set(
-        db.scalars(
-            select(MessageComment.author_id)
-            .where(MessageComment.message_id == message.id)
-            .distinct()
-        ).all()
-    )
-    push_recipient_ids = (
-        ({message.sender_id} | participant_ids)
-        & member_ids
-    ) - {user.id}
+    push_recipient_ids = member_ids - {user.id}
     if push_recipient_ids:
         background_tasks.add_task(
             send_web_push_to_users,

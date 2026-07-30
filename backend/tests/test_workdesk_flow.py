@@ -603,7 +603,10 @@ def test_floor_resident_photo_detail_and_processor_workdesk(monkeypatch):
         ]
         assert comment_push_calls == [
             (
-                {UUID(staff_response.json()["id"])},
+                {
+                    UUID(staff_response.json()["id"]),
+                    UUID(third_party_response.json()["id"]),
+                },
                 {
                     "room_id": UUID(room_id),
                     "message_id": UUID(message["id"]),
