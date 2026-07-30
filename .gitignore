@@ -1,0 +1,48 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+**/.test-data/
+
+# Node / Vinext
+node_modules/
+.next/
+dist/
+.wrangler/
+*.log
+
+# Runtime data and backups
+data/*.db
+data/*.db-*
+data/uploads/*
+!data/uploads/.gitkeep
+data/backups/*
+!data/backups/.gitkeep
+data/runtime/
+data/DEMO_CREDENTIALS.txt
+data/SUBMISSION_JUDGE_CREDENTIALS.txt
+data/DEV_LAUNCHER_CREDENTIALS.txt
+data/local-stt.pid
+data/stt-smoke-test.wav
+data/ocr_lexicon.local.json
+data/smcodi_residents.local.json
+data/carefor_residents.local.json
+data/carefor_staff.local.json
+data/carefor_identity_map.local.json
+data/current/carefor_http_lab/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+output/
+.playwright-cli/
+tmp/
+validation/final-persona-audit/

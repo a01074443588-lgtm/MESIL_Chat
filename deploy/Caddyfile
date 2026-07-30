@@ -1,0 +1,37 @@
+:8080 {
+	encode zstd gzip
+
+	@public_api_docs {
+		host chat.silvermedical.kr
+		path /api/docs /api/docs/* /api/openapi.json /api/redoc /api/redoc/*
+	}
+	respond @public_api_docs 404
+
+	@api path /api/*
+	reverse_proxy @api backend:8000
+	reverse_proxy frontend:3000
+
+	@manifest path /manifest.webmanifest /mesil-chat.webmanifest
+	header @manifest {
+		>Content-Type "application/manifest+json"
+		>Cache-Control "no-store, max-age=0"
+	}
+
+	@serviceworker path /sw.js /mesil-chat-sw-v5.js /mesil-chat-sw-v6.js
+	header @serviceworker {
+		>Cache-Control "no-store, max-age=0"
+		>Service-Worker-Allowed "/"
+	}
+
+	@publichost host chat.silvermedical.kr
+	header @publichost >Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+	header {
+		Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'self' ws: wss:; worker-src 'self' blob:; manifest-src 'self'"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), geolocation=(), payment=(), usb=()"
+		X-Robots-Tag "noindex, nofollow, noarchive"
+	}
+}

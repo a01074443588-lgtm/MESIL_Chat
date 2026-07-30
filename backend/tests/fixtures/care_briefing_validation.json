@@ -1,0 +1,335 @@
+{
+  "fixture_name": "메실챗 돌봄 브리핑 가명 고정 회귀시험자료 40건",
+  "version": "2026-07-28",
+  "privacy": "모든 어르신과 직원은 가명 또는 가상 인물입니다.",
+  "reports": [
+    {
+      "id": "A01",
+      "scenario": "A",
+      "reported_day_offset": -2,
+      "resident_names": ["시설(가명)003"],
+      "text": "시설(가명)003 어르신 아침 식사량 2/3 드셨고 수분 섭취하셨습니다.",
+      "answer_key": {"observation": "아침 식사량 2/3", "completed_actions": ["수분 제공"], "pending_check": [], "priority": "observe", "next_role": "요양보호사", "records_may_create": ["care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["A01"]}
+    },
+    {
+      "id": "A02",
+      "scenario": "A",
+      "reported_day_offset": -1,
+      "resident_names": ["시설(가명)003"],
+      "text": "시설(가명)003 어르신 아침 식사량 1/2 드셨고 물은 한 컵 드셨습니다.",
+      "answer_key": {"observation": "아침 식사량 1/2", "completed_actions": ["수분 제공"], "pending_check": [], "priority": "observe", "next_role": "요양보호사", "records_may_create": ["care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["A02"]}
+    },
+    {
+      "id": "A03",
+      "scenario": "A",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)003"],
+      "text": "시설(가명)003 어르신 오늘 아침 식사량도 1/2 드셨습니다.",
+      "answer_key": {"observation": "3일간 식사량 2/3→1/2→1/2", "completed_actions": [], "pending_check": ["다음 식사량 확인"], "priority": "check", "next_role": "요양보호사", "records_may_create": ["care_service_record", "nursing_log"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["A01", "A02", "A03", "A04"]}
+    },
+    {
+      "id": "A04",
+      "scenario": "A",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)003"],
+      "text": "시설(가명)003 어르신 오전 프로그램 참여를 권유했으나 피곤하다고 하시며 침상에서 졸고 계셨습니다.",
+      "answer_key": {"observation": "활동 참여 저하와 졸림", "completed_actions": ["프로그램 참여 권유"], "pending_check": ["다음 식사량과 활동 상태 확인"], "priority": "check", "next_role": "요양보호사", "records_may_create": ["care_service_record", "program_log"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["A01", "A02", "A03", "A04"]}
+    },
+    {
+      "id": "B01",
+      "scenario": "B",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)012"],
+      "text": "시설(가명)012 어르신이 오전 9시 20분 복도에서 비틀거리셔서 부축했고 간호팀에 전달했습니다.",
+      "answer_key": {"observation": "복도 이동 중 비틀거림", "completed_actions": ["부축", "간호팀 전달"], "pending_check": ["보행상태와 어지럼 여부"], "priority": "first", "next_role": "요양보호사·간호팀", "records_may_create": ["nursing_log", "care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["B01", "B02"]}
+    },
+    {
+      "id": "B02",
+      "scenario": "B",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)012"],
+      "text": "시설(가명)012 어르신 비틀거림 내용을 간호팀이 전달받았으며 다음 이동 전 상태 확인이 필요합니다.",
+      "answer_key": {"observation": "후속 상태 결과 없음", "completed_actions": ["간호팀 전달 접수"], "pending_check": ["다음 이동 전 보행상태와 어지럼 여부"], "priority": "first", "next_role": "요양보호사·간호팀", "records_may_create": ["nursing_log", "care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["B01", "B02"]}
+    },
+    {
+      "id": "C01",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)008"],
+      "text": "시설(가명)008 어르신 점심 식사와 수분 섭취 양호하셨습니다.",
+      "answer_key": {"observation": "식사·수분 양호", "completed_actions": [], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log", "consultation_log"], "evidence_ids": ["C01"]}
+    },
+    {
+      "id": "C02",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)009"],
+      "text": "시설(가명)009 어르신 오전 체조 프로그램에 참여하시고 반응이 양호하셨습니다.",
+      "answer_key": {"observation": "프로그램 참여·반응 양호", "completed_actions": ["체조 프로그램 제공"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record", "program_log"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["C02"]}
+    },
+    {
+      "id": "C03",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)011"],
+      "text": "시설(가명)011 어르신 저녁 식사 완식하시고 물도 충분히 드셨습니다.",
+      "answer_key": {"observation": "식사·수분 양호", "completed_actions": [], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["C03"]}
+    },
+    {
+      "id": "C04",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)014"],
+      "text": "시설(가명)014 어르신 미술 프로그램에 집중하여 참여하시고 만족한다고 말씀하셨습니다.",
+      "answer_key": {"observation": "프로그램 참여·반응 양호", "completed_actions": ["미술 프로그램 제공"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record", "program_log"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["C04"]}
+    },
+    {
+      "id": "C05",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)018"],
+      "text": "시설(가명)018 어르신 간식과 물을 잘 드셨고 특이사항 없었습니다.",
+      "answer_key": {"observation": "간식·수분 양호", "completed_actions": [], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["C05"]}
+    },
+    {
+      "id": "C06",
+      "scenario": "C",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)022"],
+      "text": "시설(가명)022 어르신 오후 산책에 참여하시고 기분이 좋다고 말씀하셨습니다.",
+      "answer_key": {"observation": "산책 참여·반응 양호", "completed_actions": ["산책 지원"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record", "program_log"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["C06"]}
+    },
+    {
+      "id": "D01",
+      "scenario": "D",
+      "event_group": "D-EVENT-01",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)021"],
+      "text": "시설(가명)021 어르신 14시 5분 화장실 앞에서 미끄러질 뻔해 옆에서 부축했습니다.",
+      "answer_key": {"observation": "14시 5분 미끄러질 뻔함", "completed_actions": ["부축"], "pending_check": ["이후 보행상태 확인"], "priority": "first", "next_role": "요양보호사", "records_may_create": ["nursing_log", "care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["D01", "D02"]}
+    },
+    {
+      "id": "D02",
+      "scenario": "D",
+      "event_group": "D-EVENT-01",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)021"],
+      "text": "시설(가명)021 어르신 오후 2시 5분 이동 중 발이 미끄러지는 모습을 보고 직원이 바로 잡아드렸습니다.",
+      "answer_key": {"observation": "D01과 같은 사건의 다른 직원 보고", "completed_actions": ["직원이 바로 잡음"], "pending_check": ["이후 보행상태 확인"], "priority": "first", "next_role": "요양보호사", "records_may_create": ["nursing_log", "care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["D01", "D02"]}
+    },
+    {
+      "id": "E01",
+      "scenario": "E",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)025"],
+      "text": "시설(가명)025 어르신 점심 식사량 1/2 드셨습니다.",
+      "answer_key": {"observation": "점심 식사량 1/2", "completed_actions": [], "pending_check": ["실제 섭취량 확인"], "priority": "check", "next_role": "작성자", "records_may_create": ["care_service_record"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["E01", "E02"]}
+    },
+    {
+      "id": "E02",
+      "scenario": "E",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)025"],
+      "text": "시설(가명)025 어르신 점심 식사량 2/3 드셨습니다.",
+      "answer_key": {"observation": "같은 식사의 상충 기록", "completed_actions": [], "pending_check": ["1/2와 2/3 중 실제 섭취량 확인"], "priority": "check", "next_role": "작성자", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log", "consultation_log"], "evidence_ids": ["E01", "E02"]}
+    },
+    {
+      "id": "F01",
+      "scenario": "F",
+      "reported_day_offset": 0,
+      "source_type": "handwriting_image",
+      "resident_names": ["시설(가명)001", "시설(가명)016", "시설(가명)035", "시설(가명)044", "시설(가명)047"],
+      "text": "시설(가명)001 오전 혈당 확인. 시설(가명)016 약 복용 시 입안에 머금고 계셔서 물 더 드림. 시설(가명)035 오후 배변 1회 다소 묽어 간호팀에 전달함. 시설(가명)044 보호자 면회 후 기분 좋아 보이심. 시설(가명)047 새벽에 일찍 깨셨다고 하시며 낮잠을 길게 주무심.",
+      "answer_key": {"observation": "한 이미지의 다섯 어르신 기록", "completed_actions": ["수분 제공", "간호팀 전달"], "pending_check": ["혈당 수치 확인", "묽은 변 경과 확인"], "priority": "check", "next_role": "사회복지사·간호팀", "records_may_create": ["care_service_record", "nursing_log", "consultation_log"], "records_must_not_create": ["physical_restraint_log"], "evidence_ids": ["F01"]}
+    },
+    {
+      "id": "G01",
+      "scenario": "G",
+      "reported_day_offset": 0,
+      "source_type": "ocr_uncertain",
+      "resident_names": [],
+      "text": "시설(가명)04? 어르신 오전에 비틀거림 있어 부축함.",
+      "answer_key": {"observation": "어르신 번호 불명확", "completed_actions": ["부축"], "pending_check": ["어르신 번호 확인"], "priority": "check", "next_role": "입력자", "records_may_create": [], "records_must_not_create": ["nursing_log", "care_service_record"], "evidence_ids": ["G01"]}
+    },
+    {
+      "id": "G02",
+      "scenario": "G",
+      "reported_day_offset": 0,
+      "source_type": "speech_uncertain",
+      "resident_names": ["시설(가명)006"],
+      "text": "시설(가명)006 어르신 약 복용 시간이 열 시인지 열한 시인지 음성에서 불명확합니다.",
+      "answer_key": {"observation": "복약 시간 불명확", "completed_actions": [], "pending_check": ["복약 시간 확인"], "priority": "check", "next_role": "입력자·간호팀", "records_may_create": [], "records_must_not_create": ["nursing_log"], "evidence_ids": ["G02"]}
+    },
+    {
+      "id": "G03",
+      "scenario": "G",
+      "reported_day_offset": 0,
+      "source_type": "ocr_uncertain",
+      "resident_names": ["시설(가명)010"],
+      "text": "시설(가명)010 어르신 혈압 12?에 7?로 보이며 숫자 판독 확인이 필요합니다.",
+      "answer_key": {"observation": "혈압 수치 불명확", "completed_actions": [], "pending_check": ["원본에서 수치 확인"], "priority": "check", "next_role": "입력자·간호팀", "records_may_create": [], "records_must_not_create": ["nursing_log"], "evidence_ids": ["G03"]}
+    },
+    {
+      "id": "G04",
+      "scenario": "G",
+      "reported_day_offset": 0,
+      "source_type": "speech_uncertain",
+      "resident_names": ["시설(가명)013"],
+      "text": "시설(가명)013 어르신 손등 발적이 오른쪽인지 왼쪽인지 음성에서 불명확합니다.",
+      "answer_key": {"observation": "신체 부위 좌우 불명확", "completed_actions": [], "pending_check": ["손등 좌우 확인"], "priority": "check", "next_role": "입력자·간호팀", "records_may_create": [], "records_must_not_create": ["nursing_log"], "evidence_ids": ["G04"]}
+    },
+    {
+      "id": "G05",
+      "scenario": "G",
+      "reported_day_offset": 0,
+      "source_type": "ocr_uncertain",
+      "resident_names": ["시설(가명)015"],
+      "text": "시설(가명)015 어르신 약 이름이 손글씨에서 판독되지 않아 복약 여부만 적혀 있습니다.",
+      "answer_key": {"observation": "약 이름 불명확", "completed_actions": [], "pending_check": ["약 이름과 복용 여부 확인"], "priority": "check", "next_role": "입력자·간호팀", "records_may_create": [], "records_must_not_create": ["nursing_log"], "evidence_ids": ["G05"]}
+    },
+    {
+      "id": "H01",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "내일 아침 근무 교대는 8시 30분에 진행합니다.",
+      "answer_key": {"observation": "일반 근무 공지", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log", "consultation_log"], "evidence_ids": ["H01"]}
+    },
+    {
+      "id": "H02",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "직원 점심 주문은 11시까지 댓글로 남겨주세요.",
+      "answer_key": {"observation": "직원 식사 주문", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log"], "evidence_ids": ["H02"]}
+    },
+    {
+      "id": "H03",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "회의실 빔프로젝터 리모컨을 찾습니다.",
+      "answer_key": {"observation": "물품 관련 일반대화", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log"], "evidence_ids": ["H03"]}
+    },
+    {
+      "id": "H04",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "오늘 4층 휴게실 청소 담당 확인 부탁드립니다.",
+      "answer_key": {"observation": "시설 관리 일반대화", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log"], "evidence_ids": ["H04"]}
+    },
+    {
+      "id": "H05",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "퇴근 전에 냉장고에 남은 간식을 정리해 주세요.",
+      "answer_key": {"observation": "직원 업무 일반대화", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log"], "evidence_ids": ["H05"]}
+    },
+    {
+      "id": "H06",
+      "scenario": "H",
+      "reported_day_offset": 0,
+      "resident_names": [],
+      "text": "오늘 회식 장소는 오후에 다시 공지하겠습니다.",
+      "answer_key": {"observation": "직원 잡담", "completed_actions": [], "pending_check": [], "priority": "none", "next_role": "없음", "records_may_create": [], "records_must_not_create": ["care_service_record", "nursing_log"], "evidence_ids": ["H06"]}
+    },
+    {
+      "id": "R01",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)002"],
+      "text": "시설(가명)002 어르신 세면을 도와드렸고 협조해 주셨습니다.",
+      "answer_key": {"observation": "세면 지원", "completed_actions": ["세면 도움"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R01"]}
+    },
+    {
+      "id": "R02",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)004"],
+      "text": "시설(가명)004 어르신 침상 정리와 환복을 도와드렸습니다.",
+      "answer_key": {"observation": "침상 정리·환복 지원", "completed_actions": ["환복 도움"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R02"]}
+    },
+    {
+      "id": "R03",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)005"],
+      "text": "시설(가명)005 어르신 점심 후 침상에서 30분 수면하셨습니다.",
+      "answer_key": {"observation": "점심 후 30분 수면", "completed_actions": [], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R03"]}
+    },
+    {
+      "id": "R04",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)006"],
+      "text": "시설(가명)006 어르신 아침 세면을 안내드렸고 10분 뒤 협조해 주셨습니다.",
+      "answer_key": {"observation": "세면 안내 후 협조", "completed_actions": ["세면 안내"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R04"]}
+    },
+    {
+      "id": "R05",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)007"],
+      "text": "시설(가명)007 어르신 보호자 면회 후 기분이 좋아 보이셨습니다.",
+      "answer_key": {"observation": "보호자 면회 후 기분 양호", "completed_actions": [], "pending_check": [], "priority": "observe", "next_role": "사회복지사", "records_may_create": ["consultation_log"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R05"]}
+    },
+    {
+      "id": "R06",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)010"],
+      "text": "시설(가명)010 어르신 복도 산책을 10분 도와드렸고 안정적으로 걸으셨습니다.",
+      "answer_key": {"observation": "복도 산책 10분", "completed_actions": ["보행 지원"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R06"]}
+    },
+    {
+      "id": "R07",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)013"],
+      "text": "시설(가명)013 어르신 손톱을 정리해 드렸고 불편감 없다고 하셨습니다.",
+      "answer_key": {"observation": "손톱 정리 후 불편감 없음", "completed_actions": ["손톱 정리"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R07"]}
+    },
+    {
+      "id": "R08",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)015"],
+      "text": "시설(가명)015 어르신 음악을 들려드리니 편안하게 앉아 계셨습니다.",
+      "answer_key": {"observation": "음악 제공 후 편안한 반응", "completed_actions": ["음악 제공"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R08"]}
+    },
+    {
+      "id": "R09",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)019"],
+      "text": "시설(가명)019 어르신 오후 간식은 거부하시고 물만 조금 드셨습니다.",
+      "answer_key": {"observation": "간식 거부·물 소량", "completed_actions": ["수분 제공"], "pending_check": ["저녁 식사량 확인"], "priority": "check", "next_role": "요양보호사", "records_may_create": ["care_service_record", "nursing_log"], "records_must_not_create": ["consultation_log"], "evidence_ids": ["R09"]}
+    },
+    {
+      "id": "R10",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)020"],
+      "text": "시설(가명)020 어르신 체위변경을 도와드렸고 편안하다고 하셨습니다.",
+      "answer_key": {"observation": "체위변경 후 편안함", "completed_actions": ["체위변경"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R10"]}
+    },
+    {
+      "id": "R11",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)023"],
+      "text": "시설(가명)023 어르신 오후 독서 프로그램에 참여하시고 대화 반응이 좋으셨습니다.",
+      "answer_key": {"observation": "독서 프로그램 참여·반응 양호", "completed_actions": ["독서 프로그램 제공"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record", "program_log"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R11"]}
+    },
+    {
+      "id": "R12",
+      "scenario": "R",
+      "reported_day_offset": 0,
+      "resident_names": ["시설(가명)024"],
+      "text": "시설(가명)024 어르신 저녁 식사 후 양치 안내에 잘 협조하셨습니다.",
+      "answer_key": {"observation": "양치 안내 후 협조", "completed_actions": ["양치 안내"], "pending_check": [], "priority": "observe", "next_role": "없음", "records_may_create": ["care_service_record"], "records_must_not_create": ["nursing_log"], "evidence_ids": ["R12"]}
+    }
+  ]
+}

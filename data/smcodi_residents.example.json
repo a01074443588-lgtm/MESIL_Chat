@@ -1,0 +1,20 @@
+{
+  "residents": [
+    {
+      "external_id": "demo-f3-001",
+      "display_name": "가상 어르신 3-01",
+      "service_type": "facility_care",
+      "floor": "3층",
+      "room_name": "가상 301호",
+      "is_active": true
+    },
+    {
+      "external_id": "demo-day-001",
+      "display_name": "가상 주간 어르신 01",
+      "service_type": "day_care",
+      "floor": "1층",
+      "room_name": "주간보호",
+      "is_active": true
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+services:
+  db:
+    image: postgres:17-alpine
+    env_file:
+      - ${PRODUCTION_ENV_FILE:-.env.production}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - chat_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ${PRODUCTION_ENV_FILE:-.env.production}
+    environment:
+      ENVIRONMENT: production
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      AUTO_CREATE_SCHEMA: "false"
+      ALLOWED_ORIGINS: ${CHAT_ORIGINS}
+      COOKIE_SECURE: "true"
+      TRUST_PROXY_HEADERS: "true"
+      UPLOAD_DIR: /data/uploads
+      OCR_LEXICON_PATH: /data/ocr_lexicon.local.json
+      SMCODI_RESIDENT_LEXICON_PATH: /data/smcodi_residents.local.json
+      CAREFOR_RESIDENT_ROSTER_PATH: /data/carefor_residents.local.json
+      CAREFOR_STAFF_ROSTER_PATH: /data/carefor_staff.local.json
+      CAREFOR_IDENTITY_MAP_PATH: /data/carefor_identity_map.local.json
+      AI_REVIEW_PROVIDER: ${AI_REVIEW_PROVIDER:-chain}
+      AI_REVIEW_MODEL: ${AI_REVIEW_MODEL:-qwen3.6:35b}
+      AI_REVIEW_LOCAL_MODELS: ${AI_REVIEW_LOCAL_MODELS:-qwen3.6:35b,gemma4:e4b}
+      AI_REVIEW_BASE_URL: ${AI_REVIEW_BASE_URL:-http://host.docker.internal:11434}
+      AI_REVIEW_TIMEOUT_SECONDS: ${AI_REVIEW_TIMEOUT_SECONDS:-45}
+      AI_REVIEW_EXTERNAL_ENABLED: ${AI_REVIEW_EXTERNAL_ENABLED:-false}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY:-}
+      NVIDIA_API_KEY_FILE: /data/runtime/nvidia_api_key.local
+      NVIDIA_API_BASE_URL: ${NVIDIA_API_BASE_URL:-https://integrate.api.nvidia.com/v1}
+      NVIDIA_NEMOTRON_MODEL: ${NVIDIA_NEMOTRON_MODEL:-nvidia/nemotron-3-nano-30b-a3b}
+      NVIDIA_API_TIMEOUT_SECONDS: ${NVIDIA_API_TIMEOUT_SECONDS:-45}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+
+  gateway:
+    image: caddy:2.10-alpine
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile.production:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  chat_postgres_data:
+  caddy_data:
+  caddy_config:

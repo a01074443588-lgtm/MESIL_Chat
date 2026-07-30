@@ -1,0 +1,101 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-smcodi_chat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-smcodi_chat}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55433}:5432"
+    volumes:
+      - chat_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-smcodi_chat} -d ${POSTGRES_DB:-smcodi_chat}",
+        ]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-smcodi_chat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-smcodi_chat}
+      DATABASE_SCHEMA: ${DATABASE_SCHEMA:-smcodi}
+      AUTO_CREATE_SCHEMA: "false"
+      ALLOWED_ORIGINS: ${CHAT_ORIGINS:-http://localhost:8080}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      TRUST_PROXY_HEADERS: "true"
+      REVIEWER_ACCESS_ENABLED: ${REVIEWER_ACCESS_ENABLED:-false}
+      REVIEWER_SESSION_MINUTES: ${REVIEWER_SESSION_MINUTES:-45}
+      REVIEWER_CHAT_ROOM_NAME: ${REVIEWER_CHAT_ROOM_NAME:-시설 전체방}
+      REVIEWER_RATE_LIMIT: ${REVIEWER_RATE_LIMIT:-8}
+      REVIEWER_RATE_WINDOW_MINUTES: ${REVIEWER_RATE_WINDOW_MINUTES:-1}
+      REVIEWER_SESSION_LIMIT_PER_CLIENT: ${REVIEWER_SESSION_LIMIT_PER_CLIENT:-4}
+      UPLOAD_DIR: /data/uploads
+      OCR_PROVIDER: ${OCR_PROVIDER:-ollama}
+      OCR_MODEL: ${OCR_MODEL:-qwen3-vl:8b-instruct}
+      OCR_BASE_URL: ${OCR_BASE_URL:-http://host.docker.internal:11434}
+      OCR_IMAGE_BANDS: ${OCR_IMAGE_BANDS:-3}
+      OCR_LEXICON_PATH: /data/ocr_lexicon.local.json
+      SMCODI_RESIDENT_LEXICON_PATH: /data/smcodi_residents.local.json
+      CAREFOR_RESIDENT_ROSTER_PATH: /data/carefor_residents.local.json
+      CAREFOR_STAFF_ROSTER_PATH: /data/carefor_staff.local.json
+      CAREFOR_IDENTITY_MAP_PATH: /data/carefor_identity_map.local.json
+      STT_ENABLED: ${STT_ENABLED:-false}
+      STT_PROVIDER: ${STT_PROVIDER:-local_whisper_service}
+      STT_MODEL: ${STT_MODEL:-whisper-small}
+      STT_SERVICE_URL: ${STT_DOCKER_SERVICE_URL:-http://host.docker.internal:8766}
+      STT_SHARED_TOKEN: ${STT_SHARED_TOKEN:-}
+      STT_TIMEOUT_SECONDS: ${STT_TIMEOUT_SECONDS:-600}
+      AI_REVIEW_PROVIDER: ${AI_REVIEW_PROVIDER:-chain}
+      AI_REVIEW_MODEL: ${AI_REVIEW_MODEL:-qwen3.6:35b}
+      AI_REVIEW_LOCAL_MODELS: ${AI_REVIEW_LOCAL_MODELS:-qwen3.6:35b,gemma4:e4b}
+      AI_REVIEW_BASE_URL: ${AI_REVIEW_BASE_URL:-http://host.docker.internal:11434}
+      AI_REVIEW_TIMEOUT_SECONDS: ${AI_REVIEW_TIMEOUT_SECONDS:-45}
+      AI_REVIEW_EXTERNAL_ENABLED: ${AI_REVIEW_EXTERNAL_ENABLED:-true}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY:-}
+      NVIDIA_API_KEY_FILE: /data/runtime/nvidia_api_key.local
+      NVIDIA_API_BASE_URL: ${NVIDIA_API_BASE_URL:-https://integrate.api.nvidia.com/v1}
+      NVIDIA_NEMOTRON_MODEL: ${NVIDIA_NEMOTRON_MODEL:-nvidia/nemotron-3-ultra-550b-a55b}
+      NVIDIA_API_TIMEOUT_SECONDS: ${NVIDIA_API_TIMEOUT_SECONDS:-120}
+      NVIDIA_SUMMARY_TIMEOUT_SECONDS: ${NVIDIA_SUMMARY_TIMEOUT_SECONDS:-45}
+      WEB_PUSH_ENABLED: ${WEB_PUSH_ENABLED:-false}
+      WEB_PUSH_VAPID_PRIVATE_KEY_PATH: /data/runtime/webpush_vapid_private.pem
+      WEB_PUSH_VAPID_PUBLIC_KEY: ${WEB_PUSH_VAPID_PUBLIC_KEY:-}
+      WEB_PUSH_VAPID_SUBJECT: ${WEB_PUSH_VAPID_SUBJECT:-https://chat.silvermedical.kr}
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  gateway:
+    image: caddy:2.10-alpine
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+
+volumes:
+  chat_postgres_data:
