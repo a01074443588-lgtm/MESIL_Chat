@@ -169,5 +169,13 @@ data/        가명 예시와 런타임 데이터 경계
 실버메디컬 복지센터의 현장 문제를 바탕으로 시설 운영 책임자가 제품 방향과
 개발을 주도하고, 사회복지 연구 관점의 검토를 반영했습니다.
 
-© 2026 SilverMedical Welfare Center. 현재 저장소는 AI 챌린지 심사와 기술 검토를
-위해 공개하며, 별도 오픈소스 라이선스는 아직 부여하지 않았습니다.
+## 라이선스
+
+- 소스코드: [Apache License 2.0](LICENSE)
+- `README.md`와 `docs/` 문서: [CC BY 4.0](LICENSE-DOCS)
+- 로고·상표·아이콘·알림음 등 브랜드 자산: [별도 자산 안내](ASSET_NOTICE.md)
+
+각 의존성과 제3자 자료에는 해당 권리자의 라이선스가 적용됩니다. Apache 2.0과
+CC BY 4.0은 실버메디컬의 상표나 브랜드 자산 사용권을 부여하지 않습니다.
+
+© 2026 SilverMedical Welfare Center.
