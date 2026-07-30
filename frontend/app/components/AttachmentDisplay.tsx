@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { TouchEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { MouseEvent, TouchEvent } from "react";
 import { createPortal } from "react-dom";
 
 import { apiBase, apiFetch } from "../api";
@@ -28,6 +28,7 @@ export function AttachmentDisplay({
   showExtraction = false,
   canEditExtraction = false,
   onAttachmentChanged,
+  galleryAttachments,
 }: {
   attachment: Attachment;
   compact?: boolean;
@@ -35,16 +36,36 @@ export function AttachmentDisplay({
   showExtraction?: boolean;
   canEditExtraction?: boolean;
   onAttachmentChanged?: (attachment: Attachment) => void;
+  galleryAttachments?: Attachment[];
 }) {
-  const downloadPath =
-    accessScope === "workdesk"
-      ? `/api/workdesk/attachments/${attachment.id}`
-      : attachment.download_url;
-  const url = `${apiBase()}${downloadPath}`;
+  const attachmentUrl = useCallback(
+    (item: Attachment) => {
+      const downloadPath =
+        accessScope === "workdesk"
+          ? `/api/workdesk/attachments/${item.id}`
+          : item.download_url;
+      return `${apiBase()}${downloadPath}`;
+    },
+    [accessScope],
+  );
+  const url = attachmentUrl(attachment);
   const isImage = attachment.mime_type.startsWith("image/");
   const isAudio = attachment.mime_type.startsWith("audio/");
   const isVideo = attachment.mime_type.startsWith("video/");
+  const imageGallery = useMemo(() => {
+    const source = galleryAttachments?.length ? galleryAttachments : [attachment];
+    const images = source.filter((item) => item.mime_type.startsWith("image/"));
+    if (!images.some((item) => item.id === attachment.id) && isImage) {
+      return [attachment, ...images];
+    }
+    return images;
+  }, [attachment, galleryAttachments, isImage]);
+  const attachmentGalleryIndex = Math.max(
+    0,
+    imageGallery.findIndex((item) => item.id === attachment.id),
+  );
   const [imageOpen, setImageOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(attachmentGalleryIndex);
   const [imageScale, setImageScale] = useState(1);
   const [imageOffset, setImageOffset] = useState({ x: 0, y: 0 });
   const extraction: AttachmentTextExtraction | null = attachment.text_extraction;
@@ -57,6 +78,8 @@ export function AttachmentDisplay({
   const [savingExtraction, setSavingExtraction] = useState(false);
   const [extractionError, setExtractionError] = useState("");
   const pinchStartRef = useRef<{ distance: number; scale: number } | null>(null);
+  const swipeStartRef = useRef<{ x: number; y: number } | null>(null);
+  const activeImageIndexRef = useRef(attachmentGalleryIndex);
   const dragStartRef = useRef<{
     pointerId: number;
     x: number;
@@ -83,12 +106,35 @@ export function AttachmentDisplay({
     });
   }
 
-  function resetImageView() {
+  const resetImageView = useCallback(() => {
     setImageScale(1);
     setImageOffset({ x: 0, y: 0 });
     pinchStartRef.current = null;
+    swipeStartRef.current = null;
     dragStartRef.current = null;
-  }
+  }, []);
+
+  const selectGalleryImage = useCallback(
+    (nextIndex: number) => {
+      if (imageGallery.length < 1) return;
+      const normalizedIndex = Math.min(
+        imageGallery.length - 1,
+        Math.max(0, nextIndex),
+      );
+      if (normalizedIndex === activeImageIndexRef.current) return;
+      activeImageIndexRef.current = normalizedIndex;
+      setActiveImageIndex(normalizedIndex);
+      resetImageView();
+    },
+    [imageGallery.length, resetImageView],
+  );
+
+  const moveGalleryImage = useCallback(
+    (direction: -1 | 1) => {
+      selectGalleryImage(activeImageIndexRef.current + direction);
+    },
+    [selectGalleryImage],
+  );
 
   useEffect(() => {
     if (!imageOpen) return;
@@ -111,6 +157,16 @@ export function AttachmentDisplay({
       if (event.key === "0") {
         event.preventDefault();
         resetImageView();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveGalleryImage(-1);
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveGalleryImage(1);
       }
     };
     document.addEventListener("keydown", closeOnEscape);
@@ -120,7 +176,7 @@ export function AttachmentDisplay({
       document.removeEventListener("keydown", closeOnEscape);
       document.body.style.overflow = previousOverflow;
     };
-  }, [imageOpen]);
+  }, [imageOpen, moveGalleryImage, resetImageView]);
 
   function touchDistance(event: TouchEvent) {
     const first = event.touches.item(0);
@@ -130,27 +186,74 @@ export function AttachmentDisplay({
   }
 
   function handlePinchStart(event: TouchEvent<HTMLImageElement>) {
-    if (event.touches.length !== 2) return;
-    pinchStartRef.current = {
-      distance: touchDistance(event),
-      scale: imageScale,
-    };
+    if (event.touches.length === 2) {
+      swipeStartRef.current = null;
+      pinchStartRef.current = {
+        distance: touchDistance(event),
+        scale: imageScale,
+      };
+      return;
+    }
+    if (event.touches.length === 1 && imageScale === 1) {
+      const touch = event.touches.item(0);
+      if (touch) {
+        swipeStartRef.current = { x: touch.clientX, y: touch.clientY };
+      }
+    }
   }
 
   function handlePinchMove(event: TouchEvent<HTMLImageElement>) {
-    if (event.touches.length !== 2 || !pinchStartRef.current) return;
-    event.preventDefault();
-    const distance = touchDistance(event);
-    if (!distance || !pinchStartRef.current.distance) return;
-    const nextScale =
-      pinchStartRef.current.scale * (distance / pinchStartRef.current.distance);
-    applyImageScale(nextScale);
+    if (event.touches.length === 2 && pinchStartRef.current) {
+      event.preventDefault();
+      const distance = touchDistance(event);
+      if (!distance || !pinchStartRef.current.distance) return;
+      const nextScale =
+        pinchStartRef.current.scale * (distance / pinchStartRef.current.distance);
+      applyImageScale(nextScale);
+      return;
+    }
+    if (event.touches.length === 1 && swipeStartRef.current && imageScale === 1) {
+      event.preventDefault();
+    }
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLImageElement>) {
+    if (event.touches.length < 2) {
+      pinchStartRef.current = null;
+    }
+    const swipeStart = swipeStartRef.current;
+    if (!swipeStart || event.touches.length > 0 || imageScale !== 1) return;
+    swipeStartRef.current = null;
+    const touch = event.changedTouches.item(0);
+    if (!touch) return;
+    const deltaX = touch.clientX - swipeStart.x;
+    const deltaY = touch.clientY - swipeStart.y;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.15) {
+      return;
+    }
+    moveGalleryImage(deltaX < 0 ? 1 : -1);
   }
 
   function closeImage() {
     setImageOpen(false);
     resetImageView();
   }
+
+  const openImage = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      resetImageView();
+      activeImageIndexRef.current = attachmentGalleryIndex;
+      setActiveImageIndex(attachmentGalleryIndex);
+      setImageOpen(true);
+    },
+    [attachmentGalleryIndex, resetImageView],
+  );
+
+  const activeImage = imageGallery[activeImageIndex] ?? attachment;
+  const activeImageUrl = attachmentUrl(activeImage);
+  const hasPreviousImage = activeImageIndex > 0;
+  const hasNextImage = activeImageIndex < imageGallery.length - 1;
 
   const imageLightbox =
     imageOpen && typeof document !== "undefined"
@@ -170,12 +273,43 @@ export function AttachmentDisplay({
             >
               ×
             </button>
+            {imageGallery.length > 1 ? (
+              <>
+                <span className="image-lightbox-position" aria-live="polite">
+                  {activeImageIndex + 1} / {imageGallery.length}
+                </span>
+                <button
+                  type="button"
+                  className="image-lightbox-nav previous"
+                  aria-label="이전 사진"
+                  disabled={!hasPreviousImage}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    moveGalleryImage(-1);
+                  }}
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className="image-lightbox-nav next"
+                  aria-label="다음 사진"
+                  disabled={!hasNextImage}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    moveGalleryImage(1);
+                  }}
+                >
+                  ›
+                </button>
+              </>
+            ) : null}
             {/* 권한 검사를 통과한 로그인 사용자에게만 서버가 파일을 제공합니다. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="image-lightbox-image"
-              src={url}
-              alt={attachment.original_name}
+              src={activeImageUrl}
+              alt={activeImage.original_name}
               onClick={(event) => event.stopPropagation()}
               onDoubleClick={resetImageView}
               onWheel={(event) => {
@@ -210,8 +344,10 @@ export function AttachmentDisplay({
               }}
               onTouchStart={handlePinchStart}
               onTouchMove={handlePinchMove}
-              onTouchEnd={() => {
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={() => {
                 pinchStartRef.current = null;
+                swipeStartRef.current = null;
               }}
               style={{
                 transform: `translate3d(${imageOffset.x}px, ${imageOffset.y}px, 0) scale(${imageScale})`,
@@ -245,7 +381,8 @@ export function AttachmentDisplay({
               </button>
             </div>
             <span className="image-lightbox-help">
-              두 손가락으로 확대·축소 · PC는 버튼이나 마우스 휠 · 확대 후 끌어서 이동
+              {imageGallery.length > 1 ? "좌우로 밀어 다음 사진 · " : ""}
+              두 손가락으로 확대·축소 · PC는 방향키나 버튼 · 확대 후 끌어서 이동
             </span>
           </div>,
           document.body,
@@ -259,11 +396,7 @@ export function AttachmentDisplay({
           type="button"
           className={className}
           aria-label={`${attachment.original_name} 크게 보기`}
-          onClick={(event) => {
-            event.stopPropagation();
-            resetImageView();
-            setImageOpen(true);
-          }}
+          onClick={openImage}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={url} alt={attachment.original_name} />

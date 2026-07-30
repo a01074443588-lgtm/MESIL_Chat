@@ -9,6 +9,8 @@ export type PushResult = {
   enabled: boolean;
   active: boolean;
   message: string;
+  resubscribe_required?: boolean;
+  reason_code?: "endpoint_expired" | null;
 };
 
 export type PushSupportState =
@@ -128,6 +130,43 @@ async function registerSubscription(subscription: PushSubscription) {
   });
 }
 
+async function createSubscription(
+  registration: ServiceWorkerRegistration,
+  publicKey: string,
+) {
+  return registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: applicationServerKey(publicKey),
+  });
+}
+
+async function registerOrReplaceSubscription(
+  registration: ServiceWorkerRegistration,
+  config: PushConfig,
+) {
+  if (!config.enabled || !config.public_key) {
+    return null;
+  }
+
+  let subscription = await registration.pushManager.getSubscription();
+  if (!subscription) {
+    subscription = await createSubscription(registration, config.public_key);
+  }
+
+  let result = await registerSubscription(subscription);
+  if (!result.resubscribe_required) {
+    return result;
+  }
+
+  await subscription.unsubscribe().catch(() => false);
+  subscription = await createSubscription(registration, config.public_key);
+  result = await registerSubscription(subscription);
+  if (result.resubscribe_required) {
+    throw new Error("알림 연결을 새로 만들지 못했습니다. 잠시 후 다시 시도해 주세요.");
+  }
+  return result;
+}
+
 export async function synchronizeWebPushSubscription() {
   if (!supportsWebPush() || Notification.permission !== "granted") {
     return null;
@@ -137,11 +176,7 @@ export async function synchronizeWebPushSubscription() {
     return null;
   }
   const registration = await ensureMesilServiceWorker();
-  const subscription = await registration.pushManager.getSubscription();
-  if (!subscription) {
-    return null;
-  }
-  return registerSubscription(subscription);
+  return registerOrReplaceSubscription(registration, config);
 }
 
 export async function readPushStatus(): Promise<{
@@ -159,11 +194,12 @@ export async function readPushStatus(): Promise<{
     return { state: "permission-denied", config };
   }
   const registration = await ensureMesilServiceWorker();
-  const subscription = await registration.pushManager.getSubscription();
-  if (subscription) {
-    await registerSubscription(subscription);
+  if (Notification.permission !== "granted") {
+    const subscription = await registration.pushManager.getSubscription();
+    return { state: subscription ? "active" : "ready", config };
   }
-  return { state: subscription ? "active" : "ready", config };
+  const result = await registerOrReplaceSubscription(registration, config);
+  return { state: result?.active ? "active" : "ready", config };
 }
 
 export async function enableWebPush(config: PushConfig) {
@@ -175,14 +211,11 @@ export async function enableWebPush(config: PushConfig) {
     throw new Error("휴대전화 알림 권한을 허용해 주세요.");
   }
   const registration = await ensureMesilServiceWorker();
-  let subscription = await registration.pushManager.getSubscription();
-  if (!subscription) {
-    subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: applicationServerKey(config.public_key),
-    });
+  const result = await registerOrReplaceSubscription(registration, config);
+  if (!result) {
+    throw new Error("휴대전화 알림 서버가 아직 준비되지 않았습니다.");
   }
-  return registerSubscription(subscription);
+  return result;
 }
 
 export async function disableWebPush() {

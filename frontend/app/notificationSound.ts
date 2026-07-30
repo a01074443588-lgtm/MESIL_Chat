@@ -105,3 +105,22 @@ export function playMessageNotification(
     // 모바일 브라우저가 아직 소리를 허용하지 않은 경우 다음 사용자 조작 때 다시 시도합니다.
   });
 }
+
+export function playCommentNotification(
+  mode: NotificationSoundMode,
+  currentUserId: string,
+  commentAuthorId: string | undefined,
+  notificationUserIds: string[] | undefined,
+) {
+  if (
+    mode === "off" ||
+    !commentAuthorId ||
+    commentAuthorId === currentUserId ||
+    !notificationUserIds?.includes(currentUserId)
+  ) {
+    return;
+  }
+  void playBrandSound().catch(() => {
+    // 브라우저가 아직 소리를 허용하지 않은 경우 잠금화면 푸시 알림으로 안내합니다.
+  });
+}

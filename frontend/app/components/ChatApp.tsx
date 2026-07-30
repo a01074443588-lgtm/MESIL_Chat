@@ -23,6 +23,7 @@ import { RoomSearchOverlay } from "./RoomSearchOverlay";
 import { SecurityPanel } from "./SecurityPanel";
 import { PeriodWorkDesk } from "./PeriodWorkDesk";
 import {
+  playCommentNotification,
   playMessageNotification,
   readNotificationSoundMode,
   shouldPlayMessageNotification,
@@ -491,6 +492,11 @@ export function ChatApp() {
       if (document.visibilityState === "hidden") return;
       const now = Date.now();
       if (!force && now - lastWakeSyncAtRef.current < 4_000) return;
+      if (!me.is_reviewer_session) {
+        void synchronizeWebPushSubscription().catch(() => {
+          // 이미 허용된 기기의 만료된 알림 주소만 조용히 복구합니다.
+        });
+      }
       setSocketRevision((current) => current + 1);
       void synchronizeAfterWake();
     };
@@ -559,6 +565,7 @@ export function ChatApp() {
           comment_count?: number;
           reply_user_count?: number;
           comment?: { author_id: string };
+          notification_user_ids?: string[];
           action_item?: Message["action_item"];
         };
         if (payload.event === "pong" || payload.event === "ready") {
@@ -597,6 +604,12 @@ export function ChatApp() {
           }
         }
         if (payload.event === "message_commented" && payload.message_id) {
+          playCommentNotification(
+            notificationSoundMode,
+            currentUserId,
+            payload.comment?.author_id,
+            payload.notification_user_ids,
+          );
           setMessages((current) =>
             current.map((message) =>
               message.id === payload.message_id
@@ -1160,6 +1173,7 @@ export function ChatApp() {
                                       <AttachmentDisplay
                                         key={attachment.id}
                                         attachment={attachment}
+                                        galleryAttachments={message.attachments}
                                         compact
                                       />
                                     ))}

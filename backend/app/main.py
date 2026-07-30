@@ -3662,6 +3662,17 @@ def register_web_push_subscription(
         )
         db.add(subscription)
     else:
+        if not subscription.is_active and subscription.failure_count > 0:
+            return PushSubscriptionResponse(
+                enabled=True,
+                active=False,
+                resubscribe_required=True,
+                reason_code="endpoint_expired",
+                message=(
+                    "이 기기의 알림 주소가 만료되었습니다. "
+                    "기존 알림을 해제하고 새 알림 주소를 만들어야 합니다."
+                ),
+            )
         subscription.organization_id = user.organization_id
         subscription.user_id = user.id
         subscription.login_session_id = login_session.id
@@ -6319,6 +6330,7 @@ def mark_message_comments_read(
 async def add_message_comment(
     message_id: UUID,
     payload: MessageCommentCreate,
+    background_tasks: BackgroundTasks,
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -6363,6 +6375,25 @@ async def add_message_comment(
         )
         or 0
     )
+    participant_ids = set(
+        db.scalars(
+            select(MessageComment.author_id)
+            .where(MessageComment.message_id == message.id)
+            .distinct()
+        ).all()
+    )
+    push_recipient_ids = (
+        ({message.sender_id} | participant_ids)
+        & member_ids
+    ) - {user.id}
+    if push_recipient_ids:
+        background_tasks.add_task(
+            send_web_push_to_users,
+            push_recipient_ids,
+            room_id=message.room_id,
+            message_id=message.id,
+            notification_kind="comment",
+        )
     await manager.send_to_users(
         member_ids,
         {
@@ -6372,6 +6403,10 @@ async def add_message_comment(
             "comment": response_payload.model_dump(mode="json"),
             "comment_count": comment_count,
             "reply_user_count": reply_user_count,
+            "notification_user_ids": [
+                str(recipient_id)
+                for recipient_id in sorted(push_recipient_ids, key=str)
+            ],
         },
     )
     return response_payload

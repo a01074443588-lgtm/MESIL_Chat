@@ -243,6 +243,7 @@ export function MessageDetailOverlay({
                         attachment.text_extraction?.reviewed_at ?? ""
                       }`}
                       attachment={attachment}
+                      galleryAttachments={detail.message.attachments}
                       showExtraction
                       canEditExtraction={
                         canProcessRecords || detail.message.sender_id === currentUserId

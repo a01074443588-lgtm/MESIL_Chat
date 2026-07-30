@@ -1401,6 +1401,52 @@ textarea:focus {
   cursor: pointer;
 }
 
+.image-lightbox-position {
+  position: fixed;
+  z-index: 2;
+  top: 18px;
+  left: 20px;
+  min-width: 62px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  padding: 8px 12px;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 850;
+  pointer-events: none;
+}
+
+.image-lightbox-nav {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  translate: 0 -50%;
+  width: 52px;
+  height: 68px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.image-lightbox-nav.previous {
+  left: 18px;
+}
+
+.image-lightbox-nav.next {
+  right: 18px;
+}
+
+.image-lightbox-nav:disabled {
+  cursor: default;
+  opacity: 0.25;
+}
+
 .image-lightbox-help {
   position: fixed;
   right: 50%;
@@ -7709,6 +7755,26 @@ textarea:focus {
     padding: 0 10px;
     font-size: 14px;
   }
+
+  .image-lightbox-position {
+    top: 10px;
+    left: 10px;
+  }
+
+  .image-lightbox-nav {
+    width: 44px;
+    height: 58px;
+    border-radius: 12px;
+    font-size: 36px;
+  }
+
+  .image-lightbox-nav.previous {
+    left: 6px;
+  }
+
+  .image-lightbox-nav.next {
+    right: 6px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -7835,5 +7901,76 @@ textarea:focus {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+.app-update-banner,
+.app-update-complete {
+  position: fixed;
+  z-index: 10050;
+  left: 50%;
+  width: min(calc(100vw - 24px), 560px);
+  transform: translateX(-50%);
+  border: 1px solid #b7c9a4;
+  border-radius: 14px;
+  box-shadow: 0 12px 34px rgb(28 49 44 / 22%);
+}
+
+.app-update-banner {
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #fff;
+  color: #173b36;
+}
+
+.app-update-banner > div {
+  display: grid;
+  gap: 3px;
+}
+
+.app-update-banner strong {
+  font-size: 16px;
+}
+
+.app-update-banner span {
+  color: #59706c;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.app-update-banner button {
+  min-height: 44px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  background: #4f7d0d;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.app-update-complete {
+  top: max(16px, env(safe-area-inset-top));
+  padding: 12px 16px;
+  background: #eff8e8;
+  color: #31590d;
+  text-align: center;
+  font-weight: 800;
+}
+
+@media (max-width: 520px) {
+  .app-update-banner {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .app-update-banner button {
+    width: 100%;
   }
 }

@@ -313,6 +313,13 @@ def create_unit(client: TestClient, unit_type: str, name: str) -> str:
 
 
 def test_floor_resident_photo_detail_and_processor_workdesk(monkeypatch):
+    push_calls = []
+
+    def capture_push(user_ids, **kwargs):
+        push_calls.append((set(user_ids), kwargs))
+        return len(set(user_ids))
+
+    monkeypatch.setattr(main_module, "send_web_push_to_users", capture_push)
     monkeypatch.setattr(
         main_module,
         "transcribe_audio",
@@ -589,6 +596,21 @@ def test_floor_resident_photo_detail_and_processor_workdesk(monkeypatch):
             {"body": "사회복지사가 식사기록을 함께 확인하겠습니다."},
         )
         assert comment.status_code == 201, comment.text
+        comment_push_calls = [
+            call
+            for call in push_calls
+            if call[1].get("notification_kind") == "comment"
+        ]
+        assert comment_push_calls == [
+            (
+                {UUID(staff_response.json()["id"])},
+                {
+                    "room_id": UUID(room_id),
+                    "message_id": UUID(message["id"]),
+                    "notification_kind": "comment",
+                },
+            )
+        ]
         writer_messages = writer.get(f"/api/rooms/{room_id}/messages").json()
         commented_message = next(item for item in writer_messages if item["id"] == message["id"])
         assert commented_message["comment_count"] == 1

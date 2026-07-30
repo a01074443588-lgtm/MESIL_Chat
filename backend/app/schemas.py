@@ -1043,3 +1043,5 @@ class PushSubscriptionResponse(BaseModel):
     enabled: bool
     active: bool
     message: str
+    resubscribe_required: bool = False
+    reason_code: Literal["endpoint_expired"] | None = None

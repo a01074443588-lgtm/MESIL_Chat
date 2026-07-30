@@ -50,6 +50,33 @@ test("server-renders the noindex reviewer experience", async () => {
   );
 });
 
+test("keeps app updates automatic and protects message drafts", async () => {
+  const [layout, updateManager, globalStyles, serviceWorker] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(
+      new URL("../app/components/AppUpdateManager.tsx", import.meta.url),
+      "utf8",
+    ),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../public/mesil-chat-sw-v6.js", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(layout, /<AppUpdateManager \/>/);
+  assert.match(updateManager, /registration\.update\(\)/);
+  assert.match(updateManager, /controllerchange/);
+  assert.match(updateManager, /visibilitychange/);
+  assert.match(updateManager, /pageshow/);
+  assert.match(updateManager, /window\.addEventListener\("online"/);
+  assert.match(updateManager, /\.composer textarea/);
+  assert.match(updateManager, /\.comment-form textarea/);
+  assert.match(updateManager, /새 버전이 준비되었습니다\./);
+  assert.match(updateManager, /지금 업데이트/);
+  assert.match(updateManager, /최신 버전으로 업데이트되었습니다\./);
+  assert.match(updateManager, /sessionStorage/);
+  assert.match(globalStyles, /\.app-update-banner/);
+  assert.match(serviceWorker, /type === "SKIP_WAITING"/);
+});
+
 test("keeps product metadata, security flow, and PWA assets aligned", async () => {
   const [page, layout, globalStyles, api, loginScreen, reviewerPage, reviewerExperience, reviewerLanding, chatApp, periodWorkDesk, messageDetail, attachmentDisplay, roomSearch, securityPanel, adminDrawer, notificationSound, pushNotifications, notificationPanel, packageJson, manifestText, serviceWorker] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -157,11 +184,15 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(notificationSound, /typeof window === "undefined"\) return "all"/);
   assert.match(pushNotifications, /synchronizeWebPushSubscription/);
   assert.match(pushNotifications, /registerSubscription\(subscription\)/);
+  assert.match(pushNotifications, /resubscribe_required/);
+  assert.match(pushNotifications, /subscription\.unsubscribe\(\)/);
+  assert.match(pushNotifications, /registerOrReplaceSubscription/);
   assert.match(chatApp, /synchronizeWebPushSubscription/);
   assert.match(notificationPanel, /휴대전화 알림 켜고 시험하기/);
   assert.match(notificationPanel, /sendWebPushTest/);
   assert.match(notificationPanel, /메딕 시험 소리 듣기/);
   assert.match(notificationSound, /\/sounds\/mesil-medic-voice-v2\.wav/);
+  assert.match(notificationSound, /playCommentNotification/);
   assert.match(chatApp, /<PeriodWorkDesk/);
   assert.match(
     chatApp,
@@ -220,6 +251,15 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(messageDetail, /답글한 직원/);
   assert.match(messageDetail, /다른 방에 전달/);
   assert.match(attachmentDisplay, /두 손가락으로 확대·축소/);
+  assert.match(attachmentDisplay, /좌우로 밀어 다음 사진/);
+  assert.match(attachmentDisplay, /event\.key === "ArrowLeft"/);
+  assert.match(attachmentDisplay, /event\.key === "ArrowRight"/);
+  assert.match(attachmentDisplay, /aria-label="이전 사진"/);
+  assert.match(attachmentDisplay, /aria-label="다음 사진"/);
+  assert.match(chatApp, /galleryAttachments=\{message\.attachments\}/);
+  assert.match(messageDetail, /galleryAttachments=\{detail\.message\.attachments\}/);
+  assert.match(chatApp, /notification_user_ids/);
+  assert.match(chatApp, /playCommentNotification/);
   assert.match(attachmentDisplay, /<audio controls/);
   assert.match(attachmentDisplay, /<video controls playsInline/);
   assert.match(attachmentDisplay, /음성 받아쓰기/);
