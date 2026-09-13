@@ -1,0 +1,30 @@
+{
+  "schema_version": "longitudinal_care_manifest_v1",
+  "resident_alias": "검증어르신(가명)",
+  "message_count": 200,
+  "event_count": 182,
+  "focus_event_count": 16,
+  "role_count": 9,
+  "roles": [
+    "간호사",
+    "사무원",
+    "사회복지사",
+    "시설장",
+    "요양보호사",
+    "운전원",
+    "재활담당자",
+    "조리원",
+    "합성 보호자"
+  ],
+  "files": {
+    "messages": "messages.json",
+    "ground_truth": "ground_truth.json"
+  },
+  "fixture_sha256": "15cc52b75823c1e1ba9b1c70ef054655b07de03fb46eabadd31f39f424149d65",
+  "ground_truth_is_separate_from_input": true,
+  "contains_real_personal_data": false,
+  "synthetic_fixture": true,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "display_notice": "검증용 가상자료"
+}

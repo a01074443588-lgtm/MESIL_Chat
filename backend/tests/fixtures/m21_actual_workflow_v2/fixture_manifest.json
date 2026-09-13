@@ -1,0 +1,13 @@
+{
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "external_transfer_allowed": false,
+  "target_code": "어르0001",
+  "scope": "new_admission_current_baseline",
+  "files": [
+    "new_admission_certificate.pdf",
+    "new_admission_individual_plan.pdf",
+    "new_admission_prescription.pdf",
+    "new_admission_health.pdf"
+  ]
+}

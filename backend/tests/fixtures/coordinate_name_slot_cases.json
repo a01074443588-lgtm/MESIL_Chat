@@ -1,0 +1,38 @@
+{
+  "privacy": {
+    "contains_real_names": false,
+    "contains_original_text": false,
+    "contains_attachment_ids": false,
+    "derived_from_structure_only": true
+  },
+  "cases": [
+    {
+      "id": "recent_failure_shape_clear_crops",
+      "raw": "가나마: 교체, 교체\n라마바: 확인, 확인\n\n〈아침식사 드신븐〉\n마바자: 라마바\n바가다: 가나다",
+      "roster": ["가나다", "가나라", "라마바", "마바사"],
+      "observations": [
+        {"slot_index": 1, "recognized": "가나다", "candidates": ["가나다", "가나라"], "bbox": [80, 120, 210, 165]},
+        {"slot_index": 3, "recognized": "마바사", "candidates": ["마바사", "라마바"], "bbox": [590, 210, 720, 255]},
+        {"slot_index": 5, "recognized": "흐린글", "candidates": ["가나다", "가나라"], "bbox": [590, 270, 720, 315]}
+      ],
+      "expected": {"accepted": 2, "uncertain": 1}
+    },
+    {
+      "id": "recent_failure_shape_ambiguous_crops",
+      "raw": "가나마: 확인\n라마바: 교체\n\n<아침식사 관련>\n마바자: 라마바",
+      "roster": ["가나다", "가나라", "라마바", "마바사"],
+      "observations": [
+        {"slot_index": 1, "recognized": "가나마", "candidates": ["가나다", "가나라"], "bbox": [70, 100, 200, 145]},
+        {"slot_index": 3, "recognized": "전혀다름", "candidates": ["마바사", "라마바"], "bbox": [560, 220, 700, 265]}
+      ],
+      "expected": {"accepted": 0, "uncertain": 2}
+    },
+    {
+      "id": "recent_failure_shape_non_template",
+      "raw": "아침에 설사를 하시고 09:40 상태를 확인함.\n일반 문장의 첫 단어는 이름이 아님.",
+      "roster": ["가나다", "라마바"],
+      "observations": [],
+      "expected": {"accepted": 0, "uncertain": 0, "unchanged": true}
+    }
+  ]
+}

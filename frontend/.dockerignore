@@ -1,0 +1,10 @@
+node_modules
+.next
+.wrangler
+.playwright-cli
+*.log
+tests
+output
+test-results
+**/*.apk
+public/downloads/staff-test-release.json

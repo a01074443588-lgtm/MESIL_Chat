@@ -1,0 +1,58 @@
+{
+  "privacy": {
+    "contains_real_names": false,
+    "contains_original_text": false,
+    "contains_attachment_ids": false
+  },
+  "cases": [
+    {
+      "id": "combined_clear_candidate",
+      "raw": "가나다: 흑인\n라마바: 교체\n\n<아침식사 하신 분>\n가나디 : 라마바\n마바사 : 가나다\n\n09:05 특이사항 기록",
+      "roster": ["가나다", "라마바", "마바사"],
+      "expected": {
+        "matched": true,
+        "candidate_marker": "가나다 (?)",
+        "status_marker": "확인",
+        "preserved_time": "09:05"
+      }
+    },
+    {
+      "id": "prose_not_template",
+      "raw": "아침식사 후 설사 증상이 있었음.\n담당자: 확인 필요\n10:20 상태를 다시 살핌.",
+      "roster": ["가나다", "라마바"],
+      "expected": {
+        "matched": false,
+        "unchanged": true
+      }
+    },
+    {
+      "id": "three_page_regression_shape_status_meal_narrative",
+      "raw": "가나다: 확인, 교체\n라마바: 교체, 확인\n마바사: 확인, 확인\n\n<아침식사 하신 분>\n가나디 : 라마바\n마바사 : 가나다\n\n09:05 특이사항을 기록함.",
+      "roster": ["가나다", "라마바", "마바사"],
+      "expected": {
+        "matched": true,
+        "candidate_marker": "가나다 (?)",
+        "status_marker": "확인",
+        "preserved_time": "09:05"
+      }
+    },
+    {
+      "id": "three_page_regression_shape_narrative_only",
+      "raw": "일반 서술 첫 문장은 이름이 아님.\n아침에 설사를 하시고 09:40 상태를 확인함.\n담당자: 확인 필요",
+      "roster": ["가나다", "라마바", "마바사"],
+      "expected": {
+        "matched": false,
+        "unchanged": true
+      }
+    },
+    {
+      "id": "three_page_regression_shape_time_and_medication",
+      "raw": "14:50 복약 내용을 원문대로 기록함.\n1일 3회 약 복용.\n설명 문장의 첫 단어도 이름 슬롯이 아님.",
+      "roster": ["가나다", "라마바", "마바사"],
+      "expected": {
+        "matched": false,
+        "unchanged": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,3318 @@
+{
+  "schema_version": "longitudinal_care_scenario_v1",
+  "resident_alias": "검증어르신(가명)",
+  "window": {
+    "start_date": "2026-02-27",
+    "end_date": "2026-08-26"
+  },
+  "scenario_notice": "모든 대화는 제품 검증을 위해 새로 만든 비식별 가상자료입니다.",
+  "safety_contract": {
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false,
+    "display_notice": "검증용 가상자료"
+  },
+  "roles": [
+    "사회복지사",
+    "요양보호사",
+    "간호사",
+    "시설장",
+    "조리원",
+    "재활담당자",
+    "운전원",
+    "사무원",
+    "합성 보호자"
+  ],
+  "messages": [
+    {
+      "fixture_message_id": "LCM-035",
+      "scenario_event_id": "EVT-ROUTINE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-02-27T09:00:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-067",
+      "scenario_event_id": "EVT-ROUTINE-033",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-02-28T09:00:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-099",
+      "scenario_event_id": "EVT-ROUTINE-065",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-01T09:00:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-131",
+      "scenario_event_id": "EVT-ROUTINE-097",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-02T09:00:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-163",
+      "scenario_event_id": "EVT-ROUTINE-129",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-03T09:00:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-009",
+      "scenario_event_id": "EVT-MOBILITY-CHANGE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-03T10:20:00+09:00",
+      "author_role": "재활담당자",
+      "body": "현재 실내에서 독립보행하는 모습을 확인했습니다.",
+      "record_tags": [
+        "mobility",
+        "baseline"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-195",
+      "scenario_event_id": "EVT-ROUTINE-161",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-04T09:00:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-046",
+      "scenario_event_id": "EVT-ROUTINE-012",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-05T10:51:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-078",
+      "scenario_event_id": "EVT-ROUTINE-044",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-06T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-110",
+      "scenario_event_id": "EVT-ROUTINE-076",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-07T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-142",
+      "scenario_event_id": "EVT-ROUTINE-108",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-08T10:51:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-174",
+      "scenario_event_id": "EVT-ROUTINE-140",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-09T10:51:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-001",
+      "scenario_event_id": "EVT-HOSPITAL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-10T09:10:00+09:00",
+      "author_role": "간호사",
+      "body": "3월 12일 외래 진료 예정이며 이동 지원을 준비합니다.",
+      "record_tags": [
+        "health",
+        "schedule"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-057",
+      "scenario_event_id": "EVT-ROUTINE-023",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-11T12:42:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-002",
+      "scenario_event_id": "EVT-HOSPITAL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-12T08:40:00+09:00",
+      "author_role": "운전원",
+      "body": "외래 진료 이동을 시작했습니다.",
+      "record_tags": [
+        "health",
+        "transport"
+      ],
+      "event_state": "in_progress",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-089",
+      "scenario_event_id": "EVT-ROUTINE-055",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-12T12:42:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-003",
+      "scenario_event_id": "EVT-HOSPITAL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-12T14:40:00+09:00",
+      "author_role": "간호사",
+      "body": "외래 진료를 마치고 14:30 귀원했습니다.",
+      "record_tags": [
+        "health",
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-121",
+      "scenario_event_id": "EVT-ROUTINE-087",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-13T12:42:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-153",
+      "scenario_event_id": "EVT-ROUTINE-119",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-14T12:42:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-185",
+      "scenario_event_id": "EVT-ROUTINE-151",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-15T12:42:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-036",
+      "scenario_event_id": "EVT-ROUTINE-002",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-16T09:37:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-068",
+      "scenario_event_id": "EVT-ROUTINE-034",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-17T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-100",
+      "scenario_event_id": "EVT-ROUTINE-066",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-18T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-132",
+      "scenario_event_id": "EVT-ROUTINE-098",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-19T09:37:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-164",
+      "scenario_event_id": "EVT-ROUTINE-130",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-20T09:37:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-196",
+      "scenario_event_id": "EVT-ROUTINE-162",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-21T09:37:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-047",
+      "scenario_event_id": "EVT-ROUTINE-013",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-22T11:28:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-079",
+      "scenario_event_id": "EVT-ROUTINE-045",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-23T11:28:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-032",
+      "scenario_event_id": "EVT-BATHING-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-24T10:40:00+09:00",
+      "author_role": "요양보호사",
+      "body": "목욕할 때 등 씻기를 도왔고 피부 이상은 보이지 않았습니다.",
+      "record_tags": [
+        "hygiene",
+        "adl"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-111",
+      "scenario_event_id": "EVT-ROUTINE-077",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-24T11:28:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-143",
+      "scenario_event_id": "EVT-ROUTINE-109",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-25T11:28:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-175",
+      "scenario_event_id": "EVT-ROUTINE-141",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-26T11:28:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-058",
+      "scenario_event_id": "EVT-ROUTINE-024",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-28T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-090",
+      "scenario_event_id": "EVT-ROUTINE-056",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-29T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-122",
+      "scenario_event_id": "EVT-ROUTINE-088",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-30T13:19:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-154",
+      "scenario_event_id": "EVT-ROUTINE-120",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-03-31T13:19:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-186",
+      "scenario_event_id": "EVT-ROUTINE-152",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-01T13:19:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-037",
+      "scenario_event_id": "EVT-ROUTINE-003",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-02T10:14:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-069",
+      "scenario_event_id": "EVT-ROUTINE-035",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-03T10:14:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-101",
+      "scenario_event_id": "EVT-ROUTINE-067",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-04T10:14:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-133",
+      "scenario_event_id": "EVT-ROUTINE-099",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-05T10:14:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-165",
+      "scenario_event_id": "EVT-ROUTINE-131",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-06T10:14:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-197",
+      "scenario_event_id": "EVT-ROUTINE-163",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-07T10:14:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-048",
+      "scenario_event_id": "EVT-ROUTINE-014",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-08T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-080",
+      "scenario_event_id": "EVT-ROUTINE-046",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-09T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-112",
+      "scenario_event_id": "EVT-ROUTINE-078",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-10T12:05:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-144",
+      "scenario_event_id": "EVT-ROUTINE-110",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-11T12:05:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-176",
+      "scenario_event_id": "EVT-ROUTINE-142",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-12T12:05:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-012",
+      "scenario_event_id": "EVT-MEAL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-14T08:50:00+09:00",
+      "author_role": "요양보호사",
+      "body": "아침 식사를 절반 정도 드셔 점심 섭취량을 확인하기로 했습니다.",
+      "record_tags": [
+        "meal",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-059",
+      "scenario_event_id": "EVT-ROUTINE-025",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-14T09:00:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-013",
+      "scenario_event_id": "EVT-MEAL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-14T12:50:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사는 제공량의 약 80%를 드셨습니다.",
+      "record_tags": [
+        "meal",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-091",
+      "scenario_event_id": "EVT-ROUTINE-057",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-15T09:00:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-123",
+      "scenario_event_id": "EVT-ROUTINE-089",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-16T09:00:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-155",
+      "scenario_event_id": "EVT-ROUTINE-121",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-17T09:00:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-187",
+      "scenario_event_id": "EVT-ROUTINE-153",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-18T09:00:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-038",
+      "scenario_event_id": "EVT-ROUTINE-004",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-19T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-070",
+      "scenario_event_id": "EVT-ROUTINE-036",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-20T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-102",
+      "scenario_event_id": "EVT-ROUTINE-068",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-21T10:51:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-134",
+      "scenario_event_id": "EVT-ROUTINE-100",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-22T10:51:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-166",
+      "scenario_event_id": "EVT-ROUTINE-132",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-23T10:51:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-198",
+      "scenario_event_id": "EVT-ROUTINE-164",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-24T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-049",
+      "scenario_event_id": "EVT-ROUTINE-015",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-25T12:42:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-081",
+      "scenario_event_id": "EVT-ROUTINE-047",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-26T12:42:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-113",
+      "scenario_event_id": "EVT-ROUTINE-079",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-27T12:42:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-145",
+      "scenario_event_id": "EVT-ROUTINE-111",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-28T12:42:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-030",
+      "scenario_event_id": "EVT-PROGRAM-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-28T14:00:00+09:00",
+      "author_role": "사회복지사",
+      "body": "소근육 활동에 30분 동안 끝까지 참여했습니다.",
+      "record_tags": [
+        "program",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-031",
+      "scenario_event_id": "EVT-PROGRAM-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-28T14:05:00+09:00",
+      "author_role": "재활담당자",
+      "body": "같은 소근육 활동 참여 사실을 확인했습니다.",
+      "record_tags": [
+        "program",
+        "activity",
+        "duplicate"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-177",
+      "scenario_event_id": "EVT-ROUTINE-143",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-04-29T12:42:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-060",
+      "scenario_event_id": "EVT-ROUTINE-026",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-01T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-092",
+      "scenario_event_id": "EVT-ROUTINE-058",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-02T09:37:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-124",
+      "scenario_event_id": "EVT-ROUTINE-090",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-03T09:37:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-156",
+      "scenario_event_id": "EVT-ROUTINE-122",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-04T09:37:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-188",
+      "scenario_event_id": "EVT-ROUTINE-154",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-05T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-039",
+      "scenario_event_id": "EVT-ROUTINE-005",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-06T11:28:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-071",
+      "scenario_event_id": "EVT-ROUTINE-037",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-07T11:28:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-103",
+      "scenario_event_id": "EVT-ROUTINE-069",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-08T11:28:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-014",
+      "scenario_event_id": "EVT-BOWEL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-08T15:20:00+09:00",
+      "author_role": "요양보호사",
+      "body": "최근 3일간 배변 기록이 없어 상태 확인이 필요합니다.",
+      "record_tags": [
+        "bowel",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-015",
+      "scenario_event_id": "EVT-BOWEL-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-09T09:15:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오늘 아침 배변을 확인해 이전 확인 요청을 완료했습니다.",
+      "record_tags": [
+        "bowel",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-135",
+      "scenario_event_id": "EVT-ROUTINE-101",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-09T11:28:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-167",
+      "scenario_event_id": "EVT-ROUTINE-133",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-10T11:28:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-199",
+      "scenario_event_id": "EVT-ROUTINE-165",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-11T11:28:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-050",
+      "scenario_event_id": "EVT-ROUTINE-016",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-12T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-082",
+      "scenario_event_id": "EVT-ROUTINE-048",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-13T13:19:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-114",
+      "scenario_event_id": "EVT-ROUTINE-080",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-14T13:19:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-146",
+      "scenario_event_id": "EVT-ROUTINE-112",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-15T13:19:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-178",
+      "scenario_event_id": "EVT-ROUTINE-144",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-16T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-061",
+      "scenario_event_id": "EVT-ROUTINE-027",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-18T10:14:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-093",
+      "scenario_event_id": "EVT-ROUTINE-059",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-19T10:14:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-125",
+      "scenario_event_id": "EVT-ROUTINE-091",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-20T10:14:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-157",
+      "scenario_event_id": "EVT-ROUTINE-123",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-21T10:14:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-026",
+      "scenario_event_id": "EVT-TEMP-DIZZINESS-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-22T10:00:00+09:00",
+      "author_role": "요양보호사",
+      "body": "자리에서 일어날 때 일시적으로 어지럽다고 말씀해 앉아서 쉬도록 했습니다.",
+      "record_tags": [
+        "health",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-189",
+      "scenario_event_id": "EVT-ROUTINE-155",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-22T10:14:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-027",
+      "scenario_event_id": "EVT-TEMP-DIZZINESS-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-22T10:35:00+09:00",
+      "author_role": "간호사",
+      "body": "30분 뒤에는 어지러움 호소가 없었고 추가 변화가 있는지 관찰합니다.",
+      "record_tags": [
+        "health",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-040",
+      "scenario_event_id": "EVT-ROUTINE-006",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-23T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-072",
+      "scenario_event_id": "EVT-ROUTINE-038",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-24T12:05:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-104",
+      "scenario_event_id": "EVT-ROUTINE-070",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-25T12:05:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-136",
+      "scenario_event_id": "EVT-ROUTINE-102",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-26T12:05:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-168",
+      "scenario_event_id": "EVT-ROUTINE-134",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-27T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-200",
+      "scenario_event_id": "EVT-ROUTINE-166",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-28T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-051",
+      "scenario_event_id": "EVT-ROUTINE-017",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-29T09:00:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-083",
+      "scenario_event_id": "EVT-ROUTINE-049",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-30T09:00:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-115",
+      "scenario_event_id": "EVT-ROUTINE-081",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-05-31T09:00:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-147",
+      "scenario_event_id": "EVT-ROUTINE-113",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-01T09:00:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-020",
+      "scenario_event_id": "EVT-SKIN-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-01T13:40:00+09:00",
+      "author_role": "요양보호사",
+      "body": "왼쪽 팔꿈치에 붉은 자국이 보여 압박을 줄이고 재확인하기로 했습니다.",
+      "record_tags": [
+        "skin",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-179",
+      "scenario_event_id": "EVT-ROUTINE-145",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-02T09:00:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-021",
+      "scenario_event_id": "EVT-SKIN-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-02T09:30:00+09:00",
+      "author_role": "간호사",
+      "body": "왼쪽 팔꿈치의 붉은 자국이 보이지 않아 확인을 마쳤습니다.",
+      "record_tags": [
+        "skin",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-062",
+      "scenario_event_id": "EVT-ROUTINE-028",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-04T10:51:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-094",
+      "scenario_event_id": "EVT-ROUTINE-060",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-05T10:51:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-126",
+      "scenario_event_id": "EVT-ROUTINE-092",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-06T10:51:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-158",
+      "scenario_event_id": "EVT-ROUTINE-124",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-07T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-190",
+      "scenario_event_id": "EVT-ROUTINE-156",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-08T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-041",
+      "scenario_event_id": "EVT-ROUTINE-007",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-09T12:42:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-073",
+      "scenario_event_id": "EVT-ROUTINE-039",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-10T12:42:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-105",
+      "scenario_event_id": "EVT-ROUTINE-071",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-11T12:42:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-137",
+      "scenario_event_id": "EVT-ROUTINE-103",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-12T12:42:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-169",
+      "scenario_event_id": "EVT-ROUTINE-135",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-13T12:42:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-052",
+      "scenario_event_id": "EVT-ROUTINE-018",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-15T09:37:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-084",
+      "scenario_event_id": "EVT-ROUTINE-050",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-16T09:37:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-116",
+      "scenario_event_id": "EVT-ROUTINE-082",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-17T09:37:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-018",
+      "scenario_event_id": "EVT-MOOD-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-17T10:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전에는 대화 참여가 적어 오후 활동 반응을 확인하기로 했습니다.",
+      "record_tags": [
+        "mood",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-019",
+      "scenario_event_id": "EVT-MOOD-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-17T15:10:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오후 음악활동에 참여했고 활동 후 표정이 밝아졌습니다.",
+      "record_tags": [
+        "mood",
+        "program",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-148",
+      "scenario_event_id": "EVT-ROUTINE-114",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-18T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-180",
+      "scenario_event_id": "EVT-ROUTINE-146",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-19T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-063",
+      "scenario_event_id": "EVT-ROUTINE-029",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-21T11:28:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-095",
+      "scenario_event_id": "EVT-ROUTINE-061",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-22T11:28:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-127",
+      "scenario_event_id": "EVT-ROUTINE-093",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-23T11:28:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-159",
+      "scenario_event_id": "EVT-ROUTINE-125",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-24T11:28:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-191",
+      "scenario_event_id": "EVT-ROUTINE-157",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-25T11:28:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-042",
+      "scenario_event_id": "EVT-ROUTINE-008",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-26T13:19:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-074",
+      "scenario_event_id": "EVT-ROUTINE-040",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-27T13:19:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-106",
+      "scenario_event_id": "EVT-ROUTINE-072",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-28T13:19:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-138",
+      "scenario_event_id": "EVT-ROUTINE-104",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-29T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-170",
+      "scenario_event_id": "EVT-ROUTINE-136",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-06-30T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-016",
+      "scenario_event_id": "EVT-URINATION-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-02T07:20:00+09:00",
+      "author_role": "요양보호사",
+      "body": "야간 배뇨가 3회 기록되어 오늘도 횟수를 관찰합니다.",
+      "record_tags": [
+        "urination",
+        "observation"
+      ],
+      "event_state": "in_progress",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-053",
+      "scenario_event_id": "EVT-ROUTINE-019",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-02T10:14:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-017",
+      "scenario_event_id": "EVT-URINATION-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-03T07:30:00+09:00",
+      "author_role": "간호사",
+      "body": "야간 배뇨 변화는 현재 관찰이 더 필요하며 진단으로 확정하지 않습니다.",
+      "record_tags": [
+        "urination",
+        "observation"
+      ],
+      "event_state": "in_progress",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-085",
+      "scenario_event_id": "EVT-ROUTINE-051",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-03T10:14:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-117",
+      "scenario_event_id": "EVT-ROUTINE-083",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-04T10:14:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-149",
+      "scenario_event_id": "EVT-ROUTINE-115",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-05T10:14:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-181",
+      "scenario_event_id": "EVT-ROUTINE-147",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-06T10:14:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-064",
+      "scenario_event_id": "EVT-ROUTINE-030",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-08T12:05:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-096",
+      "scenario_event_id": "EVT-ROUTINE-062",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-09T12:05:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-128",
+      "scenario_event_id": "EVT-ROUTINE-094",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-10T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-160",
+      "scenario_event_id": "EVT-ROUTINE-126",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-11T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-192",
+      "scenario_event_id": "EVT-ROUTINE-158",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-12T12:05:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-043",
+      "scenario_event_id": "EVT-ROUTINE-009",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-13T09:00:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-075",
+      "scenario_event_id": "EVT-ROUTINE-041",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-14T09:00:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-107",
+      "scenario_event_id": "EVT-ROUTINE-073",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-15T09:00:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-022",
+      "scenario_event_id": "EVT-CONSULT-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-15T11:00:00+09:00",
+      "author_role": "사회복지사",
+      "body": "11:00 보호자와 통화하여 최근 보행 상태를 설명하고 확인받았습니다.",
+      "record_tags": [
+        "consultation",
+        "guardian_contact"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-023",
+      "scenario_event_id": "EVT-CONSULT-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-15T11:08:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "설명을 들었으며 보행 상태를 함께 지켜보기로 했습니다.",
+      "record_tags": [
+        "consultation",
+        "guardian_contact"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-139",
+      "scenario_event_id": "EVT-ROUTINE-105",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-16T09:00:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-171",
+      "scenario_event_id": "EVT-ROUTINE-137",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-17T09:00:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-054",
+      "scenario_event_id": "EVT-ROUTINE-020",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-19T10:51:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-024",
+      "scenario_event_id": "EVT-NONCONSULT-PHONE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-20T10:00:00+09:00",
+      "author_role": "사무원",
+      "body": "어르신에게 전화해 차량 도착 시간을 안내했습니다.",
+      "record_tags": [
+        "transport",
+        "notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-086",
+      "scenario_event_id": "EVT-ROUTINE-052",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-20T10:51:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-025",
+      "scenario_event_id": "EVT-NONCONSULT-PHONE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-20T13:00:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오후 프로그램에서 가족 행사 사진을 함께 보았습니다.",
+      "record_tags": [
+        "program",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-118",
+      "scenario_event_id": "EVT-ROUTINE-084",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-21T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-150",
+      "scenario_event_id": "EVT-ROUTINE-116",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-22T10:51:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-182",
+      "scenario_event_id": "EVT-ROUTINE-148",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-23T10:51:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-065",
+      "scenario_event_id": "EVT-ROUTINE-031",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-25T12:42:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-097",
+      "scenario_event_id": "EVT-ROUTINE-063",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-26T12:42:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-129",
+      "scenario_event_id": "EVT-ROUTINE-095",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-27T12:42:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-161",
+      "scenario_event_id": "EVT-ROUTINE-127",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-28T12:42:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-193",
+      "scenario_event_id": "EVT-ROUTINE-159",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-29T12:42:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-044",
+      "scenario_event_id": "EVT-ROUTINE-010",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-30T09:37:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-076",
+      "scenario_event_id": "EVT-ROUTINE-042",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-07-31T09:37:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-108",
+      "scenario_event_id": "EVT-ROUTINE-074",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-01T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-140",
+      "scenario_event_id": "EVT-ROUTINE-106",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-02T09:37:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-172",
+      "scenario_event_id": "EVT-ROUTINE-138",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-03T09:37:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-055",
+      "scenario_event_id": "EVT-ROUTINE-021",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-05T11:28:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-087",
+      "scenario_event_id": "EVT-ROUTINE-053",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-06T11:28:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-119",
+      "scenario_event_id": "EVT-ROUTINE-085",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-07T11:28:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-151",
+      "scenario_event_id": "EVT-ROUTINE-117",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-08T11:28:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-183",
+      "scenario_event_id": "EVT-ROUTINE-149",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-09T11:28:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-066",
+      "scenario_event_id": "EVT-ROUTINE-032",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-11T13:19:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-098",
+      "scenario_event_id": "EVT-ROUTINE-064",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-12T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-130",
+      "scenario_event_id": "EVT-ROUTINE-096",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-13T13:19:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-162",
+      "scenario_event_id": "EVT-ROUTINE-128",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-14T13:19:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-194",
+      "scenario_event_id": "EVT-ROUTINE-160",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-15T13:19:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-045",
+      "scenario_event_id": "EVT-ROUTINE-011",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-16T10:14:00+09:00",
+      "author_role": "조리원",
+      "body": "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다.",
+      "record_tags": [
+        "meal"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-077",
+      "scenario_event_id": "EVT-ROUTINE-043",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-17T10:14:00+09:00",
+      "author_role": "재활담당자",
+      "body": "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다.",
+      "record_tags": [
+        "mobility",
+        "activity"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-010",
+      "scenario_event_id": "EVT-MOBILITY-CHANGE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-18T10:10:00+09:00",
+      "author_role": "요양보호사",
+      "body": "최근 보행 중 비틀거림이 있어 이동할 때 부축했습니다.",
+      "record_tags": [
+        "mobility",
+        "change"
+      ],
+      "event_state": "in_progress",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-109",
+      "scenario_event_id": "EVT-ROUTINE-075",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-18T10:14:00+09:00",
+      "author_role": "간호사",
+      "body": "당일 관찰에서 새로 보고된 건강 이상은 없었습니다.",
+      "record_tags": [
+        "health",
+        "observation"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-141",
+      "scenario_event_id": "EVT-ROUTINE-107",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-19T10:14:00+09:00",
+      "author_role": "운전원",
+      "body": "예정된 차량 이동을 마치고 인계했습니다.",
+      "record_tags": [
+        "transport"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-173",
+      "scenario_event_id": "EVT-ROUTINE-139",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-20T10:14:00+09:00",
+      "author_role": "시설장",
+      "body": "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다.",
+      "record_tags": [
+        "operations"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-004",
+      "scenario_event_id": "EVT-HYDRATION-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-20T14:00:00+09:00",
+      "author_role": "요양보호사",
+      "body": "14:00 물 200mL를 제공했고 16:00 섭취 상태를 다시 확인할 예정입니다.",
+      "record_tags": [
+        "hydration",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-005",
+      "scenario_event_id": "EVT-HYDRATION-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-20T14:06:00+09:00",
+      "author_role": "사회복지사",
+      "body": "수분 200밀리리터 제공과 16시 재확인 계획을 확인했습니다.",
+      "record_tags": [
+        "hydration",
+        "follow_up"
+      ],
+      "event_state": "pending",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-006",
+      "scenario_event_id": "EVT-HYDRATION-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-20T16:05:00+09:00",
+      "author_role": "요양보호사",
+      "body": "16:00 재확인 결과 섭취 상태가 양호했습니다.",
+      "record_tags": [
+        "hydration",
+        "follow_up"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-007",
+      "scenario_event_id": "EVT-BP-CONFLICT-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-22T09:00:00+09:00",
+      "author_role": "간호사",
+      "body": "혈압 기록이 120/70과 170/90으로 서로 달라 원본 확인이 필요합니다.",
+      "record_tags": [
+        "vital",
+        "conflict"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-008",
+      "scenario_event_id": "EVT-BP-CONFLICT-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-22T09:12:00+09:00",
+      "author_role": "시설장",
+      "body": "어느 수치가 맞는지 선택하지 말고 재측정 후 확인해 주세요.",
+      "record_tags": [
+        "vital",
+        "conflict",
+        "follow_up"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-056",
+      "scenario_event_id": "EVT-ROUTINE-022",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-22T12:05:00+09:00",
+      "author_role": "요양보호사",
+      "body": "오후 수분을 제공하고 섭취 여부를 확인했습니다.",
+      "record_tags": [
+        "hydration"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-011",
+      "scenario_event_id": "EVT-MOBILITY-CHANGE-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-23T10:15:00+09:00",
+      "author_role": "재활담당자",
+      "body": "보행 시 부축이 다시 필요했습니다. 일시적인지 지속되는지 추가 관찰이 필요합니다.",
+      "record_tags": [
+        "mobility",
+        "change",
+        "follow_up"
+      ],
+      "event_state": "in_progress",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-088",
+      "scenario_event_id": "EVT-ROUTINE-054",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-23T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다.",
+      "record_tags": [
+        "mood",
+        "life"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-028",
+      "scenario_event_id": "EVT-UNCONFIRMED-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-24T08:10:00+09:00",
+      "author_role": "사무원",
+      "body": "피곤해 보여 잠을 설친 것 같다는 의견이 있으나 직접 확인된 사실은 아닙니다.",
+      "record_tags": [
+        "unconfirmed",
+        "sleep"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-029",
+      "scenario_event_id": "EVT-UNCONFIRMED-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-24T08:20:00+09:00",
+      "author_role": "사회복지사",
+      "body": "수면 상태는 추정하지 않고 어르신과 담당 직원에게 확인해 주세요.",
+      "record_tags": [
+        "unconfirmed",
+        "sleep",
+        "follow_up"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-120",
+      "scenario_event_id": "EVT-ROUTINE-086",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-24T12:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "그룹 활동에 참여했고 종료 후 자리로 이동했습니다.",
+      "record_tags": [
+        "program"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-152",
+      "scenario_event_id": "EVT-ROUTINE-118",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-25T12:05:00+09:00",
+      "author_role": "사무원",
+      "body": "당일 일정표의 확인 항목을 점검했습니다.",
+      "record_tags": [
+        "admin"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-033",
+      "scenario_event_id": "EVT-PLAN-REVIEW-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-25T16:00:00+09:00",
+      "author_role": "시설장",
+      "body": "반복된 보행 부축 필요 기록을 근거로 이동지원 방법을 급여제공계획 검토 목록에 담아 주세요.",
+      "record_tags": [
+        "mobility",
+        "care_plan_review"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-034",
+      "scenario_event_id": "EVT-PLAN-REVIEW-001",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-25T16:05:00+09:00",
+      "author_role": "사회복지사",
+      "body": "직원 확인 전에는 공식 계획을 변경하지 않습니다.",
+      "record_tags": [
+        "mobility",
+        "care_plan_review"
+      ],
+      "event_state": "needs_review",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    },
+    {
+      "fixture_message_id": "LCM-184",
+      "scenario_event_id": "EVT-ROUTINE-150",
+      "resident_alias": "검증어르신(가명)",
+      "occurred_at": "2026-08-26T12:05:00+09:00",
+      "author_role": "합성 보호자",
+      "body": "안내받은 일정을 확인했습니다.",
+      "record_tags": [
+        "guardian_notice"
+      ],
+      "event_state": "completed",
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false,
+      "display_notice": "검증용 가상자료"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+[
+  {
+    "evidence_id": "EV-어르0003-B01",
+    "resident_code": "어르0003",
+    "field": "이전 기준",
+    "value": "실내 독립보행이 가능하나 방향 전환 시 천천히 움직임",
+    "source_ref": "baseline:어르0003:needs",
+    "status": "confirmed_baseline",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-B02",
+    "resident_code": "어르0003",
+    "field": "이전 식사",
+    "value": "일반식을 전량에 가깝게 섭취함",
+    "source_ref": "baseline:어르0003:needs",
+    "status": "confirmed_baseline",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-C01",
+    "resident_code": "어르0003",
+    "field": "meal",
+    "value": "어르0003 아침 식사는 2/3 섭취했고 불편 호소는 없었습니다.",
+    "source_ref": "message:SYN-ROUTINE-17-03",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-C02",
+    "resident_code": "어르0003",
+    "field": "meal",
+    "value": "어르0003 아침 식사는 2/3 섭취했고 불편 호소는 없었습니다.",
+    "source_ref": "message:SYN-ROUTINE-17-03",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-C03",
+    "resident_code": "어르0003",
+    "field": "emotion",
+    "value": "어르0003 직원 인사에 반응하며 안정된 표정으로 생활실에 머물렀습니다.",
+    "source_ref": "message:SYN-ROUTINE-14-03",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-C04",
+    "resident_code": "어르0003",
+    "field": "수면",
+    "value": "어르0003 새벽에 한 차례 깨어 물을 마신 뒤 다시 잠들었습니다.",
+    "source_ref": "message:SYN-SOURCE-01-039",
+    "status": "current_observation_required",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0003-C05",
+    "resident_code": "어르0003",
+    "field": "충돌 수치",
+    "value": "어르0003 관찰표와 교대 메모의 체온 수치가 서로 달라 원본 확인이 필요합니다.",
+    "source_ref": "message:SYN-SOURCE-02-044",
+    "status": "material_conflict",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+]

@@ -1,0 +1,114 @@
+{
+  "assets": [
+    {
+      "name": "presentation-coded-allstaff-safety-01.txt",
+      "sha256": "ecf45e61974ef9be2d595b345abc7ba0f9fd0037860451dab131bcb222db181f",
+      "size_bytes": 113
+    },
+    {
+      "name": "presentation-coded-allstaff-training-01.txt",
+      "sha256": "ef4abde799ab4b757a8f70ecf6cae2ed406cf145d6fc9e5d54f8b7e1c6f55239",
+      "size_bytes": 126
+    },
+    {
+      "name": "presentation-coded-daycare-activity-01.jpg",
+      "sha256": "9b65f9607a7af1ca80c3f4bbe1b91570900c52f1d57378c05682697c439dc367",
+      "size_bytes": 1567171
+    },
+    {
+      "name": "presentation-coded-daycare-bowel-01.jpg",
+      "sha256": "02a2062a0914edba4590854dd967a2a52c7eee9758688daafd96bedaeafceea3",
+      "size_bytes": 913303
+    },
+    {
+      "name": "presentation-coded-daycare-meal-01.jpg",
+      "sha256": "d4f4fdfec15d6cc6779de9078cff1a2797a3b463f0ba4b4ea676ccccc459f1db",
+      "size_bytes": 127946
+    },
+    {
+      "name": "presentation-coded-daycare-water-01.wav",
+      "sha256": "9b8c39de36a7362dfcd475bbb2d9b806ac80fb06c83a7cdd788a2f72a6ec6a50",
+      "size_bytes": 569104
+    },
+    {
+      "name": "presentation-coded-daycare-water-note-01.jpg",
+      "sha256": "07101b5523d5b5f3eca84279ccd2b1c16afbb56a853fd95380d74698b413aa20",
+      "size_bytes": 1887476
+    },
+    {
+      "name": "presentation-coded-homecare-log-01.txt",
+      "sha256": "cba7a0cbc6c532b0428b7d2b060cb195c8cf50daf6d51d7189512e2a0e159397",
+      "size_bytes": 115
+    },
+    {
+      "name": "presentation-coded-homecare-schedule-01.txt",
+      "sha256": "55db7e65c5e2fc3192cb2f319cae89db3c521be274bdd47898c62dba79e9c8b3",
+      "size_bytes": 121
+    },
+    {
+      "name": "presentation-coded-office-register-01.txt",
+      "sha256": "658392d73606c58f9e945a8e2a6596835737585bb65b22a5d86116f8ef075bec",
+      "size_bytes": 100
+    },
+    {
+      "name": "presentation-coded-office-training-01.txt",
+      "sha256": "339cfd5d9637af40fe0a243cf606ffc1ceddc57f9bd70be2272448bf7e32a0a1",
+      "size_bytes": 98
+    },
+    {
+      "name": "presentation-coded-professional-observation-01.png",
+      "sha256": "4a364ad29057e16f7becf255b20f5d29448a4cf5d6ead2414d4b445f900c4bf6",
+      "size_bytes": 29401
+    },
+    {
+      "name": "presentation-coded-professional-review-01.txt",
+      "sha256": "7e0c576e29bf121c2af5eabb6cb26345c7e5df9ae33700a08921d39a480d3213",
+      "size_bytes": 150
+    },
+    {
+      "name": "presentation-coded-professional-vital-01.jpg",
+      "sha256": "2ae7e15e8649b9ba6d5648024aed2b83242ed0c6c2303df7a5980e33855eaf98",
+      "size_bytes": 519335
+    }
+  ],
+  "attachment_count": 14,
+  "fixture_sha256": "8d344c4c5702d9dd9ee7ac26c888044128871dcf8c71e0f107b2ddb6895fe5db",
+  "fixture_version": "presentation_five_room_synthetic_v1",
+  "message_count": 336,
+  "resident_count": 8,
+  "room_message_counts": {
+    "all_staff": 42,
+    "daycare_field": 112,
+    "homecare_field": 56,
+    "office_admin": 56,
+    "professional_collab": 70
+  },
+  "room_names": [
+    "주간보호 현장케어",
+    "실버메디컬 전체소통",
+    "전문직 케어협업",
+    "사무행정 지원실",
+    "방문요양 현장지원"
+  ],
+  "safety_contract": {
+    "automatic_signature_or_nhis_transfer": false,
+    "contains_real_personal_data": false,
+    "external_transfer_allowed": false,
+    "official_record": false,
+    "real_name_restoration_allowed": false,
+    "synthetic_fixture": true
+  },
+  "scenario_count": 5,
+  "schema_version": "presentation_five_room_synthetic_manifest_v1",
+  "service_type_counts": {
+    "administrative": 56,
+    "all": 42,
+    "daycare": 182,
+    "homecare": 56
+  },
+  "staff_count": 12,
+  "window": {
+    "end": "2026-09-10T18:30:00+09:00",
+    "start": "2026-08-28T07:30:00+09:00"
+  }
+}

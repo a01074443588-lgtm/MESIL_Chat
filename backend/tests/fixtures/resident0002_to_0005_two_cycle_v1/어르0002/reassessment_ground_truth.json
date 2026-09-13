@@ -1,0 +1,79 @@
+{
+  "resident_code": "어르0002",
+  "reason": "정기 재평가",
+  "baseline_reference_at": "2026-04-30T23:59:59+09:00",
+  "comparison_end_at": "2026-08-25T09:53:00+00:00",
+  "changes": [
+    {
+      "field": "유지 상태",
+      "before": "짧고 분명한 질문에 적절히 답함",
+      "after": "보호-어르0002-01에게 어르0002의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+      "classification": "이전과 동일",
+      "evidence_refs": [
+        "EV-어르0002-C01"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    },
+    {
+      "field": "현재 변화",
+      "before": "실내에서 보행기를 사용하며 가까이 관찰하면 이동함",
+      "after": "어르0002 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+      "classification": "변경됨",
+      "evidence_refs": [
+        "EV-어르0002-B01",
+        "EV-어르0002-C02"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    },
+    {
+      "field": "새로 확인한 내용",
+      "before": null,
+      "after": "보호-어르0002-01에게 어르0002의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+      "classification": "새로 확인됨",
+      "evidence_refs": [
+        "EV-어르0002-C03"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    },
+    {
+      "field": "현재 관찰",
+      "before": "최초 기준본",
+      "after": "어르0002 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+      "classification": "오래된 자료라 현재 관찰 필요",
+      "evidence_refs": [
+        "EV-어르0002-C04"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    },
+    {
+      "field": "측정값",
+      "before": null,
+      "after": "서로 다른 원문 값",
+      "classification": "자료 충돌",
+      "evidence_refs": [
+        "EV-어르0002-C05"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    },
+    {
+      "field": "급여계획 검토",
+      "before": "최초 계획",
+      "after": "확인된 변화에 해당하는 지원 방법 검토",
+      "classification": "급여제공계획 변경 검토 후보",
+      "evidence_refs": [
+        "EV-어르0002-B01",
+        "EV-어르0002-C02"
+      ],
+      "generated_score": false,
+      "generated_diagnosis": false
+    }
+  ],
+  "draft_status": "editing_draft_only",
+  "official_record_saved": false,
+  "external_transfer_count": 0
+}

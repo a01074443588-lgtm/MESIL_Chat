@@ -1,0 +1,197 @@
+{
+  "fixture_name": "통합 브리핑 합성 비식별 단일 사례",
+  "version": "2026-08-24-v1",
+  "cases": [
+    {
+      "case_id": "CBV1-SYNTHETIC-MULTIMODAL-INTEGRATED",
+      "description": "합성 이미지 OCR·격리 DEV STT·합성 원문 텍스트의 사실 보존과 후속 확인",
+      "tags": [
+        "synthetic_deidentified",
+        "image_ocr",
+        "audio_transcript",
+        "message",
+        "follow_up"
+      ],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-24T00:00:00+09:00",
+          "end_at": "2026-08-24T17:00:00+09:00",
+          "as_of": "2026-08-24T17:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {
+            "subject_id": "synthetic-subject-a",
+            "display_label": "합성 대상-A",
+            "verification_status": "confirmed"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "synthetic-image-ocr-1",
+            "source_kind": "image_ocr",
+            "conversation_id": "synthetic-integrated-1",
+            "subject_ids": [
+              "synthetic-subject-a"
+            ],
+            "author_role": "합성 시험자료",
+            "occurred_at": "2026-08-24T14:01:00+09:00",
+            "text": "Nano Omni 판독: SYNTHETIC CARE TEST. TIME 14:00. WATER OFFERED 200 ML. FOLLOW-UP CHECK PENDING. NO REAL PERSON OR RECORD.",
+            "media_id": "synthetic-care-card",
+            "verification_status": "ai_extracted"
+          },
+          {
+            "source_id": "synthetic-audio-transcript-1",
+            "source_kind": "audio_transcript",
+            "conversation_id": "synthetic-integrated-1",
+            "subject_ids": [
+              "synthetic-subject-a"
+            ],
+            "author_role": "격리 DEV STT",
+            "occurred_at": "2026-08-24T14:02:00+09:00",
+            "text": "격리 DEV STT 전사: 2PM, 200 milliliters offered, follow-up check pending. 실제 인물이나 기록이 아닌 합성 시험자료라는 의미는 보존됐으나 영문 발음이 한글 음역되어 문장 품질은 사람 확인이 필요합니다.",
+            "media_id": "synthetic-care-message",
+            "verification_status": "ai_extracted"
+          },
+          {
+            "source_id": "synthetic-message-1",
+            "source_kind": "message",
+            "conversation_id": "synthetic-integrated-1",
+            "subject_ids": [
+              "synthetic-subject-a"
+            ],
+            "author_role": "합성 시험자료",
+            "occurred_at": "2026-08-24T14:03:00+09:00",
+            "text": "14:00 물 200mL 제공을 완료했습니다. 후속 확인은 아직 미완료이며 16:00 다시 확인할 예정입니다. 이미지·음성·텍스트는 모두 실제 인물과 무관한 합성 시험자료입니다.",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-24T17:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-synthetic-hydration-1",
+            "subject": {
+              "subject_id": "synthetic-subject-a",
+              "display_label": "합성 대상-A",
+              "verification_status": "confirmed"
+            },
+            "what_happened": "14:00 물 200mL 제공은 완료됐고 후속 확인은 미완료이며 16:00 재확인이 예정됐습니다.",
+            "final_status": "monitoring",
+            "final_status_summary": "세 근거의 시간·수량·미완료 상태는 일치하며 16:00 재확인 실행 여부가 남았습니다.",
+            "occurred_at": "2026-08-24T14:00:00+09:00",
+            "scheduled_at": "2026-08-24T16:00:00+09:00",
+            "priority": "check",
+            "importance_score": 70,
+            "importance_reasons": [
+              {
+                "reason": "물 제공은 완료됐지만 후속 확인이 미완료입니다.",
+                "evidence_source_ids": [
+                  "synthetic-image-ocr-1",
+                  "synthetic-audio-transcript-1",
+                  "synthetic-message-1"
+                ]
+              }
+            ],
+            "verification_items": [
+              {
+                "field": "follow_up",
+                "question": "16:00 재확인이 실제로 실행됐는지 확인해 주세요.",
+                "evidence_source_ids": [
+                  "synthetic-message-1"
+                ]
+              },
+              {
+                "field": "facts",
+                "question": "영문 발음이 한글로 음역된 STT 문장의 품질을 사람이 확인해 주세요.",
+                "evidence_source_ids": [
+                  "synthetic-audio-transcript-1"
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source_id": "synthetic-image-ocr-1",
+                "supports": [
+                  "event",
+                  "status",
+                  "time"
+                ],
+                "fact_summary": "14:00, 물 200mL, 후속 확인 미완료가 표시됐습니다."
+              },
+              {
+                "source_id": "synthetic-audio-transcript-1",
+                "supports": [
+                  "event",
+                  "status",
+                  "time"
+                ],
+                "fact_summary": "2PM, 200 milliliters, follow-up pending 의미가 보존됐습니다."
+              },
+              {
+                "source_id": "synthetic-message-1",
+                "supports": [
+                  "event",
+                  "status",
+                  "time",
+                  "completion"
+                ],
+                "fact_summary": "14:00 물 200mL 제공 완료와 16:00 재확인 예정이 기록됐습니다."
+              }
+            ],
+            "document_draft_candidates": [
+              {
+                "document_type": "care_service_record",
+                "reason": "물 제공량과 후속 확인 상태를 급여제공기록 초안 후보로 검토할 수 있습니다.",
+                "evidence_source_ids": [
+                  "synthetic-message-1"
+                ]
+              }
+            ],
+            "analysis_confidence": 0.95,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": [
+          "격리 DEV STT의 영문 발음 한글 음역 문장 품질은 사람 확인이 필요합니다."
+        ]
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_document_types": [
+          "care_service_record"
+        ],
+        "required_priorities": {
+          "event-synthetic-hydration-1": "check"
+        },
+        "required_final_statuses": {
+          "event-synthetic-hydration-1": "monitoring"
+        },
+        "required_verification_fields": [
+          "facts",
+          "follow_up"
+        ],
+        "required_evidence_source_ids": [
+          "synthetic-image-ocr-1",
+          "synthetic-audio-transcript-1",
+          "synthetic-message-1"
+        ],
+        "forbidden_claims": [
+          "후속 확인 완료",
+          "16:00 재확인 완료",
+          "실제 이용자"
+        ]
+      }
+    }
+  ]
+}

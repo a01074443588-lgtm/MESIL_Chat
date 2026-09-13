@@ -1,0 +1,130 @@
+{
+  "schema_version": "longitudinal_multimodal_manifest_v1",
+  "fixture_version": "longitudinal_multimodal_v1",
+  "linked_fixture": "longitudinal_care_scenario_v1",
+  "resident_alias": "검증어르신(가명)",
+  "privacy": {
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false,
+    "contains_direct_identifier_in_source_media": true,
+    "tracked_results_must_be_deidentified": true,
+    "processing_scope": [
+      "x370d_internal_qwen3_vl",
+      "isolated_dev_faster_whisper"
+    ]
+  },
+  "handwriting_evidence": {
+    "case_count": 5,
+    "source_kind": "user_provided_actual_handwriting_photo",
+    "answer_key_authority": "user_registered_visible_handwriting_source",
+    "machine_font_accuracy_claim_allowed": false,
+    "identity_header_scored": false,
+    "asset_directory": "data/runtime/longitudinal_multimodal_v1",
+    "asset_directory_git_ignored": true
+  },
+  "audio_evidence": {
+    "case_count": 2,
+    "source_kind": "user_provided_synthetic_validation_audio",
+    "mappings": [
+      {
+        "audio_id": "audio_01_full_reading",
+        "handwriting_case_id": "LMM-HW-05-WATER",
+        "correction_mode": "full_reading"
+      },
+      {
+        "audio_id": "audio_02_story_hint",
+        "handwriting_case_id": "LMM-HW-01-BP-MOBILITY",
+        "correction_mode": "story_hint"
+      }
+    ]
+  },
+  "revision_contract": {
+    "append_only_stages": [
+      "initial_ocr",
+      "audio_transcript",
+      "ai_correction_suggestion",
+      "staff_approved_final"
+    ],
+    "staff_approved_final_requires_explicit_user_action": true,
+    "unapproved_final_must_be_null": true,
+    "story_hint_is_not_ground_truth": true,
+    "unsupported_fact_generation_forbidden": [
+      "time",
+      "quantity",
+      "unit",
+      "blood_pressure",
+      "bowel_status",
+      "completion_status",
+      "negation",
+      "follow_up"
+    ]
+  },
+  "accuracy_contract": {
+    "general_text_metric": "normalized_character_accuracy",
+    "separate_preservation_categories": [
+      "time",
+      "quantity",
+      "unit",
+      "completion_status",
+      "negation"
+    ],
+    "staff_approved_accuracy_available_before_approval": false
+  },
+  "assets": [
+    {
+      "asset_id": "handwriting_01",
+      "case_id": "LMM-HW-01-BP-MOBILITY",
+      "file": "handwriting_01.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 629804,
+      "sha256": "cd92f6732191804a6df7b714f2b9ed9c3dbd634c0c784535421d38828d90ac7f"
+    },
+    {
+      "asset_id": "handwriting_02",
+      "case_id": "LMM-HW-02-BOWEL-A",
+      "file": "handwriting_02.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 216313,
+      "sha256": "251f1c35b935661dd40ae5e09dfd3c9290d8d199dfb3b7ea0ea1ad88a71763ce"
+    },
+    {
+      "asset_id": "handwriting_03",
+      "case_id": "LMM-HW-03-MEAL-MOOD",
+      "file": "handwriting_03.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 2963622,
+      "sha256": "c8f204a60cab8922f1704f39a50d9e3509df08bbddd4d6217e39c7bb06d4536b"
+    },
+    {
+      "asset_id": "handwriting_04",
+      "case_id": "LMM-HW-04-BOWEL-B",
+      "file": "handwriting_04.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 3635600,
+      "sha256": "64bc1e989f7abf9f4399c07e50962a63dbf9bfc795524ce93aaff816ea63e755"
+    },
+    {
+      "asset_id": "handwriting_05",
+      "case_id": "LMM-HW-05-WATER",
+      "file": "handwriting_05.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 3446459,
+      "sha256": "779538dcf6669566404cc06a85a0e3b5f3c8f5678f157c7b21e035d7b4a27a64"
+    },
+    {
+      "asset_id": "audio_01_full_reading",
+      "file": "audio_01_full_reading.wav",
+      "media_type": "audio/wav",
+      "size_bytes": 3348154,
+      "sha256": "c6b26cb7422e583070f2a7cc113261a8d4f739ba27da6407e7d4f1f4a82b8575"
+    },
+    {
+      "asset_id": "audio_02_story_hint",
+      "file": "audio_02_story_hint.wav",
+      "media_type": "audio/wav",
+      "size_bytes": 5789530,
+      "sha256": "5ef01e714edb4f813f0c098a483ea096aa8ffe71880b2e58d6e98f1bf902eac0"
+    }
+  ]
+}

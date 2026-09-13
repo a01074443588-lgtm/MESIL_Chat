@@ -1,0 +1,76 @@
+{
+  "schema_version": "finalist_five_care_planning_manifest_v1",
+  "fixture_version": "finalist_five_care_planning_v1",
+  "resident_count": 5,
+  "staff_count": 9,
+  "guardian_count": 5,
+  "room_count": 25,
+  "baseline_document_count": 25,
+  "message_count": 400,
+  "attachment_count": 3,
+  "duplicate_report_count": 1,
+  "evidence_count": 19,
+  "period": {
+    "start": "2026-03-02T09:00:00+09:00",
+    "end": "2026-08-31T18:00:00+09:00",
+    "months": 6
+  },
+  "resident_codes": [
+    "어르9001",
+    "어르9002",
+    "어르9003",
+    "어르9004",
+    "어르9005"
+  ],
+  "scenarios": [
+    {
+      "resident_code": "어르9001",
+      "scenario_key": "stable_no_change"
+    },
+    {
+      "resident_code": "어르9002",
+      "scenario_key": "mobility_persistent_change"
+    },
+    {
+      "resident_code": "어르9003",
+      "scenario_key": "nutrition_skin_followup"
+    },
+    {
+      "resident_code": "어르9004",
+      "scenario_key": "cognition_mood_observation"
+    },
+    {
+      "resident_code": "어르9005",
+      "scenario_key": "hospital_medication_conflict"
+    }
+  ],
+  "model_input_files": [
+    "baseline_documents.json",
+    "messages.json",
+    "evidence_ledger.json"
+  ],
+  "evaluation_only_files": [
+    "expected_changes.json",
+    "ground_truth.json",
+    "ground_truth_table.csv"
+  ],
+  "automatic_db_import_allowed": false,
+  "staff_confirmation_required": true,
+  "file_sha256": {
+    "people.json": "7761dfdc8f8bdfbf2e4fb3555948ba5cd9dd67270c40ea6c82fba2d702a800c5",
+    "rooms.json": "603a49a0cf50d7b10b3f6d9808a70377cce7617eeb4e232efe37d37162e5239c",
+    "baseline_documents.json": "93f8f16d9d03e54a72e66c8d1036de7ad99ce968b98149ed589cad4b44957641",
+    "messages.json": "a67cb0d1b6e3b0baf45a91c3473cb038ddf82c061172c0159495c1a24b2911c5",
+    "evidence_ledger.json": "b77911fd05d689c826d3cd84159b98bd236360050730cb60210d215fbd3631d1",
+    "expected_changes.json": "0268c43f52361a54d830093d5830fd2d48426ca4ccdc6a2bf4b8ea6ba3238ea2",
+    "ground_truth.json": "6327d21fe7f02b9be18c233460f9033eb14c0762dc8aa1767e1667885b061778",
+    "ground_truth_table.csv": "ae0c7f16b5baac2055bd8c507f82dca08ea288130fdd55dfacfef096001b555e",
+    "validation_result.json": "226b76f5765be73826d860d6b147b031123584944dbd9d7383264c237082c0cb"
+  },
+  "safety_contract": {
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+}

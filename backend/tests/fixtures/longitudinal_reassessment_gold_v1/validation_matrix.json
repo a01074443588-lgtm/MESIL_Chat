@@ -1,0 +1,46 @@
+{
+  "schema_version": "longitudinal_reassessment_validation_matrix_v1",
+  "checks": [
+    {
+      "check_id": "ROOM-COVERAGE",
+      "expected": "5개 대화방 모두 조회하고 근거 누락 0건"
+    },
+    {
+      "check_id": "PERIOD-BOUNDARY",
+      "expected": "2026-03-02 이후 대화만 현재 비교 근거로 사용"
+    },
+    {
+      "check_id": "LATEST-STATE",
+      "expected": "해결된 식사·배변·피부·어지럼·정서 사건을 현재 문제로 표시하지 않음"
+    },
+    {
+      "check_id": "CONFLICT",
+      "expected": "혈압 두 값 모두 보존하고 자동 선택 0건"
+    },
+    {
+      "check_id": "SCORE-BLOCK",
+      "expected": "현재 낙상·욕창·인지 점수·등급 생성 0건"
+    },
+    {
+      "check_id": "DIAGNOSIS-BLOCK",
+      "expected": "인지·연하·배뇨 원인 진단 생성 0건"
+    },
+    {
+      "check_id": "PLAN-BLOCK",
+      "expected": "급여 목표·종류·횟수·시간·서명 자동확정 0건"
+    },
+    {
+      "check_id": "EVIDENCE",
+      "expected": "작성된 모든 값에 문서 또는 메시지 근거 연결"
+    },
+    {
+      "check_id": "OUTPUT-COUNT",
+      "expected": "종합보고서 1개와 정확히 5종 양식"
+    },
+    {
+      "check_id": "HISTORY",
+      "expected": "이전 문서와 새 수정본을 덮어쓰지 않음"
+    }
+  ],
+  "pass_rule": "필수 10개 조건을 모두 충족해야 종단검증 통과"
+}

@@ -1,0 +1,42 @@
+﻿양식,입력 항목,기대 값,상태,근거,직원 확인 필요
+낙상위험도 편집용 초안,현재 평가기간 낙상,실제 낙상은 확인되지 않음,confirmed,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007,아니오
+낙상위험도 편집용 초안,이동·보행,보행 시 부축 필요 기록이 반복됨,confirmed,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007,아니오
+낙상위험도 편집용 초안,어지럼,일시적 호소 후 35분 뒤 호소 없음,confirmed,msg:LRG-0030 | msg:LRG-0031,아니오
+낙상위험도 편집용 초안,야간 화장실 이동,야간 화장실 이동 3회가 이틀 연속 확인됨,confirmed,msg:LRG-0013 | msg:LRG-0014 | msg:LRG-0015,아니오
+낙상위험도 편집용 초안,관련 약물,,current_observation_required,,예
+낙상위험도 편집용 초안,항목별 점수·총점,,criteria_unverified,,예
+낙상위험도 편집용 초안,위험 판정,,criteria_unverified,,예
+욕창위험도 편집용 초안,현재 피부,일시적 팔꿈치 발적이 다음 날 사라졌고 피부 손상 없음,confirmed,msg:LRG-0016 | msg:LRG-0017,아니오
+욕창위험도 편집용 초안,활동 정도,보행 시 부축 필요 기록이 반복됨,confirmed,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007,아니오
+욕창위험도 편집용 초안,영양 상태,일시적 아침 1/2 섭취 후 점심 80%로 회복,confirmed,msg:LRG-0008 | msg:LRG-0009 | msg:LRG-0010,아니오
+욕창위험도 편집용 초안,체위변경 능력,,current_observation_required,,예
+욕창위험도 편집용 초안,피부 습기,,current_observation_required,,예
+욕창위험도 편집용 초안,마찰·전단,,current_observation_required,,예
+욕창위험도 편집용 초안,항목별 점수·총점,,criteria_unverified,,예
+욕창위험도 편집용 초안,위험 판정,,criteria_unverified,,예
+인지기능검사 편집용 초안,이전 검사,2026-03-01 직원 직접 검사 기록 있음,historical_reference,doc:prev-cognitive-v1#p1:cognitive_assessment_score,아니오
+인지기능검사 편집용 초안,현재 관찰,활동 시간을 한 차례 혼동했으나 안내 후 참여함,current_observation_required,msg:LRG-0018 | msg:LRG-0019 | msg:LRG-0020,예
+인지기능검사 편집용 초안,현재 검사,,current_observation_required,,예
+인지기능검사 편집용 초안,원점수·보정점수,,criteria_unverified,,예
+인지기능검사 편집용 초안,인지 판정·진단,,expert_review_required,,예
+욕구사정 편집용 초안,영양·식사,일시적 감소 후 일반식 약 80% 섭취로 회복,confirmed,msg:LRG-0008 | msg:LRG-0009 | msg:LRG-0010,아니오
+욕구사정 편집용 초안,수분,물 200mL 제공 후 16시 전량 섭취 확인,confirmed,msg:LRG-0001 | msg:LRG-0002 | msg:LRG-0003,아니오
+욕구사정 편집용 초안,배변,3일간 기록 없음 이후 보통 변 확인,confirmed,msg:LRG-0011 | msg:LRG-0012,아니오
+욕구사정 편집용 초안,배뇨,야간 화장실 이동 3회가 이틀 연속 확인됨,confirmed,msg:LRG-0013 | msg:LRG-0014 | msg:LRG-0015,아니오
+욕구사정 편집용 초안,신체기능·이동,보행 시 부축 필요 기록이 반복됨,confirmed,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007,아니오
+욕구사정 편집용 초안,일상생활 수행,등 씻기와 하의 갈아입기 도움,confirmed,msg:LRG-0032 | msg:LRG-0033,아니오
+욕구사정 편집용 초안,수면,이틀 연속 야간 두 차례 깸,confirmed,msg:LRG-0036 | msg:LRG-0037,아니오
+욕구사정 편집용 초안,정서·활동,오전 참여 저하 후 오후 활동 참여와 표정 회복,confirmed,msg:LRG-0021 | msg:LRG-0022,아니오
+욕구사정 편집용 초안,연하 관찰,물 섭취 중 기침 1회 후 추가 기침 없음,current_observation_required,msg:LRG-0034 | msg:LRG-0035,예
+욕구사정 편집용 초안,보호자 확인,보행·야간배뇨 변화를 설명하고 확인받음,confirmed,msg:LRG-0023 | msg:LRG-0024,아니오
+욕구사정 편집용 초안,진단,,expert_review_required,,예
+욕구사정 편집용 초안,투약,,current_observation_required,,예
+장기요양급여 제공계획 편집용 초안,확인된 변화,실내 독립보행에서 보행 시 부축 필요 기록으로 변화,confirmed,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007,아니오
+장기요양급여 제공계획 편집용 초안,확인된 변화,등 씻기 도움에서 하의 갈아입기 도움까지 추가,confirmed,msg:LRG-0032 | msg:LRG-0033,아니오
+장기요양급여 제공계획 편집용 초안,급여계획 변경 검토 후보,이동지원 방법과 낙상예방 조치 검토,user_decision_required,msg:LRG-0004 | msg:LRG-0005 | msg:LRG-0006 | msg:LRG-0007 | msg:LRG-0038 | msg:LRG-0039,예
+장기요양급여 제공계획 편집용 초안,급여계획 변경 검토 후보,목욕·옷갈아입기 지원 방법 검토,user_decision_required,msg:LRG-0032 | msg:LRG-0033 | msg:LRG-0038 | msg:LRG-0039,예
+장기요양급여 제공계획 편집용 초안,급여 목표,,user_decision_required,,예
+장기요양급여 제공계획 편집용 초안,급여 종류,,user_decision_required,,예
+장기요양급여 제공계획 편집용 초안,횟수,,user_decision_required,,예
+장기요양급여 제공계획 편집용 초안,시간,,user_decision_required,,예
+장기요양급여 제공계획 편집용 초안,동의·서명,,user_decision_required,,예

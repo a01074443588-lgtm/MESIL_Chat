@@ -1,0 +1,578 @@
+{
+  "schema_version": "assessment_expected_outputs_v1",
+  "resident_code": "어르0901",
+  "output_status": "needs_confirmation",
+  "forms": {
+    "fall_risk_assessment": {
+      "title": "낙상위험도 편집용 초안",
+      "status": "needs_confirmation",
+      "fields": [
+        {
+          "field_key": "fall_history",
+          "label": "현재 평가기간 낙상",
+          "value": "실제 낙상은 확인되지 않음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "mobility_support",
+          "label": "이동·보행",
+          "value": "보행 시 부축 필요 기록이 반복됨",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "dizziness_status",
+          "label": "어지럼",
+          "value": "일시적 호소 후 35분 뒤 호소 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0030",
+            "msg:LRG-0031"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "night_toileting_support",
+          "label": "야간 화장실 이동",
+          "value": "야간 화장실 이동 3회가 이틀 연속 확인됨",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0013",
+            "msg:LRG-0014",
+            "msg:LRG-0015"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_review",
+          "label": "관련 약물",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_score",
+          "label": "항목별 점수·총점",
+          "value": null,
+          "status": "criteria_unverified",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "latest_official_criteria_not_verified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_risk_grade",
+          "label": "위험 판정",
+          "value": null,
+          "status": "criteria_unverified",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "latest_official_criteria_not_verified",
+          "revision": 1
+        }
+      ]
+    },
+    "pressure_ulcer_risk_assessment": {
+      "title": "욕창위험도 편집용 초안",
+      "status": "needs_confirmation",
+      "fields": [
+        {
+          "field_key": "skin_status",
+          "label": "현재 피부",
+          "value": "일시적 팔꿈치 발적이 다음 날 사라졌고 피부 손상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0016",
+            "msg:LRG-0017"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "activity_level",
+          "label": "활동 정도",
+          "value": "보행 시 부축 필요 기록이 반복됨",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "nutrition_status",
+          "label": "영양 상태",
+          "value": "일시적 아침 1/2 섭취 후 점심 80%로 회복",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0008",
+            "msg:LRG-0009",
+            "msg:LRG-0010"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "reposition_ability",
+          "label": "체위변경 능력",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "skin_moisture",
+          "label": "피부 습기",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "friction_shear",
+          "label": "마찰·전단",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "pressure_score",
+          "label": "항목별 점수·총점",
+          "value": null,
+          "status": "criteria_unverified",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "latest_official_criteria_not_verified",
+          "revision": 1
+        },
+        {
+          "field_key": "pressure_risk_grade",
+          "label": "위험 판정",
+          "value": null,
+          "status": "criteria_unverified",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "latest_official_criteria_not_verified",
+          "revision": 1
+        }
+      ]
+    },
+    "cognitive_function_assessment": {
+      "title": "인지기능검사 편집용 초안",
+      "status": "needs_confirmation",
+      "fields": [
+        {
+          "field_key": "previous_test",
+          "label": "이전 검사",
+          "value": "2026-03-01 직원 직접 검사 기록 있음",
+          "status": "historical_reference",
+          "evidence_refs": [
+            "doc:prev-cognitive-v1#p1:cognitive_assessment_score"
+          ],
+          "as_of_date": "2026-03-01",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "time_orientation_observation",
+          "label": "현재 관찰",
+          "value": "활동 시간을 한 차례 혼동했으나 안내 후 참여함",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "msg:LRG-0018",
+            "msg:LRG-0019",
+            "msg:LRG-0020"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "current_test_required",
+          "label": "현재 검사",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "cognitive_score",
+          "label": "원점수·보정점수",
+          "value": null,
+          "status": "criteria_unverified",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "latest_official_criteria_not_verified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognitive_judgement",
+          "label": "인지 판정·진단",
+          "value": null,
+          "status": "expert_review_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        }
+      ]
+    },
+    "needs_assessment": {
+      "title": "욕구사정 편집용 초안",
+      "status": "needs_confirmation",
+      "fields": [
+        {
+          "field_key": "meal_status",
+          "label": "영양·식사",
+          "value": "일시적 감소 후 일반식 약 80% 섭취로 회복",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0008",
+            "msg:LRG-0009",
+            "msg:LRG-0010"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "hydration_status",
+          "label": "수분",
+          "value": "물 200mL 제공 후 16시 전량 섭취 확인",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0001",
+            "msg:LRG-0002",
+            "msg:LRG-0003"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "bowel_status",
+          "label": "배변",
+          "value": "3일간 기록 없음 이후 보통 변 확인",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0011",
+            "msg:LRG-0012"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "urination_status",
+          "label": "배뇨",
+          "value": "야간 화장실 이동 3회가 이틀 연속 확인됨",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0013",
+            "msg:LRG-0014",
+            "msg:LRG-0015"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "mobility_support",
+          "label": "신체기능·이동",
+          "value": "보행 시 부축 필요 기록이 반복됨",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "bathing_support",
+          "label": "일상생활 수행",
+          "value": "등 씻기와 하의 갈아입기 도움",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0032",
+            "msg:LRG-0033"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_status",
+          "label": "수면",
+          "value": "이틀 연속 야간 두 차례 깸",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0036",
+            "msg:LRG-0037"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "mood_status",
+          "label": "정서·활동",
+          "value": "오전 참여 저하 후 오후 활동 참여와 표정 회복",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0021",
+            "msg:LRG-0022"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "swallowing_observation",
+          "label": "연하 관찰",
+          "value": "물 섭취 중 기침 1회 후 추가 기침 없음",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "msg:LRG-0034",
+            "msg:LRG-0035"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "guardian_consultation",
+          "label": "보호자 확인",
+          "value": "보행·야간배뇨 변화를 설명하고 확인받음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0023",
+            "msg:LRG-0024"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "diagnosis",
+          "label": "진단",
+          "value": null,
+          "status": "expert_review_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "medication",
+          "label": "투약",
+          "value": null,
+          "status": "current_observation_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        }
+      ]
+    },
+    "long_term_care_service_plan": {
+      "title": "장기요양급여 제공계획 편집용 초안",
+      "status": "needs_confirmation",
+      "fields": [
+        {
+          "field_key": "confirmed_change_mobility",
+          "label": "확인된 변화",
+          "value": "실내 독립보행에서 보행 시 부축 필요 기록으로 변화",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "confirmed_change_bathing",
+          "label": "확인된 변화",
+          "value": "등 씻기 도움에서 하의 갈아입기 도움까지 추가",
+          "status": "confirmed",
+          "evidence_refs": [
+            "msg:LRG-0032",
+            "msg:LRG-0033"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": false,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "review_candidate_mobility",
+          "label": "급여계획 변경 검토 후보",
+          "value": "이동지원 방법과 낙상예방 조치 검토",
+          "status": "user_decision_required",
+          "evidence_refs": [
+            "msg:LRG-0004",
+            "msg:LRG-0005",
+            "msg:LRG-0006",
+            "msg:LRG-0007",
+            "msg:LRG-0038",
+            "msg:LRG-0039"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "review_candidate_hygiene",
+          "label": "급여계획 변경 검토 후보",
+          "value": "목욕·옷갈아입기 지원 방법 검토",
+          "status": "user_decision_required",
+          "evidence_refs": [
+            "msg:LRG-0032",
+            "msg:LRG-0033",
+            "msg:LRG-0038",
+            "msg:LRG-0039"
+          ],
+          "as_of_date": "2026-08-31",
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "care_goal",
+          "label": "급여 목표",
+          "value": null,
+          "status": "user_decision_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "benefit_type",
+          "label": "급여 종류",
+          "value": null,
+          "status": "user_decision_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "service_frequency",
+          "label": "횟수",
+          "value": null,
+          "status": "user_decision_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "service_duration",
+          "label": "시간",
+          "value": null,
+          "status": "user_decision_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        },
+        {
+          "field_key": "signature",
+          "label": "동의·서명",
+          "value": null,
+          "status": "user_decision_required",
+          "evidence_refs": [],
+          "as_of_date": null,
+          "human_verification_required": true,
+          "criteria_status": "not_applicable",
+          "revision": 1
+        }
+      ]
+    }
+  }
+}

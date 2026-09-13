@@ -1,0 +1,198 @@
+{
+  "schema_version": "resident_assessment_cycle_v1",
+  "revision": 1,
+  "supersedes_revision": null,
+  "reason": "periodic_reassessment",
+  "assessment_date": "2026-08-27",
+  "period_start": "2026-02-27",
+  "period_end": "2026-08-27",
+  "source_provider": "staff_manual",
+  "previous_cycle_id": null,
+  "output_status": "needs_confirmation",
+  "external_transfer_allowed": false,
+  "baseline_sources": [
+    {
+      "source_ref": "baseline-needs-syn-001",
+      "document_type": "needs_assessment",
+      "assessment_date": "2026-02-27",
+      "period_start": "2026-02-27",
+      "period_end": "2026-08-26",
+      "source_label": "직원이 원본을 확인한 비식별 기존 욕구사정",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "local-needs-v1",
+      "facts": [
+        {
+          "field_key": "hydration_support",
+          "label": "수분 제공",
+          "value_kind": "fact",
+          "value": "필요 시 물 200mL 제공",
+          "evidence_refs": ["baseline-needs-syn-001#hydration"],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "sleep_status",
+          "label": "수면 상태",
+          "value_kind": "fact",
+          "value": "야간 수면 양호",
+          "evidence_refs": ["baseline-needs-syn-001#sleep"],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "orientation_status",
+          "label": "지남력 상태",
+          "value_kind": "fact",
+          "value": "과거 질문에 정확히 답함",
+          "evidence_refs": ["baseline-needs-syn-001#orientation"],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "mobility_support",
+          "label": "이동 상태",
+          "value_kind": "fact",
+          "value": "실내 독립보행",
+          "evidence_refs": ["baseline-needs-syn-001#mobility"],
+          "staff_confirmed": true
+        }
+      ]
+    },
+    {
+      "source_ref": "baseline-fall-syn-001",
+      "document_type": "fall_risk_assessment",
+      "assessment_date": "2026-02-27",
+      "period_start": "2026-02-27",
+      "period_end": "2026-08-26",
+      "source_label": "직원이 원본을 확인한 비식별 기존 낙상평가",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "local-fall-v1",
+      "facts": [
+        {
+          "field_key": "fall_assessment_score",
+          "label": "낙상평가 점수",
+          "value_kind": "assessment_score",
+          "value": 8,
+          "evidence_refs": ["baseline-fall-syn-001#score"],
+          "staff_confirmed": true
+        }
+      ]
+    }
+  ],
+  "current_facts": [
+    {
+      "field_key": "hydration_support",
+      "label": "수분 제공",
+      "value_kind": "fact",
+      "value": "필요 시 물 200mL 제공",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-25",
+      "evidence_refs": ["chat-syn-001#hydration"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "sleep_status",
+      "label": "수면 상태",
+      "value_kind": "fact",
+      "value": "야간 두 차례 깸",
+      "state": "confirmed",
+      "source_type": "staff_confirmation",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["staff-syn-001#sleep"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "skin_redness",
+      "label": "피부 발적",
+      "value_kind": "fact",
+      "value": "천골 부위 발적 없음",
+      "state": "confirmed",
+      "source_type": "staff_confirmation",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["staff-syn-001#skin"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "orientation_status",
+      "label": "지남력 상태",
+      "value_kind": "fact",
+      "value": null,
+      "state": "current_observation_required",
+      "source_type": "current_observation",
+      "observed_at": null,
+      "evidence_refs": ["baseline-needs-syn-001#orientation"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    },
+    {
+      "field_key": "blood_pressure",
+      "label": "혈압",
+      "value_kind": "fact",
+      "value": null,
+      "state": "material_conflict",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["chat-syn-002#bp-a", "chat-syn-003#bp-b"],
+      "conflict_values": ["120/70", "170/90"],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    },
+    {
+      "field_key": "fall_assessment_score",
+      "label": "낙상평가 점수",
+      "value_kind": "assessment_score",
+      "value": 9,
+      "state": "confirmed",
+      "source_type": "staff_confirmation",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["staff-syn-001#fall-score"],
+      "conflict_values": [],
+      "basis_version": "local-fall-v2",
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "mobility_support",
+      "label": "이동 상태",
+      "value_kind": "fact",
+      "value": "보행 시 부축 필요",
+      "state": "confirmed",
+      "source_type": "staff_confirmation",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["chat-syn-004#stumble", "staff-syn-001#mobility"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": "이동지원 방법과 낙상예방 조치 검토",
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "swallowing_review",
+      "label": "연하 상태",
+      "value_kind": "diagnosis",
+      "value": null,
+      "state": "expert_review_required",
+      "source_type": "current_observation",
+      "observed_at": "2026-08-27",
+      "evidence_refs": ["chat-syn-005#meal"],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    }
+  ],
+  "selected_plan_candidate_keys": []
+}

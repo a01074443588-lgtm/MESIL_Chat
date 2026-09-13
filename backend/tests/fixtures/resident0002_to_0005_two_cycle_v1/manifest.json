@@ -1,0 +1,16 @@
+{
+  "fixture_version": "resident0002_to_0005_two_cycle_v1",
+  "resident_codes": [
+    "어르0002",
+    "어르0003",
+    "어르0004",
+    "어르0005"
+  ],
+  "purpose": "new_admission_baseline_then_existing_resident_reassessment",
+  "safety": {
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+}

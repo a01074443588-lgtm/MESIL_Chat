@@ -1,0 +1,93 @@
+{
+  "resident_code": "어르0005",
+  "source_cycle": "new_admission",
+  "staff_confirmed": true,
+  "generated_score": false,
+  "generated_diagnosis": false,
+  "confirmed_facts": [
+    {
+      "field": "장기요양등급",
+      "value": "합성 장기요양 4등급",
+      "evidence_refs": [
+        "admission:어르0005:certificate"
+      ]
+    },
+    {
+      "field": "이동 상태",
+      "value": "실내 독립보행이 가능함",
+      "evidence_refs": [
+        "admission:어르0005:health-check"
+      ]
+    },
+    {
+      "field": "영양·식사",
+      "value": "일반식을 전량 섭취하며 불편 호소 없음",
+      "evidence_refs": [
+        "admission:어르0005:individual-plan"
+      ]
+    },
+    {
+      "field": "수분",
+      "value": "필요할 때 물을 요청하고 섭취함",
+      "evidence_refs": [
+        "admission:어르0005:health-check"
+      ]
+    },
+    {
+      "field": "배설",
+      "value": "화장실을 이용하며 배설 관련 특이사항 없음",
+      "evidence_refs": [
+        "admission:어르0005:health-check"
+      ]
+    },
+    {
+      "field": "피부",
+      "value": "피부 발적과 손상이 관찰되지 않음",
+      "evidence_refs": [
+        "admission:어르0005:health-check"
+      ]
+    },
+    {
+      "field": "인지",
+      "value": "일상 대화와 간단한 활동 안내를 이해함",
+      "evidence_refs": [
+        "admission:어르0005:health-check"
+      ]
+    },
+    {
+      "field": "의사소통",
+      "value": "본인의 기분과 요구를 말로 표현함",
+      "evidence_refs": [
+        "admission:어르0005:individual-plan"
+      ]
+    },
+    {
+      "field": "복약 지원",
+      "value": "정해진 시간의 복용 안내가 필요하며 상세 처방은 합성 문서로 확인함",
+      "evidence_refs": [
+        "admission:어르0005:prescription"
+      ]
+    },
+    {
+      "field": "본인 욕구",
+      "value": "수면 리듬과 익숙한 일상 활동을 유지하기를 원함",
+      "evidence_refs": [
+        "admission:어르0005:individual-plan"
+      ]
+    },
+    {
+      "field": "보호자 요청",
+      "value": "식사량·피부·수면 변화가 이어질 때 연락해 달라고 요청함",
+      "evidence_refs": [
+        "admission:어르0005:individual-plan"
+      ]
+    },
+    {
+      "field": "평가 기준일",
+      "value": "2026-04-30",
+      "evidence_refs": [
+        "baseline:어르0005:needs"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3949 @@
+{
+  "attachments": [
+    {
+      "attachment_id": "PRES-ATT-001",
+      "extracted_text": "어르0003\n오후 2시 10분 물 200mL 제공\n오후 4시 다시 확인 예정\n오후 4시 5분 잔량 없이 200mL 섭취 완료",
+      "kind": "image",
+      "message_id": "PRES-DC-02-03",
+      "mime_type": "image/jpeg",
+      "original_name": "presentation-coded-daycare-water-note-01.jpg",
+      "sha256": "07101b5523d5b5f3eca84279ccd2b1c16afbb56a853fd95380d74698b413aa20",
+      "size_bytes": 1887476,
+      "source_asset_name": "coded-handwriting-source-01.jpg",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-002",
+      "extracted_text": "어르0004\n오전 9시 10분 혈압 170/90 측정\n10분 안정 후 오전 9시 20분 재측정 120/70\n일어날 때 잠깐 휘청하여 이동 시 부축함\n넘어지지는 않음",
+      "kind": "image",
+      "message_id": "PRES-PRO-04-01",
+      "mime_type": "image/jpeg",
+      "original_name": "presentation-coded-professional-vital-01.jpg",
+      "sha256": "2ae7e15e8649b9ba6d5648024aed2b83242ed0c6c2303df7a5980e33855eaf98",
+      "size_bytes": 519335,
+      "source_asset_name": "coded-handwriting-source-02.jpg",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-003",
+      "extracted_text": "어르0001\n아침밥 1/2 정도 섭취\n국물은 조금 섭취하고 입맛이 없다고 말함\n오전에는 표정이 어둡고 프로그램 참여를 거부함\n11시 50분 점심은 소량 섭취\n직원과 대화 후 표정이 안정되고 오후 프로그램 참여",
+      "kind": "image",
+      "message_id": "PRES-DC-07-06",
+      "mime_type": "image/jpeg",
+      "original_name": "presentation-coded-daycare-meal-01.jpg",
+      "sha256": "d4f4fdfec15d6cc6779de9078cff1a2797a3b463f0ba4b4ea676ccccc459f1db",
+      "size_bytes": 127946,
+      "source_asset_name": "coded-handwriting-source-03.jpg",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-004",
+      "extracted_text": "어르0001\n오전 프로그램 참여를 거부함\n11시 50분 점심은 소량 섭취\n직원과 대화 후 표정이 안정되고 오후 프로그램 참여",
+      "kind": "image",
+      "message_id": "PRES-DC-04-04",
+      "mime_type": "image/jpeg",
+      "original_name": "presentation-coded-daycare-activity-01.jpg",
+      "sha256": "9b65f9607a7af1ca80c3f4bbe1b91570900c52f1d57378c05682697c439dc367",
+      "size_bytes": 1567171,
+      "source_asset_name": "coded-handwriting-source-04.jpg",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-005",
+      "extracted_text": "어르0002\n오전 9시 이틀째 배변 없음\n배가 아프지는 않다고 말함\n물을 제공하고 점심 식사 후 복도를 10분 정도 걸음\n오후 3시 20분 배변 확인\n배변 후 불편감 없다고 말함\n계속 관찰하기로 함",
+      "kind": "image",
+      "message_id": "PRES-DC-01-03",
+      "mime_type": "image/jpeg",
+      "original_name": "presentation-coded-daycare-bowel-01.jpg",
+      "sha256": "02a2062a0914edba4590854dd967a2a52c7eee9758688daafd96bedaeafceea3",
+      "size_bytes": 913303,
+      "source_asset_name": "coded-handwriting-source-05.jpg",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-006",
+      "extracted_text": "어르0004 오후 3시 10분 물 180밀리리터 제공했습니다. 오후 5시 잔량 없이 모두 섭취한 것을 확인했습니다.",
+      "kind": "audio",
+      "message_id": "PRES-DC-03-03",
+      "mime_type": "audio/wav",
+      "original_name": "presentation-coded-daycare-water-01.wav",
+      "sha256": "9b8c39de36a7362dfcd475bbb2d9b806ac80fb06c83a7cdd788a2f72a6ec6a50",
+      "size_bytes": 569104,
+      "source_asset_name": "coded-voice-water-01.wav",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-007",
+      "extracted_text": "어르0002\n8월 18일 09:25\n혈압 146/84 확인\n10분 안정 후 138/80 재확인\n어지럼 호소 없음",
+      "kind": "image",
+      "message_id": "PRES-PRO-02-01",
+      "mime_type": "image/png",
+      "original_name": "presentation-coded-professional-observation-01.png",
+      "sha256": "4a364ad29057e16f7becf255b20f5d29448a4cf5d6ead2414d4b445f900c4bf6",
+      "size_bytes": 29401,
+      "source_asset_name": "coded-handwriting-vital-01.png",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-008",
+      "extracted_text": "어르0002 확인된 문장과 재확인 항목을 분리한 합성 검토 메모",
+      "inline_content": "[합성 검토 메모]\n대상자: 어르0002\n확인 완료: 식사 관찰 문장\n재확인 필요: 흐린 수치 1건\n공식 기록 여부: 아니요\n",
+      "kind": "document",
+      "message_id": "PRES-PRO-09-05",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-professional-review-01.txt",
+      "sha256": "7e0c576e29bf121c2af5eabb6cb26345c7e5df9ae33700a08921d39a480d3213",
+      "size_bytes": 150,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-009",
+      "extracted_text": "공용공간 안전점검 합성 체크 메모",
+      "inline_content": "[합성 공용공간 안전점검]\n통행로: 확인\n손잡이 주변: 확인\n이동 보조기구 위치: 확인\n",
+      "kind": "document",
+      "message_id": "PRES-ALL-04-01",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-allstaff-safety-01.txt",
+      "sha256": "ecf45e61974ef9be2d595b345abc7ba0f9fd0037860451dab131bcb222db181f",
+      "size_bytes": 113,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-010",
+      "extracted_text": "합성 교육 참석 확인서 제출 안내",
+      "inline_content": "[합성 교육 안내]\n제출 기한: 오늘 16시\n제출 위치: 사무행정 지원실\n미제출 시 담당자에게 회신\n",
+      "kind": "document",
+      "message_id": "PRES-ALL-11-01",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-allstaff-training-01.txt",
+      "sha256": "ef4abde799ab4b757a8f70ecf6cae2ed406cf145d6fc9e5d54f8b7e1c6f55239",
+      "size_bytes": 126,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-011",
+      "extracted_text": "합성 서류 접수 목록, 완료와 회신 대기 구분",
+      "inline_content": "[합성 서류 접수 목록]\nPRES-DOC-001: 완료\nPRES-DOC-002: 회신 대기\nPRES-DOC-003: 완료\n",
+      "kind": "document",
+      "message_id": "PRES-OFF-06-01",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-office-register-01.txt",
+      "sha256": "658392d73606c58f9e945a8e2a6596835737585bb65b22a5d86116f8ef075bec",
+      "size_bytes": 100,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-012",
+      "extracted_text": "합성 교육 확인서 완료 3건, 회신 대기 1건",
+      "inline_content": "[합성 교육 확인서 집계]\n완료: 3건\n회신 대기: 1건\n실제 제출 자료: 아니요\n",
+      "kind": "document",
+      "message_id": "PRES-OFF-11-04",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-office-training-01.txt",
+      "sha256": "339cfd5d9637af40fe0a243cf606ffc1ceddc57f9bd70be2272448bf7e32a0a1",
+      "size_bytes": 98,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-013",
+      "extracted_text": "어르2001 내일 방문은 13시 30분으로 최종 확인됐습니다.",
+      "inline_content": "[합성 방문 일정 정정]\n대상자: 어르2001\n최종 방문 시각: 13시 30분\n이전 안내: 사용하지 않음\n",
+      "kind": "document",
+      "message_id": "PRES-HC-08-03",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-homecare-schedule-01.txt",
+      "sha256": "55db7e65c5e2fc3192cb2f319cae89db3c521be274bdd47898c62dba79e9c8b3",
+      "size_bytes": 121,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "attachment_id": "PRES-ATT-014",
+      "extracted_text": "어르2003 방문 완료 및 제공 내용 기록 확인",
+      "inline_content": "[합성 방문 기록 확인]\n대상자: 어르2003\n방문 완료: 예\n일정 변경: 없음\n추가 확인: 없음\n",
+      "kind": "document",
+      "message_id": "PRES-HC-12-03",
+      "mime_type": "text/plain",
+      "original_name": "presentation-coded-homecare-log-01.txt",
+      "sha256": "cba7a0cbc6c532b0428b7d2b060cb195c8cf50daf6d51d7189512e2a0e159397",
+      "size_bytes": 115,
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    }
+  ],
+  "display_notice": "결선 시연용 합성자료 · 실제 인물 및 기록과 무관",
+  "messages": [
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-08-28T07:50:00+09:00",
+      "message_id": "PRES-HC-01-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 16시 교육자료 확인 부탁드립니다.\n참석이 어려운 분은 사무행정 지원실에 남겨주세요.",
+      "created_at": "2026-08-28T08:00:00+09:00",
+      "message_id": "PRES-ALL-01-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-08-28T08:05:00+09:00",
+      "message_id": "PRES-DC-01-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-08-28T08:05:00+09:00",
+      "message_id": "PRES-HC-01-02",
+      "reply_to_message_id": "PRES-HC-01-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-08-28T08:12:00+09:00",
+      "message_id": "PRES-ALL-01-02",
+      "reply_to_message_id": "PRES-ALL-01-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-08-28T08:18:00+09:00",
+      "message_id": "PRES-ALL-01-03",
+      "reply_to_message_id": "PRES-ALL-01-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-08-28T08:20:00+09:00",
+      "message_id": "PRES-DC-01-02",
+      "reply_to_message_id": "PRES-DC-01-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 교육 확인서 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-08-28T08:45:00+09:00",
+      "message_id": "PRES-OFF-01-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오늘 오전 식사량이 평소보다 적었다는 현장 보고가 있어 함께 확인 부탁드립니다.",
+      "created_at": "2026-08-28T09:10:00+09:00",
+      "message_id": "PRES-PRO-01-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오전 간식은 절반 정도 드셨고 물 120mL 제공했습니다.",
+      "created_at": "2026-08-28T09:35:00+09:00",
+      "message_id": "PRES-DC-01-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-08-28T09:35:00+09:00",
+      "message_id": "PRES-PRO-01-02",
+      "reply_to_message_id": "PRES-PRO-01-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-08-28T10:05:00+09:00",
+      "message_id": "PRES-OFF-01-02",
+      "reply_to_message_id": "PRES-OFF-01-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-08-28T10:10:00+09:00",
+      "message_id": "PRES-PRO-01-03",
+      "reply_to_message_id": "PRES-PRO-01-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동에 15분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-08-28T11:50:00+09:00",
+      "message_id": "PRES-DC-01-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-08-28T13:20:00+09:00",
+      "message_id": "PRES-PRO-01-04",
+      "reply_to_message_id": "PRES-PRO-01-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-08-28T13:30:00+09:00",
+      "message_id": "PRES-HC-01-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0003 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-08-28T13:40:00+09:00",
+      "message_id": "PRES-DC-01-05",
+      "reply_to_message_id": "PRES-DC-01-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-08-28T14:20:00+09:00",
+      "message_id": "PRES-OFF-01-03",
+      "reply_to_message_id": "PRES-OFF-01-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-08-28T15:10:00+09:00",
+      "message_id": "PRES-DC-01-06",
+      "reply_to_message_id": "PRES-DC-01-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-08-28T15:40:00+09:00",
+      "message_id": "PRES-PRO-01-05",
+      "reply_to_message_id": "PRES-PRO-01-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-08-28T16:25:00+09:00",
+      "message_id": "PRES-DC-01-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-08-28T16:50:00+09:00",
+      "message_id": "PRES-OFF-01-04",
+      "reply_to_message_id": "PRES-OFF-01-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0004 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-08-28T17:35:00+09:00",
+      "message_id": "PRES-DC-01-08",
+      "reply_to_message_id": "PRES-DC-01-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-08-28T17:45:00+09:00",
+      "message_id": "PRES-HC-01-04",
+      "reply_to_message_id": "PRES-HC-01-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-08-29T07:50:00+09:00",
+      "message_id": "PRES-HC-02-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "공용 비품 입고 내용을 공유드립니다. 필요한 수량은 오늘 중 알려주세요.",
+      "created_at": "2026-08-29T08:00:00+09:00",
+      "message_id": "PRES-ALL-02-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-08-29T08:05:00+09:00",
+      "message_id": "PRES-DC-02-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-08-29T08:05:00+09:00",
+      "message_id": "PRES-HC-02-02",
+      "reply_to_message_id": "PRES-HC-02-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-08-29T08:12:00+09:00",
+      "message_id": "PRES-ALL-02-02",
+      "reply_to_message_id": "PRES-ALL-02-01",
+      "room_key": "all_staff",
+      "sender_code": "요보03",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-08-29T08:18:00+09:00",
+      "message_id": "PRES-ALL-02-03",
+      "reply_to_message_id": "PRES-ALL-02-01",
+      "room_key": "all_staff",
+      "sender_code": "작치01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-08-29T08:20:00+09:00",
+      "message_id": "PRES-DC-02-02",
+      "reply_to_message_id": "PRES-DC-02-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 상담 접수 메모 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-08-29T08:45:00+09:00",
+      "message_id": "PRES-OFF-02-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 이동할 때 보행 속도가 느렸다는 보고가 있어 활동 전 상태 확인 부탁드립니다.",
+      "created_at": "2026-08-29T09:10:00+09:00",
+      "message_id": "PRES-PRO-02-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 간식은 2/3 정도 드셨고 물 140mL 제공했습니다.",
+      "created_at": "2026-08-29T09:35:00+09:00",
+      "message_id": "PRES-DC-02-03",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-08-29T09:35:00+09:00",
+      "message_id": "PRES-PRO-02-02",
+      "reply_to_message_id": "PRES-PRO-02-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-08-29T10:05:00+09:00",
+      "message_id": "PRES-OFF-02-02",
+      "reply_to_message_id": "PRES-OFF-02-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-08-29T10:10:00+09:00",
+      "message_id": "PRES-PRO-02-03",
+      "reply_to_message_id": "PRES-PRO-02-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 활동에 20분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-08-29T11:50:00+09:00",
+      "message_id": "PRES-DC-02-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-08-29T13:20:00+09:00",
+      "message_id": "PRES-PRO-02-04",
+      "reply_to_message_id": "PRES-PRO-02-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2002 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-08-29T13:30:00+09:00",
+      "message_id": "PRES-HC-02-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0004 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-08-29T13:40:00+09:00",
+      "message_id": "PRES-DC-02-05",
+      "reply_to_message_id": "PRES-DC-02-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-08-29T14:20:00+09:00",
+      "message_id": "PRES-OFF-02-03",
+      "reply_to_message_id": "PRES-OFF-02-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-08-29T15:10:00+09:00",
+      "message_id": "PRES-DC-02-06",
+      "reply_to_message_id": "PRES-DC-02-03",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-08-29T15:40:00+09:00",
+      "message_id": "PRES-PRO-02-05",
+      "reply_to_message_id": "PRES-PRO-02-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-08-29T16:25:00+09:00",
+      "message_id": "PRES-DC-02-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-08-29T16:50:00+09:00",
+      "message_id": "PRES-OFF-02-04",
+      "reply_to_message_id": "PRES-OFF-02-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0005 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-08-29T17:35:00+09:00",
+      "message_id": "PRES-DC-02-08",
+      "reply_to_message_id": "PRES-DC-02-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-08-29T17:45:00+09:00",
+      "message_id": "PRES-HC-02-04",
+      "reply_to_message_id": "PRES-HC-02-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-08-30T07:50:00+09:00",
+      "message_id": "PRES-HC-03-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "내일 오전 회의 안내드립니다. 담당 업무 메모를 미리 확인해주세요.",
+      "created_at": "2026-08-30T08:00:00+09:00",
+      "message_id": "PRES-ALL-03-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-08-30T08:05:00+09:00",
+      "message_id": "PRES-DC-03-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-08-30T08:05:00+09:00",
+      "message_id": "PRES-HC-03-02",
+      "reply_to_message_id": "PRES-HC-03-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-08-30T08:12:00+09:00",
+      "message_id": "PRES-ALL-03-02",
+      "reply_to_message_id": "PRES-ALL-03-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-08-30T08:18:00+09:00",
+      "message_id": "PRES-ALL-03-03",
+      "reply_to_message_id": "PRES-ALL-03-01",
+      "room_key": "all_staff",
+      "sender_code": "영양01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-08-30T08:20:00+09:00",
+      "message_id": "PRES-DC-03-02",
+      "reply_to_message_id": "PRES-DC-03-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 근무 변경 신청 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-08-30T08:45:00+09:00",
+      "message_id": "PRES-OFF-03-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동 참여를 잠시 거부했다가 직원과 대화 후 참여했다는 보고입니다.",
+      "created_at": "2026-08-30T09:10:00+09:00",
+      "message_id": "PRES-PRO-03-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 간식은 대부분 드셨고 물 160mL 제공했습니다.",
+      "created_at": "2026-08-30T09:35:00+09:00",
+      "message_id": "PRES-DC-03-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-08-30T09:35:00+09:00",
+      "message_id": "PRES-PRO-03-02",
+      "reply_to_message_id": "PRES-PRO-03-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-08-30T10:05:00+09:00",
+      "message_id": "PRES-OFF-03-02",
+      "reply_to_message_id": "PRES-OFF-03-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-08-30T10:10:00+09:00",
+      "message_id": "PRES-PRO-03-03",
+      "reply_to_message_id": "PRES-PRO-03-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 활동에 25분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-08-30T11:50:00+09:00",
+      "message_id": "PRES-DC-03-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-08-30T13:20:00+09:00",
+      "message_id": "PRES-PRO-03-04",
+      "reply_to_message_id": "PRES-PRO-03-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2003 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-08-30T13:30:00+09:00",
+      "message_id": "PRES-HC-03-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0005 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-08-30T13:40:00+09:00",
+      "message_id": "PRES-DC-03-05",
+      "reply_to_message_id": "PRES-DC-03-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-08-30T14:20:00+09:00",
+      "message_id": "PRES-OFF-03-03",
+      "reply_to_message_id": "PRES-OFF-03-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-08-30T15:10:00+09:00",
+      "message_id": "PRES-DC-03-06",
+      "reply_to_message_id": "PRES-DC-03-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-08-30T15:40:00+09:00",
+      "message_id": "PRES-PRO-03-05",
+      "reply_to_message_id": "PRES-PRO-03-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-08-30T16:25:00+09:00",
+      "message_id": "PRES-DC-03-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-08-30T16:50:00+09:00",
+      "message_id": "PRES-OFF-03-04",
+      "reply_to_message_id": "PRES-OFF-03-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0001 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-08-30T17:35:00+09:00",
+      "message_id": "PRES-DC-03-08",
+      "reply_to_message_id": "PRES-DC-03-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-08-30T17:45:00+09:00",
+      "message_id": "PRES-HC-03-04",
+      "reply_to_message_id": "PRES-HC-03-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-08-31T07:50:00+09:00",
+      "message_id": "PRES-HC-04-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "공용공간 안전점검 예정입니다. 통행에 불편한 물품이 없는지 확인해주세요.",
+      "created_at": "2026-08-31T08:00:00+09:00",
+      "message_id": "PRES-ALL-04-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-08-31T08:05:00+09:00",
+      "message_id": "PRES-DC-04-01",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-08-31T08:05:00+09:00",
+      "message_id": "PRES-HC-04-02",
+      "reply_to_message_id": "PRES-HC-04-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-08-31T08:12:00+09:00",
+      "message_id": "PRES-ALL-04-02",
+      "reply_to_message_id": "PRES-ALL-04-01",
+      "room_key": "all_staff",
+      "sender_code": "작치01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-08-31T08:18:00+09:00",
+      "message_id": "PRES-ALL-04-03",
+      "reply_to_message_id": "PRES-ALL-04-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-08-31T08:20:00+09:00",
+      "message_id": "PRES-DC-04-02",
+      "reply_to_message_id": "PRES-DC-04-01",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 비품 요청서 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-08-31T08:45:00+09:00",
+      "message_id": "PRES-OFF-04-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 생활 중 손등이 건조해 보였다는 관찰이 있어 원문 확인 부탁드립니다.",
+      "created_at": "2026-08-31T09:10:00+09:00",
+      "message_id": "PRES-PRO-04-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 간식은 1/3 정도 드셨고 물 180mL 제공했습니다.",
+      "created_at": "2026-08-31T09:35:00+09:00",
+      "message_id": "PRES-DC-04-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-08-31T09:35:00+09:00",
+      "message_id": "PRES-PRO-04-02",
+      "reply_to_message_id": "PRES-PRO-04-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-08-31T10:05:00+09:00",
+      "message_id": "PRES-OFF-04-02",
+      "reply_to_message_id": "PRES-OFF-04-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-08-31T10:10:00+09:00",
+      "message_id": "PRES-PRO-04-03",
+      "reply_to_message_id": "PRES-PRO-04-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오전 활동에 30분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-08-31T11:50:00+09:00",
+      "message_id": "PRES-DC-04-04",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-08-31T13:20:00+09:00",
+      "message_id": "PRES-PRO-04-04",
+      "reply_to_message_id": "PRES-PRO-04-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-08-31T13:30:00+09:00",
+      "message_id": "PRES-HC-04-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0001 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-08-31T13:40:00+09:00",
+      "message_id": "PRES-DC-04-05",
+      "reply_to_message_id": "PRES-DC-04-04",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-08-31T14:20:00+09:00",
+      "message_id": "PRES-OFF-04-03",
+      "reply_to_message_id": "PRES-OFF-04-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-08-31T15:10:00+09:00",
+      "message_id": "PRES-DC-04-06",
+      "reply_to_message_id": "PRES-DC-04-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-08-31T15:40:00+09:00",
+      "message_id": "PRES-PRO-04-05",
+      "reply_to_message_id": "PRES-PRO-04-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-08-31T16:25:00+09:00",
+      "message_id": "PRES-DC-04-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-08-31T16:50:00+09:00",
+      "message_id": "PRES-OFF-04-04",
+      "reply_to_message_id": "PRES-OFF-04-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0002 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-08-31T17:35:00+09:00",
+      "message_id": "PRES-DC-04-08",
+      "reply_to_message_id": "PRES-DC-04-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-08-31T17:45:00+09:00",
+      "message_id": "PRES-HC-04-04",
+      "reply_to_message_id": "PRES-HC-04-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-01T07:50:00+09:00",
+      "message_id": "PRES-HC-05-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "이번 주 근무 안내를 올렸습니다. 변경이 필요한 분은 담당자에게 알려주세요.",
+      "created_at": "2026-09-01T08:00:00+09:00",
+      "message_id": "PRES-ALL-05-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-01T08:05:00+09:00",
+      "message_id": "PRES-DC-05-01",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-01T08:05:00+09:00",
+      "message_id": "PRES-HC-05-02",
+      "reply_to_message_id": "PRES-HC-05-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-01T08:12:00+09:00",
+      "message_id": "PRES-ALL-05-02",
+      "reply_to_message_id": "PRES-ALL-05-01",
+      "room_key": "all_staff",
+      "sender_code": "영양01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-01T08:18:00+09:00",
+      "message_id": "PRES-ALL-05-03",
+      "reply_to_message_id": "PRES-ALL-05-01",
+      "room_key": "all_staff",
+      "sender_code": "요보03",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-01T08:20:00+09:00",
+      "message_id": "PRES-DC-05-02",
+      "reply_to_message_id": "PRES-DC-05-01",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 일정 확인표 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-01T08:45:00+09:00",
+      "message_id": "PRES-OFF-05-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전에는 피곤해 보였으나 휴식 뒤 표정이 안정됐다는 보고입니다.",
+      "created_at": "2026-09-01T09:10:00+09:00",
+      "message_id": "PRES-PRO-05-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오전 간식은 절반 정도 드셨고 물 120mL 제공했습니다.",
+      "created_at": "2026-09-01T09:35:00+09:00",
+      "message_id": "PRES-DC-05-03",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-01T09:35:00+09:00",
+      "message_id": "PRES-PRO-05-02",
+      "reply_to_message_id": "PRES-PRO-05-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-01T10:05:00+09:00",
+      "message_id": "PRES-OFF-05-02",
+      "reply_to_message_id": "PRES-OFF-05-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-01T10:10:00+09:00",
+      "message_id": "PRES-PRO-05-03",
+      "reply_to_message_id": "PRES-PRO-05-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오전 활동에 15분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-01T11:50:00+09:00",
+      "message_id": "PRES-DC-05-04",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-01T13:20:00+09:00",
+      "message_id": "PRES-PRO-05-04",
+      "reply_to_message_id": "PRES-PRO-05-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2002 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-01T13:30:00+09:00",
+      "message_id": "PRES-HC-05-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0002 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-01T13:40:00+09:00",
+      "message_id": "PRES-DC-05-05",
+      "reply_to_message_id": "PRES-DC-05-04",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-01T14:20:00+09:00",
+      "message_id": "PRES-OFF-05-03",
+      "reply_to_message_id": "PRES-OFF-05-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-01T15:10:00+09:00",
+      "message_id": "PRES-DC-05-06",
+      "reply_to_message_id": "PRES-DC-05-03",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-01T15:40:00+09:00",
+      "message_id": "PRES-PRO-05-05",
+      "reply_to_message_id": "PRES-PRO-05-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-01T16:25:00+09:00",
+      "message_id": "PRES-DC-05-07",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-01T16:50:00+09:00",
+      "message_id": "PRES-OFF-05-04",
+      "reply_to_message_id": "PRES-OFF-05-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0003 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-01T17:35:00+09:00",
+      "message_id": "PRES-DC-05-08",
+      "reply_to_message_id": "PRES-DC-05-07",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-01T17:45:00+09:00",
+      "message_id": "PRES-HC-05-04",
+      "reply_to_message_id": "PRES-HC-05-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-02T07:50:00+09:00",
+      "message_id": "PRES-HC-06-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 16시 교육자료 확인 부탁드립니다.\n참석이 어려운 분은 사무행정 지원실에 남겨주세요.",
+      "created_at": "2026-09-02T08:00:00+09:00",
+      "message_id": "PRES-ALL-06-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-02T08:05:00+09:00",
+      "message_id": "PRES-DC-06-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-02T08:05:00+09:00",
+      "message_id": "PRES-HC-06-02",
+      "reply_to_message_id": "PRES-HC-06-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-02T08:12:00+09:00",
+      "message_id": "PRES-ALL-06-02",
+      "reply_to_message_id": "PRES-ALL-06-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-02T08:18:00+09:00",
+      "message_id": "PRES-ALL-06-03",
+      "reply_to_message_id": "PRES-ALL-06-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-02T08:20:00+09:00",
+      "message_id": "PRES-DC-06-02",
+      "reply_to_message_id": "PRES-DC-06-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 교육 확인서 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-02T08:45:00+09:00",
+      "message_id": "PRES-OFF-06-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오늘 오전 식사량이 평소보다 적었다는 현장 보고가 있어 함께 확인 부탁드립니다.",
+      "created_at": "2026-09-02T09:10:00+09:00",
+      "message_id": "PRES-PRO-06-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오전 간식은 2/3 정도 드셨고 물 140mL 제공했습니다.",
+      "created_at": "2026-09-02T09:35:00+09:00",
+      "message_id": "PRES-DC-06-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-02T09:35:00+09:00",
+      "message_id": "PRES-PRO-06-02",
+      "reply_to_message_id": "PRES-PRO-06-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-02T10:05:00+09:00",
+      "message_id": "PRES-OFF-06-02",
+      "reply_to_message_id": "PRES-OFF-06-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-02T10:10:00+09:00",
+      "message_id": "PRES-PRO-06-03",
+      "reply_to_message_id": "PRES-PRO-06-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동에 20분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-02T11:50:00+09:00",
+      "message_id": "PRES-DC-06-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-02T13:20:00+09:00",
+      "message_id": "PRES-PRO-06-04",
+      "reply_to_message_id": "PRES-PRO-06-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2003 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-02T13:30:00+09:00",
+      "message_id": "PRES-HC-06-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0003 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-02T13:40:00+09:00",
+      "message_id": "PRES-DC-06-05",
+      "reply_to_message_id": "PRES-DC-06-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-02T14:20:00+09:00",
+      "message_id": "PRES-OFF-06-03",
+      "reply_to_message_id": "PRES-OFF-06-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-02T15:10:00+09:00",
+      "message_id": "PRES-DC-06-06",
+      "reply_to_message_id": "PRES-DC-06-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-02T15:40:00+09:00",
+      "message_id": "PRES-PRO-06-05",
+      "reply_to_message_id": "PRES-PRO-06-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-02T16:25:00+09:00",
+      "message_id": "PRES-DC-06-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-02T16:50:00+09:00",
+      "message_id": "PRES-OFF-06-04",
+      "reply_to_message_id": "PRES-OFF-06-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0004 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-02T17:35:00+09:00",
+      "message_id": "PRES-DC-06-08",
+      "reply_to_message_id": "PRES-DC-06-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-02T17:45:00+09:00",
+      "message_id": "PRES-HC-06-04",
+      "reply_to_message_id": "PRES-HC-06-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-03T07:50:00+09:00",
+      "message_id": "PRES-HC-07-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "공용 비품 입고 내용을 공유드립니다. 필요한 수량은 오늘 중 알려주세요.",
+      "created_at": "2026-09-03T08:00:00+09:00",
+      "message_id": "PRES-ALL-07-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 아침 식사는 절반 정도 드셨고 평소보다 말수가 적었습니다. 오전 상태 확인 부탁드립니다.",
+      "created_at": "2026-09-03T08:05:00+09:00",
+      "message_id": "PRES-DC-07-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-03T08:05:00+09:00",
+      "message_id": "PRES-HC-07-02",
+      "reply_to_message_id": "PRES-HC-07-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-03T08:12:00+09:00",
+      "message_id": "PRES-ALL-07-02",
+      "reply_to_message_id": "PRES-ALL-07-01",
+      "room_key": "all_staff",
+      "sender_code": "요보03",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-03T08:18:00+09:00",
+      "message_id": "PRES-ALL-07-03",
+      "reply_to_message_id": "PRES-ALL-07-01",
+      "room_key": "all_staff",
+      "sender_code": "작치01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-03T08:20:00+09:00",
+      "message_id": "PRES-DC-07-02",
+      "reply_to_message_id": "PRES-DC-07-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 상담 접수 메모 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-03T08:45:00+09:00",
+      "message_id": "PRES-OFF-07-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 식사량과 활동 반응이 함께 달라졌다는 현장 보고입니다. 직종별 확인 의견 부탁드립니다.",
+      "created_at": "2026-09-03T09:10:00+09:00",
+      "message_id": "PRES-PRO-07-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 간식은 대부분 드셨고 물 160mL 제공했습니다.",
+      "created_at": "2026-09-03T09:35:00+09:00",
+      "message_id": "PRES-DC-07-03",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현재 불편 호소 여부와 기초 상태를 확인하겠습니다. 확인 전에는 원인을 판단하지 않겠습니다.",
+      "created_at": "2026-09-03T09:35:00+09:00",
+      "message_id": "PRES-PRO-07-02",
+      "reply_to_message_id": "PRES-PRO-07-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-03T10:05:00+09:00",
+      "message_id": "PRES-OFF-07-02",
+      "reply_to_message_id": "PRES-OFF-07-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "점심은 부담이 적은 구성으로 제공하고 실제 섭취량을 다시 기록하겠습니다.",
+      "created_at": "2026-09-03T10:10:00+09:00",
+      "message_id": "PRES-PRO-07-03",
+      "reply_to_message_id": "PRES-PRO-07-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 활동에 25분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-03T11:50:00+09:00",
+      "message_id": "PRES-DC-07-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 선택지를 먼저 보여드리고 참여 의사를 다시 확인하겠습니다.",
+      "created_at": "2026-09-03T13:20:00+09:00",
+      "message_id": "PRES-PRO-07-04",
+      "reply_to_message_id": "PRES-PRO-07-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-03T13:30:00+09:00",
+      "message_id": "PRES-HC-07-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0004 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-03T13:40:00+09:00",
+      "message_id": "PRES-DC-07-05",
+      "reply_to_message_id": "PRES-DC-07-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-03T14:20:00+09:00",
+      "message_id": "PRES-OFF-07-03",
+      "reply_to_message_id": "PRES-OFF-07-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 점심은 2/3 정도 드셨고 직원과 대화 후 오후 활동에 20분 참여했습니다.",
+      "created_at": "2026-09-03T15:10:00+09:00",
+      "message_id": "PRES-DC-07-06",
+      "reply_to_message_id": "PRES-DC-07-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인했습니다. 보호자에게는 관찰 사실과 오늘의 지원 내용을 구분해 전달하겠습니다.",
+      "created_at": "2026-09-03T15:40:00+09:00",
+      "message_id": "PRES-PRO-07-05",
+      "reply_to_message_id": "PRES-PRO-07-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-03T16:25:00+09:00",
+      "message_id": "PRES-DC-07-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-03T16:50:00+09:00",
+      "message_id": "PRES-OFF-07-04",
+      "reply_to_message_id": "PRES-OFF-07-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0005 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-03T17:35:00+09:00",
+      "message_id": "PRES-DC-07-08",
+      "reply_to_message_id": "PRES-DC-07-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-03T17:45:00+09:00",
+      "message_id": "PRES-HC-07-04",
+      "reply_to_message_id": "PRES-HC-07-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문 시작 시각 변경 요청이 접수되었습니다. 정확한 시각을 확인 중입니다.",
+      "created_at": "2026-09-04T07:50:00+09:00",
+      "message_id": "PRES-HC-08-01",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "내일 오전 회의 안내드립니다. 담당 업무 메모를 미리 확인해주세요.",
+      "created_at": "2026-09-04T08:00:00+09:00",
+      "message_id": "PRES-ALL-08-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-04T08:05:00+09:00",
+      "message_id": "PRES-DC-08-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확정 안내 전까지 기존 일정으로 알고 있겠습니다.",
+      "created_at": "2026-09-04T08:05:00+09:00",
+      "message_id": "PRES-HC-08-02",
+      "reply_to_message_id": "PRES-HC-08-01",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-04T08:12:00+09:00",
+      "message_id": "PRES-ALL-08-02",
+      "reply_to_message_id": "PRES-ALL-08-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-04T08:18:00+09:00",
+      "message_id": "PRES-ALL-08-03",
+      "reply_to_message_id": "PRES-ALL-08-01",
+      "room_key": "all_staff",
+      "sender_code": "영양01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-04T08:20:00+09:00",
+      "message_id": "PRES-DC-08-02",
+      "reply_to_message_id": "PRES-DC-08-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문 일정 변경 요청을 접수했습니다. 보호자 확인 시각과 담당자 가능 시간을 대조해주세요.",
+      "created_at": "2026-09-04T08:45:00+09:00",
+      "message_id": "PRES-OFF-08-01",
+      "resident_code": "어르2001",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동 참여를 잠시 거부했다가 직원과 대화 후 참여했다는 보고입니다.",
+      "created_at": "2026-09-04T09:10:00+09:00",
+      "message_id": "PRES-PRO-08-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 간식은 1/3 정도 드셨고 물 180mL 제공했습니다.",
+      "created_at": "2026-09-04T09:35:00+09:00",
+      "message_id": "PRES-DC-08-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-04T09:35:00+09:00",
+      "message_id": "PRES-PRO-08-02",
+      "reply_to_message_id": "PRES-PRO-08-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 가능 시간을 확인했습니다. 최종 시각은 회신 후 안내하겠습니다.",
+      "created_at": "2026-09-04T10:05:00+09:00",
+      "message_id": "PRES-OFF-08-02",
+      "reply_to_message_id": "PRES-OFF-08-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-04T10:10:00+09:00",
+      "message_id": "PRES-PRO-08-03",
+      "reply_to_message_id": "PRES-PRO-08-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 활동에 30분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-04T11:50:00+09:00",
+      "message_id": "PRES-DC-08-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-04T13:20:00+09:00",
+      "message_id": "PRES-PRO-08-04",
+      "reply_to_message_id": "PRES-PRO-08-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 내일 방문은 13시 30분으로 최종 확인됐습니다. 이전 안내 대신 이 메시지를 확인해주세요.",
+      "created_at": "2026-09-04T13:30:00+09:00",
+      "message_id": "PRES-HC-08-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0005 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-04T13:40:00+09:00",
+      "message_id": "PRES-DC-08-05",
+      "reply_to_message_id": "PRES-DC-08-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "최종 방문 시각을 일정표에 반영했고 담당자에게 다시 전달했습니다.",
+      "created_at": "2026-09-04T14:20:00+09:00",
+      "message_id": "PRES-OFF-08-03",
+      "reply_to_message_id": "PRES-OFF-08-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-04T15:10:00+09:00",
+      "message_id": "PRES-DC-08-06",
+      "reply_to_message_id": "PRES-DC-08-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-04T15:40:00+09:00",
+      "message_id": "PRES-PRO-08-05",
+      "reply_to_message_id": "PRES-PRO-08-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-04T16:25:00+09:00",
+      "message_id": "PRES-DC-08-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-04T16:50:00+09:00",
+      "message_id": "PRES-OFF-08-04",
+      "reply_to_message_id": "PRES-OFF-08-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0001 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-04T17:35:00+09:00",
+      "message_id": "PRES-DC-08-08",
+      "reply_to_message_id": "PRES-DC-08-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "13시 30분 방문 일정 확인했습니다.",
+      "created_at": "2026-09-04T17:45:00+09:00",
+      "message_id": "PRES-HC-08-04",
+      "reply_to_message_id": "PRES-HC-08-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-05T07:50:00+09:00",
+      "message_id": "PRES-HC-09-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "공용공간 안전점검 예정입니다. 통행에 불편한 물품이 없는지 확인해주세요.",
+      "created_at": "2026-09-05T08:00:00+09:00",
+      "message_id": "PRES-ALL-09-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-05T08:05:00+09:00",
+      "message_id": "PRES-DC-09-01",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-05T08:05:00+09:00",
+      "message_id": "PRES-HC-09-02",
+      "reply_to_message_id": "PRES-HC-09-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-05T08:12:00+09:00",
+      "message_id": "PRES-ALL-09-02",
+      "reply_to_message_id": "PRES-ALL-09-01",
+      "room_key": "all_staff",
+      "sender_code": "작치01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-05T08:18:00+09:00",
+      "message_id": "PRES-ALL-09-03",
+      "reply_to_message_id": "PRES-ALL-09-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 합성 관찰 메모를 첨부했습니다. 흐린 숫자는 원본을 보고 다시 확인해주세요.",
+      "created_at": "2026-09-05T08:20:00+09:00",
+      "message_id": "PRES-DC-09-02",
+      "reply_to_message_id": "PRES-DC-09-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 비품 요청서 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-05T08:45:00+09:00",
+      "message_id": "PRES-OFF-09-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 첨부 메모의 수치와 작성 시각을 확인하겠습니다. 판독 전에는 확정하지 않겠습니다.",
+      "created_at": "2026-09-05T09:10:00+09:00",
+      "message_id": "PRES-PRO-09-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 간식은 절반 정도 드셨고 물 120mL 제공했습니다.",
+      "created_at": "2026-09-05T09:35:00+09:00",
+      "message_id": "PRES-DC-09-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "원본에서 확인되는 관찰 사실만 정리하고 불확실한 값은 재확인 항목으로 남기겠습니다.",
+      "created_at": "2026-09-05T09:35:00+09:00",
+      "message_id": "PRES-PRO-09-02",
+      "reply_to_message_id": "PRES-PRO-09-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-05T10:05:00+09:00",
+      "message_id": "PRES-OFF-09-02",
+      "reply_to_message_id": "PRES-OFF-09-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사 관련 표기는 현장 기록과 대조한 뒤 다음 배식 참고사항으로 구분하겠습니다.",
+      "created_at": "2026-09-05T10:10:00+09:00",
+      "message_id": "PRES-PRO-09-03",
+      "reply_to_message_id": "PRES-PRO-09-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "원본 메모를 다시 확인했습니다. 흐린 부분은 담당자가 직접 수정해서 남겼습니다.",
+      "created_at": "2026-09-05T11:50:00+09:00",
+      "message_id": "PRES-DC-09-04",
+      "reply_to_message_id": "PRES-DC-09-02",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-05T13:20:00+09:00",
+      "message_id": "PRES-PRO-09-04",
+      "reply_to_message_id": "PRES-PRO-09-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2003 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-05T13:30:00+09:00",
+      "message_id": "PRES-HC-09-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0001 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-05T13:40:00+09:00",
+      "message_id": "PRES-DC-09-05",
+      "reply_to_message_id": "PRES-DC-09-04",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-05T14:20:00+09:00",
+      "message_id": "PRES-OFF-09-03",
+      "reply_to_message_id": "PRES-OFF-09-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-05T15:10:00+09:00",
+      "message_id": "PRES-DC-09-06",
+      "reply_to_message_id": "PRES-DC-09-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "직원 확인이 끝난 문장과 아직 판단할 수 없는 항목을 구분해 기록 초안으로 넘기겠습니다.",
+      "created_at": "2026-09-05T15:40:00+09:00",
+      "message_id": "PRES-PRO-09-05",
+      "reply_to_message_id": "PRES-PRO-09-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-05T16:25:00+09:00",
+      "message_id": "PRES-DC-09-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-05T16:50:00+09:00",
+      "message_id": "PRES-OFF-09-04",
+      "reply_to_message_id": "PRES-OFF-09-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0002 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-05T17:35:00+09:00",
+      "message_id": "PRES-DC-09-08",
+      "reply_to_message_id": "PRES-DC-09-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-05T17:45:00+09:00",
+      "message_id": "PRES-HC-09-04",
+      "reply_to_message_id": "PRES-HC-09-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-06T07:50:00+09:00",
+      "message_id": "PRES-HC-10-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "이번 주 근무 안내를 올렸습니다. 변경이 필요한 분은 담당자에게 알려주세요.",
+      "created_at": "2026-09-06T08:00:00+09:00",
+      "message_id": "PRES-ALL-10-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-06T08:05:00+09:00",
+      "message_id": "PRES-DC-10-01",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-06T08:05:00+09:00",
+      "message_id": "PRES-HC-10-02",
+      "reply_to_message_id": "PRES-HC-10-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-06T08:12:00+09:00",
+      "message_id": "PRES-ALL-10-02",
+      "reply_to_message_id": "PRES-ALL-10-01",
+      "room_key": "all_staff",
+      "sender_code": "영양01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-06T08:18:00+09:00",
+      "message_id": "PRES-ALL-10-03",
+      "reply_to_message_id": "PRES-ALL-10-01",
+      "room_key": "all_staff",
+      "sender_code": "요보03",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-06T08:20:00+09:00",
+      "message_id": "PRES-DC-10-02",
+      "reply_to_message_id": "PRES-DC-10-01",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 일정 확인표 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-06T08:45:00+09:00",
+      "message_id": "PRES-OFF-10-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전에는 피곤해 보였으나 휴식 뒤 표정이 안정됐다는 보고입니다.",
+      "created_at": "2026-09-06T09:10:00+09:00",
+      "message_id": "PRES-PRO-10-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오전 간식은 2/3 정도 드셨고 물 140mL 제공했습니다.",
+      "created_at": "2026-09-06T09:35:00+09:00",
+      "message_id": "PRES-DC-10-03",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-06T09:35:00+09:00",
+      "message_id": "PRES-PRO-10-02",
+      "reply_to_message_id": "PRES-PRO-10-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-06T10:05:00+09:00",
+      "message_id": "PRES-OFF-10-02",
+      "reply_to_message_id": "PRES-OFF-10-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-06T10:10:00+09:00",
+      "message_id": "PRES-PRO-10-03",
+      "reply_to_message_id": "PRES-PRO-10-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오전 활동에 20분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-06T11:50:00+09:00",
+      "message_id": "PRES-DC-10-04",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-06T13:20:00+09:00",
+      "message_id": "PRES-PRO-10-04",
+      "reply_to_message_id": "PRES-PRO-10-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-06T13:30:00+09:00",
+      "message_id": "PRES-HC-10-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0002 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-06T13:40:00+09:00",
+      "message_id": "PRES-DC-10-05",
+      "reply_to_message_id": "PRES-DC-10-04",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-06T14:20:00+09:00",
+      "message_id": "PRES-OFF-10-03",
+      "reply_to_message_id": "PRES-OFF-10-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-06T15:10:00+09:00",
+      "message_id": "PRES-DC-10-06",
+      "reply_to_message_id": "PRES-DC-10-03",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-06T15:40:00+09:00",
+      "message_id": "PRES-PRO-10-05",
+      "reply_to_message_id": "PRES-PRO-10-01",
+      "resident_code": "어르0005",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-06T16:25:00+09:00",
+      "message_id": "PRES-DC-10-07",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-06T16:50:00+09:00",
+      "message_id": "PRES-OFF-10-04",
+      "reply_to_message_id": "PRES-OFF-10-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0003 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-06T17:35:00+09:00",
+      "message_id": "PRES-DC-10-08",
+      "reply_to_message_id": "PRES-DC-10-07",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-06T17:45:00+09:00",
+      "message_id": "PRES-HC-10-04",
+      "reply_to_message_id": "PRES-HC-10-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-07T07:50:00+09:00",
+      "message_id": "PRES-HC-11-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 교육 참석 확인서 제출 안내입니다. 오늘 16시까지 사무행정 지원실로 전달해주세요.",
+      "created_at": "2026-09-07T08:00:00+09:00",
+      "message_id": "PRES-ALL-11-01",
+      "room_key": "all_staff",
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-07T08:05:00+09:00",
+      "message_id": "PRES-DC-11-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-07T08:05:00+09:00",
+      "message_id": "PRES-HC-11-02",
+      "reply_to_message_id": "PRES-HC-11-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-07T08:12:00+09:00",
+      "message_id": "PRES-ALL-11-02",
+      "reply_to_message_id": "PRES-ALL-11-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-07T08:18:00+09:00",
+      "message_id": "PRES-ALL-11-03",
+      "reply_to_message_id": "PRES-ALL-11-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-07T08:20:00+09:00",
+      "message_id": "PRES-DC-11-02",
+      "reply_to_message_id": "PRES-DC-11-01",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 교육 참석 확인서가 접수되었습니다. 파일명과 제출자 코드를 확인해주세요.",
+      "created_at": "2026-09-07T08:45:00+09:00",
+      "message_id": "PRES-OFF-11-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오늘 오전 식사량이 평소보다 적었다는 현장 보고가 있어 함께 확인 부탁드립니다.",
+      "created_at": "2026-09-07T09:10:00+09:00",
+      "message_id": "PRES-PRO-11-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오전 간식은 대부분 드셨고 물 160mL 제공했습니다.",
+      "created_at": "2026-09-07T09:35:00+09:00",
+      "message_id": "PRES-DC-11-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-07T09:35:00+09:00",
+      "message_id": "PRES-PRO-11-02",
+      "reply_to_message_id": "PRES-PRO-11-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "접수 파일 확인했습니다. 한 건은 서명란이 비어 있어 회신 대기로 두겠습니다.",
+      "created_at": "2026-09-07T10:05:00+09:00",
+      "message_id": "PRES-OFF-11-02",
+      "reply_to_message_id": "PRES-OFF-11-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-07T10:10:00+09:00",
+      "message_id": "PRES-PRO-11-03",
+      "reply_to_message_id": "PRES-PRO-11-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동에 25분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-07T11:50:00+09:00",
+      "message_id": "PRES-DC-11-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-07T13:20:00+09:00",
+      "message_id": "PRES-PRO-11-04",
+      "reply_to_message_id": "PRES-PRO-11-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2002 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-07T13:30:00+09:00",
+      "message_id": "PRES-HC-11-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0003 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-07T13:40:00+09:00",
+      "message_id": "PRES-DC-11-05",
+      "reply_to_message_id": "PRES-DC-11-04",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "완료된 건과 회신 대기 건을 구분해 표시해주세요.",
+      "created_at": "2026-09-07T14:20:00+09:00",
+      "message_id": "PRES-OFF-11-03",
+      "reply_to_message_id": "PRES-OFF-11-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-07T15:10:00+09:00",
+      "message_id": "PRES-DC-11-06",
+      "reply_to_message_id": "PRES-DC-11-03",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-07T15:40:00+09:00",
+      "message_id": "PRES-PRO-11-05",
+      "reply_to_message_id": "PRES-PRO-11-01",
+      "resident_code": "어르0001",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-07T16:25:00+09:00",
+      "message_id": "PRES-DC-11-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "완료 3건, 회신 대기 1건으로 정리했습니다. 실제 제출 자료가 아닌 합성 시연 문서입니다.",
+      "created_at": "2026-09-07T16:50:00+09:00",
+      "message_id": "PRES-OFF-11-04",
+      "reply_to_message_id": "PRES-OFF-11-01",
+      "room_key": "office_admin",
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0004 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-07T17:35:00+09:00",
+      "message_id": "PRES-DC-11-08",
+      "reply_to_message_id": "PRES-DC-11-07",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-07T17:45:00+09:00",
+      "message_id": "PRES-HC-11-04",
+      "reply_to_message_id": "PRES-HC-11-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-08T07:50:00+09:00",
+      "message_id": "PRES-HC-12-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "방문요양 기록 제출 안내입니다. 현장 업무가 끝난 뒤 당일 기록 여부를 확인해주세요.",
+      "created_at": "2026-09-08T08:00:00+09:00",
+      "message_id": "PRES-ALL-12-01",
+      "room_key": "all_staff",
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-08T08:05:00+09:00",
+      "message_id": "PRES-DC-12-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-08T08:05:00+09:00",
+      "message_id": "PRES-HC-12-02",
+      "reply_to_message_id": "PRES-HC-12-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-08T08:12:00+09:00",
+      "message_id": "PRES-ALL-12-02",
+      "reply_to_message_id": "PRES-ALL-12-01",
+      "room_key": "all_staff",
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "sender_code": "요보03",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 오늘 기록 확인하겠습니다.",
+      "created_at": "2026-09-08T08:18:00+09:00",
+      "message_id": "PRES-ALL-12-03",
+      "reply_to_message_id": "PRES-ALL-12-01",
+      "room_key": "all_staff",
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "sender_code": "요보04",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-08T08:20:00+09:00",
+      "message_id": "PRES-DC-12-02",
+      "reply_to_message_id": "PRES-DC-12-01",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 상담 접수 메모 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-08T08:45:00+09:00",
+      "message_id": "PRES-OFF-12-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 이동할 때 보행 속도가 느렸다는 보고가 있어 활동 전 상태 확인 부탁드립니다.",
+      "created_at": "2026-09-08T09:10:00+09:00",
+      "message_id": "PRES-PRO-12-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 간식은 1/3 정도 드셨고 물 180mL 제공했습니다.",
+      "created_at": "2026-09-08T09:35:00+09:00",
+      "message_id": "PRES-DC-12-03",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-08T09:35:00+09:00",
+      "message_id": "PRES-PRO-12-02",
+      "reply_to_message_id": "PRES-PRO-12-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-08T10:05:00+09:00",
+      "message_id": "PRES-OFF-12-02",
+      "reply_to_message_id": "PRES-OFF-12-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-08T10:10:00+09:00",
+      "message_id": "PRES-PRO-12-03",
+      "reply_to_message_id": "PRES-PRO-12-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 활동에 30분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-08T11:50:00+09:00",
+      "message_id": "PRES-DC-12-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-08T13:20:00+09:00",
+      "message_id": "PRES-PRO-12-04",
+      "reply_to_message_id": "PRES-PRO-12-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2003 방문을 마쳤고 제공 내용을 기록했습니다. 일정 변경은 없었습니다.",
+      "created_at": "2026-09-08T13:30:00+09:00",
+      "message_id": "PRES-HC-12-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0004 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-08T13:40:00+09:00",
+      "message_id": "PRES-DC-12-05",
+      "reply_to_message_id": "PRES-DC-12-04",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-08T14:20:00+09:00",
+      "message_id": "PRES-OFF-12-03",
+      "reply_to_message_id": "PRES-OFF-12-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-08T15:10:00+09:00",
+      "message_id": "PRES-DC-12-06",
+      "reply_to_message_id": "PRES-DC-12-03",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-08T15:40:00+09:00",
+      "message_id": "PRES-PRO-12-05",
+      "reply_to_message_id": "PRES-PRO-12-01",
+      "resident_code": "어르0002",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-08T16:25:00+09:00",
+      "message_id": "PRES-DC-12-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-08T16:50:00+09:00",
+      "message_id": "PRES-OFF-12-04",
+      "reply_to_message_id": "PRES-OFF-12-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0005 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-08T17:35:00+09:00",
+      "message_id": "PRES-DC-12-08",
+      "reply_to_message_id": "PRES-DC-12-07",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-08T17:45:00+09:00",
+      "message_id": "PRES-HC-12-04",
+      "reply_to_message_id": "PRES-HC-12-03",
+      "resident_code": "어르2003",
+      "room_key": "homecare_field",
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-09T07:50:00+09:00",
+      "message_id": "PRES-HC-13-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "내일 오전 회의 안내드립니다. 담당 업무 메모를 미리 확인해주세요.",
+      "created_at": "2026-09-09T08:00:00+09:00",
+      "message_id": "PRES-ALL-13-01",
+      "room_key": "all_staff",
+      "sender_code": "관리자01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-09T08:05:00+09:00",
+      "message_id": "PRES-DC-13-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-09T08:05:00+09:00",
+      "message_id": "PRES-HC-13-02",
+      "reply_to_message_id": "PRES-HC-13-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-09T08:12:00+09:00",
+      "message_id": "PRES-ALL-13-02",
+      "reply_to_message_id": "PRES-ALL-13-01",
+      "room_key": "all_staff",
+      "sender_code": "간호01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-09T08:18:00+09:00",
+      "message_id": "PRES-ALL-13-03",
+      "reply_to_message_id": "PRES-ALL-13-01",
+      "room_key": "all_staff",
+      "sender_code": "영양01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-09T08:20:00+09:00",
+      "message_id": "PRES-DC-13-02",
+      "reply_to_message_id": "PRES-DC-13-01",
+      "resident_code": "어르0003",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "합성 근무 변경 신청 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-09T08:45:00+09:00",
+      "message_id": "PRES-OFF-13-01",
+      "room_key": "office_admin",
+      "sender_code": "사복01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0003 오전 활동 참여를 잠시 거부했다가 직원과 대화 후 참여했다는 보고입니다.",
+      "created_at": "2026-09-09T09:10:00+09:00",
+      "message_id": "PRES-PRO-13-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오전 간식은 절반 정도 드셨고 물 120mL 제공했습니다.",
+      "created_at": "2026-09-09T09:35:00+09:00",
+      "message_id": "PRES-DC-13-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-09T09:35:00+09:00",
+      "message_id": "PRES-PRO-13-02",
+      "reply_to_message_id": "PRES-PRO-13-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-09T10:05:00+09:00",
+      "message_id": "PRES-OFF-13-02",
+      "reply_to_message_id": "PRES-OFF-13-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-09T10:10:00+09:00",
+      "message_id": "PRES-PRO-13-03",
+      "reply_to_message_id": "PRES-PRO-13-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 활동에 15분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-09T11:50:00+09:00",
+      "message_id": "PRES-DC-13-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-09T13:20:00+09:00",
+      "message_id": "PRES-PRO-13-04",
+      "reply_to_message_id": "PRES-PRO-13-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2001 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-09T13:30:00+09:00",
+      "message_id": "PRES-HC-13-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "요보03",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0005 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-09T13:40:00+09:00",
+      "message_id": "PRES-DC-13-05",
+      "reply_to_message_id": "PRES-DC-13-04",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-09T14:20:00+09:00",
+      "message_id": "PRES-OFF-13-03",
+      "reply_to_message_id": "PRES-OFF-13-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-09T15:10:00+09:00",
+      "message_id": "PRES-DC-13-06",
+      "reply_to_message_id": "PRES-DC-13-03",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-09T15:40:00+09:00",
+      "message_id": "PRES-PRO-13-05",
+      "reply_to_message_id": "PRES-PRO-13-01",
+      "resident_code": "어르0003",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-09T16:25:00+09:00",
+      "message_id": "PRES-DC-13-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-09T16:50:00+09:00",
+      "message_id": "PRES-OFF-13-04",
+      "reply_to_message_id": "PRES-OFF-13-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0001 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-09T17:35:00+09:00",
+      "message_id": "PRES-DC-13-08",
+      "reply_to_message_id": "PRES-DC-13-07",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-09T17:45:00+09:00",
+      "message_id": "PRES-HC-13-04",
+      "reply_to_message_id": "PRES-HC-13-03",
+      "resident_code": "어르2001",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 방문 일정과 기록 제출 안내를 확인해주세요.",
+      "created_at": "2026-09-10T07:50:00+09:00",
+      "message_id": "PRES-HC-14-01",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "공용공간 안전점검 예정입니다. 통행에 불편한 물품이 없는지 확인해주세요.",
+      "created_at": "2026-09-10T08:00:00+09:00",
+      "message_id": "PRES-ALL-14-01",
+      "room_key": "all_staff",
+      "sender_code": "사무01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 등원했습니다. 차량에서 내릴 때 옆에서 부축했습니다.",
+      "created_at": "2026-09-10T08:05:00+09:00",
+      "message_id": "PRES-DC-14-01",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "운전01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 확인했습니다.",
+      "created_at": "2026-09-10T08:05:00+09:00",
+      "message_id": "PRES-HC-14-02",
+      "reply_to_message_id": "PRES-HC-14-01",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다.",
+      "created_at": "2026-09-10T08:12:00+09:00",
+      "message_id": "PRES-ALL-14-02",
+      "reply_to_message_id": "PRES-ALL-14-01",
+      "room_key": "all_staff",
+      "sender_code": "작치01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 일정 확인했습니다.",
+      "created_at": "2026-09-10T08:18:00+09:00",
+      "message_id": "PRES-ALL-14-03",
+      "reply_to_message_id": "PRES-ALL-14-01",
+      "room_key": "all_staff",
+      "sender_code": "요보01",
+      "service_type": "all",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 자리 안내했습니다. 현재 불편 호소는 없습니다.",
+      "created_at": "2026-09-10T08:20:00+09:00",
+      "message_id": "PRES-DC-14-02",
+      "reply_to_message_id": "PRES-DC-14-01",
+      "resident_code": "어르0004",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "가상 비품 요청서 접수 여부 확인 부탁드립니다.",
+      "created_at": "2026-09-10T08:45:00+09:00",
+      "message_id": "PRES-OFF-14-01",
+      "room_key": "office_admin",
+      "sender_code": "사복02",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0004 생활 중 손등이 건조해 보였다는 관찰이 있어 원문 확인 부탁드립니다.",
+      "created_at": "2026-09-10T09:10:00+09:00",
+      "message_id": "PRES-PRO-14-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오전 간식은 2/3 정도 드셨고 물 140mL 제공했습니다.",
+      "created_at": "2026-09-10T09:35:00+09:00",
+      "message_id": "PRES-DC-14-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "현장 원문과 현재 상태를 확인하겠습니다. 확인 전에는 상태를 확정하지 않겠습니다.",
+      "created_at": "2026-09-10T09:35:00+09:00",
+      "message_id": "PRES-PRO-14-02",
+      "reply_to_message_id": "PRES-PRO-14-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "네, 접수 내역 확인했습니다.",
+      "created_at": "2026-09-10T10:05:00+09:00",
+      "message_id": "PRES-OFF-14-02",
+      "reply_to_message_id": "PRES-OFF-14-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "식사량 기록을 확인하고 다음 배식 때 섭취 상태를 이어서 보겠습니다.",
+      "created_at": "2026-09-10T10:10:00+09:00",
+      "message_id": "PRES-PRO-14-03",
+      "reply_to_message_id": "PRES-PRO-14-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "영양01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0001 오전 활동에 20분 참여했고 불편 호소는 없었습니다.",
+      "created_at": "2026-09-10T11:50:00+09:00",
+      "message_id": "PRES-DC-14-04",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 활동은 부담이 적은 순서로 안내하고 참여 반응을 남기겠습니다.",
+      "created_at": "2026-09-10T13:20:00+09:00",
+      "message_id": "PRES-PRO-14-04",
+      "reply_to_message_id": "PRES-PRO-14-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "작치01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르2002 방문을 마쳤습니다. 일정 변경 없이 제공 내용을 기록했습니다.",
+      "created_at": "2026-09-10T13:30:00+09:00",
+      "message_id": "PRES-HC-14-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "요보04",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "확인했습니다. 어르0001 오후 이동 때 손잡이 사용을 안내하겠습니다.",
+      "created_at": "2026-09-10T13:40:00+09:00",
+      "message_id": "PRES-DC-14-05",
+      "reply_to_message_id": "PRES-DC-14-04",
+      "resident_code": "어르0001",
+      "room_key": "daycare_field",
+      "sender_code": "요보01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "담당자 검토 상태를 확인해 결과를 남겨주세요.",
+      "created_at": "2026-09-10T14:20:00+09:00",
+      "message_id": "PRES-OFF-14-03",
+      "reply_to_message_id": "PRES-OFF-14-01",
+      "room_key": "office_admin",
+      "sender_code": "관리자01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0005 오후 상태 확인했습니다. 평소와 다른 호소는 없습니다.",
+      "created_at": "2026-09-10T15:10:00+09:00",
+      "message_id": "PRES-DC-14-06",
+      "reply_to_message_id": "PRES-DC-14-03",
+      "resident_code": "어르0005",
+      "room_key": "daycare_field",
+      "sender_code": "간호01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오후 현장 보고까지 확인한 뒤 보호자 전달이 필요한 내용을 구분하겠습니다.",
+      "created_at": "2026-09-10T15:40:00+09:00",
+      "message_id": "PRES-PRO-14-05",
+      "reply_to_message_id": "PRES-PRO-14-01",
+      "resident_code": "어르0004",
+      "room_key": "professional_collab",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "어르0002 보호자 전달사항 확인했습니다. 추가 요청은 없습니다.",
+      "created_at": "2026-09-10T16:25:00+09:00",
+      "message_id": "PRES-DC-14-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "사복01",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "처리 상태를 반영했습니다. 추가 회신이 필요한 항목은 대기 상태로 남겼습니다.",
+      "created_at": "2026-09-10T16:50:00+09:00",
+      "message_id": "PRES-OFF-14-04",
+      "reply_to_message_id": "PRES-OFF-14-01",
+      "room_key": "office_admin",
+      "sender_code": "사무01",
+      "service_type": "administrative",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "오늘 어르0002 관련 인계 내용 확인했습니다.",
+      "created_at": "2026-09-10T17:35:00+09:00",
+      "message_id": "PRES-DC-14-08",
+      "reply_to_message_id": "PRES-DC-14-07",
+      "resident_code": "어르0002",
+      "room_key": "daycare_field",
+      "sender_code": "요보02",
+      "service_type": "daycare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    },
+    {
+      "body": "기록 제출 확인했습니다. 추가 확인사항은 없습니다.",
+      "created_at": "2026-09-10T17:45:00+09:00",
+      "message_id": "PRES-HC-14-04",
+      "reply_to_message_id": "PRES-HC-14-03",
+      "resident_code": "어르2002",
+      "room_key": "homecare_field",
+      "sender_code": "사복02",
+      "service_type": "homecare",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only"
+    }
+  ],
+  "residents": [
+    {
+      "code": "어르0001",
+      "guardians": [
+        "보호-어르0001-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-0001",
+      "service_type": "daycare"
+    },
+    {
+      "code": "어르0002",
+      "guardians": [
+        "보호-어르0002-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-0002",
+      "service_type": "daycare"
+    },
+    {
+      "code": "어르0003",
+      "guardians": [
+        "보호-어르0003-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-0003",
+      "service_type": "daycare"
+    },
+    {
+      "code": "어르0004",
+      "guardians": [
+        "보호-어르0004-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-0004",
+      "service_type": "daycare"
+    },
+    {
+      "code": "어르0005",
+      "guardians": [
+        "보호-어르0005-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-0005",
+      "service_type": "daycare"
+    },
+    {
+      "code": "어르2001",
+      "guardians": [
+        "보호-어르2001-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-2001",
+      "service_type": "homecare"
+    },
+    {
+      "code": "어르2002",
+      "guardians": [
+        "보호-어르2002-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-2002",
+      "service_type": "homecare"
+    },
+    {
+      "code": "어르2003",
+      "guardians": [
+        "보호-어르2003-01"
+      ],
+      "internal_code": "PRESENTATION-SYNTHETIC-2003",
+      "service_type": "homecare"
+    }
+  ],
+  "rooms": [
+    {
+      "key": "daycare_field",
+      "member_codes": [
+        "관리자01",
+        "사복01",
+        "간호01",
+        "영양01",
+        "작치01",
+        "요보01",
+        "요보02",
+        "사무01",
+        "운전01"
+      ],
+      "name": "주간보호 현장케어",
+      "service_scope": "daycare"
+    },
+    {
+      "key": "all_staff",
+      "member_codes": [
+        "관리자01",
+        "사복01",
+        "사복02",
+        "간호01",
+        "영양01",
+        "작치01",
+        "요보01",
+        "요보02",
+        "요보03",
+        "요보04",
+        "사무01",
+        "운전01"
+      ],
+      "name": "실버메디컬 전체소통",
+      "service_scope": "all"
+    },
+    {
+      "key": "professional_collab",
+      "member_codes": [
+        "관리자01",
+        "사복01",
+        "사복02",
+        "간호01",
+        "영양01",
+        "작치01"
+      ],
+      "name": "전문직 케어협업",
+      "service_scope": "daycare"
+    },
+    {
+      "key": "office_admin",
+      "member_codes": [
+        "관리자01",
+        "사복01",
+        "사복02",
+        "간호01",
+        "영양01",
+        "작치01",
+        "사무01"
+      ],
+      "name": "사무행정 지원실",
+      "service_scope": "administrative"
+    },
+    {
+      "key": "homecare_field",
+      "member_codes": [
+        "관리자01",
+        "사복02",
+        "간호01",
+        "요보03",
+        "요보04",
+        "사무01"
+      ],
+      "name": "방문요양 현장지원",
+      "service_scope": "homecare"
+    }
+  ],
+  "safety_contract": {
+    "automatic_signature_or_nhis_transfer": false,
+    "contains_real_personal_data": false,
+    "external_transfer_allowed": false,
+    "official_record": false,
+    "real_name_restoration_allowed": false,
+    "synthetic_fixture": true
+  },
+  "scenarios": [
+    {
+      "message_ids": [
+        "PRES-DC-07-01",
+        "PRES-PRO-07-01",
+        "PRES-PRO-07-02",
+        "PRES-PRO-07-03",
+        "PRES-PRO-07-04",
+        "PRES-DC-07-06",
+        "PRES-PRO-07-05"
+      ],
+      "scenario_id": "SCN-MEAL-ACTIVITY",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only",
+      "title": "식사와 활동 변화의 직종별 후속 확인"
+    },
+    {
+      "message_ids": [
+        "PRES-HC-08-01",
+        "PRES-HC-08-02",
+        "PRES-OFF-08-01",
+        "PRES-OFF-08-02",
+        "PRES-HC-08-03",
+        "PRES-OFF-08-03",
+        "PRES-HC-08-04"
+      ],
+      "scenario_id": "SCN-SCHEDULE-CORRECTION",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only",
+      "title": "방문 일정 변경과 최종 정정"
+    },
+    {
+      "message_ids": [
+        "PRES-DC-09-02",
+        "PRES-PRO-09-01",
+        "PRES-PRO-09-02",
+        "PRES-PRO-09-03",
+        "PRES-DC-09-04",
+        "PRES-PRO-09-05"
+      ],
+      "scenario_id": "SCN-ATTACHMENT-HANDOVER",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only",
+      "title": "합성 첨부 메모의 판독과 직원 확인"
+    },
+    {
+      "message_ids": [
+        "PRES-ALL-11-01",
+        "PRES-OFF-11-01",
+        "PRES-OFF-11-02",
+        "PRES-OFF-11-03",
+        "PRES-OFF-11-04"
+      ],
+      "scenario_id": "SCN-OFFICE-DOCUMENT",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only",
+      "title": "사무서류 접수와 회신 대기 구분"
+    },
+    {
+      "message_ids": [
+        "PRES-ALL-12-01",
+        "PRES-ALL-12-02",
+        "PRES-ALL-12-03",
+        "PRES-HC-12-03",
+        "PRES-HC-12-04"
+      ],
+      "scenario_id": "SCN-HOMECARE-NOTICE",
+      "synthetic_origin": "newly_authored_from_aggregate_patterns_only",
+      "title": "방문요양 공지와 현장 회신"
+    }
+  ],
+  "schema_version": "presentation_five_room_synthetic_v1",
+  "staff": [
+    {
+      "can_process_records": true,
+      "code": "관리자01",
+      "job_code": "facility_director",
+      "role": "admin"
+    },
+    {
+      "can_process_records": true,
+      "code": "사복01",
+      "job_code": "social_worker",
+      "role": "staff"
+    },
+    {
+      "can_process_records": true,
+      "code": "사복02",
+      "job_code": "social_worker",
+      "role": "staff"
+    },
+    {
+      "can_process_records": true,
+      "code": "간호01",
+      "job_code": "registered_nurse",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "영양01",
+      "job_code": "dietitian",
+      "role": "staff"
+    },
+    {
+      "can_process_records": true,
+      "code": "작치01",
+      "job_code": "occupational_therapist",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "요보01",
+      "job_code": "caregiver",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "요보02",
+      "job_code": "caregiver",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "요보03",
+      "job_code": "caregiver",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "요보04",
+      "job_code": "caregiver",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "사무01",
+      "job_code": "administrative_staff",
+      "role": "staff"
+    },
+    {
+      "can_process_records": false,
+      "code": "운전01",
+      "job_code": "driver_assistant",
+      "role": "staff"
+    }
+  ],
+  "window": {
+    "end": "2026-09-10T18:30:00+09:00",
+    "start": "2026-08-28T07:30:00+09:00"
+  }
+}

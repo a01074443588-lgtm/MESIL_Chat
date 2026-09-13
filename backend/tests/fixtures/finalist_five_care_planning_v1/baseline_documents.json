@@ -1,0 +1,1509 @@
+{
+  "schema_version": "finalist_five_baseline_documents_v1",
+  "documents": [
+    {
+      "document_id": "BASE-어르9001-fall_risk_assessment",
+      "resident_code": "어르9001",
+      "document_type": "fall_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동 상태",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_history",
+          "label": "최근 낙상 여부",
+          "value": "기준기간 낙상 보고 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_observation",
+          "label": "투약 관련 관찰",
+          "value": "직원 원문 확인 필요",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "BASE-어르9001-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9001-pressure_ulcer_risk_assessment",
+      "resident_code": "어르9001",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "활동·이동 상태",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부 상태",
+          "value": "관찰 부위 발적 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·섭취 상태",
+          "value": "일반식 스스로 섭취, 보통 80% 이상",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9001-cognitive_function_assessment",
+      "resident_code": "어르9001",
+      "document_type": "cognitive_function_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "cognition",
+          "label": "인지·이해 상태",
+          "value": "간단한 질문에 일관되게 응답",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "말로 의사를 표현함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_mood",
+          "label": "수면·정서 관찰",
+          "value": "야간 수면과 주간 기분이 대체로 안정적",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9001-needs_assessment",
+      "resident_code": "어르9001",
+      "document_type": "needs_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·식사",
+          "value": "일반식 스스로 섭취, 보통 80% 이상",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부",
+          "value": "관찰 부위 발적 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognition",
+          "label": "인지",
+          "value": "간단한 질문에 일관되게 응답",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "말로 의사를 표현함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9001-long_term_care_service_plan",
+      "resident_code": "어르9001",
+      "document_type": "long_term_care_service_plan",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "plan_focus",
+          "label": "확인된 지원 방향",
+          "value": "현재 자립 수준 유지와 안전한 일상활동 지원",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9001-long_term_care_service_plan"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9002-fall_risk_assessment",
+      "resident_code": "어르9002",
+      "document_type": "fall_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동 상태",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_history",
+          "label": "최근 낙상 여부",
+          "value": "기준기간 낙상 보고 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_observation",
+          "label": "투약 관련 관찰",
+          "value": "직원 원문 확인 필요",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "BASE-어르9002-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9002-pressure_ulcer_risk_assessment",
+      "resident_code": "어르9002",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "활동·이동 상태",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부 상태",
+          "value": "피부 손상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·섭취 상태",
+          "value": "일반식 70~90% 섭취",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9002-cognitive_function_assessment",
+      "resident_code": "어르9002",
+      "document_type": "cognitive_function_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "cognition",
+          "label": "인지·이해 상태",
+          "value": "일상 대화 가능",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "필요를 말로 표현함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_mood",
+          "label": "수면·정서 관찰",
+          "value": "수면 상태 대체로 양호",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9002-needs_assessment",
+      "resident_code": "어르9002",
+      "document_type": "needs_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동",
+          "value": "실내 독립보행",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·식사",
+          "value": "일반식 70~90% 섭취",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부",
+          "value": "피부 손상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognition",
+          "label": "인지",
+          "value": "일상 대화 가능",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "필요를 말로 표현함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9002-long_term_care_service_plan",
+      "resident_code": "어르9002",
+      "document_type": "long_term_care_service_plan",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "plan_focus",
+          "label": "확인된 지원 방향",
+          "value": "독립 이동을 유지하며 위험요소를 줄임",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9002-long_term_care_service_plan"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9003-fall_risk_assessment",
+      "resident_code": "어르9003",
+      "document_type": "fall_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동 상태",
+          "value": "보행기 사용, 가까이 지켜봄",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_history",
+          "label": "최근 낙상 여부",
+          "value": "기준기간 낙상 보고 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_observation",
+          "label": "투약 관련 관찰",
+          "value": "직원 원문 확인 필요",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "BASE-어르9003-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9003-pressure_ulcer_risk_assessment",
+      "resident_code": "어르9003",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "활동·이동 상태",
+          "value": "보행기 사용, 가까이 지켜봄",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부 상태",
+          "value": "관찰 부위 발적 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·섭취 상태",
+          "value": "죽식 70% 이상 섭취",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9003-cognitive_function_assessment",
+      "resident_code": "어르9003",
+      "document_type": "cognitive_function_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "cognition",
+          "label": "인지·이해 상태",
+          "value": "짧은 설명을 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "짧은 문장으로 의사 표현",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_mood",
+          "label": "수면·정서 관찰",
+          "value": "오후 피로를 가끔 호소함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9003-needs_assessment",
+      "resident_code": "어르9003",
+      "document_type": "needs_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동",
+          "value": "보행기 사용, 가까이 지켜봄",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·식사",
+          "value": "죽식 70% 이상 섭취",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부",
+          "value": "관찰 부위 발적 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognition",
+          "label": "인지",
+          "value": "짧은 설명을 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "짧은 문장으로 의사 표현",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9003-long_term_care_service_plan",
+      "resident_code": "어르9003",
+      "document_type": "long_term_care_service_plan",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "plan_focus",
+          "label": "확인된 지원 방향",
+          "value": "섭취 상태 유지와 피부 상태 관찰",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9003-long_term_care_service_plan"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9004-fall_risk_assessment",
+      "resident_code": "어르9004",
+      "document_type": "fall_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동 상태",
+          "value": "실내 독립 이동",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_history",
+          "label": "최근 낙상 여부",
+          "value": "기준기간 낙상 보고 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_observation",
+          "label": "투약 관련 관찰",
+          "value": "직원 원문 확인 필요",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "BASE-어르9004-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9004-pressure_ulcer_risk_assessment",
+      "resident_code": "어르9004",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "활동·이동 상태",
+          "value": "실내 독립 이동",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부 상태",
+          "value": "피부 이상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·섭취 상태",
+          "value": "일반식 80% 전후",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9004-cognitive_function_assessment",
+      "resident_code": "어르9004",
+      "document_type": "cognitive_function_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "cognition",
+          "label": "인지·이해 상태",
+          "value": "장소와 일과를 대체로 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "간단한 질문에 적절히 응답",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_mood",
+          "label": "수면·정서 관찰",
+          "value": "야간 수면 6시간 전후, 기분 안정",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9004-needs_assessment",
+      "resident_code": "어르9004",
+      "document_type": "needs_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동",
+          "value": "실내 독립 이동",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·식사",
+          "value": "일반식 80% 전후",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부",
+          "value": "피부 이상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognition",
+          "label": "인지",
+          "value": "장소와 일과를 대체로 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "간단한 질문에 적절히 응답",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9004-long_term_care_service_plan",
+      "resident_code": "어르9004",
+      "document_type": "long_term_care_service_plan",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "plan_focus",
+          "label": "확인된 지원 방향",
+          "value": "익숙한 일과와 정서적 안정 지원",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9004-long_term_care_service_plan"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9005-fall_risk_assessment",
+      "resident_code": "어르9005",
+      "document_type": "fall_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동 상태",
+          "value": "실내 보행기 사용",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "fall_history",
+          "label": "최근 낙상 여부",
+          "value": "기준기간 낙상 보고 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "medication_observation",
+          "label": "투약 관련 관찰",
+          "value": "직원 원문 확인 필요",
+          "status": "current_observation_required",
+          "evidence_refs": [
+            "BASE-어르9005-fall_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9005-pressure_ulcer_risk_assessment",
+      "resident_code": "어르9005",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "활동·이동 상태",
+          "value": "실내 보행기 사용",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부 상태",
+          "value": "피부 손상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·섭취 상태",
+          "value": "연식 70% 전후",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-pressure_ulcer_risk_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9005-cognitive_function_assessment",
+      "resident_code": "어르9005",
+      "document_type": "cognitive_function_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "cognition",
+          "label": "인지·이해 상태",
+          "value": "설명을 들으면 의사 표현 가능",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "보호자 연락 내용을 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "sleep_mood",
+          "label": "수면·정서 관찰",
+          "value": "병원 일정 전 긴장을 표현하기도 함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-cognitive_function_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9005-needs_assessment",
+      "resident_code": "어르9005",
+      "document_type": "needs_assessment",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "mobility",
+          "label": "이동",
+          "value": "실내 보행기 사용",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "meal",
+          "label": "영양·식사",
+          "value": "연식 70% 전후",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "skin",
+          "label": "피부",
+          "value": "피부 손상 없음",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "cognition",
+          "label": "인지",
+          "value": "설명을 들으면 의사 표현 가능",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        },
+        {
+          "field_key": "communication",
+          "label": "의사소통",
+          "value": "보호자 연락 내용을 이해함",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-needs_assessment"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "document_id": "BASE-어르9005-long_term_care_service_plan",
+      "resident_code": "어르9005",
+      "document_type": "long_term_care_service_plan",
+      "baseline_date": "2026-03-01",
+      "form_version": "synthetic-unverified-v1",
+      "source_kind": "organization_authored_baseline",
+      "staff_confirmed": true,
+      "score": null,
+      "risk_level": null,
+      "criteria_status": "criteria_unverified",
+      "fields": [
+        {
+          "field_key": "plan_focus",
+          "label": "확인된 지원 방향",
+          "value": "건강상태 관찰과 안전한 투약 전달",
+          "status": "confirmed",
+          "evidence_refs": [
+            "BASE-어르9005-long_term_care_service_plan"
+          ],
+          "source_kind": "organization_authored_baseline",
+          "as_of_date": "2026-03-01",
+          "human_verification_required": true,
+          "criteria_status": "criteria_unverified",
+          "revision": 1
+        }
+      ],
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false
+}

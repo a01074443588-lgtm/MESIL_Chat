@@ -1,0 +1,1667 @@
+[
+  {
+    "event_id": "SYN-ROUTINE-01-04",
+    "category": "emotion",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "사복01",
+    "created_at": "2026-05-01T03:00:00+00:00",
+    "body": "어르0004 직원 인사에 반응하며 안정된 표정으로 생활실에 머물렀습니다.",
+    "state": "completed",
+    "record_tags": [
+      "emotion"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-024",
+    "category": "수리 대기",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-05-06T11:08:00+00:00",
+    "body": "어르0004 생활공간의 호출 장치 점검을 요청했고 수리 담당자의 회신을 기다리고 있습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "pending"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-05-06T11:43:00+00:00",
+        "body": "수리 완료 전까지 대체 호출 방법을 안내했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-001",
+    "category": "프로그램 참여",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "작치01",
+    "created_at": "2026-05-07T03:09:00+00:00",
+    "body": "어르0004 소근육 활동에 35분 참여했고 안내에 맞춰 도구를 사용했습니다.",
+    "state": "pending",
+    "record_tags": [
+      "program",
+      "response"
+    ],
+    "comments": [],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-02-04",
+    "category": "hygiene",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "위생01",
+    "created_at": "2026-05-08T03:07:00+00:00",
+    "body": "어르0004 침구와 개인 수납공간을 정리했고 오염은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hygiene"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-048",
+    "category": "수리 대기",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-05-08T11:11:00+00:00",
+    "body": "어르0004 생활공간의 호출 장치 점검을 요청했고 수리 담당자의 회신을 기다리고 있습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "pending"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-05-08T11:46:00+00:00",
+        "body": "수리 완료 전까지 대체 호출 방법을 안내했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-025",
+    "category": "프로그램 참여",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "작치01",
+    "created_at": "2026-05-09T03:12:00+00:00",
+    "body": "어르0004 소근육 활동에 30분 참여했고 안내에 맞춰 도구를 사용했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "program",
+      "response"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-05-09T03:47:00+00:00",
+        "body": "활동 종료 뒤 안정된 표정으로 작품을 정리했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-002",
+    "category": "송영 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "운전01",
+    "created_at": "2026-05-10T03:13:00+00:00",
+    "body": "어르0004 승하차 때 발판과 안전벨트를 확인하고 생활실까지 동행했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "transport",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-05-10T03:48:00+00:00",
+        "body": "귀원 뒤 보행 상태에 평소와 다른 점은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-026",
+    "category": "송영 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "운전01",
+    "created_at": "2026-05-12T03:16:00+00:00",
+    "body": "어르0004 승하차 때 발판과 안전벨트를 확인하고 생활실까지 동행했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "transport",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-05-12T03:51:00+00:00",
+        "body": "귀원 뒤 보행 상태에 평소와 다른 점은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-003",
+    "category": "투약 전달",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-05-13T03:17:00+00:00",
+    "body": "어르0004 저녁 복용분은 식후 제공하도록 인계했습니다. 약명과 용량은 처방 기록에서 확인합니다.",
+    "state": "completed",
+    "record_tags": [
+      "medication",
+      "handover"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-05-13T03:52:00+00:00",
+        "body": "저녁 식사 후 간호01 확인 아래 복용을 마쳤습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-03-04",
+    "category": "meal_support",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "영양01",
+    "created_at": "2026-05-15T03:14:00+00:00",
+    "body": "어르0004 식사 형태와 배식량을 확인해 조리팀과 공유했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal_support"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-027",
+    "category": "투약 전달",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-05-15T03:20:00+00:00",
+    "body": "어르0004 저녁 복용분은 식후 제공하도록 인계했습니다. 약명과 용량은 처방 기록에서 확인합니다.",
+    "state": "completed",
+    "record_tags": [
+      "medication",
+      "handover"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-05-15T03:55:00+00:00",
+        "body": "저녁 식사 후 간호01 확인 아래 복용을 마쳤습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-004",
+    "category": "이동·부축",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-05-16T03:21:00+00:00",
+    "body": "어르0004 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "mobility",
+      "assistance"
+    ],
+    "comments": [
+      {
+        "author_code": "작치01",
+        "created_at": "2026-05-16T03:56:00+00:00",
+        "body": "이동 뒤 통증이나 어지럼 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-028",
+    "category": "이동·부축",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-05-18T03:24:00+00:00",
+    "body": "어르0004 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "mobility",
+      "assistance"
+    ],
+    "comments": [
+      {
+        "author_code": "작치01",
+        "created_at": "2026-05-18T03:59:00+00:00",
+        "body": "이동 뒤 통증이나 어지럼 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-04-04",
+    "category": "meal",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보01",
+    "created_at": "2026-05-22T03:21:00+00:00",
+    "body": "어르0004 아침 식사는 2/3 섭취했고 불편 호소는 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-EVT-004",
+    "category": "배변·배뇨",
+    "resident_code": "어르0004",
+    "room_key": "care",
+    "sender_code": "요보01",
+    "created_at": "2026-05-27T23:40:00+00:00",
+    "body": "어르0004 오전 배변은 없었고 소변 색은 평소와 같았습니다. 오후 상태를 이어서 확인합니다.",
+    "state": "pending",
+    "record_tags": [
+      "bowel",
+      "urination",
+      "follow_up"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-05-28T08:15:00+00:00",
+        "body": "16:50 보통 변을 확인했고 복부 불편 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "action": {
+      "type": "handover",
+      "priority": "normal",
+      "status": "completed",
+      "due_at": "2026-05-28T09:00:00+00:00",
+      "assignee_code": "요보02"
+    },
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-05-04",
+    "category": "hydration",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보02",
+    "created_at": "2026-05-29T03:28:00+00:00",
+    "body": "어르0004 오전 물 190mL를 제공했고 제공량을 기록했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hydration"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-006",
+    "category": "시설 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-06-03T09:47:00+00:00",
+    "body": "어르0004 생활 동선의 미끄럼 방지 상태와 조명을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-06-03T10:22:00+00:00",
+        "body": "이동 시 방해가 되는 물품은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-06-04",
+    "category": "program",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "작치01",
+    "created_at": "2026-06-05T03:35:00+00:00",
+    "body": "어르0004 오전 소근육 프로그램에 20분 참여했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "program"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-030",
+    "category": "시설 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-06-05T09:50:00+00:00",
+    "body": "어르0004 생활 동선의 미끄럼 방지 상태와 조명을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-06-05T10:25:00+00:00",
+        "body": "이동 시 방해가 되는 물품은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-007",
+    "category": "보호자 상담",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "사복01",
+    "created_at": "2026-06-06T09:51:00+00:00",
+    "body": "보호-어르0004-01에게 어르0004의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "consultation",
+      "guardian_contact"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-06-06T10:26:00+00:00",
+        "body": "상담 결과 추가 요청은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-031",
+    "category": "보호자 상담",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "사복01",
+    "created_at": "2026-06-08T09:54:00+00:00",
+    "body": "보호-어르0004-01에게 어르0004의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "consultation",
+      "guardian_contact"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-06-08T10:29:00+00:00",
+        "body": "상담 결과 추가 요청은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-008",
+    "category": "확인 요청",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "관리자01",
+    "created_at": "2026-06-09T09:00:00+00:00",
+    "body": "어르0004 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "state": "needs_review",
+    "record_tags": [
+      "conflict",
+      "confirmation"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-06-09T09:35:00+00:00",
+        "body": "원문 대조 전에는 어느 시간도 확정하지 않고 확인 목록에 남겼습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-032",
+    "category": "확인 요청",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "관리자01",
+    "created_at": "2026-06-11T09:03:00+00:00",
+    "body": "어르0004 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "state": "needs_review",
+    "record_tags": [
+      "conflict",
+      "confirmation"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-06-11T09:38:00+00:00",
+        "body": "원문 대조 전에는 어느 시간도 확정하지 않고 확인 목록에 남겼습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-009",
+    "category": "바이탈",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-06-12T01:04:00+00:00",
+    "body": "어르0004 오전 혈압은 126/76로 측정됐고 10분 안정 뒤 다시 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "vital",
+      "blood_pressure"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-12T01:39:00+00:00",
+        "body": "재확인 수치는 124/76였고 불편 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-07-04",
+    "category": "emotion",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "사복01",
+    "created_at": "2026-06-12T03:42:00+00:00",
+    "body": "어르0004 직원 인사에 반응하며 안정된 표정으로 생활실에 머물렀습니다.",
+    "state": "completed",
+    "record_tags": [
+      "emotion"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-033",
+    "category": "바이탈",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-06-14T01:07:00+00:00",
+    "body": "어르0004 오전 혈압은 126/76로 측정됐고 10분 안정 뒤 다시 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "vital",
+      "blood_pressure"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-14T01:42:00+00:00",
+        "body": "재확인 수치는 130/74였고 불편 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-010",
+    "category": "배변·배뇨",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-06-15T01:08:00+00:00",
+    "body": "어르0004 오전 배변 여부와 소변 상태를 확인했으며 평소와 다른 점은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "bowel",
+      "urination"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-15T01:43:00+00:00",
+        "body": "오후 인계 때에도 불편 호소가 없음을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-034",
+    "category": "배변·배뇨",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-06-17T01:11:00+00:00",
+    "body": "어르0004 오전 배변 여부와 소변 상태를 확인했으며 평소와 다른 점은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "bowel",
+      "urination"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-17T01:46:00+00:00",
+        "body": "오후 인계 때에도 불편 호소가 없음을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-08-04",
+    "category": "hygiene",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "위생01",
+    "created_at": "2026-06-19T03:49:00+00:00",
+    "body": "어르0004 침구와 개인 수납공간을 정리했고 오염은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hygiene"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-09-04",
+    "category": "meal_support",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "영양01",
+    "created_at": "2026-06-26T03:06:00+00:00",
+    "body": "어르0004 식사 형태와 배식량을 확인해 조리팀과 공유했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal_support"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-26T03:06:00+00:00",
+        "body": "기록 내용을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-10-04",
+    "category": "meal",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보01",
+    "created_at": "2026-07-03T03:13:00+00:00",
+    "body": "어르0004 아침 식사는 전량 섭취했고 불편 호소는 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-012",
+    "category": "수리 대기",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-07-03T07:34:00+00:00",
+    "body": "어르0004 생활공간의 호출 장치 점검을 요청했고 수리 담당자의 회신을 기다리고 있습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "pending"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-07-03T08:09:00+00:00",
+        "body": "수리 완료 전까지 대체 호출 방법을 안내했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-036",
+    "category": "수리 대기",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-07-05T07:37:00+00:00",
+    "body": "어르0004 생활공간의 호출 장치 점검을 요청했고 수리 담당자의 회신을 기다리고 있습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "pending"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-07-05T08:12:00+00:00",
+        "body": "수리 완료 전까지 대체 호출 방법을 안내했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-013",
+    "category": "프로그램 참여",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "작치01",
+    "created_at": "2026-07-06T07:38:00+00:00",
+    "body": "어르0004 소근육 활동에 20분 참여했고 안내에 맞춰 도구를 사용했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "program",
+      "response"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-07-06T08:13:00+00:00",
+        "body": "활동 종료 뒤 안정된 표정으로 작품을 정리했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-037",
+    "category": "프로그램 참여",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "작치01",
+    "created_at": "2026-07-08T07:41:00+00:00",
+    "body": "어르0004 소근육 활동에 40분 참여했고 안내에 맞춰 도구를 사용했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "program",
+      "response"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-07-08T08:16:00+00:00",
+        "body": "활동 종료 뒤 안정된 표정으로 작품을 정리했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-014",
+    "category": "송영 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "운전01",
+    "created_at": "2026-07-09T07:42:00+00:00",
+    "body": "어르0004 승하차 때 발판과 안전벨트를 확인하고 생활실까지 동행했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "transport",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-07-09T08:17:00+00:00",
+        "body": "귀원 뒤 보행 상태에 평소와 다른 점은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-11-04",
+    "category": "hydration",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보02",
+    "created_at": "2026-07-10T03:20:00+00:00",
+    "body": "어르0004 오전 물 140mL를 제공했고 제공량을 기록했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hydration"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-038",
+    "category": "송영 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "운전01",
+    "created_at": "2026-07-11T07:45:00+00:00",
+    "body": "어르0004 승하차 때 발판과 안전벨트를 확인하고 생활실까지 동행했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "transport",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-07-11T08:20:00+00:00",
+        "body": "귀원 뒤 보행 상태에 평소와 다른 점은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-015",
+    "category": "투약 전달",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-07-12T07:46:00+00:00",
+    "body": "어르0004 저녁 복용분은 식후 제공하도록 인계했습니다. 약명과 용량은 처방 기록에서 확인합니다.",
+    "state": "completed",
+    "record_tags": [
+      "medication",
+      "handover"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-07-12T08:21:00+00:00",
+        "body": "저녁 식사 후 간호01 확인 아래 복용을 마쳤습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-039",
+    "category": "투약 전달",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-07-14T07:49:00+00:00",
+    "body": "어르0004 저녁 복용분은 식후 제공하도록 인계했습니다. 약명과 용량은 처방 기록에서 확인합니다.",
+    "state": "completed",
+    "record_tags": [
+      "medication",
+      "handover"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-07-14T08:24:00+00:00",
+        "body": "저녁 식사 후 간호01 확인 아래 복용을 마쳤습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-016",
+    "category": "이동·부축",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-07-15T07:50:00+00:00",
+    "body": "어르0004 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "mobility",
+      "assistance"
+    ],
+    "comments": [
+      {
+        "author_code": "작치01",
+        "created_at": "2026-07-15T08:25:00+00:00",
+        "body": "이동 뒤 통증이나 어지럼 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-EVT-010",
+    "category": "투약 전달",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "간호01",
+    "created_at": "2026-07-15T08:20:00+00:00",
+    "body": "어르0004 저녁 복용분은 식후 제공하도록 요보02에게 전달했습니다. 약명과 용량은 처방 기록에서 별도 확인합니다.",
+    "state": "pending",
+    "record_tags": [
+      "medication",
+      "handover"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-07-15T09:40:00+00:00",
+        "body": "저녁 식사 후 간호01 확인 아래 복용을 마쳤습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "action": {
+      "type": "handover",
+      "priority": "important",
+      "status": "completed",
+      "due_at": "2026-07-15T10:00:00+00:00",
+      "assignee_code": "요보02"
+    },
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-12-04",
+    "category": "program",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "작치01",
+    "created_at": "2026-07-17T03:27:00+00:00",
+    "body": "어르0004 오전 소근육 프로그램에 30분 참여했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "program"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-040",
+    "category": "이동·부축",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-07-17T07:53:00+00:00",
+    "body": "어르0004 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "mobility",
+      "assistance"
+    ],
+    "comments": [
+      {
+        "author_code": "작치01",
+        "created_at": "2026-07-17T08:28:00+00:00",
+        "body": "이동 뒤 통증이나 어지럼 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-13-04",
+    "category": "emotion",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "사복01",
+    "created_at": "2026-07-24T03:34:00+00:00",
+    "body": "어르0004 직원 인사에 반응하며 안정된 표정으로 생활실에 머물렀습니다.",
+    "state": "completed",
+    "record_tags": [
+      "emotion"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-14-04",
+    "category": "hygiene",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "위생01",
+    "created_at": "2026-07-31T03:41:00+00:00",
+    "body": "어르0004 침구와 개인 수납공간을 정리했고 오염은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hygiene"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-018",
+    "category": "시설 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-08-02T05:21:00+00:00",
+    "body": "어르0004 생활 동선의 미끄럼 방지 상태와 조명을 확인했습니다.",
+    "state": "pending",
+    "record_tags": [
+      "facility",
+      "safety"
+    ],
+    "comments": [],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-05-042",
+    "category": "시설 안전",
+    "resident_code": "어르0004",
+    "room_key": "source_05_facility",
+    "source_profile_id": "source_05",
+    "sender_code": "시설01",
+    "created_at": "2026-08-04T05:24:00+00:00",
+    "body": "어르0004 생활 동선의 미끄럼 방지 상태와 조명을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "facility",
+      "safety"
+    ],
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-08-04T05:59:00+00:00",
+        "body": "이동 시 방해가 되는 물품은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-019",
+    "category": "보호자 상담",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "사복01",
+    "created_at": "2026-08-05T05:25:00+00:00",
+    "body": "보호-어르0004-01에게 어르0004의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "consultation",
+      "guardian_contact"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-08-05T06:00:00+00:00",
+        "body": "상담 결과 추가 요청은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-15-04",
+    "category": "meal_support",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "영양01",
+    "created_at": "2026-08-07T03:48:00+00:00",
+    "body": "어르0004 식사 형태와 배식량을 확인해 조리팀과 공유했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal_support"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-04-043",
+    "category": "보호자 상담",
+    "resident_code": "어르0004",
+    "room_key": "source_04_program",
+    "source_profile_id": "source_04",
+    "sender_code": "사복01",
+    "created_at": "2026-08-07T05:28:00+00:00",
+    "body": "보호-어르0004-01에게 어르0004의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "consultation",
+      "guardian_contact"
+    ],
+    "comments": [
+      {
+        "author_code": "관리자01",
+        "created_at": "2026-08-07T06:03:00+00:00",
+        "body": "상담 결과 추가 요청은 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-020",
+    "category": "확인 요청",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "관리자01",
+    "created_at": "2026-08-08T05:29:00+00:00",
+    "body": "어르0004 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "state": "needs_review",
+    "record_tags": [
+      "conflict",
+      "confirmation"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-08T06:04:00+00:00",
+        "body": "원문 대조 전에는 어느 시간도 확정하지 않고 확인 목록에 남겼습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-03-044",
+    "category": "확인 요청",
+    "resident_code": "어르0004",
+    "room_key": "source_03_team",
+    "source_profile_id": "source_03",
+    "sender_code": "관리자01",
+    "created_at": "2026-08-10T05:32:00+00:00",
+    "body": "어르0004 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "state": "needs_review",
+    "record_tags": [
+      "conflict",
+      "confirmation"
+    ],
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-10T06:07:00+00:00",
+        "body": "원문 대조 전에는 어느 시간도 확정하지 않고 확인 목록에 남겼습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "in_progress",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-021",
+    "category": "바이탈",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-08-11T05:33:00+00:00",
+    "body": "어르0004 오전 혈압은 134/76로 측정됐고 10분 안정 뒤 다시 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "vital",
+      "blood_pressure"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-11T06:08:00+00:00",
+        "body": "재확인 수치는 120/70였고 불편 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-02-045",
+    "category": "바이탈",
+    "resident_code": "어르0004",
+    "room_key": "source_02_health",
+    "source_profile_id": "source_02",
+    "sender_code": "간호01",
+    "created_at": "2026-08-13T05:36:00+00:00",
+    "body": "어르0004 오전 혈압은 134/76로 측정됐고 10분 안정 뒤 다시 확인했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "vital",
+      "blood_pressure"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-13T06:11:00+00:00",
+        "body": "재확인 수치는 126/68였고 불편 호소는 없었습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-16-04",
+    "category": "meal",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보01",
+    "created_at": "2026-08-14T03:05:00+00:00",
+    "body": "어르0004 아침 식사는 2/3 섭취했고 불편 호소는 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "meal"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-022",
+    "category": "배변·배뇨",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-08-14T05:37:00+00:00",
+    "body": "어르0004 오전 배변 여부와 소변 상태를 확인했으며 평소와 다른 점은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "bowel",
+      "urination"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-14T06:12:00+00:00",
+        "body": "오후 인계 때에도 불편 호소가 없음을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-SOURCE-01-046",
+    "category": "배변·배뇨",
+    "resident_code": "어르0004",
+    "room_key": "source_01_daily",
+    "source_profile_id": "source_01",
+    "sender_code": "요보02",
+    "created_at": "2026-08-16T05:40:00+00:00",
+    "body": "어르0004 오전 배변 여부와 소변 상태를 확인했으며 평소와 다른 점은 없었습니다.",
+    "state": "completed",
+    "record_tags": [
+      "bowel",
+      "urination"
+    ],
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-16T06:15:00+00:00",
+        "body": "오후 인계 때에도 불편 호소가 없음을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "expected_status": "completed",
+    "synthetic_origin": "newly_authored_from_structure_only",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-EVT-015",
+    "category": "음성 수분 기록",
+    "resident_code": "어르0004",
+    "room_key": "care",
+    "sender_code": "요보01",
+    "created_at": "2026-08-18T06:10:00+00:00",
+    "body": "어르0004 물 180mL 제공 사실을 음성으로 남겼습니다. 17:00 잔량을 확인합니다.",
+    "state": "pending",
+    "record_tags": [
+      "hydration",
+      "audio",
+      "follow_up"
+    ],
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-08-18T08:05:00+00:00",
+        "body": "17:00 잔량 없이 모두 섭취한 것을 확인했습니다.",
+        "synthetic_fixture": true,
+        "official_record": false,
+        "external_transfer_allowed": false
+      }
+    ],
+    "action": {
+      "type": "confirmation",
+      "priority": "normal",
+      "status": "completed",
+      "due_at": "2026-08-18T08:00:00+00:00",
+      "assignee_code": "요보02"
+    },
+    "expected_status": "completed",
+    "attachment_case": "coded_voice_water_01",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "SYN-ROUTINE-17-04",
+    "category": "hydration",
+    "resident_code": "어르0004",
+    "room_key": "handover",
+    "sender_code": "요보02",
+    "created_at": "2026-08-21T03:12:00+00:00",
+    "body": "어르0004 오전 물 190mL를 제공했고 제공량을 기록했습니다.",
+    "state": "completed",
+    "record_tags": [
+      "hydration"
+    ],
+    "comments": [],
+    "expected_status": "completed",
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+]

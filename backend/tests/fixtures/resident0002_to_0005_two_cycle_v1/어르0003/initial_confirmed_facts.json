@@ -1,0 +1,93 @@
+{
+  "resident_code": "어르0003",
+  "source_cycle": "new_admission",
+  "staff_confirmed": true,
+  "generated_score": false,
+  "generated_diagnosis": false,
+  "confirmed_facts": [
+    {
+      "field": "장기요양등급",
+      "value": "합성 장기요양 4등급",
+      "evidence_refs": [
+        "admission:어르0003:certificate"
+      ]
+    },
+    {
+      "field": "이동 상태",
+      "value": "실내 독립보행이 가능하나 방향 전환 시 천천히 움직임",
+      "evidence_refs": [
+        "admission:어르0003:health-check"
+      ]
+    },
+    {
+      "field": "영양·식사",
+      "value": "일반식을 전량에 가깝게 섭취함",
+      "evidence_refs": [
+        "admission:어르0003:individual-plan"
+      ]
+    },
+    {
+      "field": "수분",
+      "value": "제공한 물을 스스로 마심",
+      "evidence_refs": [
+        "admission:어르0003:health-check"
+      ]
+    },
+    {
+      "field": "배설",
+      "value": "화장실을 스스로 이용하며 불편 호소 없음",
+      "evidence_refs": [
+        "admission:어르0003:health-check"
+      ]
+    },
+    {
+      "field": "피부",
+      "value": "팔꿈치를 포함한 피부에 발적이나 손상이 관찰되지 않음",
+      "evidence_refs": [
+        "admission:어르0003:health-check"
+      ]
+    },
+    {
+      "field": "인지",
+      "value": "일정 안내를 이해하고 프로그램 장소를 찾아감",
+      "evidence_refs": [
+        "admission:어르0003:health-check"
+      ]
+    },
+    {
+      "field": "의사소통",
+      "value": "일상 대화가 가능하고 불편을 말로 표현함",
+      "evidence_refs": [
+        "admission:어르0003:individual-plan"
+      ]
+    },
+    {
+      "field": "복약 지원",
+      "value": "직원이 복용 시간만 안내하며 약명·용량은 처방 근거가 필요함",
+      "evidence_refs": [
+        "admission:어르0003:prescription"
+      ]
+    },
+    {
+      "field": "본인 욕구",
+      "value": "익숙한 활동을 이어가고 혼자 할 수 있는 일은 직접 하기를 원함",
+      "evidence_refs": [
+        "admission:어르0003:individual-plan"
+      ]
+    },
+    {
+      "field": "보호자 요청",
+      "value": "피부와 수면 상태에 변화가 있으면 알려 달라고 요청함",
+      "evidence_refs": [
+        "admission:어르0003:individual-plan"
+      ]
+    },
+    {
+      "field": "평가 기준일",
+      "value": "2026-04-30",
+      "evidence_refs": [
+        "baseline:어르0003:needs"
+      ]
+    }
+  ]
+}

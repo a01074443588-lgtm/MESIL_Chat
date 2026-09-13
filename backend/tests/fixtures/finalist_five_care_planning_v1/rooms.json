@@ -1,0 +1,259 @@
+{
+  "schema_version": "finalist_five_rooms_v1",
+  "rooms": [
+    {
+      "room_code": "CP-9001-LIFE",
+      "resident_code": "어르9001",
+      "room_kind": "life",
+      "display_name": "어르9001 생활 관찰방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9001-HEALTH",
+      "resident_code": "어르9001",
+      "room_kind": "health",
+      "display_name": "어르9001 건강·간호방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9001-NUTRITION",
+      "resident_code": "어르9001",
+      "room_kind": "nutrition",
+      "display_name": "어르9001 식사·영양방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9001-PROGRAM",
+      "resident_code": "어르9001",
+      "room_kind": "program",
+      "display_name": "어르9001 프로그램방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9001-HANDOVER",
+      "resident_code": "어르9001",
+      "room_kind": "handover",
+      "display_name": "어르9001 상담·업무인계방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9002-LIFE",
+      "resident_code": "어르9002",
+      "room_kind": "life",
+      "display_name": "어르9002 생활 관찰방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9002-HEALTH",
+      "resident_code": "어르9002",
+      "room_kind": "health",
+      "display_name": "어르9002 건강·간호방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9002-NUTRITION",
+      "resident_code": "어르9002",
+      "room_kind": "nutrition",
+      "display_name": "어르9002 식사·영양방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9002-PROGRAM",
+      "resident_code": "어르9002",
+      "room_kind": "program",
+      "display_name": "어르9002 프로그램방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9002-HANDOVER",
+      "resident_code": "어르9002",
+      "room_kind": "handover",
+      "display_name": "어르9002 상담·업무인계방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9003-LIFE",
+      "resident_code": "어르9003",
+      "room_kind": "life",
+      "display_name": "어르9003 생활 관찰방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9003-HEALTH",
+      "resident_code": "어르9003",
+      "room_kind": "health",
+      "display_name": "어르9003 건강·간호방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9003-NUTRITION",
+      "resident_code": "어르9003",
+      "room_kind": "nutrition",
+      "display_name": "어르9003 식사·영양방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9003-PROGRAM",
+      "resident_code": "어르9003",
+      "room_kind": "program",
+      "display_name": "어르9003 프로그램방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9003-HANDOVER",
+      "resident_code": "어르9003",
+      "room_kind": "handover",
+      "display_name": "어르9003 상담·업무인계방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9004-LIFE",
+      "resident_code": "어르9004",
+      "room_kind": "life",
+      "display_name": "어르9004 생활 관찰방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9004-HEALTH",
+      "resident_code": "어르9004",
+      "room_kind": "health",
+      "display_name": "어르9004 건강·간호방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9004-NUTRITION",
+      "resident_code": "어르9004",
+      "room_kind": "nutrition",
+      "display_name": "어르9004 식사·영양방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9004-PROGRAM",
+      "resident_code": "어르9004",
+      "room_kind": "program",
+      "display_name": "어르9004 프로그램방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9004-HANDOVER",
+      "resident_code": "어르9004",
+      "room_kind": "handover",
+      "display_name": "어르9004 상담·업무인계방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9005-LIFE",
+      "resident_code": "어르9005",
+      "room_kind": "life",
+      "display_name": "어르9005 생활 관찰방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9005-HEALTH",
+      "resident_code": "어르9005",
+      "room_kind": "health",
+      "display_name": "어르9005 건강·간호방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9005-NUTRITION",
+      "resident_code": "어르9005",
+      "room_kind": "nutrition",
+      "display_name": "어르9005 식사·영양방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9005-PROGRAM",
+      "resident_code": "어르9005",
+      "room_kind": "program",
+      "display_name": "어르9005 프로그램방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "room_code": "CP-9005-HANDOVER",
+      "resident_code": "어르9005",
+      "room_kind": "handover",
+      "display_name": "어르9005 상담·업무인계방",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false
+}
