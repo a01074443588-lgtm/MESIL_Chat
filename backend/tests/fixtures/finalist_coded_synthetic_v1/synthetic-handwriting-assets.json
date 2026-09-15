@@ -1,0 +1,68 @@
+{
+  "schema_version": "finalist_synthetic_handwriting_assets_v1",
+  "asset_count": 5,
+  "assets": [
+    {
+      "asset_name": "coded-handwriting-source-01.jpg",
+      "resident_code": "어르0003",
+      "width": 3000,
+      "height": 4000,
+      "sha256": "07101b5523d5b5f3eca84279ccd2b1c16afbb56a853fd95380d74698b413aa20",
+      "metadata_stripped": true,
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "asset_name": "coded-handwriting-source-02.jpg",
+      "resident_code": "어르0004",
+      "width": 3000,
+      "height": 2704,
+      "sha256": "2ae7e15e8649b9ba6d5648024aed2b83242ed0c6c2303df7a5980e33855eaf98",
+      "metadata_stripped": true,
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "asset_name": "coded-handwriting-source-03.jpg",
+      "resident_code": "어르0001",
+      "width": 1068,
+      "height": 1423,
+      "sha256": "d4f4fdfec15d6cc6779de9078cff1a2797a3b463f0ba4b4ea676ccccc459f1db",
+      "metadata_stripped": true,
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "asset_name": "coded-handwriting-source-04.jpg",
+      "resident_code": "어르0001",
+      "width": 3000,
+      "height": 4000,
+      "sha256": "9b65f9607a7af1ca80c3f4bbe1b91570900c52f1d57378c05682697c439dc367",
+      "metadata_stripped": true,
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "asset_name": "coded-handwriting-source-05.jpg",
+      "resident_code": "어르0002",
+      "width": 2252,
+      "height": 3184,
+      "sha256": "02a2062a0914edba4590854dd967a2a52c7eee9758688daafd96bedaeafceea3",
+      "metadata_stripped": true,
+      "synthetic_fixture": true,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "privacy_contract": {
+    "originals_modified": false,
+    "external_transfer_count": 0,
+    "actual_person_identity_retained": false,
+    "synthetic_fixture": true,
+    "official_record": false
+  }
+}

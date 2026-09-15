@@ -1,0 +1,26 @@
+{
+  "fixture_version": "resident0002_to_0005_two_cycle_v1",
+  "resident_code": "어르0003",
+  "flow": [
+    "new_admission_sources",
+    "initial_staff_confirmed_baseline",
+    "post_baseline_chat",
+    "reassessment_ground_truth"
+  ],
+  "new_admission_source_count": 4,
+  "initial_baseline_document_count": 6,
+  "baseline_reference_at": "2026-04-30T23:59:59+09:00",
+  "post_baseline_period": {
+    "start": "2026-05-01T10:01:00+00:00",
+    "end": "2026-08-23T02:12:00+00:00"
+  },
+  "post_baseline_message_count": 60,
+  "initial_baseline_status": "synthetic_staff_confirmed_reference",
+  "reassessment_output_status": "editing_draft_only",
+  "safety": {
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+}

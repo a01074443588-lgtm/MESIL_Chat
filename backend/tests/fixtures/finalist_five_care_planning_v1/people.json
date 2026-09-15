@@ -1,0 +1,189 @@
+{
+  "schema_version": "finalist_five_people_v1",
+  "residents": [
+    {
+      "resident_code": "어르9001",
+      "display_name": "어르9001",
+      "scenario_key": "stable_no_change",
+      "scenario_label": "안정 상태·변화 없음",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "resident_code": "어르9002",
+      "display_name": "어르9002",
+      "scenario_key": "mobility_persistent_change",
+      "scenario_label": "이동·부축 지속 변화",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "resident_code": "어르9003",
+      "display_name": "어르9003",
+      "scenario_key": "nutrition_skin_followup",
+      "scenario_label": "식사·수분·피부 후속 확인",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "resident_code": "어르9004",
+      "display_name": "어르9004",
+      "scenario_key": "cognition_mood_observation",
+      "scenario_label": "인지·기분·수면 관찰",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "resident_code": "어르9005",
+      "display_name": "어르9005",
+      "scenario_key": "hospital_medication_conflict",
+      "scenario_label": "병원·투약·상담·수치 충돌",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "staff": [
+    {
+      "staff_code": "요보01",
+      "display_name": "요보01",
+      "role": "요양보호사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "요보02",
+      "display_name": "요보02",
+      "role": "요양보호사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "간호01",
+      "display_name": "간호01",
+      "role": "간호사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "사복01",
+      "display_name": "사복01",
+      "role": "사회복지사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "영양01",
+      "display_name": "영양01",
+      "role": "영양사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "조리01",
+      "display_name": "조리01",
+      "role": "조리원",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "작치01",
+      "display_name": "작치01",
+      "role": "작업치료사",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "운전01",
+      "display_name": "운전01",
+      "role": "운전원",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "staff_code": "시설01",
+      "display_name": "시설01",
+      "role": "시설장",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "guardians": [
+    {
+      "guardian_code": "보호-어르9001-01",
+      "resident_code": "어르9001",
+      "display_name": "보호-어르9001-01",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "guardian_code": "보호-어르9002-01",
+      "resident_code": "어르9002",
+      "display_name": "보호-어르9002-01",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "guardian_code": "보호-어르9003-01",
+      "resident_code": "어르9003",
+      "display_name": "보호-어르9003-01",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "guardian_code": "보호-어르9004-01",
+      "resident_code": "어르9004",
+      "display_name": "보호-어르9004-01",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    },
+    {
+      "guardian_code": "보호-어르9005-01",
+      "resident_code": "어르9005",
+      "display_name": "보호-어르9005-01",
+      "synthetic_fixture": true,
+      "contains_real_personal_data": false,
+      "official_record": false,
+      "external_transfer_allowed": false
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false
+}

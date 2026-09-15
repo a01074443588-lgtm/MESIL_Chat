@@ -1,0 +1,52 @@
+{
+  "schema_version": "synthetic_people_v1",
+  "resident_code": "어르0901",
+  "staff": [
+    {
+      "code": "요보01",
+      "role": "요양보호사"
+    },
+    {
+      "code": "요보02",
+      "role": "요양보호사"
+    },
+    {
+      "code": "간호01",
+      "role": "간호사"
+    },
+    {
+      "code": "사복01",
+      "role": "사회복지사"
+    },
+    {
+      "code": "영양01",
+      "role": "영양사"
+    },
+    {
+      "code": "조리01",
+      "role": "조리원"
+    },
+    {
+      "code": "작치01",
+      "role": "작업치료사"
+    },
+    {
+      "code": "운전01",
+      "role": "운전원"
+    },
+    {
+      "code": "시설01",
+      "role": "시설장"
+    },
+    {
+      "code": "보호-어르0901-01",
+      "role": "보호자"
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "ground_truth_must_not_be_model_input": true,
+  "display_notice": "DEV 비공식 자료 · 코드화된 합성 시험자료"
+}

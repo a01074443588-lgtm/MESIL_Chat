@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "privacy": {
+    "contains_real_names": false,
+    "contains_original_text": false,
+    "contains_attachment_ids": false,
+    "contains_user_ids": false
+  },
+  "source_scope": {
+    "reviewed_image_count": 25,
+    "message_group_count": 14,
+    "reviewed_name_slots": 260,
+    "note": "Structure-only coverage matrix; not an unbiased accuracy claim."
+  },
+  "template_coverage": [
+    {"template": "A1", "pages": 5, "name_slots": 112, "meal_slots": 50, "status_slots": 51, "support": "partial"},
+    {"template": "A2", "pages": 3, "name_slots": 63, "meal_slots": 35, "status_slots": 0, "support": "partial"},
+    {"template": "A3", "pages": 1, "name_slots": 10, "meal_slots": 0, "status_slots": 10, "support": "insufficient"},
+    {"template": "B1", "pages": 2, "name_slots": 6, "meal_slots": 0, "status_slots": 0, "support": "unsupported"},
+    {"template": "B2", "pages": 12, "name_slots": 69, "meal_slots": 0, "status_slots": 0, "support": "content-only"},
+    {"template": "U1", "pages": 2, "name_slots": 0, "meal_slots": 0, "status_slots": 0, "support": "content-only"}
+  ],
+  "regression_cases": [
+    {
+      "id": "combined-clear-and-content-frozen",
+      "content_text": "가나마: 흑인\n라마바: 교체\n\n<아침식사 하신 분>\n마바사: 라마바\n\n09:05 본문에서 흑인이라는 원문은 보존",
+      "roster": ["가나다", "가나라", "라마바", "마바사"],
+      "expected_names": ["가나다", "라마바", "마바사", "라마바"],
+      "observations": [
+        {"slot_index": 1, "recognized": "가나다", "candidates": ["가나다", "가나라"], "bbox": [50, 80, 180, 120]}
+      ]
+    },
+    {
+      "id": "ambiguous-name-does-not-substitute",
+      "content_text": "가나마: 확인\n라마바: 교체\n\n<아침식사 관련>\n마바자: 라마바",
+      "roster": ["가나다", "가나라", "라마바", "마바사"],
+      "expected_names": ["가나다", "라마바", "마바사", "라마바"],
+      "observations": [
+        {"slot_index": 1, "recognized": "가나마", "candidates": ["가나다", "가나라"], "bbox": [70, 100, 200, 145]},
+        {"slot_index": 3, "recognized": "전혀다름", "candidates": ["마바사", "라마바"], "bbox": [560, 220, 700, 265]}
+      ]
+    },
+    {
+      "id": "narrative-is-content-only-fallback",
+      "content_text": "아침에 설사를 하시고 09:40 상태를 확인함.\n일반 문장의 첫 단어는 이름이 아님.",
+      "roster": ["가나다", "라마바"],
+      "expected_names": [],
+      "observations": []
+    }
+  ]
+}

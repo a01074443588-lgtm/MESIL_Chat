@@ -1,0 +1,2285 @@
+{
+  "schema_version": "longitudinal_care_ground_truth_v1",
+  "resident_alias": "검증어르신(가명)",
+  "input_fixture_sha256": "15cc52b75823c1e1ba9b1c70ef054655b07de03fb46eabadd31f39f424149d65",
+  "prohibited_as_model_input": true,
+  "evaluation_rules": {
+    "latest_state_wins_history_retained": true,
+    "conflicts_remain_unresolved": true,
+    "scores_diagnoses_generated": false,
+    "official_record_actions": false
+  },
+  "focus_event_ids": [
+    "EVT-HOSPITAL-001",
+    "EVT-HYDRATION-001",
+    "EVT-BP-CONFLICT-001",
+    "EVT-MOBILITY-CHANGE-001",
+    "EVT-MEAL-001",
+    "EVT-BOWEL-001",
+    "EVT-URINATION-001",
+    "EVT-MOOD-001",
+    "EVT-SKIN-001",
+    "EVT-CONSULT-001",
+    "EVT-NONCONSULT-PHONE-001",
+    "EVT-TEMP-DIZZINESS-001",
+    "EVT-UNCONFIRMED-001",
+    "EVT-PROGRAM-001",
+    "EVT-BATHING-001",
+    "EVT-PLAN-REVIEW-001"
+  ],
+  "events": [
+    {
+      "event_id": "EVT-HOSPITAL-001",
+      "category": "병원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "3월 12일",
+        "진료 완료",
+        "14:30 귀원"
+      ],
+      "source_message_ids": [
+        "LCM-001",
+        "LCM-002",
+        "LCM-003"
+      ]
+    },
+    {
+      "event_id": "EVT-HYDRATION-001",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "14:00",
+        "물 200mL",
+        "16:00",
+        "섭취 상태 양호"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-004",
+        "LCM-005",
+        "LCM-006"
+      ]
+    },
+    {
+      "event_id": "EVT-BP-CONFLICT-001",
+      "category": "건강·안전",
+      "expected_final_status": "needs_review",
+      "expected_facts": [
+        "혈압",
+        "120/70",
+        "170/90",
+        "원본 확인 필요"
+      ],
+      "forbidden_resolutions": [
+        "120/70 확정",
+        "170/90 확정"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-007",
+        "LCM-008"
+      ]
+    },
+    {
+      "event_id": "EVT-MOBILITY-CHANGE-001",
+      "category": "이동·일상생활",
+      "expected_final_status": "in_progress",
+      "expected_facts": [
+        "이전 실내 독립보행",
+        "현재 보행 시 부축 필요",
+        "지속 여부 확인"
+      ],
+      "document_candidates": [
+        "care_service_record",
+        "fall_risk_assessment",
+        "care_plan"
+      ],
+      "source_message_ids": [
+        "LCM-009",
+        "LCM-010",
+        "LCM-011"
+      ]
+    },
+    {
+      "event_id": "EVT-MEAL-001",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "아침 절반",
+        "점심 80%",
+        "추가 확인 완료"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-012",
+        "LCM-013"
+      ]
+    },
+    {
+      "event_id": "EVT-BOWEL-001",
+      "category": "배설",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "3일간 배변 기록 없음",
+        "다음 날 배변 확인"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-014",
+        "LCM-015"
+      ]
+    },
+    {
+      "event_id": "EVT-URINATION-001",
+      "category": "배뇨",
+      "expected_final_status": "in_progress",
+      "expected_facts": [
+        "야간 배뇨 3회",
+        "현재 관찰 필요"
+      ],
+      "source_message_ids": [
+        "LCM-016",
+        "LCM-017"
+      ]
+    },
+    {
+      "event_id": "EVT-MOOD-001",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 대화 참여 적음",
+        "오후 음악활동 참여",
+        "표정 밝아짐"
+      ],
+      "source_message_ids": [
+        "LCM-018",
+        "LCM-019"
+      ]
+    },
+    {
+      "event_id": "EVT-SKIN-001",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "왼쪽 팔꿈치 붉은 자국",
+        "압박 완화",
+        "다음 날 사라짐"
+      ],
+      "document_candidates": [
+        "care_service_record",
+        "pressure_injury_assessment"
+      ],
+      "source_message_ids": [
+        "LCM-020",
+        "LCM-021"
+      ]
+    },
+    {
+      "event_id": "EVT-CONSULT-001",
+      "category": "상담",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "11:00",
+        "보호자와 통화",
+        "상태 설명",
+        "확인받음"
+      ],
+      "document_candidates": [
+        "consultation_log"
+      ],
+      "source_message_ids": [
+        "LCM-022",
+        "LCM-023"
+      ]
+    },
+    {
+      "event_id": "EVT-NONCONSULT-PHONE-001",
+      "category": "일반업무",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "어르신에게 전화",
+        "가족 행사 문장은 별개"
+      ],
+      "forbidden_document_candidates": [
+        "consultation_log"
+      ],
+      "source_message_ids": [
+        "LCM-024",
+        "LCM-025"
+      ]
+    },
+    {
+      "event_id": "EVT-TEMP-DIZZINESS-001",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "일시적 어지러움 호소",
+        "30분 뒤 호소 없음"
+      ],
+      "source_message_ids": [
+        "LCM-026",
+        "LCM-027"
+      ]
+    },
+    {
+      "event_id": "EVT-UNCONFIRMED-001",
+      "category": "확인필요",
+      "expected_final_status": "needs_review",
+      "expected_facts": [
+        "잠을 설친 것 같다는 추정",
+        "직접 확인 필요"
+      ],
+      "source_message_ids": [
+        "LCM-028",
+        "LCM-029"
+      ]
+    },
+    {
+      "event_id": "EVT-PROGRAM-001",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "소근육 활동 30분",
+        "끝까지 참여"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-030",
+        "LCM-031"
+      ]
+    },
+    {
+      "event_id": "EVT-BATHING-001",
+      "category": "일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "목욕 시 등 씻기 도움",
+        "피부 이상 없음"
+      ],
+      "document_candidates": [
+        "care_service_record"
+      ],
+      "source_message_ids": [
+        "LCM-032"
+      ]
+    },
+    {
+      "event_id": "EVT-PLAN-REVIEW-001",
+      "category": "급여계획 검토",
+      "expected_final_status": "needs_review",
+      "expected_facts": [
+        "이동지원 방법 검토 후보",
+        "직원 확인 전 자동 변경 금지"
+      ],
+      "document_candidates": [
+        "care_plan"
+      ],
+      "source_message_ids": [
+        "LCM-033",
+        "LCM-034"
+      ]
+    },
+    {
+      "event_id": "EVT-ROUTINE-001",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-035"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-002",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-036"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-003",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-037"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-004",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-038"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-005",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-039"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-006",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-040"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-007",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-041"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-008",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-042"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-009",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-043"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-010",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-044"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-011",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-045"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-012",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-046"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-013",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-047"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-014",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-048"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-015",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-049"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-016",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-050"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-017",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-051"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-018",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-052"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-019",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-053"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-020",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-054"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-021",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-055"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-022",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-056"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-023",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-057"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-024",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-058"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-025",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-059"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-026",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-060"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-027",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-061"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-028",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-062"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-029",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-063"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-030",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-064"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-031",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-065"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-032",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-066"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-033",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-067"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-034",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-068"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-035",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-069"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-036",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-070"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-037",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-071"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-038",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-072"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-039",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-073"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-040",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-074"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-041",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-075"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-042",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-076"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-043",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-077"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-044",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-078"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-045",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-079"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-046",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-080"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-047",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-081"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-048",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-082"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-049",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-083"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-050",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-084"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-051",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-085"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-052",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-086"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-053",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-087"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-054",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-088"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-055",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-089"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-056",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-090"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-057",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-091"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-058",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-092"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-059",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-093"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-060",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-094"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-061",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-095"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-062",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-096"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-063",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-097"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-064",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-098"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-065",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-099"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-066",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-100"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-067",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-101"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-068",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-102"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-069",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-103"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-070",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-104"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-071",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-105"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-072",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-106"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-073",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-107"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-074",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-108"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-075",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-109"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-076",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-110"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-077",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-111"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-078",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-112"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-079",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-113"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-080",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-114"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-081",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-115"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-082",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-116"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-083",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-117"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-084",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-118"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-085",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-119"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-086",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-120"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-087",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-121"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-088",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-122"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-089",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-123"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-090",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-124"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-091",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-125"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-092",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-126"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-093",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-127"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-094",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-128"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-095",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-129"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-096",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-130"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-097",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-131"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-098",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-132"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-099",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-133"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-100",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-134"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-101",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-135"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-102",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-136"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-103",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-137"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-104",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-138"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-105",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-139"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-106",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-140"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-107",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-141"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-108",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-142"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-109",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-143"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-110",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-144"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-111",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-145"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-112",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-146"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-113",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-147"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-114",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-148"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-115",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-149"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-116",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-150"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-117",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-151"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-118",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-152"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-119",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-153"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-120",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-154"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-121",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-155"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-122",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-156"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-123",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-157"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-124",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-158"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-125",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-159"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-126",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-160"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-127",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-161"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-128",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-162"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-129",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-163"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-130",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-164"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-131",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-165"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-132",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-166"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-133",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-167"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-134",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-168"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-135",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-169"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-136",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-170"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-137",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-171"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-138",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-172"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-139",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-173"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-140",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-174"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-141",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-175"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-142",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-176"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-143",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-177"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-144",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-178"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-145",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-179"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-146",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-180"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-147",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-181"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-148",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-182"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-149",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-183"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-150",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-184"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-151",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-185"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-152",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-186"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-153",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-187"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-154",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-188"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-155",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-189"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-156",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-190"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-157",
+      "category": "송영",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "예정된 차량 이동을 마치고 인계했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-191"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-158",
+      "category": "행정",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 일정표의 확인 항목을 점검했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-192"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-159",
+      "category": "생활지원",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 지원 사항을 확인하고 추가 요청이 없음을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-193"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-160",
+      "category": "가족공유",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "안내받은 일정을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-194"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-161",
+      "category": "식사",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "점심 식사를 제공했고 식사 후 특별한 변화는 확인되지 않았습니다."
+      ],
+      "source_message_ids": [
+        "LCM-195"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-162",
+      "category": "수분",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오후 수분을 제공하고 섭취 여부를 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-196"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-163",
+      "category": "이동·일상생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "실내 이동 활동에 참여했으며 당일 안전사고는 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-197"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-164",
+      "category": "정서·생활",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "오전 인사와 대화에 응했고 일상생활 반응을 확인했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-198"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-165",
+      "category": "건강·안전",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "당일 관찰에서 새로 보고된 건강 이상은 없었습니다."
+      ],
+      "source_message_ids": [
+        "LCM-199"
+      ],
+      "evaluation_tier": "background"
+    },
+    {
+      "event_id": "EVT-ROUTINE-166",
+      "category": "프로그램",
+      "expected_final_status": "completed",
+      "expected_facts": [
+        "그룹 활동에 참여했고 종료 후 자리로 이동했습니다."
+      ],
+      "source_message_ids": [
+        "LCM-200"
+      ],
+      "evaluation_tier": "background"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+MESIL_Chat Documentation License
+================================
+
+Copyright 2026 SilverMedical Welfare Center
+
+Except where otherwise noted, the documentation in README.md and the docs/
+directory is licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+License text and terms:
+https://creativecommons.org/licenses/by/4.0/
+
+Required attribution:
+"MESIL_Chat documentation by SilverMedical Welfare Center, licensed under
+CC BY 4.0."
+
+This documentation license does not apply to:
+
+- software source code, which is licensed under the Apache License 2.0;
+- logos, trademarks, icons, notification sounds, and other brand assets
+  identified in ASSET_NOTICE.md;
+- screenshots, uploaded files, test fixtures, or sample data that contain
+  third-party materials; or
+- dependencies and third-party works, which remain subject to their own
+  licenses and notices.
+
+No trademark or brand-use permission is granted by CC BY 4.0.

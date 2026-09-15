@@ -1,0 +1,48 @@
+{
+  "schema_version": "m21_document_candidate_mapping_v1",
+  "privacy": "synthetic_deidentified",
+  "approved_document_candidate_types": [
+    "care_service_record",
+    "consultation_log",
+    "cognitive_function_assessment",
+    "fall_risk_assessment",
+    "pressure_ulcer_risk_assessment",
+    "needs_assessment",
+    "long_term_care_service_plan"
+  ],
+  "cases": [
+    {
+      "case_id": "safety_and_nursing_to_care_service_record",
+      "has_resident": true,
+      "body": "검증어르신(가명)012님이 복도에서 비틀거려 부축하고 간호팀에 전달했습니다.",
+      "expected_document_candidate_types": ["care_service_record"]
+    },
+    {
+      "case_id": "program_to_care_service_record",
+      "has_resident": true,
+      "body": "검증어르신(가명)008님이 독서 프로그램에 참여하고 웃으며 반응했습니다.",
+      "expected_document_candidate_types": ["care_service_record"]
+    },
+    {
+      "case_id": "care_and_guardian_contact_to_two_documents",
+      "has_resident": true,
+      "body": "검증어르신(가명)007님에게 물 200mL를 제공하고 보호자와 전화로 결과를 공유했습니다.",
+      "expected_document_candidate_types": [
+        "care_service_record",
+        "consultation_log"
+      ]
+    },
+    {
+      "case_id": "general_work_is_not_a_final_document",
+      "has_resident": false,
+      "body": "내일 시설 소방 점검을 실시합니다.",
+      "expected_document_candidate_types": []
+    },
+    {
+      "case_id": "uncertain_only_is_not_a_final_document",
+      "has_resident": true,
+      "body": "검증어르신(가명)001님의 오른쪽인지 왼쪽인지 판독되지 않아 신체 부위 확인이 필요합니다.",
+      "expected_document_candidate_types": []
+    }
+  ]
+}

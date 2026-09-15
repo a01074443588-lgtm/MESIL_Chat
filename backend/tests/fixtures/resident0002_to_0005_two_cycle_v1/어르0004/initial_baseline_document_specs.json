@@ -1,0 +1,362 @@
+{
+  "initial_fall_assessment.pdf": {
+    "display_notice": "DEV 비공식 자료 · 코드화된 완전 합성 시험자료",
+    "reference_date": "2026-04-30",
+    "resident_code": "어르0004",
+    "title": "최초 낙상위험도 직원확인 기준본",
+    "document_kind": "fall_risk_assessment",
+    "source_ref": "baseline:어르0004:fall",
+    "sections": [
+      {
+        "title": "기본정보",
+        "rows": [
+          {
+            "item": "대상 코드",
+            "value": "어르0004",
+            "evidence": "합성 코드"
+          },
+          {
+            "item": "평가 기준일",
+            "value": "2026-04-30",
+            "evidence": "최초 입소 회차"
+          },
+          {
+            "item": "작성 사유",
+            "value": "신규입소",
+            "evidence": "합성 업무 흐름"
+          }
+        ]
+      },
+      {
+        "title": "확인 내용",
+        "rows": [
+          {
+            "item": "이동 상태",
+            "value": "실내에서 손잡이를 이용하면 직원의 직접 부축 없이 이동함",
+            "evidence": "입소자료+직원 확인"
+          },
+          {
+            "item": "배설 이동",
+            "value": "배변·배뇨 상태가 일정하며 화장실 이동 시 관찰이 필요함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "복약 관련",
+            "value": "저녁 식후 복용 인계가 있으며 상세 내용은 합성 처방전으로 확인함",
+            "evidence": "합성 처방전"
+          }
+        ]
+      },
+      {
+        "title": "판정 제한",
+        "rows": [
+          {
+            "item": "낙상 이력",
+            "value": "제출자료에서 확인되지 않음",
+            "evidence": "근거 부족"
+          },
+          {
+            "item": "점수",
+            "value": "직원 직접 확인 전 미확정",
+            "evidence": "자동 계산 안 함"
+          },
+          {
+            "item": "위험등급",
+            "value": "최신 공식 기준 확인 전 미확정",
+            "evidence": "자동 판정 안 함"
+          }
+        ]
+      }
+    ]
+  },
+  "initial_pressure_ulcer_assessment.pdf": {
+    "display_notice": "DEV 비공식 자료 · 코드화된 완전 합성 시험자료",
+    "reference_date": "2026-04-30",
+    "resident_code": "어르0004",
+    "title": "최초 욕창위험도 직원확인 기준본",
+    "document_kind": "pressure_ulcer_risk_assessment",
+    "source_ref": "baseline:어르0004:pressure",
+    "sections": [
+      {
+        "title": "기본정보",
+        "rows": [
+          {
+            "item": "대상 코드",
+            "value": "어르0004",
+            "evidence": "합성 코드"
+          },
+          {
+            "item": "평가 기준일",
+            "value": "2026-04-30",
+            "evidence": "최초 입소 회차"
+          },
+          {
+            "item": "자료 구분",
+            "value": "우리 기관 직원확인 기준본",
+            "evidence": "합성 자료"
+          }
+        ]
+      },
+      {
+        "title": "확인 내용",
+        "rows": [
+          {
+            "item": "피부 상태",
+            "value": "피부 손상은 관찰되지 않음",
+            "evidence": "입소자료+직원 확인"
+          },
+          {
+            "item": "활동·이동",
+            "value": "실내에서 손잡이를 이용하면 직원의 직접 부축 없이 이동함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "영양 상태",
+            "value": "일반식을 3/4 이상 섭취함",
+            "evidence": "직원 확인"
+          }
+        ]
+      },
+      {
+        "title": "판정 제한",
+        "rows": [
+          {
+            "item": "습기",
+            "value": "현재 관찰 자료 부족",
+            "evidence": "직원 확인 필요"
+          },
+          {
+            "item": "마찰·전단",
+            "value": "현재 관찰 자료 부족",
+            "evidence": "직원 확인 필요"
+          },
+          {
+            "item": "점수·등급",
+            "value": "직원 직접 확인 전 미확정",
+            "evidence": "자동 계산 안 함"
+          }
+        ]
+      }
+    ]
+  },
+  "initial_cognitive_assessment.pdf": {
+    "display_notice": "DEV 비공식 자료 · 코드화된 완전 합성 시험자료",
+    "reference_date": "2026-04-30",
+    "resident_code": "어르0004",
+    "title": "최초 인지기능검사 직원확인 기준본",
+    "document_kind": "cognitive_function_assessment",
+    "source_ref": "baseline:어르0004:cognitive",
+    "sections": [
+      {
+        "title": "기본정보",
+        "rows": [
+          {
+            "item": "대상 코드",
+            "value": "어르0004",
+            "evidence": "합성 코드"
+          },
+          {
+            "item": "평가 기준일",
+            "value": "2026-04-30",
+            "evidence": "최초 입소 회차"
+          },
+          {
+            "item": "검사 방식",
+            "value": "직원 대면 확인",
+            "evidence": "합성 기준본"
+          }
+        ]
+      },
+      {
+        "title": "확인 내용",
+        "rows": [
+          {
+            "item": "인지 관찰",
+            "value": "간단한 순서 안내에 따라 활동을 수행함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "의사소통",
+            "value": "질문을 이해하고 짧은 문장으로 답함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "본인 욕구",
+            "value": "안전하게 식당과 프로그램실을 오가기를 원함",
+            "evidence": "합성 상담"
+          }
+        ]
+      },
+      {
+        "title": "판정 제한",
+        "rows": [
+          {
+            "item": "검사문항",
+            "value": "저작권 문항을 복제하지 않음",
+            "evidence": "구조만 사용"
+          },
+          {
+            "item": "점수",
+            "value": "직원 직접 입력 전 미확정",
+            "evidence": "자동 계산 안 함"
+          },
+          {
+            "item": "진단",
+            "value": "검사 결과만으로 생성하지 않음",
+            "evidence": "안전 계약"
+          }
+        ]
+      }
+    ]
+  },
+  "initial_needs_assessment.pdf": {
+    "display_notice": "DEV 비공식 자료 · 코드화된 완전 합성 시험자료",
+    "reference_date": "2026-04-30",
+    "resident_code": "어르0004",
+    "title": "최초 욕구사정 직원확인 기준본",
+    "document_kind": "needs_assessment",
+    "source_ref": "baseline:어르0004:needs",
+    "sections": [
+      {
+        "title": "신체·건강",
+        "rows": [
+          {
+            "item": "이동",
+            "value": "실내에서 손잡이를 이용하면 직원의 직접 부축 없이 이동함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "식사",
+            "value": "일반식을 3/4 이상 섭취함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "수분",
+            "value": "식사와 활동 사이에 물을 제공하면 섭취함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "배설",
+            "value": "배변·배뇨 상태가 일정하며 화장실 이동 시 관찰이 필요함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "피부",
+            "value": "피부 손상은 관찰되지 않음",
+            "evidence": "직원 확인"
+          }
+        ]
+      },
+      {
+        "title": "인지·의사소통",
+        "rows": [
+          {
+            "item": "인지",
+            "value": "간단한 순서 안내에 따라 활동을 수행함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "의사소통",
+            "value": "질문을 이해하고 짧은 문장으로 답함",
+            "evidence": "직원 확인"
+          },
+          {
+            "item": "복약",
+            "value": "저녁 식후 복용 인계가 있으며 상세 내용은 합성 처방전으로 확인함",
+            "evidence": "합성 처방전"
+          }
+        ]
+      },
+      {
+        "title": "욕구·관계",
+        "rows": [
+          {
+            "item": "본인 욕구",
+            "value": "안전하게 식당과 프로그램실을 오가기를 원함",
+            "evidence": "합성 상담"
+          },
+          {
+            "item": "보호자 요청",
+            "value": "식사량과 프로그램 참여 상태를 정기적으로 알려 달라고 요청함",
+            "evidence": "합성 상담"
+          },
+          {
+            "item": "종합의견",
+            "value": "확인된 기능을 유지하고 변화는 입소 후 기록으로 재평가",
+            "evidence": "직원 확인"
+          }
+        ]
+      }
+    ]
+  },
+  "initial_care_plan_evaluation.pdf": {
+    "display_notice": "DEV 비공식 자료 · 코드화된 완전 합성 시험자료",
+    "reference_date": "2026-04-30",
+    "resident_code": "어르0004",
+    "title": "최초 급여제공계획 결과평가용 기준본",
+    "document_kind": "care_plan_evaluation",
+    "source_ref": "baseline:어르0004:evaluation",
+    "sections": [
+      {
+        "title": "연결 정보",
+        "rows": [
+          {
+            "item": "대상 코드",
+            "value": "어르0004",
+            "evidence": "합성 코드"
+          },
+          {
+            "item": "기준 계획일",
+            "value": "2026-04-30",
+            "evidence": "최초 급여계획"
+          },
+          {
+            "item": "평가 상태",
+            "value": "다음 회차에서 이후 기록과 비교",
+            "evidence": "기준본"
+          }
+        ]
+      },
+      {
+        "title": "초기 목표",
+        "rows": [
+          {
+            "item": "이동",
+            "value": "실내에서 손잡이를 이용하면 직원의 직접 부축 없이 이동함",
+            "evidence": "최초 계획"
+          },
+          {
+            "item": "식사",
+            "value": "일반식을 3/4 이상 섭취함",
+            "evidence": "최초 계획"
+          },
+          {
+            "item": "피부",
+            "value": "피부 손상은 관찰되지 않음",
+            "evidence": "최초 계획"
+          }
+        ]
+      },
+      {
+        "title": "안전",
+        "rows": [
+          {
+            "item": "자동 평가",
+            "value": "하지 않음",
+            "evidence": "직원 확인 필요"
+          },
+          {
+            "item": "현재 상태",
+            "value": "기준일 이후 대화로 다시 확인",
+            "evidence": "과거값 자동확정 금지"
+          },
+          {
+            "item": "공식 저장",
+            "value": "수행하지 않음",
+            "evidence": "DEV 전용"
+          }
+        ]
+      }
+    ]
+  }
+}

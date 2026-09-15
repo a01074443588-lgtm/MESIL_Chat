@@ -1,0 +1,63 @@
+{
+  "schema_version": "finalist_coded_synthetic_generation_criteria_v1",
+  "purpose": "본선용 DEV에서 직군별 업무 흐름과 후속 보고를 검증하기 위한 완전 합성 기준",
+  "identity_contract": {
+    "staff_display": "직군 약칭과 2자리 일련번호",
+    "resident_display": "어르와 4자리 일련번호",
+    "guardian_display": "보호-어르코드-2자리 일련번호",
+    "birthdate_floor_room_or_real_name_in_code": false,
+    "real_name_mapping_exposed": false,
+    "code_reuse_allowed": false
+  },
+  "role_coverage": [
+    "요양보호사",
+    "사회복지사",
+    "간호사",
+    "조리원",
+    "영양사",
+    "위생원",
+    "운전원",
+    "작업치료사",
+    "시설장"
+  ],
+  "conversation_rules": [
+    "사건 발생 뒤 전달, 조치, 후속 확인, 완료 또는 명시적 미완료가 답글로 연결된다.",
+    "일부 사건은 시간·수량·상태 충돌을 남겨 직원 확인 필요 계약을 검증한다.",
+    "서로 다른 직군이 원문과 답글을 나누어 작성한다.",
+    "실제 사건·병력·가족관계·연락처·날짜·수치를 복사하지 않는다.",
+    "손글씨 이미지와 음성은 로컬에서 새로 만든 합성 매체만 사용한다.",
+    "사용자 제공 대화 내보내기 파일은 참여 규모·메시지 길이·시간대·후속 흐름 통계만 사용하고 원문·실명·방 이름·실제 사건·정확한 날짜는 복사하지 않는다.",
+    "구조 참고 파일 5개에는 각각 독립된 완전 합성 대화방 1개를 대응시키고 파일 경로나 실명 대응표를 fixture에 저장하지 않는다."
+  ],
+  "source_shaped_room_contract": {
+    "source_count": 5,
+    "room_count": 5,
+    "messages_per_room": 48,
+    "raw_text_copied": false,
+    "real_event_copied": false,
+    "exact_source_date_copied": false,
+    "source_path_stored": false
+  },
+  "event_coverage": [
+    "식사량과 수분 섭취",
+    "바이탈",
+    "배변·배뇨",
+    "수면",
+    "감정 변화",
+    "프로그램 참여",
+    "이동·부축",
+    "낙상·병원 방문",
+    "보호자 연락",
+    "피부 상태",
+    "투약 관련 전달",
+    "후속 확인과 완료",
+    "충돌 수치와 직원 확인 필요"
+  ],
+  "safety_contract": {
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false,
+    "contains_real_personal_data": false,
+    "automatic_signature_or_nhis_transfer": false
+  }
+}

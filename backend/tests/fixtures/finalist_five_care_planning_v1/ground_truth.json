@@ -1,0 +1,153 @@
+{
+  "schema_version": "finalist_five_ground_truth_v1",
+  "excluded_from_model_input": true,
+  "staff_confirmation_required": true,
+  "auto_generated_scores_allowed": false,
+  "auto_generated_diagnoses_allowed": false,
+  "auto_generated_service_frequency_allowed": false,
+  "rows": [
+    {
+      "resident_code": "어르9001",
+      "scenario_key": "stable_no_change",
+      "field_key": "overall_change",
+      "previous_value": "기준 상태",
+      "expected_current_value": "이전과 동일",
+      "expected_classification": "unchanged",
+      "form_targets": [
+        "fall_risk_assessment",
+        "pressure_ulcer_risk_assessment",
+        "cognitive_function_assessment",
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": null,
+      "staff_question": "현재 점수와 판정은 직원이 직접 평가해 주세요.",
+      "evidence_refs": [
+        "EV-E9001-FATIGUE-01",
+        "EV-E9001-STABLE-01",
+        "EV-E9001-STABLE-02"
+      ]
+    },
+    {
+      "resident_code": "어르9002",
+      "scenario_key": "mobility_persistent_change",
+      "field_key": "mobility",
+      "previous_value": "실내 독립보행",
+      "expected_current_value": "보행 시 부축 필요가 반복됨",
+      "expected_classification": "changed",
+      "form_targets": [
+        "fall_risk_assessment",
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": "이동지원 방법과 낙상예방 조치 검토",
+      "staff_question": "일시적 상태인지 현재도 지속되는지 확인해 주세요.",
+      "evidence_refs": [
+        "EV-E9002-WOBBLE-1-01",
+        "EV-E9002-WOBBLE-1-02",
+        "EV-E9002-WOBBLE-2-01",
+        "EV-E9002-WOBBLE-2-02"
+      ]
+    },
+    {
+      "resident_code": "어르9003",
+      "scenario_key": "nutrition_skin_followup",
+      "field_key": "meal_intake",
+      "previous_value": "죽식 70% 이상",
+      "expected_current_value": "일부 식사에서 1/2 섭취, 수분 후속 확인 완료",
+      "expected_classification": "current_observation_required",
+      "form_targets": [
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": "식사량·수분 섭취 관찰 방법 검토",
+      "staff_question": "섭취 감소가 계속되는지 최근 상태를 확인해 주세요.",
+      "evidence_refs": [
+        "EV-E9003-INTAKE-01",
+        "EV-E9003-INTAKE-02",
+        "EV-E9003-SKIN-01",
+        "EV-E9003-SKIN-02"
+      ]
+    },
+    {
+      "resident_code": "어르9003",
+      "scenario_key": "nutrition_skin_followup",
+      "field_key": "skin",
+      "previous_value": "관찰 부위 발적 없음",
+      "expected_current_value": "일시적 발적 후 소실",
+      "expected_classification": "temporary_change_resolved",
+      "form_targets": [
+        "pressure_ulcer_risk_assessment",
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": "압박 부위 관찰 지속 여부 검토",
+      "staff_question": "현재 피부 상태를 직접 확인해 주세요.",
+      "evidence_refs": [
+        "EV-E9003-INTAKE-01",
+        "EV-E9003-INTAKE-02",
+        "EV-E9003-SKIN-01",
+        "EV-E9003-SKIN-02"
+      ]
+    },
+    {
+      "resident_code": "어르9004",
+      "scenario_key": "cognition_mood_observation",
+      "field_key": "cognition_mood",
+      "previous_value": "장소와 일과를 대체로 이해하고 기분 안정",
+      "expected_current_value": "수면 부족 뒤 일시적 혼동과 저녁 불안 관찰",
+      "expected_classification": "current_observation_required",
+      "form_targets": [
+        "cognitive_function_assessment",
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": "익숙한 일과 안내와 저녁 정서지원 방법 검토",
+      "staff_question": "최근에도 같은 혼동이나 불안이 반복되는지 확인해 주세요.",
+      "evidence_refs": [
+        "EV-E9004-SLEEP-01",
+        "EV-E9004-SLEEP-02",
+        "EV-E9004-EVENING-01",
+        "EV-E9004-EVENING-02"
+      ]
+    },
+    {
+      "resident_code": "어르9005",
+      "scenario_key": "hospital_medication_conflict",
+      "field_key": "medication_change",
+      "previous_value": "기존 투약 전달사항",
+      "expected_current_value": null,
+      "expected_classification": "expert_review_required",
+      "form_targets": [
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "expected_plan_candidate": "확인된 처방 원문 반영 여부 검토",
+      "staff_question": "병원 투약 변경 안내 원문을 대조해 주세요.",
+      "evidence_refs": [
+        "EV-E9005-HOSPITAL-01",
+        "EV-E9005-HOSPITAL-02",
+        "EV-E9005-GUARDIAN-01",
+        "EV-E9005-BP-CONFLICT-01"
+      ]
+    },
+    {
+      "resident_code": "어르9005",
+      "scenario_key": "hospital_medication_conflict",
+      "field_key": "blood_pressure",
+      "previous_value": null,
+      "expected_current_value": "120/70 대 170/90 충돌",
+      "expected_classification": "material_conflict",
+      "form_targets": [
+        "needs_assessment"
+      ],
+      "expected_plan_candidate": null,
+      "staff_question": "원본 기록을 확인하고 정확한 수치를 직접 선택해 주세요.",
+      "evidence_refs": [
+        "EV-E9005-HOSPITAL-01",
+        "EV-E9005-HOSPITAL-02",
+        "EV-E9005-GUARDIAN-01",
+        "EV-E9005-BP-CONFLICT-01"
+      ]
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false
+}

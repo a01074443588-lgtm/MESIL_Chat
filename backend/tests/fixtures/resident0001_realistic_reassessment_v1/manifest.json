@@ -1,0 +1,99 @@
+{
+  "fixture_version": "resident0001_realistic_reassessment_v1",
+  "resident_code": "어르0001",
+  "flow": "periodic_reassessment",
+  "reference_period": {
+    "start": "2026-06-01",
+    "end": "2026-09-02"
+  },
+  "safety": {
+    "synthetic_fixture": true,
+    "contains_real_personal_data": false,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  "pdf_files": [
+    "previous_fall_assessment.pdf",
+    "previous_pressure_ulcer_assessment.pdf",
+    "previous_cognitive_assessment.pdf",
+    "previous_needs_assessment.pdf",
+    "previous_care_plan.pdf",
+    "previous_care_plan_evaluation.pdf"
+  ],
+  "documents": [
+    {
+      "filename": "previous_fall_assessment.pdf",
+      "document_kind": "fall_risk_assessment",
+      "source_ref": "document:previous-fall",
+      "reference_date": "2026-05-31",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    },
+    {
+      "filename": "previous_pressure_ulcer_assessment.pdf",
+      "document_kind": "pressure_ulcer_risk_assessment",
+      "source_ref": "document:previous-pressure",
+      "reference_date": "2026-05-31",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    },
+    {
+      "filename": "previous_cognitive_assessment.pdf",
+      "document_kind": "cognitive_function_assessment",
+      "source_ref": "document:previous-cognitive",
+      "reference_date": "2026-05-30",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    },
+    {
+      "filename": "previous_needs_assessment.pdf",
+      "document_kind": "needs_assessment",
+      "source_ref": "document:previous-needs",
+      "reference_date": "2026-05-31",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    },
+    {
+      "filename": "previous_care_plan.pdf",
+      "document_kind": "long_term_care_service_plan",
+      "source_ref": "document:previous-care-plan",
+      "reference_date": "2026-05-31",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    },
+    {
+      "filename": "previous_care_plan_evaluation.pdf",
+      "document_kind": "care_plan_evaluation",
+      "source_ref": "document:previous-evaluation",
+      "reference_date": "2026-05-31",
+      "source_scope": "우리 기관 작성자료",
+      "staff_verified": true
+    }
+  ],
+  "attachment_links": [
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_fall_assessment.pdf"
+    },
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_pressure_ulcer_assessment.pdf"
+    },
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_cognitive_assessment.pdf"
+    },
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_needs_assessment.pdf"
+    },
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_care_plan.pdf"
+    },
+    {
+      "event_id": "R0001-DEMO-001",
+      "filename": "previous_care_plan_evaluation.pdf"
+    }
+  ]
+}

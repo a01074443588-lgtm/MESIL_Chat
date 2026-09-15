@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "catalog_version": "ocr-pipeline-catalog-1.1.0",
+  "policy": {
+    "current_public_pipeline_frozen": true,
+    "content_text_must_be_immutable_in_name_stage": true,
+    "existing_profiles_are_additive_only": true,
+    "fallback": "content_ocr_only"
+  },
+  "content_stages": [
+    {
+      "stage_id": "full-page-content-ocr",
+      "version": "1.0.0",
+      "status": "preserved-baseline",
+      "output_role": "immutable_content_ocr"
+    }
+  ],
+  "name_profiles": [
+    {
+      "profile_id": "silvermedical.combined_daily_checklist",
+      "profile_version": "1.1.0",
+      "rule_version": "combined-checklist-rules-1.1.0",
+      "status": "candidate",
+      "supported_template": "A1_combined_checklist",
+      "fallback": "content_ocr_only"
+    }
+  ],
+  "preserved_sources": [
+    {
+      "source_id": "long-term-care-lexicon",
+      "version": "v1",
+      "path": "app/data/long_term_care_lexicon.v1.json",
+      "policy": "slot-scoped-only"
+    },
+    {
+      "source_id": "legacy-roster-aware-corrections",
+      "version": "git-preserved-current-baseline",
+      "path": "app/ocr_corrections.py",
+      "policy": "preserved-not-replaced"
+    },
+    {
+      "source_id": "staff-confirmed-history",
+      "version": "existing-audit-events",
+      "path": "database:ocr_correction_events",
+      "policy": "read-only-weak-signal-same-layout-only"
+    }
+  ]
+}

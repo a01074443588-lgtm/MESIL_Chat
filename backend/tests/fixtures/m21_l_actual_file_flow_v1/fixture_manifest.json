@@ -1,0 +1,19 @@
+{
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "external_transfer_allowed": false,
+  "files": [
+    "new_admission_certificate.pdf",
+    "new_admission_individual_plan.pdf",
+    "new_admission_consultation.pdf",
+    "new_admission_transfer.pdf",
+    "existing_additional_consultation.pdf",
+    "existing_additional_transfer.pdf",
+    "existing_fall.pdf",
+    "existing_pressure_ulcer.pdf",
+    "existing_cognitive.pdf",
+    "existing_needs.pdf",
+    "existing_care_plan.pdf",
+    "existing_care_plan_evaluation.pdf"
+  ]
+}

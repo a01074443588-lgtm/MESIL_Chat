@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "source_basis": "aggregate_only_recent_staff_reviewed_images",
+  "privacy": {
+    "contains_real_names": false,
+    "contains_original_text": false,
+    "contains_file_names": false,
+    "contains_ids": false,
+    "contains_timestamps": false
+  },
+  "observed_aggregate": {
+    "reviewed_image_count": 12,
+    "active_roster_rows": 97,
+    "active_roster_rows_with_legacy_test_flag": 97,
+    "reviewed_roster_name_slots": 63,
+    "raw_exact_roster_name_slots": 35,
+    "raw_out_of_roster_name_slots": 25,
+    "raw_missing_name_slots": 3,
+    "suggested_exact_roster_name_slots": 5,
+    "suggested_wrong_roster_name_slots": 1,
+    "suggested_out_of_roster_name_slots": 5,
+    "suggested_missing_name_slots": 52,
+    "repeated_name_row_image_count": 10,
+    "section_image_counts": {
+      "meal": 5,
+      "transport": 3,
+      "special_notes": 4,
+      "toileting": 8,
+      "medication": 1
+    }
+  },
+  "constraints": {
+    "unknown_name_sentinel": "이름 확인 필요",
+    "draft_name_must_be_active_roster_or_sentinel": true,
+    "raw_text_must_be_preserved": true,
+    "auto_draft_must_not_be_final": true,
+    "staff_final_must_be_separate": true,
+    "legacy_test_flag_must_not_exclude_active_roster": true
+  },
+  "cases": [
+    {
+      "id": "meal-name-column-with-transport",
+      "active_roster": ["가나다", "라마바", "사아자", "차카타"],
+      "service_context": "daycare",
+      "raw_text": "[아침식사]\n가너다: 확인\n라미바: 확인\n사아자: 확인\n[송영]\n차거타: 수동식 전차 준비",
+      "auto_draft": "[아침식사]\n가나다: 확인\n라마바: 확인\n사아자: 확인\n[송영]\n차카타: 아침 송영시 준비",
+      "staff_final": "[아침식사]\n가나다: 확인\n라마바: 확인\n사아자: 확인\n[송영]\n차카타: 아침 송영시 준비",
+      "expected_draft_name_slots": ["가나다", "라마바", "사아자", "차카타"],
+      "detected_sections": ["meal", "transport"],
+      "repeated_name_row_pattern": true,
+      "writer_history_hints": [
+        {"recognized": "라미바", "confirmed": "라마바", "count": 2}
+      ]
+    },
+    {
+      "id": "ambiguous-name-remains-unresolved",
+      "active_roster": ["가나다", "라마바"],
+      "service_context": "facility",
+      "raw_text": "[특이사항]\n누구지: 오전 상태 확인",
+      "auto_draft": "[특이사항]\n이름 확인 필요: 오전 상태 확인",
+      "staff_final": "[특이사항]\n가나다: 오전 상태 확인",
+      "expected_draft_name_slots": ["이름 확인 필요"],
+      "detected_sections": ["special_notes"],
+      "repeated_name_row_pattern": false,
+      "writer_history_hints": []
+    },
+    {
+      "id": "role-phrase-is-not-a-resident-name",
+      "active_roster": ["가나다"],
+      "service_context": "daycare",
+      "raw_text": "아침 수동식 전차 윤전길 선생께 전달",
+      "auto_draft": "아침 송영시 운전원 선생께 전달",
+      "staff_final": "아침 송영시 운전원 선생께 전달",
+      "expected_draft_name_slots": [],
+      "detected_sections": ["transport"],
+      "repeated_name_row_pattern": false,
+      "writer_history_hints": []
+    },
+    {
+      "id": "risky-number-stays-uncertain",
+      "active_roster": ["가나다"],
+      "service_context": "facility",
+      "raw_text": "가나다: 혈압 12? / 7? 확인",
+      "auto_draft": "가나다: 혈압 12? / 7? 확인",
+      "staff_final": "가나다: 혈압 수치는 원본 확인 필요",
+      "expected_draft_name_slots": ["가나다"],
+      "detected_sections": [],
+      "repeated_name_row_pattern": false,
+      "writer_history_hints": [],
+      "risk_markers": ["numeric_uncertain"]
+    }
+  ]
+}

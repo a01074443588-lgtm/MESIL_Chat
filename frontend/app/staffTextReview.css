@@ -1,0 +1,25 @@
+.staff-text-review { margin-block: .8rem; min-width: 0; }
+.staff-text-review button, .staff-text-review-dialog button,
+.staff-text-review-dialog > a { min-height: 44px; padding: .65rem 1rem; font-size: 1rem; }
+.staff-text-final { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12rem; overflow: auto; }
+.staff-text-review-backdrop { position: fixed; inset: 0; z-index: 1390; background: #152e3b88; display: grid; place-items: center; padding: 16px; }
+.staff-text-review-dialog { width: min(1050px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: #fff; color: #183b40; padding: 20px; border-radius: 14px; }
+.staff-text-review-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.staff-text-review-dialog h2 { font-size: 1.25rem; }
+.staff-text-review-dialog textarea { width: 100%; min-height: 230px; padding: 12px; font-size: 18px; line-height: 1.65; box-sizing: border-box; }
+.staff-text-review-dialog pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; max-height: 400px; overflow: auto; }
+.staff-text-review-dialog summary { min-height: 44px; padding: 10px; cursor: pointer; }
+.staff-text-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-block: 16px; }
+.staff-text-review-dialog fieldset { min-width: 0; margin-block: 16px; }
+.staff-text-review-dialog input:not([type=checkbox]) { width: 100%; min-height: 44px; padding: 8px; box-sizing: border-box; }
+.staff-text-residents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 260px; overflow-y: auto; gap: 8px; }
+.staff-text-residents label { min-height: 52px; display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #c4d5d1; border-radius: 8px; overflow-wrap: anywhere; }
+.staff-text-residents input { width: 22px; height: 22px; flex-shrink: 0; }
+.staff-text-residents small { display: block; }
+.staff-text-review-dialog footer { position: sticky; bottom: -20px; background: #fff; padding: 14px 0; }
+.staff-text-review-dialog footer button { width: 100%; background: #21634c; color: white; border: 0; border-radius: 8px; }
+@media (max-width: 600px) {
+  .staff-text-review-backdrop { padding: 8px; }
+  .staff-text-review-dialog { padding: 14px; max-height: calc(100dvh - 16px); }
+  .staff-text-columns, .staff-text-residents { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,0 +1,56 @@
+name: mesil_public_demo
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-public_demo}
+      POSTGRES_DB: ${POSTGRES_DB:-public_demo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a new POSTGRES_PASSWORD in .env}
+    volumes:
+      - demo_database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      ENVIRONMENT: development
+      POSTGRES_HOST: db
+      POSTGRES_PORT: '5432'
+      DATABASE_SCHEMA: public_demo
+      AUTO_CREATE_SCHEMA: 'false'
+      ALLOWED_ORIGINS: ${CHAT_ORIGINS:-http://localhost:18080}
+      UPLOAD_DIR: /data/uploads
+      AI_SETTINGS_FILE: /data/runtime/ai-settings.json
+      AI_PROVIDER_PROBE_FILE: /data/runtime/ai-probes.json
+      AI_SECRET_DIR: /data/runtime/ai-secrets
+      OCR_PROVIDER: ollama
+      AI_REVIEW_PROVIDER: ollama
+      AI_REVIEW_EXTERNAL_ENABLED: 'false'
+      AI_ASSIST_ALLOW_EXTERNAL_REAL_DATA: 'false'
+      AI_ASSIST_ALLOW_EXTERNAL_REAL_IMAGE_DATA: 'false'
+      DEV_LAUNCHER_ENABLED: 'false'
+      REVIEWER_ACCESS_ENABLED: 'false'
+      REVIEWER_PASSWORD_LOGIN_ENABLED: 'false'
+      WEB_PUSH_ENABLED: 'false'
+      STT_SERVICE_URL: ${STT_DOCKER_SERVICE_URL:-http://host.docker.internal:8766}
+    volumes:
+      - demo_files:/data
+  frontend:
+    build: ./frontend
+  gateway:
+    image: caddy:2.10-alpine
+    depends_on: [backend, frontend]
+    ports:
+      - '127.0.0.1:${GATEWAY_PORT:-18080}:8080'
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+volumes:
+  demo_database:
+  demo_files:

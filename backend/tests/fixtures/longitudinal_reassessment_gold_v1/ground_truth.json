@@ -1,0 +1,426 @@
+{
+  "schema_version": "longitudinal_reassessment_ground_truth_v1",
+  "resident_code": "어르0901",
+  "prohibited_as_model_input": true,
+  "event_expectations": [
+    {
+      "event_id": "EVT-HYDRATION-COMPLETE",
+      "category": "수분",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "hydration_support",
+          "물 200mL 제공",
+          "confirmed"
+        ],
+        [
+          "hydration_follow_up",
+          "16시 전량 섭취 확인",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0001",
+        "LRG-0002",
+        "LRG-0003"
+      ]
+    },
+    {
+      "event_id": "EVT-MOBILITY-CHANGE",
+      "category": "이동",
+      "expected_state": "current_change",
+      "atomic_facts": [
+        [
+          "fall_event",
+          "실제 낙상은 확인되지 않음",
+          "confirmed"
+        ],
+        [
+          "mobility_support",
+          "보행 시 부축 필요 기록이 반복됨",
+          "confirmed"
+        ],
+        [
+          "injury_status",
+          "통증·외상 관찰 없음",
+          "confirmed"
+        ],
+        [
+          "mobility_plan_review",
+          "이동지원 방법 검토 후보",
+          "user_decision_required"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0004",
+        "LRG-0005",
+        "LRG-0006",
+        "LRG-0007"
+      ]
+    },
+    {
+      "event_id": "EVT-MEAL-RECOVERED",
+      "category": "식사",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "meal_status",
+          "일시적 아침 1/2 섭취 후 점심 80%로 회복",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0008",
+        "LRG-0009",
+        "LRG-0010"
+      ]
+    },
+    {
+      "event_id": "EVT-BOWEL-RESOLVED",
+      "category": "배변",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "bowel_status",
+          "3일간 기록 없음 이후 보통 변 확인",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0011",
+        "LRG-0012"
+      ]
+    },
+    {
+      "event_id": "EVT-NOCTURIA-NEW",
+      "category": "배뇨",
+      "expected_state": "current_observation",
+      "atomic_facts": [
+        [
+          "urination_status",
+          "야간 화장실 이동 3회가 이틀 연속 확인됨",
+          "confirmed"
+        ],
+        [
+          "urination_cause",
+          null,
+          "expert_review_required"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0013",
+        "LRG-0014",
+        "LRG-0015"
+      ]
+    },
+    {
+      "event_id": "EVT-SKIN-RESOLVED",
+      "category": "피부",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "skin_status",
+          "일시적 팔꿈치 발적이 다음 날 사라졌고 피부 손상 없음",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0016",
+        "LRG-0017"
+      ]
+    },
+    {
+      "event_id": "EVT-COGNITIVE-AMBIGUOUS",
+      "category": "인지",
+      "expected_state": "current_observation",
+      "atomic_facts": [
+        [
+          "time_orientation_observation",
+          "활동 시간을 한 차례 혼동했으나 안내 후 참여함",
+          "current_observation_required"
+        ],
+        [
+          "cognitive_diagnosis",
+          null,
+          "expert_review_required"
+        ],
+        [
+          "current_cognitive_score",
+          null,
+          "criteria_unverified"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0018",
+        "LRG-0019",
+        "LRG-0020"
+      ]
+    },
+    {
+      "event_id": "EVT-MOOD-RECOVERED",
+      "category": "정서",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "mood_status",
+          "오전 참여 저하 후 오후 활동 참여와 표정 회복",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0021",
+        "LRG-0022"
+      ]
+    },
+    {
+      "event_id": "EVT-GUARDIAN-CONSULT",
+      "category": "상담",
+      "expected_state": "completed_consultation",
+      "atomic_facts": [
+        [
+          "guardian_consultation",
+          "보호자에게 보행·야간배뇨 변화 설명 후 확인받음",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0023",
+        "LRG-0024"
+      ]
+    },
+    {
+      "event_id": "EVT-NONCONSULT-PHONE",
+      "category": "오분류 방지",
+      "expected_state": "not_consultation",
+      "atomic_facts": [
+        [
+          "consultation_classification",
+          "상담일지 대상 아님",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0025",
+        "LRG-0026"
+      ]
+    },
+    {
+      "event_id": "EVT-BP-CONFLICT",
+      "category": "수치 충돌",
+      "expected_state": "material_conflict",
+      "atomic_facts": [
+        [
+          "blood_pressure",
+          null,
+          "material_conflict"
+        ]
+      ],
+      "conflict_values": [
+        "120/70",
+        "170/90"
+      ],
+      "source_message_ids": [
+        "LRG-0027",
+        "LRG-0028",
+        "LRG-0029"
+      ]
+    },
+    {
+      "event_id": "EVT-DIZZINESS-RESOLVED",
+      "category": "어지럼",
+      "expected_state": "resolved",
+      "atomic_facts": [
+        [
+          "dizziness_status",
+          "일시적 어지럼 호소 후 35분 뒤 호소 없음",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0030",
+        "LRG-0031"
+      ]
+    },
+    {
+      "event_id": "EVT-BATHING-CHANGE",
+      "category": "목욕",
+      "expected_state": "current_change",
+      "atomic_facts": [
+        [
+          "bathing_support",
+          "등 씻기와 하의 갈아입기 도움",
+          "confirmed"
+        ],
+        [
+          "bathing_plan_review",
+          "위생·옷갈아입기 지원 방법 검토 후보",
+          "user_decision_required"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0032",
+        "LRG-0033"
+      ]
+    },
+    {
+      "event_id": "EVT-SWALLOWING-OBSERVE",
+      "category": "연하 관찰",
+      "expected_state": "current_observation",
+      "atomic_facts": [
+        [
+          "swallowing_observation",
+          "물 섭취 중 기침 1회 후 추가 기침 없음",
+          "current_observation_required"
+        ],
+        [
+          "swallowing_diagnosis",
+          null,
+          "expert_review_required"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0034",
+        "LRG-0035"
+      ]
+    },
+    {
+      "event_id": "EVT-SLEEP-CHANGE",
+      "category": "수면",
+      "expected_state": "current_observation",
+      "atomic_facts": [
+        [
+          "sleep_status",
+          "이틀 연속 야간 두 차례 깸",
+          "confirmed"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0036",
+        "LRG-0037"
+      ]
+    },
+    {
+      "event_id": "EVT-PLAN-DECISION-PENDING",
+      "category": "급여계획 검토",
+      "expected_state": "user_decision_required",
+      "atomic_facts": [
+        [
+          "care_plan_goal",
+          null,
+          "user_decision_required"
+        ],
+        [
+          "care_plan_frequency",
+          null,
+          "user_decision_required"
+        ],
+        [
+          "care_plan_duration",
+          null,
+          "user_decision_required"
+        ]
+      ],
+      "source_message_ids": [
+        "LRG-0038",
+        "LRG-0039"
+      ]
+    }
+  ],
+  "expected_comprehensive_report": {
+    "schema_version": "assessment_comprehensive_report_gold_v1",
+    "resident_code": "어르0901",
+    "assessment_reason": "periodic_reassessment",
+    "assessment_date": "2026-09-01",
+    "period": {
+      "start": "2026-03-02",
+      "end": "2026-08-31"
+    },
+    "confirmed_changes": [
+      "이동 상태: 이전 실내 독립보행에서 최근 보행 시 부축 필요 기록으로 변화",
+      "목욕 도움: 이전 등 씻기 도움에서 하의 갈아입기 도움까지 추가",
+      "야간 화장실 이동: 이전 약 1회에서 최근 이틀 연속 3회 확인",
+      "수면: 최근 이틀 연속 야간 두 차례 깸"
+    ],
+    "resolved_events_not_current_problems": [
+      "아침 식사량 감소 후 점심 80%로 회복",
+      "3일간 배변 기록 없음 후 보통 변 확인",
+      "왼쪽 팔꿈치 발적이 다음 날 사라지고 피부 손상 없음",
+      "일시적 어지럼 호소 후 35분 뒤 호소 없음",
+      "오전 정서·활동 저하 후 오후 활동 참여와 표정 회복"
+    ],
+    "material_conflicts": [
+      {
+        "field": "혈압",
+        "values": [
+          "120/70",
+          "170/90"
+        ],
+        "resolution": "원본·재측정 확인 전 선택하지 않음"
+      }
+    ],
+    "current_observation_required": [
+      "현재 인지기능 직접 검사",
+      "체위변경 능력",
+      "피부 습기",
+      "마찰·전단",
+      "연하 상태 추가 관찰",
+      "투약 자료 확인"
+    ],
+    "care_plan_review_candidates": [
+      "이동지원 방법과 낙상예방 조치",
+      "목욕·옷갈아입기 지원 방법"
+    ],
+    "staff_decisions_required": [
+      "급여 목표",
+      "급여 종류",
+      "횟수",
+      "시간",
+      "동의·서명"
+    ],
+    "output_status": "needs_confirmation",
+    "official_record_write_count": 0,
+    "external_transfer_count": 0
+  },
+  "expected_output_file": "expected_outputs.json",
+  "forbidden_claims": [
+    "현재 평가기간 실제 낙상 발생",
+    "현재 욕창 발생 또는 욕창 진단",
+    "치매 또는 인지저하 진단",
+    "현재 낙상·욕창·인지 점수 또는 위험등급 확정",
+    "혈압 120/70 또는 170/90 중 하나 자동 선택",
+    "지속적인 식사 저하",
+    "현재 변비 지속",
+    "현재 피부 발적 지속",
+    "현재 어지럼 지속",
+    "약명·진단·알레르기 자동 생성",
+    "급여 목표·종류·횟수·시간·서명 자동 확정"
+  ],
+  "room_coverage": [
+    {
+      "room_code": "ROOM-CARE-0901",
+      "must_be_queried": true
+    },
+    {
+      "room_code": "ROOM-NURSE-0901",
+      "must_be_queried": true
+    },
+    {
+      "room_code": "ROOM-NUTRITION-0901",
+      "must_be_queried": true
+    },
+    {
+      "room_code": "ROOM-PROGRAM-0901",
+      "must_be_queried": true
+    },
+    {
+      "room_code": "ROOM-HANDOVER-0901",
+      "must_be_queried": true
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "ground_truth_must_not_be_model_input": true,
+  "display_notice": "DEV 비공식 자료 · 코드화된 합성 시험자료"
+}

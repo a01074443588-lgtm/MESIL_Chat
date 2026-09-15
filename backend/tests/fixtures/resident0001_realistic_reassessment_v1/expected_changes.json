@@ -1,0 +1,108 @@
+[
+  {
+    "field": "이동 상태",
+    "before": "실내 지팡이 독립보행",
+    "after": "보행 시 한 명 부축 필요",
+    "classification": "변경됨",
+    "evidence_refs": [
+      "EV-R1-001",
+      "EV-R1-002"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "식사 상태",
+    "before": "일반식 3/4 이상",
+    "after": "일반식 1/2~2/3",
+    "classification": "변경됨",
+    "evidence_refs": [
+      "EV-R1-003",
+      "EV-R1-004"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "피부 상태",
+    "before": "손상과 발적 없음",
+    "after": "손상 관찰되지 않음",
+    "classification": "이전과 동일",
+    "evidence_refs": [
+      "EV-R1-005",
+      "EV-R1-006"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "인지 상태",
+    "before": "한 번 안내하면 최근 일정 기억",
+    "after": "최근 일정 반복 확인",
+    "classification": "오래된 자료라 현재 관찰 필요",
+    "evidence_refs": [
+      "EV-R1-007"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "보호자 상담",
+    "before": "변화 시 연락",
+    "after": "이동·식사 변화 설명 후 확인",
+    "classification": "새로 확인됨",
+    "evidence_refs": [
+      "EV-R1-008"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "혈압",
+    "before": null,
+    "after": "서로 다른 두 수치",
+    "classification": "자료 충돌",
+    "evidence_refs": [
+      "EV-R1-009",
+      "EV-R1-010"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "이동지원 방법",
+    "before": "필요 시 가까이 관찰",
+    "after": "한 명 부축 필요 여부 검토",
+    "classification": "급여제공계획 변경 검토 후보",
+    "evidence_refs": [
+      "EV-R1-002",
+      "EV-R1-014"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "식사 관찰",
+    "before": "변화 시 공유",
+    "after": "섭취량 감소가 지속되는지 관찰",
+    "classification": "급여제공계획 변경 검토 후보",
+    "evidence_refs": [
+      "EV-R1-004"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  },
+  {
+    "field": "점수·위험등급",
+    "before": null,
+    "after": "최신 공식 기준 확인 필요",
+    "classification": "전문가 확인 필요",
+    "evidence_refs": [
+      "EV-R1-001",
+      "EV-R1-005",
+      "EV-R1-007"
+    ],
+    "generated_score": false,
+    "generated_diagnosis": false
+  }
+]

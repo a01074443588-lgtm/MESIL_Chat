@@ -1,0 +1,1004 @@
+{
+  "schema_version": "assessment_evidence_ledger_fixture_v1",
+  "resident_code": "어르0901",
+  "entries": [
+    {
+      "ledger_id": "LEDGER-0001",
+      "resident_code": "어르0901",
+      "field_key": "fall_history",
+      "label": "낙상 이력",
+      "value": "이전 평가기간 실제 낙상 기록 없음",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "fall_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-fall-v1#p1:fall_history"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0002",
+      "resident_code": "어르0901",
+      "field_key": "mobility_support",
+      "label": "이동 상태",
+      "value": "실내 독립보행",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "fall_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-fall-v1#p1:mobility_support"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0003",
+      "resident_code": "어르0901",
+      "field_key": "night_toileting_support",
+      "label": "야간 화장실 이동",
+      "value": "필요 시 말로 위치 안내",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "fall_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-fall-v1#p1:night_toileting_support"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0004",
+      "resident_code": "어르0901",
+      "field_key": "fall_assessment_score",
+      "label": "당시 낙상평가 점수",
+      "value": 7,
+      "value_kind": "assessment_score",
+      "status": "historical_reference",
+      "source_kind": "fall_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-fall-v1#p1:fall_assessment_score"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0005",
+      "resident_code": "어르0901",
+      "field_key": "skin_status",
+      "label": "피부 상태",
+      "value": "피부 손상 관찰 없음",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "pressure_ulcer_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-pressure-v1#p1:skin_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0006",
+      "resident_code": "어르0901",
+      "field_key": "reposition_ability",
+      "label": "체위변경",
+      "value": "스스로 자세를 바꿈",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "pressure_ulcer_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-pressure-v1#p1:reposition_ability"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0007",
+      "resident_code": "어르0901",
+      "field_key": "meal_status",
+      "label": "영양 상태",
+      "value": "일반식 80% 이상 섭취",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "pressure_ulcer_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-pressure-v1#p1:meal_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0008",
+      "resident_code": "어르0901",
+      "field_key": "pressure_assessment_score",
+      "label": "당시 욕창평가 점수",
+      "value": 19,
+      "value_kind": "assessment_score",
+      "status": "historical_reference",
+      "source_kind": "pressure_ulcer_risk_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-pressure-v1#p1:pressure_assessment_score"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0009",
+      "resident_code": "어르0901",
+      "field_key": "cognitive_test_participation",
+      "label": "검사 참여",
+      "value": "직원 안내에 따라 검사에 참여함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "cognitive_function_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-cognitive-v1#p1:cognitive_test_participation"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0010",
+      "resident_code": "어르0901",
+      "field_key": "communication_status",
+      "label": "의사소통",
+      "value": "간단한 질문에 적절히 응답함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "cognitive_function_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-cognitive-v1#p1:communication_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0011",
+      "resident_code": "어르0901",
+      "field_key": "cognitive_assessment_score",
+      "label": "당시 인지검사 점수",
+      "value": 21,
+      "value_kind": "assessment_score",
+      "status": "historical_reference",
+      "source_kind": "cognitive_function_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-cognitive-v1#p1:cognitive_assessment_score"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0012",
+      "resident_code": "어르0901",
+      "field_key": "meal_status",
+      "label": "식사 상태",
+      "value": "일반식 80~100% 섭취",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:meal_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0013",
+      "resident_code": "어르0901",
+      "field_key": "hydration_status",
+      "label": "수분 상태",
+      "value": "스스로 물을 마심",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:hydration_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0014",
+      "resident_code": "어르0901",
+      "field_key": "bowel_status",
+      "label": "배변 상태",
+      "value": "1~2일 간격으로 확인됨",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:bowel_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0015",
+      "resident_code": "어르0901",
+      "field_key": "urination_status",
+      "label": "배뇨 상태",
+      "value": "야간 배뇨 1회 정도",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:urination_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0016",
+      "resident_code": "어르0901",
+      "field_key": "mobility_support",
+      "label": "이동 상태",
+      "value": "실내 독립보행",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:mobility_support"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0017",
+      "resident_code": "어르0901",
+      "field_key": "bathing_support",
+      "label": "목욕 도움",
+      "value": "등 씻기에 일부 도움",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:bathing_support"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0018",
+      "resident_code": "어르0901",
+      "field_key": "communication_status",
+      "label": "의사소통",
+      "value": "짧은 문장으로 의사를 표현함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:communication_status"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0019",
+      "resident_code": "어르0901",
+      "field_key": "resident_preference",
+      "label": "대상자 욕구",
+      "value": "가능한 활동은 직접 하고 싶다고 말함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:resident_preference"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0020",
+      "resident_code": "어르0901",
+      "field_key": "guardian_preference",
+      "label": "보호자 욕구",
+      "value": "안전하게 활동을 유지하기를 희망함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "needs_assessment",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-needs-v1#p1:guardian_preference"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0021",
+      "resident_code": "어르0901",
+      "field_key": "previous_care_goal",
+      "label": "이전 생활 목표",
+      "value": "가능한 일상생활을 직접 수행하도록 지원",
+      "value_kind": "care_goal",
+      "status": "historical_reference",
+      "source_kind": "long_term_care_service_plan",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-v1#p1:previous_care_goal"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0022",
+      "resident_code": "어르0901",
+      "field_key": "previous_mobility_method",
+      "label": "이전 이동 지원",
+      "value": "실내 이동 시 주변을 정돈하고 안전 여부 관찰",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "long_term_care_service_plan",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-v1#p1:previous_mobility_method"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0023",
+      "resident_code": "어르0901",
+      "field_key": "previous_nutrition_method",
+      "label": "이전 영양·수분 지원",
+      "value": "식사와 수분 섭취 상태 관찰",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "long_term_care_service_plan",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-v1#p1:previous_nutrition_method"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0024",
+      "resident_code": "어르0901",
+      "field_key": "previous_activity_method",
+      "label": "이전 정서·활동 지원",
+      "value": "선호하는 소그룹 활동 참여 지원",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "long_term_care_service_plan",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-v1#p1:previous_activity_method"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0025",
+      "resident_code": "어르0901",
+      "field_key": "evaluation_daily_living",
+      "label": "일상생활 결과",
+      "value": "대부분의 기간에 직접 수행을 유지함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "care_plan_evaluation",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-eval-v1#p1:evaluation_daily_living"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0026",
+      "resident_code": "어르0901",
+      "field_key": "evaluation_mobility",
+      "label": "이동 결과",
+      "value": "8월 하순 보행 부축 기록이 반복되어 다음 계획 검토가 필요함",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "care_plan_evaluation",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-eval-v1#p1:evaluation_mobility"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0027",
+      "resident_code": "어르0901",
+      "field_key": "evaluation_nutrition",
+      "label": "식사·수분 결과",
+      "value": "일시적 감소 후 회복된 기록이 있음",
+      "value_kind": "fact",
+      "status": "historical_reference",
+      "source_kind": "care_plan_evaluation",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-03-01",
+      "evidence_refs": [
+        "doc:prev-care-plan-eval-v1#p1:evaluation_nutrition"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true
+    },
+    {
+      "ledger_id": "LEDGER-0028",
+      "resident_code": "어르0901",
+      "field_key": "hydration_support",
+      "label": "hydration_support",
+      "value": "물 200mL 제공",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-05",
+      "evidence_refs": [
+        "msg:LRG-0001@ROOM-NUTRITION-0901",
+        "msg:LRG-0002@ROOM-CARE-0901",
+        "msg:LRG-0003@ROOM-NUTRITION-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0029",
+      "resident_code": "어르0901",
+      "field_key": "hydration_follow_up",
+      "label": "hydration_follow_up",
+      "value": "16시 전량 섭취 확인",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-05",
+      "evidence_refs": [
+        "msg:LRG-0001@ROOM-NUTRITION-0901",
+        "msg:LRG-0002@ROOM-CARE-0901",
+        "msg:LRG-0003@ROOM-NUTRITION-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0030",
+      "resident_code": "어르0901",
+      "field_key": "fall_event",
+      "label": "fall_event",
+      "value": "실제 낙상은 확인되지 않음",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-26",
+      "evidence_refs": [
+        "msg:LRG-0004@ROOM-CARE-0901",
+        "msg:LRG-0005@ROOM-NURSE-0901",
+        "msg:LRG-0006@ROOM-PROGRAM-0901",
+        "msg:LRG-0007@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0031",
+      "resident_code": "어르0901",
+      "field_key": "mobility_support",
+      "label": "mobility_support",
+      "value": "보행 시 부축 필요 기록이 반복됨",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-26",
+      "evidence_refs": [
+        "msg:LRG-0004@ROOM-CARE-0901",
+        "msg:LRG-0005@ROOM-NURSE-0901",
+        "msg:LRG-0006@ROOM-PROGRAM-0901",
+        "msg:LRG-0007@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0032",
+      "resident_code": "어르0901",
+      "field_key": "injury_status",
+      "label": "injury_status",
+      "value": "통증·외상 관찰 없음",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-26",
+      "evidence_refs": [
+        "msg:LRG-0004@ROOM-CARE-0901",
+        "msg:LRG-0005@ROOM-NURSE-0901",
+        "msg:LRG-0006@ROOM-PROGRAM-0901",
+        "msg:LRG-0007@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0033",
+      "resident_code": "어르0901",
+      "field_key": "mobility_plan_review",
+      "label": "mobility_plan_review",
+      "value": "이동지원 방법 검토 후보",
+      "value_kind": "fact",
+      "status": "user_decision_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-26",
+      "evidence_refs": [
+        "msg:LRG-0004@ROOM-CARE-0901",
+        "msg:LRG-0005@ROOM-NURSE-0901",
+        "msg:LRG-0006@ROOM-PROGRAM-0901",
+        "msg:LRG-0007@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0034",
+      "resident_code": "어르0901",
+      "field_key": "meal_status",
+      "label": "meal_status",
+      "value": "일시적 아침 1/2 섭취 후 점심 80%로 회복",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-07-12",
+      "evidence_refs": [
+        "msg:LRG-0008@ROOM-NUTRITION-0901",
+        "msg:LRG-0009@ROOM-NUTRITION-0901",
+        "msg:LRG-0010@ROOM-NUTRITION-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0035",
+      "resident_code": "어르0901",
+      "field_key": "bowel_status",
+      "label": "bowel_status",
+      "value": "3일간 기록 없음 이후 보통 변 확인",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-06-04",
+      "evidence_refs": [
+        "msg:LRG-0011@ROOM-CARE-0901",
+        "msg:LRG-0012@ROOM-CARE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0036",
+      "resident_code": "어르0901",
+      "field_key": "urination_status",
+      "label": "urination_status",
+      "value": "야간 화장실 이동 3회가 이틀 연속 확인됨",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-29",
+      "evidence_refs": [
+        "msg:LRG-0013@ROOM-CARE-0901",
+        "msg:LRG-0014@ROOM-CARE-0901",
+        "msg:LRG-0015@ROOM-NURSE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0037",
+      "resident_code": "어르0901",
+      "field_key": "urination_cause",
+      "label": "urination_cause",
+      "value": null,
+      "value_kind": "fact",
+      "status": "expert_review_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-29",
+      "evidence_refs": [
+        "msg:LRG-0013@ROOM-CARE-0901",
+        "msg:LRG-0014@ROOM-CARE-0901",
+        "msg:LRG-0015@ROOM-NURSE-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0038",
+      "resident_code": "어르0901",
+      "field_key": "skin_status",
+      "label": "skin_status",
+      "value": "일시적 팔꿈치 발적이 다음 날 사라졌고 피부 손상 없음",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-06-21",
+      "evidence_refs": [
+        "msg:LRG-0016@ROOM-NURSE-0901",
+        "msg:LRG-0017@ROOM-NURSE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0039",
+      "resident_code": "어르0901",
+      "field_key": "time_orientation_observation",
+      "label": "time_orientation_observation",
+      "value": "활동 시간을 한 차례 혼동했으나 안내 후 참여함",
+      "value_kind": "fact",
+      "status": "current_observation_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-20",
+      "evidence_refs": [
+        "msg:LRG-0018@ROOM-PROGRAM-0901",
+        "msg:LRG-0019@ROOM-PROGRAM-0901",
+        "msg:LRG-0020@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0040",
+      "resident_code": "어르0901",
+      "field_key": "cognitive_diagnosis",
+      "label": "cognitive_diagnosis",
+      "value": null,
+      "value_kind": "fact",
+      "status": "expert_review_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-20",
+      "evidence_refs": [
+        "msg:LRG-0018@ROOM-PROGRAM-0901",
+        "msg:LRG-0019@ROOM-PROGRAM-0901",
+        "msg:LRG-0020@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0041",
+      "resident_code": "어르0901",
+      "field_key": "current_cognitive_score",
+      "label": "current_cognitive_score",
+      "value": null,
+      "value_kind": "fact",
+      "status": "criteria_unverified",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-20",
+      "evidence_refs": [
+        "msg:LRG-0018@ROOM-PROGRAM-0901",
+        "msg:LRG-0019@ROOM-PROGRAM-0901",
+        "msg:LRG-0020@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0042",
+      "resident_code": "어르0901",
+      "field_key": "mood_status",
+      "label": "mood_status",
+      "value": "오전 참여 저하 후 오후 활동 참여와 표정 회복",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-05-15",
+      "evidence_refs": [
+        "msg:LRG-0021@ROOM-PROGRAM-0901",
+        "msg:LRG-0022@ROOM-PROGRAM-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0043",
+      "resident_code": "어르0901",
+      "field_key": "guardian_consultation",
+      "label": "guardian_consultation",
+      "value": "보호자에게 보행·야간배뇨 변화 설명 후 확인받음",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-27",
+      "evidence_refs": [
+        "msg:LRG-0023@ROOM-HANDOVER-0901",
+        "msg:LRG-0024@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0044",
+      "resident_code": "어르0901",
+      "field_key": "consultation_classification",
+      "label": "consultation_classification",
+      "value": "상담일지 대상 아님",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-04-08",
+      "evidence_refs": [
+        "msg:LRG-0025@ROOM-HANDOVER-0901",
+        "msg:LRG-0026@ROOM-PROGRAM-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0045",
+      "resident_code": "어르0901",
+      "field_key": "blood_pressure",
+      "label": "blood_pressure",
+      "value": null,
+      "value_kind": "fact",
+      "status": "material_conflict",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-30",
+      "evidence_refs": [
+        "msg:LRG-0027@ROOM-NURSE-0901",
+        "msg:LRG-0028@ROOM-HANDOVER-0901",
+        "msg:LRG-0029@ROOM-NURSE-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": [
+        "120/70",
+        "170/90"
+      ]
+    },
+    {
+      "ledger_id": "LEDGER-0046",
+      "resident_code": "어르0901",
+      "field_key": "dizziness_status",
+      "label": "dizziness_status",
+      "value": "일시적 어지럼 호소 후 35분 뒤 호소 없음",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-05-23",
+      "evidence_refs": [
+        "msg:LRG-0030@ROOM-NURSE-0901",
+        "msg:LRG-0031@ROOM-NURSE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0047",
+      "resident_code": "어르0901",
+      "field_key": "bathing_support",
+      "label": "bathing_support",
+      "value": "등 씻기와 하의 갈아입기 도움",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-28",
+      "evidence_refs": [
+        "msg:LRG-0032@ROOM-CARE-0901",
+        "msg:LRG-0033@ROOM-CARE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0048",
+      "resident_code": "어르0901",
+      "field_key": "bathing_plan_review",
+      "label": "bathing_plan_review",
+      "value": "위생·옷갈아입기 지원 방법 검토 후보",
+      "value_kind": "fact",
+      "status": "user_decision_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-28",
+      "evidence_refs": [
+        "msg:LRG-0032@ROOM-CARE-0901",
+        "msg:LRG-0033@ROOM-CARE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0049",
+      "resident_code": "어르0901",
+      "field_key": "swallowing_observation",
+      "label": "swallowing_observation",
+      "value": "물 섭취 중 기침 1회 후 추가 기침 없음",
+      "value_kind": "fact",
+      "status": "current_observation_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-24",
+      "evidence_refs": [
+        "msg:LRG-0034@ROOM-NUTRITION-0901",
+        "msg:LRG-0035@ROOM-NURSE-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0050",
+      "resident_code": "어르0901",
+      "field_key": "swallowing_diagnosis",
+      "label": "swallowing_diagnosis",
+      "value": null,
+      "value_kind": "fact",
+      "status": "expert_review_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-24",
+      "evidence_refs": [
+        "msg:LRG-0034@ROOM-NUTRITION-0901",
+        "msg:LRG-0035@ROOM-NURSE-0901"
+      ],
+      "staff_verified": false,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0051",
+      "resident_code": "어르0901",
+      "field_key": "sleep_status",
+      "label": "sleep_status",
+      "value": "이틀 연속 야간 두 차례 깸",
+      "value_kind": "fact",
+      "status": "confirmed",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-29",
+      "evidence_refs": [
+        "msg:LRG-0036@ROOM-CARE-0901",
+        "msg:LRG-0037@ROOM-CARE-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": false,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0052",
+      "resident_code": "어르0901",
+      "field_key": "care_plan_goal",
+      "label": "care_plan_goal",
+      "value": null,
+      "value_kind": "fact",
+      "status": "user_decision_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0038@ROOM-HANDOVER-0901",
+        "msg:LRG-0039@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0053",
+      "resident_code": "어르0901",
+      "field_key": "care_plan_frequency",
+      "label": "care_plan_frequency",
+      "value": null,
+      "value_kind": "fact",
+      "status": "user_decision_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0038@ROOM-HANDOVER-0901",
+        "msg:LRG-0039@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    },
+    {
+      "ledger_id": "LEDGER-0054",
+      "resident_code": "어르0901",
+      "field_key": "care_plan_duration",
+      "label": "care_plan_duration",
+      "value": null,
+      "value_kind": "fact",
+      "status": "user_decision_required",
+      "source_kind": "mesil_chat_confirmed",
+      "source_role": "authoring_organization",
+      "as_of_date": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0038@ROOM-HANDOVER-0901",
+        "msg:LRG-0039@ROOM-HANDOVER-0901"
+      ],
+      "staff_verified": true,
+      "current_reconfirmation_required": true,
+      "conflict_values": []
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "ground_truth_must_not_be_model_input": true,
+  "display_notice": "DEV 비공식 자료 · 코드화된 합성 시험자료"
+}

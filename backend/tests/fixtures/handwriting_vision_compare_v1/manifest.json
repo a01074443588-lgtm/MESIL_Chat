@@ -1,0 +1,137 @@
+{
+  "fixture_version": "handwriting_vision_compare_v1",
+  "created_at": "2026-08-24T18:30:57.8228419+09:00",
+  "privacy": {
+    "synthetic": true,
+    "external_ai_allowed": true,
+    "contains_direct_identifiers": false,
+    "contains_real_person_or_record": false
+  },
+  "contract": {
+    "required_keys": [
+      "event_time",
+      "quantity_value",
+      "quantity_unit",
+      "completion_status",
+      "follow_up_time",
+      "follow_up_status",
+      "privacy_note",
+      "unreadable_fields"
+    ],
+    "status_values": [
+      "completed",
+      "pending",
+      "unknown"
+    ],
+    "unit_values": [
+      "ml",
+      "percent",
+      "min",
+      "g",
+      "drops"
+    ]
+  },
+  "generation": {
+    "renderer": "System.Drawing",
+    "content_language": "English",
+    "visual_style": "synthetic handwriting font on lined paper"
+  },
+  "cases": [
+    {
+      "case_id": "HWV1-01-WATER",
+      "file": "handwriting_case_01.png",
+      "media_type": "image/png",
+      "sha256": "87aad9d5cfd423fed412c25c4c9abb79688791e838b7e3fc9f8005fbf050043f",
+      "size_bytes": 23985,
+      "font": "Segoe Print",
+      "expected": {
+        "event_time": "14:00",
+        "quantity_value": 200,
+        "quantity_unit": "ml",
+        "completion_status": "completed",
+        "follow_up_time": "16:00",
+        "follow_up_status": "pending"
+      }
+    },
+    {
+      "case_id": "HWV1-02-MEAL",
+      "file": "handwriting_case_02.png",
+      "media_type": "image/png",
+      "sha256": "0d2b4c6a62772ec479bee1d3d8cc26847bbbe8c579fe3af6f0c6cb66ad1ce8d2",
+      "size_bytes": 27795,
+      "font": "Lucida Handwriting",
+      "expected": {
+        "event_time": "12:10",
+        "quantity_value": 70,
+        "quantity_unit": "percent",
+        "completion_status": "completed",
+        "follow_up_time": "13:30",
+        "follow_up_status": "pending"
+      }
+    },
+    {
+      "case_id": "HWV1-03-EXERCISE",
+      "file": "handwriting_case_03.png",
+      "media_type": "image/png",
+      "sha256": "e6108b08bdf070c799d25162e5aec5186cde607e804b2abde1dc46d3d20a1711",
+      "size_bytes": 22165,
+      "font": "Bradley Hand ITC",
+      "expected": {
+        "event_time": "09:20",
+        "quantity_value": 15,
+        "quantity_unit": "min",
+        "completion_status": "completed",
+        "follow_up_time": "10:15",
+        "follow_up_status": "pending"
+      }
+    },
+    {
+      "case_id": "HWV1-04-SNACK",
+      "file": "handwriting_case_04.png",
+      "media_type": "image/png",
+      "sha256": "3f2746d47d319345b026f4c2a3ed7afd15b6d25f046f0fa5a1189365f8be9f7d",
+      "size_bytes": 25265,
+      "font": "Segoe Script",
+      "expected": {
+        "event_time": "15:05",
+        "quantity_value": 120,
+        "quantity_unit": "g",
+        "completion_status": "completed",
+        "follow_up_time": "15:40",
+        "follow_up_status": "pending"
+      }
+    },
+    {
+      "case_id": "HWV1-05-DROPS",
+      "file": "handwriting_case_05.png",
+      "media_type": "image/png",
+      "sha256": "8a7b2086f60301e94e67fa408ddbfcf9f0aaec7c3a216a8a59ee6267a44a07a2",
+      "size_bytes": 24827,
+      "font": "Comic Sans MS",
+      "expected": {
+        "event_time": "18:25",
+        "quantity_value": 2,
+        "quantity_unit": "drops",
+        "completion_status": "completed",
+        "follow_up_time": "19:00",
+        "follow_up_status": "pending"
+      }
+    },
+    {
+      "case_id": "HWV1-06-REST",
+      "file": "handwriting_case_06.png",
+      "media_type": "image/png",
+      "sha256": "f5b850f557ddb0082053d024bba22fd7f5ca4ab51e5369826c0b0a0dc0c80429",
+      "size_bytes": 17952,
+      "font": "Freestyle Script",
+      "expected": {
+        "event_time": "20:45",
+        "quantity_value": 30,
+        "quantity_unit": "min",
+        "completion_status": "completed",
+        "follow_up_time": "21:30",
+        "follow_up_status": "pending"
+      }
+    }
+  ]
+}

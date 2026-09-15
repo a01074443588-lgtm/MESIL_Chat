@@ -1,0 +1,69 @@
+{
+  "schema_version": "longitudinal_reassessment_gold_v1",
+  "resident_code": "어르0901",
+  "scenario": "기존 어르신 정기 재평가",
+  "assessment_date": "2026-09-01",
+  "period_start": "2026-03-02",
+  "period_end": "2026-08-31",
+  "message_count": 120,
+  "room_count": 5,
+  "room_message_counts": {
+    "ROOM-CARE-0901": 27,
+    "ROOM-NURSE-0901": 25,
+    "ROOM-NUTRITION-0901": 22,
+    "ROOM-PROGRAM-0901": 22,
+    "ROOM-HANDOVER-0901": 24
+  },
+  "source_document_count": 6,
+  "focus_event_count": 16,
+  "source_documents": [
+    {
+      "filename": "01_previous_fall_assessment.pdf",
+      "sha256": "0ed8d62be108ed139413a883a996a0e6c2c63c756f20803309b2d696b4939313",
+      "bytes": 64026
+    },
+    {
+      "filename": "02_previous_pressure_assessment.pdf",
+      "sha256": "dcf07a6987bccaa7a113902fb24006fa8deecdf9d3c10fa4c05789994a84c8d2",
+      "bytes": 68070
+    },
+    {
+      "filename": "03_previous_cognitive_assessment.pdf",
+      "sha256": "a04c363d9fd8ceefc1347f361f3286c3362d65f3954f2a09bee9394ed93c6130",
+      "bytes": 63410
+    },
+    {
+      "filename": "04_previous_needs_assessment.pdf",
+      "sha256": "1d59e5c61bd13f79562660d796ef3b3f6ccc0cc01f19c61ac9c24d458a28abe5",
+      "bytes": 69000
+    },
+    {
+      "filename": "05_previous_care_plan.pdf",
+      "sha256": "9c18e3163a5e1b568806d66fd8199eeb4aac3b752a634cd2b57dcc843edbd4f1",
+      "bytes": 67895
+    },
+    {
+      "filename": "06_previous_care_plan_evaluation.pdf",
+      "sha256": "05e3746489a8cd84dc25ecfca22918af96de590a57ad41ef2e4aad0b5468396c",
+      "bytes": 66424
+    }
+  ],
+  "generated_files": [
+    "people.json",
+    "rooms.json",
+    "source_documents.json",
+    "messages.json",
+    "evidence_ledger.json",
+    "assessment_cycle_payload.json",
+    "expected_outputs.json",
+    "ground_truth.json",
+    "ground_truth_table.csv",
+    "validation_matrix.json"
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "ground_truth_must_not_be_model_input": true,
+  "display_notice": "DEV 비공식 자료 · 코드화된 합성 시험자료"
+}

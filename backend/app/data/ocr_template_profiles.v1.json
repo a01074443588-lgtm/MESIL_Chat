@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "profile_id": "silvermedical.combined_daily_checklist",
+      "profile_version": "1.1.0",
+      "rule_version": "combined-checklist-rules-1.1.0",
+      "operating_mode": "dev_suggested_draft_only",
+      "document_role": "daily_care_report",
+      "page_role": "combined_checklist",
+      "resident_service_scope": "daycare",
+      "match": {
+        "required_sections": ["status_checklist", "meal_name_list"],
+        "minimum_status_rows": 2,
+        "minimum_meal_name_slots": 2
+      },
+      "slots": {
+        "name": {
+          "required_evidence": ["confirmed_slot", "repeated_or_labeled", "active_roster"],
+          "minimum_similarity": 0.66,
+          "minimum_top_gap": 0.12
+        },
+        "status": {
+          "allowed_terms": ["확인", "교체"],
+          "aliases": {
+            "흑인": "확인",
+            "락인": "확인",
+            "라이": "확인",
+            "고세": "교체",
+            "고레": "교체"
+          }
+        },
+        "time": {
+          "policy": "preserve_raw"
+        },
+        "narrative": {
+          "policy": "preserve_raw",
+          "context_terms": ["송영", "기저귀", "배변", "투약", "설사"]
+        },
+        "section_header": {
+          "terms": ["아침식사", "점심식사", "저녁식사", "식사"]
+        }
+      }
+    }
+  ]
+}

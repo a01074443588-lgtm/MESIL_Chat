@@ -1,0 +1,79 @@
+[
+  {
+    "evidence_id": "EV-어르0002-B01",
+    "resident_code": "어르0002",
+    "field": "이전 기준",
+    "value": "실내에서 보행기를 사용하며 가까이 관찰하면 이동함",
+    "source_ref": "baseline:어르0002:needs",
+    "status": "confirmed_baseline",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-B02",
+    "resident_code": "어르0002",
+    "field": "이전 식사",
+    "value": "부드러운 일반식을 제공량의 3/4 정도 섭취함",
+    "source_ref": "baseline:어르0002:needs",
+    "status": "confirmed_baseline",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-C01",
+    "resident_code": "어르0002",
+    "field": "보호자 상담",
+    "value": "보호-어르0002-01에게 어르0002의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "source_ref": "message:SYN-SOURCE-04-023",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-C02",
+    "resident_code": "어르0002",
+    "field": "이동·부축",
+    "value": "어르0002 식당 이동 시 손잡이를 잡도록 안내하고 옆에서 부축했습니다.",
+    "source_ref": "message:SYN-SOURCE-01-044",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-C03",
+    "resident_code": "어르0002",
+    "field": "보호자 상담",
+    "value": "보호-어르0002-01에게 어르0002의 최근 프로그램 참여와 식사 상태를 설명했고 보호자가 내용을 확인했습니다.",
+    "source_ref": "message:SYN-SOURCE-04-023",
+    "status": "confirmed",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-C04",
+    "resident_code": "어르0002",
+    "field": "확인 요청",
+    "value": "어르0002 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "source_ref": "message:SYN-SOURCE-03-036",
+    "status": "current_observation_required",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "evidence_id": "EV-어르0002-C05",
+    "resident_code": "어르0002",
+    "field": "확인 요청",
+    "value": "어르0002 관련 두 인계 기록의 시간이 달라 작성 시각을 확인해 달라고 요청했습니다.",
+    "source_ref": "message:SYN-SOURCE-03-036",
+    "status": "material_conflict",
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+]

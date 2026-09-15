@@ -1,0 +1,307 @@
+{
+  "schema_version": "new_admission_draft_v1",
+  "case_ref": "synthetic-new-admission-001",
+  "processing_scope": "deidentified_dev",
+  "external_transfer_allowed": false,
+  "revision": 1,
+  "supersedes_revision": null,
+  "evidence_sources": [
+    {
+      "source_ref": "public-insurer-syn-001",
+      "source_type": "public_insurer_data",
+      "document_kind": "합성 장기요양 공단자료",
+      "organization_role": "public_insurer",
+      "reference_locator": "합성 문서 1쪽 기본정보",
+      "evidence_summary": "합성 대상의 장기요양등급과 이용계획 방향이 기재됨",
+      "verification_state": "verified",
+      "contains_sensitive_data": false
+    },
+    {
+      "source_ref": "medical-document-syn-001",
+      "source_type": "medical_or_submitted_document",
+      "document_kind": "합성 제출 건강자료",
+      "organization_role": "reference_organization",
+      "reference_locator": "합성 문서 1쪽 확인사항",
+      "evidence_summary": "합성 고혈압 진단 기재와 인지검사 실시 여부 미확인이 함께 표시됨",
+      "verification_state": "verified",
+      "contains_sensitive_data": false
+    },
+    {
+      "source_ref": "consultation-syn-001",
+      "source_type": "consultation",
+      "document_kind": "합성 입소 상담",
+      "organization_role": "not_applicable",
+      "reference_locator": "합성 상담 항목 2",
+      "evidence_summary": "수분 섭취를 자주 확인해 달라는 합성 보호자 요청이 기록됨",
+      "verification_state": "verified",
+      "contains_sensitive_data": false
+    },
+    {
+      "source_ref": "staff-confirmation-syn-001",
+      "source_type": "staff_confirmation",
+      "document_kind": "합성 직원 확인",
+      "organization_role": "authoring_organization",
+      "reference_locator": "합성 확인 항목 1",
+      "evidence_summary": "최근 낙상은 없었다는 합성 직원 확인과 보행 부축 필요가 기록됨",
+      "verification_state": "verified",
+      "contains_sensitive_data": false
+    },
+    {
+      "source_ref": "current-observation-syn-001",
+      "source_type": "current_observation",
+      "document_kind": "합성 현장관찰",
+      "organization_role": "authoring_organization",
+      "reference_locator": "합성 관찰 항목 1",
+      "evidence_summary": "보행 시 부축이 필요하고 최근 낙상 1회라는 상충 합성 관찰이 기록됨",
+      "verification_state": "needs_review",
+      "contains_sensitive_data": false
+    }
+  ],
+  "fields": [
+    {
+      "field_key": "long_term_care_grade",
+      "label": "장기요양등급",
+      "document_types": [
+        "cognitive_function_assessment",
+        "fall_risk_assessment",
+        "pressure_ulcer_risk_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "confirmed",
+      "value_kind": "fact",
+      "value": 3,
+      "evidence_refs": ["public-insurer-syn-001"],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "hypertension_diagnosis",
+      "label": "고혈압 진단 기재",
+      "document_types": [
+        "fall_risk_assessment",
+        "pressure_ulcer_risk_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "confirmed",
+      "value_kind": "diagnosis",
+      "value": "제출된 합성 건강자료에 고혈압 진단 기재",
+      "evidence_refs": ["medical-document-syn-001"],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "hydration_support_goal",
+      "label": "수분 섭취 확인 요청",
+      "document_types": [
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "reusable",
+      "value_kind": "fact",
+      "value": "수분 섭취를 자주 확인해 달라는 요청",
+      "evidence_refs": ["consultation-syn-001"],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "mobility_support_need",
+      "label": "보행 시 부축 필요",
+      "document_types": [
+        "fall_risk_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "derivable",
+      "value_kind": "fact",
+      "value": "보행 시 직원 부축 필요",
+      "evidence_refs": [
+        "staff-confirmation-syn-001",
+        "current-observation-syn-001"
+      ],
+      "derivation_note": "합성 직원확인과 합성 현장관찰의 공통 사실만 재사용",
+      "conflict_values": []
+    },
+    {
+      "field_key": "skin_moisture_current",
+      "label": "현재 피부 습기 상태",
+      "document_types": [
+        "pressure_ulcer_risk_assessment",
+        "needs_assessment"
+      ],
+      "status": "current_observation_required",
+      "value_kind": "fact",
+      "value": null,
+      "evidence_refs": [],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "cognitive_assessment_decision",
+      "label": "인지검사 실시 또는 예외 확인",
+      "document_types": [
+        "cognitive_function_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "user_decision_required",
+      "value_kind": "fact",
+      "value": null,
+      "evidence_refs": ["medical-document-syn-001"],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "admission_room",
+      "label": "생활실",
+      "document_types": [
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "admin_missing",
+      "value_kind": "administrative",
+      "value": null,
+      "evidence_refs": [],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "recent_fall_count",
+      "label": "최근 낙상 횟수",
+      "document_types": [
+        "fall_risk_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "material_conflict",
+      "value_kind": "fact",
+      "value": null,
+      "evidence_refs": [
+        "staff-confirmation-syn-001",
+        "current-observation-syn-001"
+      ],
+      "derivation_note": null,
+      "conflict_values": ["최근 낙상 없음", "최근 낙상 1회"]
+    },
+    {
+      "field_key": "service_frequency",
+      "label": "급여 제공 횟수",
+      "document_types": ["long_term_care_service_plan"],
+      "status": "user_decision_required",
+      "value_kind": "service_frequency",
+      "value": null,
+      "evidence_refs": ["public-insurer-syn-001"],
+      "derivation_note": null,
+      "conflict_values": []
+    },
+    {
+      "field_key": "staff_signature",
+      "label": "직원 서명",
+      "document_types": [
+        "cognitive_function_assessment",
+        "fall_risk_assessment",
+        "pressure_ulcer_risk_assessment",
+        "needs_assessment",
+        "long_term_care_service_plan"
+      ],
+      "status": "user_decision_required",
+      "value_kind": "signature",
+      "value": null,
+      "evidence_refs": [],
+      "derivation_note": null,
+      "conflict_values": []
+    }
+  ],
+  "drafts": [
+    {
+      "document_type": "cognitive_function_assessment",
+      "status": "needs_confirmation",
+      "field_keys": [
+        "long_term_care_grade",
+        "cognitive_assessment_decision",
+        "staff_signature"
+      ],
+      "missing_fields": [],
+      "human_verification_fields": [
+        "cognitive_assessment_decision",
+        "staff_signature"
+      ]
+    },
+    {
+      "document_type": "fall_risk_assessment",
+      "status": "needs_confirmation",
+      "field_keys": [
+        "long_term_care_grade",
+        "hypertension_diagnosis",
+        "mobility_support_need",
+        "recent_fall_count",
+        "staff_signature"
+      ],
+      "missing_fields": [],
+      "human_verification_fields": [
+        "recent_fall_count",
+        "staff_signature"
+      ]
+    },
+    {
+      "document_type": "pressure_ulcer_risk_assessment",
+      "status": "needs_confirmation",
+      "field_keys": [
+        "long_term_care_grade",
+        "hypertension_diagnosis",
+        "skin_moisture_current",
+        "staff_signature"
+      ],
+      "missing_fields": [],
+      "human_verification_fields": [
+        "skin_moisture_current",
+        "staff_signature"
+      ]
+    },
+    {
+      "document_type": "needs_assessment",
+      "status": "needs_confirmation",
+      "field_keys": [
+        "long_term_care_grade",
+        "hypertension_diagnosis",
+        "hydration_support_goal",
+        "mobility_support_need",
+        "skin_moisture_current",
+        "cognitive_assessment_decision",
+        "admission_room",
+        "recent_fall_count",
+        "staff_signature"
+      ],
+      "missing_fields": ["admission_room"],
+      "human_verification_fields": [
+        "skin_moisture_current",
+        "cognitive_assessment_decision",
+        "recent_fall_count",
+        "staff_signature"
+      ]
+    },
+    {
+      "document_type": "long_term_care_service_plan",
+      "status": "needs_confirmation",
+      "field_keys": [
+        "long_term_care_grade",
+        "hypertension_diagnosis",
+        "hydration_support_goal",
+        "mobility_support_need",
+        "cognitive_assessment_decision",
+        "admission_room",
+        "recent_fall_count",
+        "service_frequency",
+        "staff_signature"
+      ],
+      "missing_fields": ["admission_room"],
+      "human_verification_fields": [
+        "cognitive_assessment_decision",
+        "recent_fall_count",
+        "service_frequency",
+        "staff_signature"
+      ]
+    }
+  ]
+}

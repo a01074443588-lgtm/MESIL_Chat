@@ -1,0 +1,502 @@
+{
+  "fixture_name": "care_briefing_v1 비식별 대표 사례",
+  "version": "1.0.0",
+  "privacy": "모든 대상자와 직원 표시는 가상 식별자이며 실제 개인정보를 포함하지 않습니다.",
+  "cases": [
+    {
+      "case_id": "CBV1-SAFETY-FOLLOWUP",
+      "description": "안전사건과 답글의 모니터링 최종상태",
+      "tags": ["important_event", "reply_final_state", "photo_evidence", "follow_up"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {"subject_id": "subject-a", "display_label": "대상-A", "verification_status": "confirmed"}
+        ],
+        "sources": [
+          {
+            "source_id": "msg-safety-1",
+            "source_kind": "message",
+            "conversation_id": "conv-safety",
+            "subject_ids": ["subject-a"],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-22T14:05:00+09:00",
+            "text": "대상-A가 복도 이동 중 비틀거려 부축하고 간호직원에게 알렸습니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "reply-safety-1",
+            "source_kind": "reply",
+            "conversation_id": "conv-safety",
+            "parent_source_id": "msg-safety-1",
+            "subject_ids": ["subject-a"],
+            "author_role": "간호직원",
+            "occurred_at": "2026-08-22T14:20:00+09:00",
+            "text": "활력징후를 확인했고 외상 호소는 없습니다. 다음 이동 전에 상태를 다시 확인할 예정입니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "photo-safety-1",
+            "source_kind": "photo",
+            "conversation_id": "conv-safety",
+            "parent_source_id": "msg-safety-1",
+            "subject_ids": ["subject-a"],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-22T14:06:00+09:00",
+            "text": "복도 이동 구간 사진",
+            "media_id": "media-safety-1",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-safety-1",
+            "subject": {"subject_id": "subject-a", "display_label": "대상-A", "verification_status": "confirmed"},
+            "what_happened": "복도 이동 중 비틀거려 부축하고 간호직원에게 전달했습니다.",
+            "final_status": "monitoring",
+            "final_status_summary": "활력징후와 외상 호소 여부는 확인했으나 다음 이동 전 재확인이 남았습니다.",
+            "occurred_at": "2026-08-22T14:05:00+09:00",
+            "scheduled_at": null,
+            "priority": "first",
+            "importance_score": 95,
+            "importance_reasons": [
+              {"reason": "낙상으로 이어질 수 있는 비틀거림이 있었고 후속 상태 확인이 남았습니다.", "evidence_source_ids": ["msg-safety-1", "reply-safety-1"]}
+            ],
+            "verification_items": [
+              {"field": "follow_up", "question": "다음 이동 전 상태 재확인 결과가 기록되었는지 확인해 주세요.", "evidence_source_ids": ["reply-safety-1"]}
+            ],
+            "evidence": [
+              {"source_id": "msg-safety-1", "supports": ["subject", "event", "time", "importance"], "fact_summary": "비틀거림, 부축, 간호직원 전달이 기록되었습니다."},
+              {"source_id": "reply-safety-1", "supports": ["status", "importance"], "fact_summary": "외상 호소는 없지만 다음 이동 전 재확인이 예정되었습니다."},
+              {"source_id": "photo-safety-1", "supports": ["event"], "fact_summary": "사건이 발생한 이동 구간 사진이 첨부되었습니다."}
+            ],
+            "document_draft_candidates": [
+              {"document_type": "nursing_log", "reason": "비틀거림과 확인한 상태를 간호기록 초안 후보로 검토할 수 있습니다.", "evidence_source_ids": ["msg-safety-1", "reply-safety-1"]},
+              {"document_type": "care_service_record", "reason": "이동 부축과 후속 확인을 급여제공기록 초안 후보로 검토할 수 있습니다.", "evidence_source_ids": ["msg-safety-1", "reply-safety-1"]}
+            ],
+            "analysis_confidence": 0.95,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": []
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_priorities": {"event-safety-1": "first"},
+        "required_final_statuses": {"event-safety-1": "monitoring"},
+        "required_evidence_source_ids": ["msg-safety-1", "reply-safety-1", "photo-safety-1"],
+        "forbidden_claims": ["낙상함", "진료 완료", "후속 확인 완료"]
+      }
+    },
+    {
+      "case_id": "CBV1-TODAY-CARRYOVER",
+      "description": "7일 이전에 시작되어 오늘까지 남은 병원 일정",
+      "tags": ["today_schedule", "unresolved_carryover", "assignee_unknown"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {"subject_id": "subject-b", "display_label": "대상-B", "verification_status": "confirmed"}
+        ],
+        "sources": [
+          {
+            "source_id": "msg-schedule-1",
+            "source_kind": "message",
+            "conversation_id": "conv-schedule",
+            "subject_ids": ["subject-b"],
+            "author_role": "사회복지사",
+            "occurred_at": "2026-08-14T11:00:00+09:00",
+            "text": "대상-B는 8월 23일 오전 10시에 병원 진료가 예정되어 있습니다. 이동 지원과 동행 여부 확인이 필요합니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "reply-schedule-1",
+            "source_kind": "reply",
+            "conversation_id": "conv-schedule",
+            "parent_source_id": "msg-schedule-1",
+            "subject_ids": ["subject-b"],
+            "author_role": "사무원",
+            "occurred_at": "2026-08-22T16:00:00+09:00",
+            "text": "차량 예약은 완료했습니다. 동행할 사람은 아직 확인되지 않았습니다.",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-schedule-1",
+            "subject": {"subject_id": "subject-b", "display_label": "대상-B", "verification_status": "confirmed"},
+            "what_happened": "오늘 오전 10시 병원 진료가 예정되어 있고 차량은 예약됐지만 동행자가 정해지지 않았습니다.",
+            "final_status": "in_progress",
+            "final_status_summary": "차량 예약은 완료됐고 동행자 확인이 남았습니다.",
+            "occurred_at": null,
+            "scheduled_at": "2026-08-23T10:00:00+09:00",
+            "priority": "first",
+            "importance_score": 93,
+            "importance_reasons": [
+              {"reason": "한 시간 뒤 예정된 외부 진료이며 동행자가 확정되지 않았습니다.", "evidence_source_ids": ["msg-schedule-1", "reply-schedule-1"]}
+            ],
+            "verification_items": [
+              {"field": "assignee", "question": "병원 진료 동행자를 확인해 주세요.", "evidence_source_ids": ["reply-schedule-1"]}
+            ],
+            "evidence": [
+              {"source_id": "msg-schedule-1", "supports": ["subject", "event", "time", "importance"], "fact_summary": "8월 23일 오전 10시 병원 진료와 이동·동행 확인 필요가 기록되었습니다."},
+              {"source_id": "reply-schedule-1", "supports": ["status", "completion", "importance"], "fact_summary": "차량 예약은 완료됐지만 동행자는 미확정입니다."}
+            ],
+            "document_draft_candidates": [],
+            "analysis_confidence": 0.98,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": []
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_priorities": {"event-schedule-1": "first"},
+        "required_final_statuses": {"event-schedule-1": "in_progress"},
+        "required_evidence_source_ids": ["msg-schedule-1", "reply-schedule-1"],
+        "forbidden_claims": ["동행자 확정", "진료 완료"]
+      }
+    },
+    {
+      "case_id": "CBV1-ROUTINE-COMPLETED",
+      "description": "완료된 일상 기록은 중요 사건에서 제외",
+      "tags": ["routine_completed", "ignored_source"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {"subject_id": "subject-c", "display_label": "대상-C", "verification_status": "confirmed"}
+        ],
+        "sources": [
+          {
+            "source_id": "msg-routine-1",
+            "source_kind": "message",
+            "conversation_id": "conv-routine",
+            "subject_ids": ["subject-c"],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-21T15:00:00+09:00",
+            "text": "대상-C는 체조 프로그램에 참여했고 반응이 양호했으며 특이사항은 없었습니다.",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [],
+        "ignored_sources": [
+          {"source_id": "msg-routine-1", "reason": "routine_completed", "explanation": "일상 프로그램이 문제 없이 완료되어 오늘 우선 확인할 사건이 아닙니다."}
+        ],
+        "warnings": []
+      },
+      "answer_key": {
+        "required_event_count": 0,
+        "required_ignored_source_ids": ["msg-routine-1"],
+        "forbidden_claims": ["건강 악화", "후속조치 필요"]
+      }
+    },
+    {
+      "case_id": "CBV1-OCR-UNKNOWN-SUBJECT",
+      "description": "OCR 대상자와 수치가 불명확한 안전 관련 기록",
+      "tags": ["ocr_uncertain", "subject_unknown", "no_guessing"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [],
+        "sources": [
+          {
+            "source_id": "ocr-unknown-1",
+            "source_kind": "image_ocr",
+            "conversation_id": "conv-ocr",
+            "subject_ids": [],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-23T07:30:00+09:00",
+            "text": "대상-? 오전 비틀거림, 혈압 1?0/7?로 보임. 부축함.",
+            "media_id": "media-ocr-1",
+            "verification_status": "ai_extracted"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-ocr-1",
+            "subject": {"subject_id": null, "display_label": "확인 필요", "verification_status": "needs_confirmation"},
+            "what_happened": "대상자를 특정할 수 없는 OCR 기록에 비틀거림과 불명확한 혈압 수치가 있습니다.",
+            "final_status": "needs_confirmation",
+            "final_status_summary": "부축했다는 OCR은 있으나 대상자와 혈압 수치는 원본 확인이 필요합니다.",
+            "occurred_at": "2026-08-23T07:30:00+09:00",
+            "scheduled_at": null,
+            "priority": "first",
+            "importance_score": 88,
+            "importance_reasons": [
+              {"reason": "비틀거림은 안전 위험일 수 있지만 대상자와 수치가 불명확합니다.", "evidence_source_ids": ["ocr-unknown-1"]}
+            ],
+            "verification_items": [
+              {"field": "subject", "question": "원본 이미지에서 대상자를 확인해 주세요.", "evidence_source_ids": ["ocr-unknown-1"]},
+              {"field": "facts", "question": "원본 이미지에서 혈압 수치를 확인해 주세요.", "evidence_source_ids": ["ocr-unknown-1"]}
+            ],
+            "evidence": [
+              {"source_id": "ocr-unknown-1", "supports": ["event", "time", "importance"], "fact_summary": "OCR에 비틀거림, 부축, 불명확한 혈압 수치가 있습니다."}
+            ],
+            "document_draft_candidates": [],
+            "analysis_confidence": 0.48,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": ["대상자와 혈압 수치는 원본 이미지 확인 전 확정할 수 없습니다."]
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_priorities": {"event-ocr-1": "first"},
+        "required_final_statuses": {"event-ocr-1": "needs_confirmation"},
+        "required_evidence_source_ids": ["ocr-unknown-1"],
+        "required_verification_fields": ["subject", "facts"],
+        "forbidden_claims": ["대상-A", "혈압 120/70", "혈압 180/70"]
+      }
+    },
+    {
+      "case_id": "CBV1-MULTI-REPLY-FINAL-STATE",
+      "description": "여러 답글에서 일부 조치는 완료됐지만 후속 확인은 남은 사건",
+      "tags": ["multi_reply", "partial_completion", "reply_final_state", "document_candidate"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {"subject_id": "subject-d", "display_label": "대상-D", "verification_status": "confirmed"}
+        ],
+        "sources": [
+          {
+            "source_id": "msg-wound-1",
+            "source_kind": "message",
+            "conversation_id": "conv-wound",
+            "subject_ids": ["subject-d"],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-23T08:05:00+09:00",
+            "text": "대상-D 손등에 긁힌 상처와 소량 출혈이 보여 간호직원 확인과 보호자 연락을 요청했습니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "reply-wound-1",
+            "source_kind": "reply",
+            "conversation_id": "conv-wound",
+            "parent_source_id": "msg-wound-1",
+            "subject_ids": ["subject-d"],
+            "author_role": "사회복지사",
+            "occurred_at": "2026-08-23T08:20:00+09:00",
+            "text": "보호자에게 연락했습니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "reply-wound-2",
+            "source_kind": "reply",
+            "conversation_id": "conv-wound",
+            "parent_source_id": "msg-wound-1",
+            "subject_ids": ["subject-d"],
+            "author_role": "간호직원",
+            "occurred_at": "2026-08-23T08:35:00+09:00",
+            "text": "세척과 드레싱을 완료했고 현재 출혈은 없습니다. 오후 3시에 상처를 다시 확인할 예정입니다.",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-wound-1",
+            "subject": {"subject_id": "subject-d", "display_label": "대상-D", "verification_status": "confirmed"},
+            "what_happened": "손등 상처와 소량 출혈이 있어 보호자 연락, 세척, 드레싱을 했습니다.",
+            "final_status": "monitoring",
+            "final_status_summary": "보호자 연락과 드레싱은 완료됐고 현재 출혈은 없지만 오후 3시 재확인이 남았습니다.",
+            "occurred_at": "2026-08-23T08:05:00+09:00",
+            "scheduled_at": "2026-08-23T15:00:00+09:00",
+            "priority": "check",
+            "importance_score": 82,
+            "importance_reasons": [
+              {"reason": "처치는 완료됐지만 같은 날 상처 재확인이 예정되어 있습니다.", "evidence_source_ids": ["msg-wound-1", "reply-wound-2"]}
+            ],
+            "verification_items": [
+              {"field": "follow_up", "question": "오후 3시 상처 재확인 결과를 기록해 주세요.", "evidence_source_ids": ["reply-wound-2"]}
+            ],
+            "evidence": [
+              {"source_id": "msg-wound-1", "supports": ["subject", "event", "time", "importance"], "fact_summary": "손등 상처와 소량 출혈, 간호 확인과 보호자 연락 요청이 기록되었습니다."},
+              {"source_id": "reply-wound-1", "supports": ["status", "completion"], "fact_summary": "보호자 연락이 완료되었습니다."},
+              {"source_id": "reply-wound-2", "supports": ["status", "time", "importance", "completion"], "fact_summary": "세척·드레싱 완료, 출혈 없음, 오후 3시 재확인 예정이 기록되었습니다."}
+            ],
+            "document_draft_candidates": [
+              {"document_type": "nursing_log", "reason": "상처 상태와 처치 내용을 간호기록 초안 후보로 검토할 수 있습니다.", "evidence_source_ids": ["msg-wound-1", "reply-wound-2"]},
+              {"document_type": "care_service_record", "reason": "상처 발견과 후속조치를 급여제공기록 초안 후보로 검토할 수 있습니다.", "evidence_source_ids": ["msg-wound-1", "reply-wound-1", "reply-wound-2"]}
+            ],
+            "analysis_confidence": 0.99,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": []
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_priorities": {"event-wound-1": "check"},
+        "required_final_statuses": {"event-wound-1": "monitoring"},
+        "required_evidence_source_ids": ["msg-wound-1", "reply-wound-1", "reply-wound-2"],
+        "required_document_types": ["nursing_log", "care_service_record"],
+        "forbidden_claims": ["사건 전체 완료", "오후 재확인 완료"]
+      }
+    },
+    {
+      "case_id": "CBV1-CONFLICTING-FACTS",
+      "description": "같은 시점의 상충 수치를 임의로 선택하지 않음",
+      "tags": ["conflicting_facts", "no_guessing", "needs_confirmation"],
+      "input": {
+        "version": "care_briefing_v1",
+        "window": {
+          "start_at": "2026-08-16T00:00:00+09:00",
+          "end_at": "2026-08-23T09:00:00+09:00",
+          "as_of": "2026-08-23T09:00:00+09:00",
+          "timezone": "Asia/Seoul",
+          "includes_unresolved_carryover": true
+        },
+        "transmission_policy": {
+          "privacy_mode": "external_deidentified",
+          "external_ai_allowed": true,
+          "contains_direct_identifiers": false
+        },
+        "subjects": [
+          {"subject_id": "subject-e", "display_label": "대상-E", "verification_status": "confirmed"}
+        ],
+        "sources": [
+          {
+            "source_id": "msg-bp-1",
+            "source_kind": "message",
+            "conversation_id": "conv-bp",
+            "subject_ids": ["subject-e"],
+            "author_role": "요양보호사",
+            "occurred_at": "2026-08-23T08:10:00+09:00",
+            "text": "대상-E 혈압 120/70으로 기록했습니다.",
+            "verification_status": "source_record"
+          },
+          {
+            "source_id": "msg-bp-2",
+            "source_kind": "message",
+            "conversation_id": "conv-bp",
+            "subject_ids": ["subject-e"],
+            "author_role": "간호직원",
+            "occurred_at": "2026-08-23T08:10:00+09:00",
+            "text": "대상-E 같은 측정의 혈압이 180/90으로 전달되었습니다. 원기록 확인이 필요합니다.",
+            "verification_status": "source_record"
+          }
+        ]
+      },
+      "expected_result": {
+        "version": "care_briefing_v1",
+        "as_of": "2026-08-23T09:00:00+09:00",
+        "events": [
+          {
+            "event_id": "event-bp-1",
+            "subject": {"subject_id": "subject-e", "display_label": "대상-E", "verification_status": "confirmed"},
+            "what_happened": "같은 혈압 측정이 120/70과 180/90으로 상충하여 실제 수치를 확정할 수 없습니다.",
+            "final_status": "needs_confirmation",
+            "final_status_summary": "원기록 확인 전 어느 수치도 확정하지 않습니다.",
+            "occurred_at": "2026-08-23T08:10:00+09:00",
+            "scheduled_at": null,
+            "priority": "first",
+            "importance_score": 90,
+            "importance_reasons": [
+              {"reason": "상충한 값 중 하나는 즉시 확인이 필요할 수 있는 혈압 수치입니다.", "evidence_source_ids": ["msg-bp-1", "msg-bp-2"]}
+            ],
+            "verification_items": [
+              {"field": "facts", "question": "원기록에서 실제 혈압 수치를 확인해 주세요.", "evidence_source_ids": ["msg-bp-1", "msg-bp-2"]}
+            ],
+            "evidence": [
+              {"source_id": "msg-bp-1", "supports": ["subject", "event", "time", "importance"], "fact_summary": "혈압 120/70 기록이 있습니다."},
+              {"source_id": "msg-bp-2", "supports": ["subject", "event", "time", "importance"], "fact_summary": "같은 측정이 180/90으로 전달됐고 원기록 확인 필요가 명시되었습니다."}
+            ],
+            "document_draft_candidates": [],
+            "analysis_confidence": 0.64,
+            "validation_status": "needs_staff_review"
+          }
+        ],
+        "ignored_sources": [],
+        "warnings": ["상충한 혈압 수치는 원기록 확인 전 확정할 수 없습니다."]
+      },
+      "answer_key": {
+        "required_event_count": 1,
+        "required_priorities": {"event-bp-1": "first"},
+        "required_final_statuses": {"event-bp-1": "needs_confirmation"},
+        "required_evidence_source_ids": ["msg-bp-1", "msg-bp-2"],
+        "required_verification_fields": ["facts"],
+        "forbidden_claims": ["실제 혈압은 120/70", "실제 혈압은 180/90"]
+      }
+    }
+  ]
+}

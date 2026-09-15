@@ -1,0 +1,29 @@
+{
+  "schema_version": "longitudinal_handwriting_accuracy_expectations_v1",
+  "note": "기존 합성 기준문의 후속 확인 상태를 별도 평가하기 위한 비식별 구조화 검사 항목",
+  "cases": [
+    {
+      "case_id": "LMM-HW-01-BP-MOBILITY",
+      "follow_up": [["재측정혈압120/70", "재측정 혈압 120/70"]]
+    },
+    {
+      "case_id": "LMM-HW-02-BOWEL-A",
+      "follow_up": [["계속관찰하기로함", "계속 관찰하기로 함"]]
+    },
+    {
+      "case_id": "LMM-HW-03-MEAL-MOOD",
+      "follow_up": [["오후노래프로그램에참여함", "오후 노래 프로그램에 참여함"]]
+    },
+    {
+      "case_id": "LMM-HW-04-BOWEL-B",
+      "follow_up": [["계속관찰하기로함", "계속 관찰하기로 함"]]
+    },
+    {
+      "case_id": "LMM-HW-05-WATER",
+      "follow_up": [
+        ["오후4시에다시확인예정", "오후 4시에 다시 확인 예정"],
+        ["오후4시5분확인함", "오후 4시 5분 확인함"]
+      ]
+    }
+  ]
+}

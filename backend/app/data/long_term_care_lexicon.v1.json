@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "name": "MESIL_Chat 장기요양 업무 문맥 사전",
+  "safety_rule": "원문에 없는 사람, 수치, 시간, 투약, 처치, 사건을 만들지 않는다.",
+  "terms": [
+    {"canonical": "송영", "category": "attendance_transport", "priority": 100},
+    {"canonical": "아침 송영 시", "aliases": ["아침 송영시", "수동식 전차"], "category": "attendance_transport", "priority": 100},
+    {"canonical": "등원", "category": "attendance_transport", "priority": 90},
+    {"canonical": "귀가", "category": "attendance_transport", "priority": 90},
+    {"canonical": "개별 출석", "aliases": ["개별출석"], "category": "attendance_transport", "priority": 95},
+    {"canonical": "결석", "category": "attendance_transport", "priority": 85},
+    {"canonical": "센터", "category": "service", "priority": 90},
+    {"canonical": "요양원", "category": "service", "priority": 90},
+    {"canonical": "주간보호", "category": "service", "priority": 100},
+    {"canonical": "방문요양", "category": "service", "priority": 100},
+    {"canonical": "뉴케어", "aliases": ["뉴 케어"], "category": "care_system", "priority": 90},
+    {"canonical": "어르신", "category": "person", "priority": 100},
+    {"canonical": "선생님", "category": "person", "priority": 85},
+    {"canonical": "운전원", "category": "job", "priority": 95},
+    {"canonical": "운전원 선생", "aliases": ["운전원 선생님", "윤전길 선생"], "category": "job", "priority": 95},
+    {"canonical": "사회복지사", "speech_aliases": ["사복"], "category": "job", "priority": 95},
+    {"canonical": "요양보호사", "speech_aliases": ["요보"], "category": "job", "priority": 100},
+    {"canonical": "간호조무사", "category": "job", "priority": 95},
+    {"canonical": "작업치료사", "category": "job", "priority": 95},
+    {"canonical": "기저귀", "category": "elimination", "priority": 100},
+    {"canonical": "속패드", "category": "elimination", "priority": 100},
+    {"canonical": "패드", "category": "elimination", "priority": 95},
+    {"canonical": "디펜드", "category": "elimination", "priority": 90},
+    {"canonical": "팬티형", "category": "elimination", "priority": 90},
+    {"canonical": "소변", "category": "elimination", "priority": 100},
+    {"canonical": "대변", "category": "elimination", "priority": 100},
+    {"canonical": "배뇨", "category": "elimination", "priority": 95},
+    {"canonical": "배변", "category": "elimination", "priority": 95},
+    {"canonical": "변기", "category": "elimination", "priority": 95},
+    {"canonical": "교체", "category": "care_action", "priority": 100},
+    {"canonical": "확인", "aliases": ["흑인"], "category": "care_action", "priority": 100},
+    {"canonical": "목욕", "category": "hygiene", "priority": 100},
+    {"canonical": "세면", "category": "hygiene", "priority": 90},
+    {"canonical": "세탁", "category": "hygiene", "priority": 85},
+    {"canonical": "손톱", "category": "hygiene", "priority": 95},
+    {"canonical": "발톱", "category": "hygiene", "priority": 95},
+    {"canonical": "손톱깎이", "aliases": ["손톱깍이"], "category": "hygiene", "priority": 90},
+    {"canonical": "깎아드림", "aliases": ["깍아드림"], "category": "hygiene", "priority": 90},
+    {"canonical": "마사지", "category": "rehabilitation", "priority": 90},
+    {"canonical": "작업치료", "category": "rehabilitation", "priority": 95},
+    {"canonical": "보행", "category": "mobility", "priority": 95},
+    {"canonical": "이동", "category": "mobility", "priority": 90},
+    {"canonical": "안전바", "category": "mobility", "priority": 95},
+    {"canonical": "낙상", "category": "risk", "priority": 100},
+    {"canonical": "침상", "category": "rest_position", "priority": 95},
+    {"canonical": "휴식", "category": "rest_position", "priority": 90},
+    {"canonical": "쪽잠", "category": "rest_position", "priority": 85},
+    {"canonical": "체위", "category": "rest_position", "priority": 95},
+    {"canonical": "체위변경", "aliases": ["체위 변경"], "category": "rest_position", "priority": 100},
+    {"canonical": "혈압", "category": "vital_sign", "priority": 100},
+    {"canonical": "체온", "category": "vital_sign", "priority": 100},
+    {"canonical": "맥박", "category": "vital_sign", "priority": 90},
+    {"canonical": "발진", "category": "skin", "priority": 95},
+    {"canonical": "가려움", "category": "skin", "priority": 95},
+    {"canonical": "상처", "category": "skin", "priority": 100},
+    {"canonical": "욕창", "category": "skin", "priority": 100},
+    {"canonical": "붕대", "category": "skin", "priority": 85},
+    {"canonical": "냄새", "category": "observation", "priority": 80},
+    {"canonical": "설사", "category": "symptom", "priority": 100},
+    {"canonical": "통증", "category": "symptom", "priority": 100},
+    {"canonical": "기운", "category": "symptom", "priority": 80},
+    {"canonical": "무릎", "category": "body", "priority": 85},
+    {"canonical": "허벅지", "category": "body", "priority": 85},
+    {"canonical": "처방", "category": "medication", "priority": 100},
+    {"canonical": "투약", "category": "medication", "priority": 100},
+    {"canonical": "복약", "category": "medication", "priority": 95},
+    {"canonical": "복용", "category": "medication", "priority": 95},
+    {"canonical": "아침", "category": "time_meal", "priority": 95},
+    {"canonical": "점심", "category": "time_meal", "priority": 95},
+    {"canonical": "저녁", "category": "time_meal", "priority": 95},
+    {"canonical": "아침식사", "aliases": ["아침 식사"], "category": "time_meal", "priority": 100},
+    {"canonical": "점심식사", "aliases": ["점심 식사"], "category": "time_meal", "priority": 100},
+    {"canonical": "저녁식사", "aliases": ["저녁 식사"], "category": "time_meal", "priority": 100},
+    {"canonical": "식사", "category": "time_meal", "priority": 100},
+    {"canonical": "간식", "category": "time_meal", "priority": 90},
+    {"canonical": "수분", "category": "time_meal", "priority": 95},
+    {"canonical": "섭취", "category": "time_meal", "priority": 100},
+    {"canonical": "전화", "category": "communication", "priority": 90},
+    {"canonical": "말씀", "category": "communication", "priority": 95},
+    {"canonical": "TV", "speech_aliases": ["티브이", "테레비"], "category": "daily_life", "priority": 75}
+  ],
+  "situations": [
+    {
+      "id": "nail_hygiene",
+      "label": "손발톱·목욕 관리",
+      "triggers": ["손톱", "발톱", "손톱깎이", "목욕"],
+      "related_terms": ["위생", "세면", "깎아드림", "정리", "손질"],
+      "phrases": [
+        "목욕 후 손톱을 깎아드림",
+        "목욕 후 발톱을 깎아드림",
+        "손톱이 길어 정리해드림",
+        "발톱이 길어 정리해드림"
+      ]
+    },
+    {
+      "id": "elimination_care",
+      "label": "배설·기저귀 관리",
+      "triggers": ["기저귀", "속패드", "패드", "소변", "대변", "배뇨", "배변", "변기"],
+      "related_terms": ["교체", "확인", "팬티형", "디펜드"],
+      "phrases": [
+        "기저귀와 속패드를 확인함",
+        "소변 확인 후 기저귀를 교체함",
+        "대변 확인 후 기저귀를 교체함",
+        "변기 이용을 도와드림"
+      ]
+    },
+    {
+      "id": "meal_hydration",
+      "label": "식사·수분 섭취",
+      "triggers": ["아침", "점심", "저녁", "식사", "간식", "수분", "섭취"],
+      "related_terms": ["식사량", "도움", "제공", "거부"],
+      "phrases": [
+        "점심 식사량을 확인함",
+        "수분 섭취를 도와드림",
+        "간식을 제공함",
+        "식사를 거부하여 상태를 관찰함"
+      ]
+    },
+    {
+      "id": "medication",
+      "label": "투약·처방",
+      "triggers": ["처방", "투약", "복약", "복용"],
+      "related_terms": ["약", "병원", "보호자", "확인"],
+      "phrases": [
+        "처방약을 확인함",
+        "투약 여부를 확인함",
+        "약을 복용하심",
+        "보호자에게 처방 내용을 확인함"
+      ]
+    },
+    {
+      "id": "vital_health",
+      "label": "활력징후·건강 상태",
+      "triggers": ["혈압", "체온", "맥박", "기운", "통증"],
+      "related_terms": ["측정", "확인", "상태", "관찰"],
+      "phrases": [
+        "혈압을 측정함",
+        "체온을 확인함",
+        "기운이 없어 보여 상태를 관찰함",
+        "통증을 말씀하심"
+      ]
+    },
+    {
+      "id": "skin_care",
+      "label": "피부·상처 관리",
+      "triggers": ["발진", "가려움", "상처", "욕창", "붕대", "냄새"],
+      "related_terms": ["피부", "관찰", "소독", "보호자", "간호"],
+      "phrases": [
+        "피부 발진을 확인함",
+        "가려움을 말씀하심",
+        "상처 부위를 관찰함",
+        "피부 상태를 간호선생님에게 전달함"
+      ]
+    },
+    {
+      "id": "rest_position",
+      "label": "침상·휴식·체위",
+      "triggers": ["침상", "휴식", "쪽잠", "체위", "체위변경"],
+      "related_terms": ["수면", "자세", "도움", "관찰"],
+      "phrases": [
+        "침상에서 휴식하심",
+        "잠시 쪽잠을 주무심",
+        "체위변경을 도와드림",
+        "편안한 자세를 유지하도록 도움"
+      ]
+    },
+    {
+      "id": "mobility_fall",
+      "label": "보행·이동·낙상 예방",
+      "triggers": ["보행", "이동", "낙상", "안전바", "무릎", "허벅지"],
+      "related_terms": ["부축", "휠체어", "통증", "안전", "확인"],
+      "phrases": [
+        "보행 시 부축해드림",
+        "안전바를 확인함",
+        "낙상 위험이 있어 이동을 도와드림",
+        "무릎 통증을 말씀하심"
+      ]
+    },
+    {
+      "id": "attendance_transport",
+      "label": "송영·출석·귀가",
+      "triggers": ["송영", "등원", "귀가", "개별 출석", "결석", "전화"],
+      "related_terms": ["아침", "오전", "오후", "센터", "보호자", "댁"],
+      "phrases": [
+        "아침 송영 시 댁에서 모셔옴",
+        "개별 출석하심",
+        "보호자에게 전화함",
+        "오후 송영으로 귀가하심"
+      ]
+    },
+    {
+      "id": "rehabilitation",
+      "label": "재활·작업치료",
+      "triggers": ["마사지", "작업치료", "작업치료사"],
+      "related_terms": ["운동", "관절", "통증", "프로그램", "참여"],
+      "phrases": [
+        "작업치료 프로그램에 참여하심",
+        "관절 운동을 도와드림",
+        "통증 부위를 마사지해드림"
+      ]
+    },
+    {
+      "id": "communication_behavior",
+      "label": "의사소통·행동 관찰",
+      "triggers": ["말씀", "전화", "선생님", "TV", "어르신"],
+      "related_terms": ["반복", "거부", "불안", "소리", "관찰"],
+      "phrases": [
+        "같은 말씀을 반복하심",
+        "불안한 모습을 보여 안심시켜드림",
+        "다른 어르신과 대화하심",
+        "TV를 시청하며 휴식하심"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,573 @@
+[
+  {
+    "event_id": "R0001-DEMO-001",
+    "created_at": "2026-06-01T09:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "사복01",
+    "category": "care_plan",
+    "state": "completed",
+    "body": "어르0001 이전 기초사정과 급여제공계획 결과평가를 기준자료로 확인했습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-01T09:12:00+09:00",
+        "body": "이후 현재 관찰 내용을 기록하겠습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-002",
+    "created_at": "2026-06-04T10:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보01",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 지팡이를 사용해 생활실에서 프로그램실까지 혼자 이동했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-06-04T10:25:00+09:00",
+        "body": "이전 이동 상태가 유지되는 것으로 확인했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-003",
+    "created_at": "2026-06-10T12:30:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "영양01",
+    "category": "nutrition",
+    "state": "completed",
+    "body": "어르0001 점심 일반식 3/4 섭취했고 불편 호소는 없었습니다.",
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-06-10T12:42:00+09:00",
+        "body": "물도 스스로 드셨습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-004",
+    "created_at": "2026-06-18T08:20:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보02",
+    "category": "elimination",
+    "state": "completed",
+    "body": "어르0001 화장실을 이용했고 배변 불편은 없었습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-06-18T08:35:00+09:00",
+        "body": "특이사항 없습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-005",
+    "created_at": "2026-06-27T14:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "작치01",
+    "category": "program",
+    "state": "completed",
+    "body": "어르0001 소근육 프로그램에 30분 참여하고 활동을 끝까지 수행했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-06-27T14:40:00+09:00",
+        "body": "본인이 다음 활동도 참여하고 싶다고 말했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-006",
+    "created_at": "2026-07-03T09:15:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보01",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 자리에서 일어날 때 잠깐 어지럽다고 말해 앉아서 쉬었습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-07-03T09:25:00+09:00",
+        "body": "10분 뒤 어지럼이 없어졌고 보행 상태를 확인했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-007",
+    "created_at": "2026-07-05T10:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 어지럼 재호소 없이 지팡이로 실내를 이동했습니다.",
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-07-05T10:16:00+09:00",
+        "body": "일시적 변화로 보이며 계속 관찰하겠습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-008",
+    "created_at": "2026-07-12T12:20:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "영양01",
+    "category": "nutrition",
+    "state": "completed",
+    "body": "어르0001 점심 식사량이 1/2이었고 저녁에는 3/4을 섭취했습니다.",
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-07-12T18:30:00+09:00",
+        "body": "저녁 섭취량 회복을 확인했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-009",
+    "created_at": "2026-07-20T15:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "skin",
+    "state": "completed",
+    "body": "어르0001 목욕 후 피부를 확인했고 발적이나 손상은 관찰되지 않았습니다.",
+    "comments": [
+      {
+        "author_code": "위생01",
+        "created_at": "2026-07-20T15:18:00+09:00",
+        "body": "의복과 침구도 건조한 상태입니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-010",
+    "created_at": "2026-07-28T06:40:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보03",
+    "category": "sleep",
+    "state": "completed",
+    "body": "어르0001 밤중에 한 번 깼으나 다시 잠들었고 아침 피로 호소는 없었습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-07-28T08:10:00+09:00",
+        "body": "한 차례 관찰로 상태 변화를 확정하지 않습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-011",
+    "created_at": "2026-08-02T09:05:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보01",
+    "category": "mobility",
+    "state": "needs_review",
+    "body": "어르0001 복도 이동 중 몸이 한 차례 흔들려 옆에서 손을 받쳐드렸습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-02T09:18:00+09:00",
+        "body": "통증과 외상은 관찰되지 않았습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-012",
+    "created_at": "2026-08-04T10:30:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보02",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 프로그램실 이동 시 다시 몸이 흔들려 한 명이 팔을 잡고 이동을 도왔습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-04T10:45:00+09:00",
+        "body": "지속 여부를 확인해 다음 평가에 반영하겠습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-013",
+    "created_at": "2026-08-04T10:31:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보03",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 프로그램실 이동 때 직원이 팔을 잡아 안전하게 이동했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-04T10:48:00+09:00",
+        "body": "같은 이동 사건의 재보고로 원문만 보존합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false,
+    "duplicate_of": "R0001-DEMO-012"
+  },
+  {
+    "event_id": "R0001-DEMO-014",
+    "created_at": "2026-08-09T09:40:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 최근 일주일 동안 보행 시 직원 부축이 반복적으로 필요했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-09T09:55:00+09:00",
+        "body": "이동지원 방법 변경 검토 후보로 남깁니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-015",
+    "created_at": "2026-08-12T12:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "영양01",
+    "category": "nutrition",
+    "state": "needs_review",
+    "body": "어르0001 점심 일반식 1/2 섭취했습니다.",
+    "comments": [
+      {
+        "author_code": "요보01",
+        "created_at": "2026-08-12T12:25:00+09:00",
+        "body": "저녁 식사량도 확인하겠습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-016",
+    "created_at": "2026-08-13T12:15:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보01",
+    "category": "nutrition",
+    "state": "completed",
+    "body": "어르0001 점심 일반식 1/2 섭취했고 식사 불편은 말하지 않았습니다.",
+    "comments": [
+      {
+        "author_code": "영양01",
+        "created_at": "2026-08-13T13:00:00+09:00",
+        "body": "연속 감소 여부를 관찰 중입니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-017",
+    "created_at": "2026-08-14T12:20:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "영양01",
+    "category": "nutrition",
+    "state": "completed",
+    "body": "어르0001 점심 일반식 2/3 섭취했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-14T13:05:00+09:00",
+        "body": "이전 3/4 이상보다 감소한 기록이 이어졌습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-018",
+    "created_at": "2026-08-18T14:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보02",
+    "category": "hydration",
+    "state": "completed",
+    "body": "어르0001 오후 2시 물 200mL를 제공했습니다.",
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-08-18T16:00:00+09:00",
+        "body": "오후 4시 제공한 물 200mL 전량 섭취를 확인했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-019",
+    "created_at": "2026-08-20T10:20:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "작치01",
+    "category": "cognition",
+    "state": "needs_review",
+    "body": "어르0001 오전 프로그램 일정을 두 번 물었고 안내 후에는 장소를 찾아 참여했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-20T10:45:00+09:00",
+        "body": "현재 기억 상태를 한 번 더 관찰해야 합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-020",
+    "created_at": "2026-08-21T14:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "사복01",
+    "category": "emotion",
+    "state": "completed",
+    "body": "어르0001 처음에는 활동을 쉬고 싶다고 했으나 대화 후 노래 프로그램에 참여했습니다.",
+    "comments": [
+      {
+        "author_code": "작치01",
+        "created_at": "2026-08-21T15:00:00+09:00",
+        "body": "활동 중 표정은 안정적이었습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-021",
+    "created_at": "2026-08-23T15:30:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "skin",
+    "state": "completed",
+    "body": "어르0001 위생지원 뒤 피부를 확인했고 손상은 관찰되지 않았습니다.",
+    "comments": [
+      {
+        "author_code": "요보03",
+        "created_at": "2026-08-23T15:40:00+09:00",
+        "body": "이전 피부 상태가 유지됩니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-022",
+    "created_at": "2026-08-25T11:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "사복01",
+    "category": "guardian_consultation",
+    "state": "completed",
+    "body": "어르0001 보호자에게 최근 이동 부축과 식사량 감소를 설명했고 보호자가 내용을 확인했습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-25T11:20:00+09:00",
+        "body": "보호자 연락·설명·확인 결과를 상담 근거로 보존합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-023",
+    "created_at": "2026-08-27T09:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "vital_conflict",
+    "state": "needs_review",
+    "body": "어르0001 오전 9시 10분 혈압 134/76으로 기록했습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-27T09:30:00+09:00",
+        "body": "같은 시각의 다른 수치가 있어 원본 확인이 필요합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-024",
+    "created_at": "2026-08-27T09:10:30+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보01",
+    "category": "vital_conflict",
+    "state": "needs_review",
+    "body": "어르0001 오전 9시 10분 혈압 170/90으로 메모되어 있습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-27T09:35:00+09:00",
+        "body": "어느 수치도 자동 선택하지 않고 측정 기록을 대조합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-025",
+    "created_at": "2026-08-29T08:30:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보03",
+    "category": "elimination",
+    "state": "completed",
+    "body": "어르0001 화장실을 이용했고 배변과 배뇨 불편은 없었습니다.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-08-29T08:45:00+09:00",
+        "body": "배설 상태 특이사항 없습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-026",
+    "created_at": "2026-08-31T10:10:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "간호01",
+    "category": "mobility",
+    "state": "completed",
+    "body": "어르0001 보행 시 한 명의 부축이 계속 필요했고 외상이나 통증은 없었습니다.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-08-31T10:30:00+09:00",
+        "body": "지속적인 이동 변화로 확인했습니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-027",
+    "created_at": "2026-09-01T14:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "요보02",
+    "category": "hydration",
+    "state": "pending",
+    "body": "어르0001 오후 수분 섭취량은 재확인 예정입니다.",
+    "comments": [
+      {
+        "author_code": "요보02",
+        "created_at": "2026-09-01T14:05:00+09:00",
+        "body": "아직 완료 기록이 없어 예정 상태로 둡니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-028",
+    "created_at": "2026-09-02T09:00:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "사복01",
+    "category": "assessment_summary",
+    "state": "completed",
+    "body": "어르0001 이동 상태: 보행 시 한 명 부축 필요. 식사 상태: 일반식 1/2~2/3 섭취. 피부 상태: 손상 관찰되지 않음.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-09-02T09:15:00+09:00",
+        "body": "최근 기록에서 확인한 현재 상태입니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-029",
+    "created_at": "2026-09-02T09:20:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "작치01",
+    "category": "cognition",
+    "state": "needs_review",
+    "body": "어르0001 인지 상태: 간단한 의사소통 가능, 최근 일정은 반복 확인이 필요함.",
+    "comments": [
+      {
+        "author_code": "사복01",
+        "created_at": "2026-09-02T09:35:00+09:00",
+        "body": "현재 관찰을 추가해 검사 문항은 직원이 확인합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  },
+  {
+    "event_id": "R0001-DEMO-030",
+    "created_at": "2026-09-02T09:40:00+09:00",
+    "resident_code": "어르0001",
+    "sender_code": "사복01",
+    "category": "assessment_summary",
+    "state": "completed",
+    "body": "어르0001 수분 상태: 물 200mL 제공 시 전량 섭취 확인. 배변 상태: 화장실 이용, 불편 호소 없음.",
+    "comments": [
+      {
+        "author_code": "간호01",
+        "created_at": "2026-09-02T09:55:00+09:00",
+        "body": "확인된 사실만 새 평가 회차의 근거로 사용합니다."
+      }
+    ],
+    "synthetic_fixture": true,
+    "official_record": false,
+    "external_transfer_allowed": false
+  }
+]

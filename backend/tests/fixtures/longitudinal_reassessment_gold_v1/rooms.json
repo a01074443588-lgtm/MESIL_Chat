@@ -1,0 +1,30 @@
+{
+  "schema_version": "synthetic_rooms_v1",
+  "rooms": [
+    {
+      "room_code": "ROOM-CARE-0901",
+      "name": "어르0901 돌봄·생활",
+      "purpose": "일상생활·이동·배설·위생"
+    },
+    {
+      "room_code": "ROOM-NURSE-0901",
+      "name": "어르0901 건강·간호",
+      "purpose": "활력·피부·건강관찰"
+    },
+    {
+      "room_code": "ROOM-NUTRITION-0901",
+      "name": "어르0901 식사·영양",
+      "purpose": "식사·수분·영양"
+    },
+    {
+      "room_code": "ROOM-PROGRAM-0901",
+      "name": "어르0901 프로그램·재활",
+      "purpose": "활동·정서·재활관찰"
+    },
+    {
+      "room_code": "ROOM-HANDOVER-0901",
+      "name": "어르0901 상담·업무인계",
+      "purpose": "보호자 상담·직군 간 인계"
+    }
+  ]
+}

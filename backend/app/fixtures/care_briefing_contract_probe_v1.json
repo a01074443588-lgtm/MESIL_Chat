@@ -1,0 +1,60 @@
+{
+  "case_id": "CBV1-SAFETY-FOLLOWUP",
+  "input": {
+    "version": "care_briefing_v1",
+    "window": {
+      "start_at": "2026-08-16T00:00:00+09:00",
+      "end_at": "2026-08-23T09:00:00+09:00",
+      "as_of": "2026-08-23T09:00:00+09:00",
+      "timezone": "Asia/Seoul",
+      "includes_unresolved_carryover": true
+    },
+    "transmission_policy": {
+      "privacy_mode": "external_deidentified",
+      "external_ai_allowed": true,
+      "contains_direct_identifiers": false
+    },
+    "subjects": [
+      {
+        "subject_id": "subject-a",
+        "display_label": "대상-A",
+        "verification_status": "confirmed"
+      }
+    ],
+    "sources": [
+      {
+        "source_id": "msg-safety-1",
+        "source_kind": "message",
+        "conversation_id": "conv-safety",
+        "subject_ids": ["subject-a"],
+        "author_role": "요양보호사",
+        "occurred_at": "2026-08-22T14:05:00+09:00",
+        "text": "대상-A가 복도 이동 중 비틀거려 부축하고 간호직원에게 알렸습니다.",
+        "verification_status": "source_record"
+      },
+      {
+        "source_id": "reply-safety-1",
+        "source_kind": "reply",
+        "conversation_id": "conv-safety",
+        "parent_source_id": "msg-safety-1",
+        "subject_ids": ["subject-a"],
+        "author_role": "간호직원",
+        "occurred_at": "2026-08-22T14:20:00+09:00",
+        "text": "활력징후를 확인했고 외상 호소는 없습니다. 다음 이동 전에 상태를 다시 확인할 예정입니다.",
+        "verification_status": "source_record"
+      },
+      {
+        "source_id": "photo-safety-1",
+        "source_kind": "photo",
+        "conversation_id": "conv-safety",
+        "parent_source_id": "msg-safety-1",
+        "subject_ids": ["subject-a"],
+        "author_role": "요양보호사",
+        "occurred_at": "2026-08-22T14:06:00+09:00",
+        "text": "복도 이동 구간 사진",
+        "media_id": "media-safety-1",
+        "verification_status": "source_record"
+      }
+    ]
+  }
+}

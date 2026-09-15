@@ -1,0 +1,36 @@
+{
+  "fixture_version": "nano_omni_deidentified_v1",
+  "created_at": "2026-08-23T16:07:23.1987726+09:00",
+  "privacy": {
+    "synthetic": true,
+    "external_ai_allowed": true,
+    "contains_direct_identifiers": false,
+    "contains_real_person_or_record": false
+  },
+  "expected": {
+    "time": "14:00",
+    "amount_ml": 200,
+    "follow_up_status": "pending",
+    "image_audio_consistent": true
+  },
+  "generation": {
+    "image": "System.Drawing",
+    "audio": "Windows System.Speech offline synthesis",
+    "voice": "Microsoft Heami Desktop",
+    "audio_text_sha256": "528f6c539fe77d117b3ac5a13985c64e5cf13f7c8daa3f3903c8badddbe58dc2"
+  },
+  "assets": {
+    "image": {
+      "file": "synthetic_care_card.png",
+      "media_type": "image/png",
+      "sha256": "ed7df9ce9f30e3257aec346da0e748e1a9f5fbfac60122591a93abbabe97f5d8",
+      "size_bytes": 18035
+    },
+    "audio": {
+      "file": "synthetic_care_message.wav",
+      "media_type": "audio/wav",
+      "sha256": "1ee91f3fb6ab8bc556ed517f8f6782f7c42bf77164b705c04bc63e62e7cbb4f9",
+      "size_bytes": 760072
+    }
+  }
+}

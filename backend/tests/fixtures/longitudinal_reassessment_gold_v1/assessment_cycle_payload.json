@@ -1,0 +1,525 @@
+{
+  "schema_version": "resident_assessment_cycle_v1",
+  "revision": 1,
+  "supersedes_revision": null,
+  "reason": "periodic_reassessment",
+  "assessment_date": "2026-09-01",
+  "period_start": "2026-03-02",
+  "period_end": "2026-08-31",
+  "source_provider": "staff_manual",
+  "previous_cycle_id": null,
+  "output_status": "needs_confirmation",
+  "external_transfer_allowed": false,
+  "baseline_sources": [
+    {
+      "source_ref": "prev-fall-v1",
+      "document_type": "fall_risk_assessment",
+      "assessment_date": "2026-03-01",
+      "period_start": "2026-03-01",
+      "period_end": "2026-08-31",
+      "source_label": "직원이 원본을 확인한 합성 이전 낙상위험도 평가",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "검증용 내부양식 fall-2025-v1",
+      "facts": [
+        {
+          "field_key": "fall_history",
+          "label": "낙상 이력",
+          "value_kind": "fact",
+          "value": "이전 평가기간 실제 낙상 기록 없음",
+          "evidence_refs": [
+            "doc:prev-fall-v1#p1:fall_history"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "mobility_support",
+          "label": "이동 상태",
+          "value_kind": "fact",
+          "value": "실내 독립보행",
+          "evidence_refs": [
+            "doc:prev-fall-v1#p1:mobility_support"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "night_toileting_support",
+          "label": "야간 화장실 이동",
+          "value_kind": "fact",
+          "value": "필요 시 말로 위치 안내",
+          "evidence_refs": [
+            "doc:prev-fall-v1#p1:night_toileting_support"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "fall_assessment_score",
+          "label": "당시 낙상평가 점수",
+          "value_kind": "assessment_score",
+          "value": 7,
+          "evidence_refs": [
+            "doc:prev-fall-v1#p1:fall_assessment_score"
+          ],
+          "staff_confirmed": true
+        }
+      ]
+    },
+    {
+      "source_ref": "prev-pressure-v1",
+      "document_type": "pressure_ulcer_risk_assessment",
+      "assessment_date": "2026-03-01",
+      "period_start": "2026-03-01",
+      "period_end": "2026-08-31",
+      "source_label": "직원이 원본을 확인한 합성 이전 욕창위험도 평가",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "검증용 내부양식 pressure-2025-v1",
+      "facts": [
+        {
+          "field_key": "skin_status",
+          "label": "피부 상태",
+          "value_kind": "fact",
+          "value": "피부 손상 관찰 없음",
+          "evidence_refs": [
+            "doc:prev-pressure-v1#p1:skin_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "reposition_ability",
+          "label": "체위변경",
+          "value_kind": "fact",
+          "value": "스스로 자세를 바꿈",
+          "evidence_refs": [
+            "doc:prev-pressure-v1#p1:reposition_ability"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "meal_status",
+          "label": "영양 상태",
+          "value_kind": "fact",
+          "value": "일반식 80% 이상 섭취",
+          "evidence_refs": [
+            "doc:prev-pressure-v1#p1:meal_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "pressure_assessment_score",
+          "label": "당시 욕창평가 점수",
+          "value_kind": "assessment_score",
+          "value": 19,
+          "evidence_refs": [
+            "doc:prev-pressure-v1#p1:pressure_assessment_score"
+          ],
+          "staff_confirmed": true
+        }
+      ]
+    },
+    {
+      "source_ref": "prev-cognitive-v1",
+      "document_type": "cognitive_function_assessment",
+      "assessment_date": "2026-03-01",
+      "period_start": "2026-03-01",
+      "period_end": "2026-08-31",
+      "source_label": "직원이 원본을 확인한 합성 이전 인지기능검사 결과",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "검증용 내부양식 cognitive-2025-v1",
+      "facts": [
+        {
+          "field_key": "cognitive_test_participation",
+          "label": "검사 참여",
+          "value_kind": "fact",
+          "value": "직원 안내에 따라 검사에 참여함",
+          "evidence_refs": [
+            "doc:prev-cognitive-v1#p1:cognitive_test_participation"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "communication_status",
+          "label": "의사소통",
+          "value_kind": "fact",
+          "value": "간단한 질문에 적절히 응답함",
+          "evidence_refs": [
+            "doc:prev-cognitive-v1#p1:communication_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "cognitive_assessment_score",
+          "label": "당시 인지검사 점수",
+          "value_kind": "assessment_score",
+          "value": 21,
+          "evidence_refs": [
+            "doc:prev-cognitive-v1#p1:cognitive_assessment_score"
+          ],
+          "staff_confirmed": true
+        }
+      ]
+    },
+    {
+      "source_ref": "prev-needs-v1",
+      "document_type": "needs_assessment",
+      "assessment_date": "2026-03-01",
+      "period_start": "2026-03-01",
+      "period_end": "2026-08-31",
+      "source_label": "직원이 원본을 확인한 합성 이전 욕구사정",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "검증용 내부양식 needs-2025-v1",
+      "facts": [
+        {
+          "field_key": "meal_status",
+          "label": "식사 상태",
+          "value_kind": "fact",
+          "value": "일반식 80~100% 섭취",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:meal_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "hydration_status",
+          "label": "수분 상태",
+          "value_kind": "fact",
+          "value": "스스로 물을 마심",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:hydration_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "bowel_status",
+          "label": "배변 상태",
+          "value_kind": "fact",
+          "value": "1~2일 간격으로 확인됨",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:bowel_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "urination_status",
+          "label": "배뇨 상태",
+          "value_kind": "fact",
+          "value": "야간 배뇨 1회 정도",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:urination_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "mobility_support",
+          "label": "이동 상태",
+          "value_kind": "fact",
+          "value": "실내 독립보행",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:mobility_support"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "bathing_support",
+          "label": "목욕 도움",
+          "value_kind": "fact",
+          "value": "등 씻기에 일부 도움",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:bathing_support"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "communication_status",
+          "label": "의사소통",
+          "value_kind": "fact",
+          "value": "짧은 문장으로 의사를 표현함",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:communication_status"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "resident_preference",
+          "label": "대상자 욕구",
+          "value_kind": "fact",
+          "value": "가능한 활동은 직접 하고 싶다고 말함",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:resident_preference"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "guardian_preference",
+          "label": "보호자 욕구",
+          "value_kind": "fact",
+          "value": "안전하게 활동을 유지하기를 희망함",
+          "evidence_refs": [
+            "doc:prev-needs-v1#p1:guardian_preference"
+          ],
+          "staff_confirmed": true
+        }
+      ]
+    },
+    {
+      "source_ref": "prev-care-plan-v1",
+      "document_type": "long_term_care_service_plan",
+      "assessment_date": "2026-03-01",
+      "period_start": "2026-03-01",
+      "period_end": "2026-08-31",
+      "source_label": "직원이 원본을 확인한 합성 이전 장기요양급여 제공계획",
+      "organization_role": "authoring_organization",
+      "original_verified_by_staff": true,
+      "current_reconfirmation_required": true,
+      "form_version": "검증용 내부양식 care-plan-2025-v1",
+      "facts": [
+        {
+          "field_key": "previous_care_goal",
+          "label": "이전 생활 목표",
+          "value_kind": "care_goal",
+          "value": "가능한 일상생활을 직접 수행하도록 지원",
+          "evidence_refs": [
+            "doc:prev-care-plan-v1#p1:previous_care_goal"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "previous_mobility_method",
+          "label": "이전 이동 지원",
+          "value_kind": "fact",
+          "value": "실내 이동 시 주변을 정돈하고 안전 여부 관찰",
+          "evidence_refs": [
+            "doc:prev-care-plan-v1#p1:previous_mobility_method"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "previous_nutrition_method",
+          "label": "이전 영양·수분 지원",
+          "value_kind": "fact",
+          "value": "식사와 수분 섭취 상태 관찰",
+          "evidence_refs": [
+            "doc:prev-care-plan-v1#p1:previous_nutrition_method"
+          ],
+          "staff_confirmed": true
+        },
+        {
+          "field_key": "previous_activity_method",
+          "label": "이전 정서·활동 지원",
+          "value_kind": "fact",
+          "value": "선호하는 소그룹 활동 참여 지원",
+          "evidence_refs": [
+            "doc:prev-care-plan-v1#p1:previous_activity_method"
+          ],
+          "staff_confirmed": true
+        }
+      ]
+    }
+  ],
+  "current_facts": [
+    {
+      "field_key": "mobility_support",
+      "label": "이동 상태",
+      "value_kind": "fact",
+      "value": "보행 시 부축 필요",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0004",
+        "msg:LRG-0005",
+        "msg:LRG-0006",
+        "msg:LRG-0007"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": "이동지원 방법과 낙상예방 조치 검토",
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "meal_status",
+      "label": "식사 상태",
+      "value_kind": "fact",
+      "value": "일반식 약 80% 섭취",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0008",
+        "msg:LRG-0009",
+        "msg:LRG-0010"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "hydration_status",
+      "label": "수분 상태",
+      "value_kind": "fact",
+      "value": "물 200mL 제공 후 전량 섭취 확인",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0001",
+        "msg:LRG-0002",
+        "msg:LRG-0003"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "bowel_status",
+      "label": "배변 상태",
+      "value_kind": "fact",
+      "value": "보통 변 확인",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0011",
+        "msg:LRG-0012"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "urination_status",
+      "label": "배뇨 상태",
+      "value_kind": "fact",
+      "value": "야간 화장실 이동 3회",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0013",
+        "msg:LRG-0014",
+        "msg:LRG-0015"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "skin_status",
+      "label": "피부 상태",
+      "value_kind": "fact",
+      "value": "피부 손상 관찰 없음",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0016",
+        "msg:LRG-0017"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "bathing_support",
+      "label": "목욕 도움",
+      "value_kind": "fact",
+      "value": "등 씻기와 하의 갈아입기 도움",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0032",
+        "msg:LRG-0033"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": "목욕·옷갈아입기 지원 방법 검토",
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "sleep_status",
+      "label": "수면 상태",
+      "value_kind": "fact",
+      "value": "야간 두 차례 깸",
+      "state": "confirmed",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0036",
+        "msg:LRG-0037"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": true
+    },
+    {
+      "field_key": "time_orientation_observation",
+      "label": "시간 지남력 관찰",
+      "value_kind": "fact",
+      "value": null,
+      "state": "current_observation_required",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0018",
+        "msg:LRG-0019",
+        "msg:LRG-0020"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    },
+    {
+      "field_key": "swallowing_observation",
+      "label": "연하 상태",
+      "value_kind": "fact",
+      "value": null,
+      "state": "expert_review_required",
+      "source_type": "current_observation",
+      "observed_at": null,
+      "evidence_refs": [
+        "msg:LRG-0034",
+        "msg:LRG-0035"
+      ],
+      "conflict_values": [],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    },
+    {
+      "field_key": "blood_pressure",
+      "label": "혈압",
+      "value_kind": "fact",
+      "value": null,
+      "state": "material_conflict",
+      "source_type": "mesil_chat_confirmed",
+      "observed_at": "2026-08-31",
+      "evidence_refs": [
+        "msg:LRG-0027",
+        "msg:LRG-0028",
+        "msg:LRG-0029"
+      ],
+      "conflict_values": [
+        "120/70",
+        "170/90"
+      ],
+      "basis_version": null,
+      "plan_impact": null,
+      "staff_confirmed": false
+    }
+  ],
+  "selected_plan_candidate_keys": []
+}

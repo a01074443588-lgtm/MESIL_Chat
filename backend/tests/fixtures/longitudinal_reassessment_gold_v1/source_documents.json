@@ -1,0 +1,132 @@
+{
+  "schema_version": "assessment_source_documents_v1",
+  "resident_code": "어르0901",
+  "documents": [
+    {
+      "filename": "01_previous_fall_assessment.pdf",
+      "source_ref": "prev-fall-v1",
+      "document_kinds": [
+        "fall_risk_assessment"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "fall_risk_assessment",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 낙상위험도 평가"
+        }
+      ]
+    },
+    {
+      "filename": "02_previous_pressure_assessment.pdf",
+      "source_ref": "prev-pressure-v1",
+      "document_kinds": [
+        "pressure_ulcer_risk_assessment"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "pressure_ulcer_risk_assessment",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 욕창위험도 평가"
+        }
+      ]
+    },
+    {
+      "filename": "03_previous_cognitive_assessment.pdf",
+      "source_ref": "prev-cognitive-v1",
+      "document_kinds": [
+        "cognitive_function_assessment"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "cognitive_function_assessment",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 인지기능검사 결과"
+        }
+      ]
+    },
+    {
+      "filename": "04_previous_needs_assessment.pdf",
+      "source_ref": "prev-needs-v1",
+      "document_kinds": [
+        "needs_assessment"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "needs_assessment",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 욕구사정"
+        }
+      ]
+    },
+    {
+      "filename": "05_previous_care_plan.pdf",
+      "source_ref": "prev-care-plan-v1",
+      "document_kinds": [
+        "long_term_care_service_plan"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "long_term_care_service_plan",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 장기요양급여 제공계획"
+        }
+      ]
+    },
+    {
+      "filename": "06_previous_care_plan_evaluation.pdf",
+      "source_ref": "prev-care-plan-eval-v1",
+      "document_kinds": [
+        "care_plan_evaluation"
+      ],
+      "source_role": "authoring_organization",
+      "staff_original_verified": true,
+      "current_reconfirmation_required": true,
+      "pages": [
+        {
+          "page_index": 1,
+          "primary_kind": "care_plan_evaluation",
+          "secondary_kinds": [],
+          "source_role": "authoring_organization",
+          "confidence": "confirmed",
+          "evidence": "이전 급여제공계획 결과평가"
+        }
+      ]
+    }
+  ],
+  "synthetic_fixture": true,
+  "contains_real_personal_data": false,
+  "official_record": false,
+  "external_transfer_allowed": false,
+  "ground_truth_must_not_be_model_input": true,
+  "display_notice": "DEV 비공식 자료 · 코드화된 합성 시험자료"
+}
