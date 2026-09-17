@@ -58,7 +58,7 @@ MESIL Chat에서는 **보고하기 → 필요한 내용 찾기 → 원문 확인
 |---|---|
 | 솔루션 실행 링크 | [MESIL Chat 공개 체험](https://chat.silvermedical.kr) |
 | 소스코드 또는 결과물 원본 | [공식 저장소의 공개 소스](https://github.com/a01074443588-lgtm/MESIL_Chat/tree/challenge-final-20260913) |
-| 데모 영상(선택) | 제작 예정입니다. 서버 파일명은 `mesil-chat-ai-challenge-final-demo.mp4`로 지정했으며, 현재는 공개 링크가 없습니다. 제작·검증·업로드가 끝나면 이 항목에 링크를 추가합니다. |
+| 데모 영상(선택) | [데모 영상 보기·다운로드](https://github.com/a01074443588-lgtm/MESIL_Chat/blob/challenge-final-20260913/docs/demo/mesil-chat-demo-v2.mp4) · 1분 15초, 1920×1080, 무음·자막. 합성자료로 기록 찾기 → AI 질문 → 원문·직원 확인문 대조 흐름을 담았습니다. [촬영·편집 범위와 주의사항](https://github.com/a01074443588-lgtm/MESIL_Chat/blob/challenge-final-20260913/docs/DEMO_VIDEO.md) |
 | 테스트 계정(선택) | 담당자가 권한이 제한된 합성자료용 계정을 개별 안내합니다. 계정 비밀번호는 공개 문서에 싣지 않습니다. |
 
 **제출 기준본 A — 2026년 9월 18일:** 공개 서비스에서 실행 중인 Backend·Frontend 이미지의 소스를 기준으로 묶었습니다. [소스·실행 버전 및 제외 범위](https://github.com/a01074443588-lgtm/MESIL_Chat/blob/challenge-final-20260913/docs/RELEASE_BASELINE_20260918.md)에 이미지 식별값과 파일 지문을 기록했습니다. 운영 DB·첨부·계정·비밀키·모델 파일은 포함하지 않습니다. 설치 예시는 별도의 로컬 검증용 설정이며, 알림음은 기존 공개 검증 자원을 사용하므로 운영 이미지 전체를 그대로 복제한 패키지는 아닙니다.
@@ -266,7 +266,7 @@ MESIL Chat 코드는 [Apache-2.0](https://github.com/a01074443588-lgtm/MESIL_Cha
 
 - [x] 솔루션의 핵심 업무 흐름을 실제로 확인했습니다. AI 대체 답변, 알림 수신과 통신환경 등 남은 제한을 함께 기재했습니다.
 - [x] 솔루션 실행 링크를 확인했습니다.
-- [ ] 선택 항목인 데모 영상은 `mesil-chat-ai-challenge-final-demo.mp4`로 제작·검증한 뒤 공개 링크를 추가합니다.
+- [x] 선택 항목인 데모 영상 `mesil-chat-demo-v2.mp4`를 추가하고 공개 링크와 촬영·편집 범위 및 주의사항을 기재했습니다.
 - [x] 이용자용 활용 가이드를 작성했습니다.
 - [x] 관리자용 설치·운영 가이드를 작성했습니다.
 - [x] 처음 보는 사람도 따라 할 수 있도록 업무 상황별 순서를 작성했습니다.
