@@ -8,13 +8,13 @@
 
 ## 폰트
 
-독립 TTF/OTF/WOFF 파일은 배포하지 않습니다. 웹은 시스템 글꼴을 사용합니다. 시험 PDF의 맑은 고딕 부분 포함은 문서 임베딩에 한정되며, 확인한 원본 글꼴의 fsType은 8(editable embedding)입니다. 앱용 글꼴 재배포 권한을 뜻하지 않습니다.
+독립 TTF/OTF/WOFF 파일은 배포하지 않습니다. 웹은 시스템 글꼴을 사용합니다. 이번 공개 PDF 69개의 하위 글꼴까지 대조한 121개 임베딩 참조 모두 fsType 8(editable embedding)이었습니다. 맑은 고딕 부분 포함은 문서 임베딩에 한정되며 앱용 글꼴 재배포 권한을 뜻하지 않습니다. 기존 저작권 정보와 임베딩은 유지했습니다.
 
 근거: [Microsoft 문서 글꼴 포함 안내](https://learn.microsoft.com/en-us/typography/fonts/font-faq#document-embedding).
 
 ## 소스와 의존성
 
-프로젝트 소스의 적용 범위는 루트 LICENSE를 확인합니다. 브랜드와 제3자 자료에 일괄 적용하지 않습니다. Frontend는 package-lock.json, Backend는 uv.lock에 버전을 고정합니다. 의존성 자체와 모델 파일은 이 후보에 넣지 않습니다. 설치 시 해당 배포처에서 내려받으며 각 의존성의 라이선스를 따라야 합니다. 설치된 의존성의 라이선스 목록은 별도 검수 근거에 기록합니다.
+프로젝트 소스의 적용 범위는 루트 LICENSE와 NOTICE를 확인합니다. 브랜드와 제3자 자료에 일괄 적용하지 않습니다. Frontend는 package-lock.json, Backend는 uv.lock에 버전을 고정합니다. 의존성 자체와 모델 파일은 이 후보에 넣지 않습니다. 설치 시 해당 배포처에서 내려받으며 각 의존성의 라이선스를 따라야 합니다. 직접·간접 의존성의 실제 선언 버전·공식 출처와 고지 조건은 [제3자 자료 고지](THIRD_PARTY_NOTICES.md) 및 [전체 목록](THIRD_PARTY_DEPENDENCIES.csv)에 기록했습니다. STT 간접 의존성 등 잠금 파일이 없는 설치 범위도 구분했습니다.
 
 모델 이름을 자유로운 재배포 허가로 해석하지 않습니다. 운영 사용자 정의 텍스트 모델의 upstream·변환 계보와 배포 권한은 확인되지 않았습니다. OCR/VL/STT 모델 또한 사용할 버전의 model card와 라이선스를 운영자가 확인해야 합니다. 이 소스 후보에는 모델 가중치나 API 키가 없습니다.
 

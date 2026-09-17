@@ -310,10 +310,11 @@
     ".env.example": "6292fdab1f832e299efb2f2ab354ce096c1b7febe32d606176a8d16cf9a26511",
     ".gitignore": "1ec5ca42d8aaf8145de265ca8a6a40e6b02a5df813da7d5a7fe3605d9f05e224",
     "ASSET_LICENSES.md": "2fa291edac64ee52c53b6bf0e46a847d18a641189f6bcaa8fca2d162e8198d21",
-    "ASSET_NOTICE.md": "402f5b25fec7da0afac5f59b8559c2c43b0bde22e2c0720f7382fd00f75dd754",
+    "ASSET_NOTICE.md": "9ca0629d341b8287648f30e0bcf4ca13ceadaa158668fcc39729d52b2c78dce4",
     "LICENSE": "917e18b8707bbc7aead6aeb553f1db693279bca3751a908c8e424cb8406a11c0",
     "LICENSE-DOCS": "90f45bc2b7cc97442c2201b4915077c8a9ef216d0250e5b77b70a66e2daf84d2",
-    "README.md": "50fa5d7f1e9cf60cb4c642614819944ebce8066ee112234257164f1c410a8ba9",
+    "NOTICE": "f4f781be07ea526f40584d09c493fd631832f5db305bd08a90de9607b8c53a7e",
+    "README.md": "3f81b4cb0a66c35892e3af2992a8146f320bdf1a18198f636a317e872c255974",
     "README.roles.md": "34dd759348d71518bd5924514f7afb0edbfac602c7a3a61a481718a0121131b0",
     "backend/.dockerignore": "b73f823306fa0aa5f7bddd445879e23afad5bbedd384f0075d29b44089c684dd",
     "backend/Dockerfile": "ef56e99437223d940b410795697471a265a4f599defcb5db693d557ac9a5a41b",
@@ -797,9 +798,12 @@
     "deploy/Caddyfile.production": "1de23560f375391ab7910632a7d0b5b12e4540cdddb1fea69f37cf1854b025bc",
     "deploy/ollama_tcp_bridge.py": "5099e157da44d25c85397efcb37907c5775baa2c51e5a143067075aeedc98733",
     "docker-compose.yml": "0ef30b6626695440bf0fe121f17b03a69d936a3754508aca2ca88e26d2f0a7ff",
-    "docs/PUBLIC_ASSETS_AND_LICENSES.md": "37cd685d382db53122c102e110133ef9b4b2bc002ff7a378f4163c811578ac36",
+    "docs/PUBLIC_ASSETS_AND_LICENSES.md": "0d1ab178fd3a097629de3dbe3eb888f7a7ed3addc077ff3eca8f3cef888e21b0",
     "docs/PUBLIC_INSTALL.md": "77190c28289f036402f8d2f610f12ce86cdebcdd8af1a20bd5c8972f899d5d74",
-    "docs/RELEASE_BASELINE_20260918.md": "fc3ee5c4f9677c44a0d15238f9265cd4dcaead67a392d81c44860d1ff43b0388",
+    "docs/RELEASE_BASELINE_20260918.md": "2358bdcec3257c5a87b5fb9f6ca0af0f526ed2bb7288efab26fd415fc15d858c",
+    "docs/THIRD_PARTY_DEPENDENCIES.csv": "74f1f5ed1504005a8fe89a14b358f6a0788bbb9f4052667ce910a5dfb0f32469",
+    "docs/THIRD_PARTY_NOTICES.md": "03d566c1a8a2bdc1e5ffe7302578b6fae56c3eded69aa58860ca394953ef85f0",
+    "docs/THIRD_PARTY_REVIEW.json": "574a888ddffb8c13797e0f25103ed65c5b386040d7393bb445db45b7e5410fe6",
     "frontend/.dockerignore": "5e16eff42fbd691198b4ace34c9c111bfdbbe67ffa1f28bb15aad8c0d04e79f4",
     "frontend/.openai/hosting.json": "d2841f8a91a91bab4f4a1e27671e7d3fe8f02261eb41996f43ac61e6970a9d74",
     "frontend/Dockerfile": "e64bb2b7dd845f9d263577662ff6bb366df572d3194603ea20ccef9152826652",
@@ -912,5 +916,12 @@
     "stt/requirements.txt": "2ee466dbae17074bd12bf54cb8430691796634d3bc9342155a921531ee78bd9b",
     "stt/tests/test_service.py": "62f1d0849f8045b62ad65c394fcca345913ae11f2c8569672786acb3cf6c68a9"
   },
-  "excluded": "Environment credentials, DB/uploads/backups/logs/session data, model weights, caches, node_modules, build output, real care records, APK/signing assets."
+  "excluded": "Environment credentials, DB/uploads/backups/logs/session data, model weights, caches, node_modules, build output, real care records, APK/signing assets.",
+  "documentation_revision": {
+    "base_published_commit": "954c47e037d371aa4fbafecc098ea8e9da3b36f5",
+    "status": "documentation_only_revision",
+    "purpose": "roles, concise limitations and third-party notices",
+    "file_count": 609,
+    "review": "docs/THIRD_PARTY_REVIEW.json"
+  }
 }

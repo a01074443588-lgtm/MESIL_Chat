@@ -1,0 +1,10 @@
+MESIL Chat
+Copyright 2026 SilverMedical Welfare Center
+
+Project source code: Apache License 2.0 (see LICENSE).
+Project documentation: CC BY 4.0 (see LICENSE-DOCS).
+Brand assets: separate scope in ASSET_LICENSES.md and ASSET_NOTICE.md.
+
+Third-party dependencies and materials retain their original licenses,
+copyrights and notices. See docs/THIRD_PARTY_NOTICES.md and its inventory.
+This notice does not relicense third-party packages, fonts or model weights.
