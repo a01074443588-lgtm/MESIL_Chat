@@ -236,3 +236,27 @@ def ai_context(value: str | None) -> dict[str, object]:
         "matched_situations": matching_situations(value),
         "standard_terms": list(canonical_terms()[:120]),
     }
+
+
+def handwriting_lexicon_context() -> dict[str, object]:
+    """Public vocabulary only; never accept names, rosters or historical records.
+
+    Three legacy alias groups require separate curation. Preserve their source
+    JSON but expose only spelling-equivalent aliases in this correction path.
+    """
+    quarantine = {"확인", "아침 송영 시", "운전원 선생"}
+    terms = []
+    for term in load_long_term_care_lexicon().terms:
+        spelling = list(term.aliases)
+        speech = list(term.speech_aliases)
+        if term.canonical in quarantine:
+            spelling = [v for v in spelling if v.replace(" ", "") == term.canonical.replace(" ", "")]
+            speech = []
+        terms.append({"canonical": term.canonical, "category": term.category,
+                      "spelling_aliases": spelling, "speech_aliases": speech})
+    return {"terms": terms, "rules": [
+        "선택된 원문 행의 정확한 canonical, spelling_alias, speech_alias만 표준화 근거로 사용한다.",
+        "Unicode 및 연속 공백만 정규화한다. 등록되지 않은 유사어·음운 유사도는 자동 승인 근거가 아니다.",
+        "단어장은 새로운 사건·이름·시간·수량·약명·진단·완료 여부의 근거가 아니다.",
+        "실제 사람 이름을 단어장으로 추정하지 않는다. 오수와 오후, 기간과 기관을 혼동하지 않는다.",
+    ]}

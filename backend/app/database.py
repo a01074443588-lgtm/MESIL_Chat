@@ -1,7 +1,7 @@
 from collections.abc import Generator
 
 from sqlalchemy import create_engine, event
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker, with_loader_criteria
 
 from .config import settings
 
@@ -31,6 +31,19 @@ def _set_postgresql_search_path(dbapi_connection, _connection_record) -> None:
 
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+
+@event.listens_for(Session, "do_orm_execute")
+def _exclude_removed_correction_recordings(state):
+    # Retain the row/file for immutable extraction revisions; exclude the
+    # retired recording from all normal attachment queries and relationships.
+    if state.is_select:
+        from .models import MessageAttachment
+        state.statement = state.statement.options(with_loader_criteria(
+            MessageAttachment,
+            lambda attachment: attachment.entity_type != "removed_handwriting_recording",
+            include_aliases=True,
+        ))
 
 
 def get_db() -> Generator[Session, None, None]:

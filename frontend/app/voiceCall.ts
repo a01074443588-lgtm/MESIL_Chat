@@ -69,6 +69,7 @@ type PeerEntry = {
   name: string;
   pendingCandidates: RTCIceCandidateInit[];
   videoSender: RTCRtpSender | null;
+  failConnection: () => void;
 };
 
 const PEER_CONNECTION_TIMEOUT_MS = 25_000;
@@ -363,6 +364,7 @@ export function useVoiceCall({
         name: targetName,
         pendingCandidates: [],
         videoSender: null,
+        failConnection: () => undefined,
       };
       localStreamRef.current?.getTracks().forEach((track) => {
         const sender = connection.addTrack(
@@ -392,12 +394,24 @@ export function useVoiceCall({
           ({ connection: other }) => other.connectionState === "connected",
         );
         if (anotherPeerIsConnected) {
+          const current = activeRef.current;
+          if (current) {
+            const next = {
+              ...current,
+              participants: current.participants.filter(
+                (item) => item.userId !== targetUserId,
+              ),
+            };
+            activeRef.current = next;
+            setActive(next);
+          }
           setError(`${targetName || "일부 직원"}님과 연결하지 못했습니다.`);
           return;
         }
         closeCall(true);
         setError(connectionFailureMessage(configRef.current));
       };
+      entry.failConnection = failConnection;
       const startPeerTimer = (delay: number) => {
         clearPeerTimer();
         peerTimersRef.current.set(
@@ -917,9 +931,19 @@ export function useVoiceCall({
       }
       if (event === "voice_call_error") {
         setError(stringValue(payload, "message") || "음성통화를 처리하지 못했습니다.");
+        const sourceEvent = stringValue(payload, "source_event");
+        const peerScopedError =
+          sourceEvent === "voice_call_join" || sourceEvent === "voice_call_signal";
+        if (peerScopedError) {
+          const targetUserId = stringValue(payload, "target_user_id");
+          if (targetUserId) {
+            peersRef.current.get(targetUserId)?.failConnection();
+          }
+          return true;
+        }
         if (
           activeRef.current &&
-          stringValue(payload, "source_event") !== "voice_call_mode"
+          sourceEvent !== "voice_call_mode"
         ) {
           closeCall(false);
         }
@@ -996,14 +1020,13 @@ export function useVoiceCall({
         };
         activeRef.current = next;
         setActive(next);
+        const entry = peerFor(userId, name);
         try {
-          const entry = peerFor(userId, name);
           const offer = await entry.connection.createOffer();
           await entry.connection.setLocalDescription(offer);
           sendSignal(userId, { kind: "offer", sdp: offer.sdp ?? "" });
         } catch {
-          closeCall(true);
-          setError("통화 연결을 만들지 못했습니다. 잠시 뒤 다시 시도해 주세요.");
+          entry.failConnection();
         }
         return true;
       }
@@ -1013,8 +1036,8 @@ export function useVoiceCall({
         const signal = payload.signal;
         if (!senderUserId || !signal || typeof signal !== "object") return true;
         const typedSignal = signal as Record<string, unknown>;
+        const entry = peerFor(senderUserId, senderName);
         try {
-          const entry = peerFor(senderUserId, senderName);
           if (typedSignal.kind === "offer" && typeof typedSignal.sdp === "string") {
             await entry.connection.setRemoteDescription({
               type: "offer",
@@ -1046,8 +1069,7 @@ export function useVoiceCall({
             }
           }
         } catch {
-          closeCall(true);
-          setError("통화 연결이 끊겼습니다. 다시 걸어 주세요.");
+          entry.failConnection();
         }
         return true;
       }

@@ -16,6 +16,9 @@ export type OrgUnit = {
   active_staff_count: number;
   active_room_count: number;
   active_resident_count: number;
+  active_participant_count: number;
+  system_room_count: number;
+  system_room_id: string | null;
   reference_count: number;
   can_delete: boolean;
 };
@@ -126,7 +129,9 @@ export type Room = {
     | "floor"
     | "team"
     | "custom"
-    | "self";
+    | "self"
+    | "ai"
+    | "living_space";
   unread_count: number;
   last_message: string | null;
   last_message_at: string | null;
@@ -264,6 +269,19 @@ export type Message = {
     sender_name: string;
     body: string;
     created_at: string;
+  } | null;
+  ai_help: {
+    role: "user" | "assistant";
+    status: "queued" | "preparing" | "extracting" | "reasoning" | "validating" | "completed" | "failed" | "cancelled";
+    turn_id: string | null;
+    source_message_id: string | null;
+    question_type: "attachment_guidance" | "general_guidance" | "record_search" | "clarification" | null;
+    provider: string | null;
+    model: string | null;
+    processing_location: "rules" | "local" | "internal" | "external" | "unconfigured" | null;
+    external_transmission: boolean;
+    evidence: { source_no?: number; source_type?: "record" | "attachment"; attachment_id?: string; statement?: string }[];
+    error_message: string | null;
   } | null;
   created_at: string;
 };
@@ -1724,7 +1742,8 @@ export type HandwritingVoiceCorrectionComparison = {
       | "unit"
       | "follow_up"
       | "completion"
-      | "negation";
+      | "negation"
+      | "official_record";
     image_values: string[];
     audio_values: string[];
     status: "same" | "different" | "image_only" | "audio_only" | "not_found";
@@ -1742,13 +1761,55 @@ export type HandwritingVoiceCorrectionComparison = {
       | "negation"
       | "name"
       | "medication"
-      | "diagnosis";
+      | "diagnosis"
+      | "official_record";
     before_values: string[];
     proposed_values: string[];
     status: "unchanged" | "proposed" | "needs_confirmation" | "blocked";
     reason: string;
     evidence_refs: string[];
   }[];
+  review_items: {
+    review_item_id: string;
+    kind: "conflict" | "one_sided_critical";
+    category:
+      | "date"
+      | "time"
+      | "quantity"
+      | "unit"
+      | "follow_up"
+      | "completion"
+      | "negation"
+      | "official_record"
+      | "name"
+      | "medication"
+      | "diagnosis";
+    ocr_values: string[];
+    whisper_values: string[];
+    ocr_row_nos: number[];
+    whisper_row_nos: number[];
+    ai_recommendation: string | null;
+    ai_recommendation_reason: string | null;
+    requires_staff_confirmation: true;
+  }[];
+  ai_combination: {
+    status:
+      | "applied"
+      | "provider_unavailable"
+      | "invalid_response"
+      | "evidence_validation_failed"
+      | "not_requested";
+    display_state: "ai_applied" | "basic_comparison" | "important_review_required";
+    message: string;
+    applied: boolean;
+    lexicon_applications: {
+      canonical: string;
+      source: "ocr" | "whisper";
+      source_row: number;
+      source_value: string;
+      match_type: "canonical" | "spelling_alias" | "speech_alias";
+    }[];
+  };
   audio_quality: {
     status: "good" | "low" | "unknown";
     reading_pace: "fast" | "normal" | "slow" | "unknown";
@@ -1763,6 +1824,7 @@ export type HandwritingVoiceCorrectionComparison = {
     changed_field_count: number;
     proposed_field_count: number;
     blocked_field_count: number;
+    review_item_count: number;
   };
   safety: {
     saved_before_approval: false;
@@ -1817,6 +1879,15 @@ export type HandwritingCorrectionApproval = {
     source?: string;
     approval_scope?: "whole_document" | "sentence_by_sentence";
     confirmed_coordinate_region_count?: number;
+    review_item_count?: number;
+    conflict_resolutions?: Array<{
+      review_item_id: string;
+      kind: "conflict" | "one_sided_critical";
+      category: string;
+      selected_source: "ocr" | "whisper" | "ai_recommendation" | "staff_manual";
+      selected_value: string;
+      evidence_source: "ocr" | "whisper" | "ai_recommendation" | "staff_manual";
+    }>;
   };
   conflicts_confirmed: boolean;
   approved_by_id: string;

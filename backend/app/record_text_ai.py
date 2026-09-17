@@ -68,9 +68,31 @@ class ModelSelection(BaseModel):
     unknown_codes: list[Literal["conflict", "no_followup"]] = Field(max_length=2)
 
 
+class ComparisonModelSelection(ModelSelection):
+    """Comparison answers may retain every bounded, model-selected subject."""
+
+    answer_sources: list[str] = Field(min_length=1, max_length=8)
+
+
 class QuestionSelection(BaseModel):
     model_config = ConfigDict(extra="forbid")
     relevant_sources: list[str] = Field(max_length=8)
+
+
+class GeneralHelpAnswer(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    answer: str = Field(min_length=1, max_length=2000)
+
+
+# The server's current llama.cpp grammar accepts this JSON-schema subset but
+# rejects string length keywords. Pydantic still enforces the stricter length
+# contract after generation.
+GENERAL_HELP_RESPONSE_FORMAT = {
+    "type": "object",
+    "properties": {"answer": {"type": "string"}},
+    "required": ["answer"],
+    "additionalProperties": False,
+}
 
 
 def _at(value: Any) -> datetime:
@@ -146,7 +168,7 @@ def validate_answer(raw: Any, records: list[dict]) -> ModelAnswer:
         raise RecordModelError("event_coverage_failed")
     # Every answer clause must be a complete, unmodified source sentence.
     remainder = answer.answer
-    for _ in range(3):
+    for _ in range(len(records)):
         match = next((record["text"] for record in sorted(records, key=lambda item: len(item["text"]), reverse=True) if remainder == record["text"] or remainder.startswith(record["text"] + " ")), None)
         if match is None:
             break
@@ -160,8 +182,14 @@ def validate_answer(raw: Any, records: list[dict]) -> ModelAnswer:
     return answer
 
 
-def validate_selection(raw: Any, records: list[dict]) -> ModelAnswer:
-    selected = ModelSelection.model_validate(raw)
+def validate_selection(
+    raw: Any,
+    records: list[dict],
+    *,
+    comparison: bool = False,
+) -> ModelAnswer:
+    selection_type = ComparisonModelSelection if comparison else ModelSelection
+    selected = selection_type.model_validate(raw)
     by_id = {record["id"]: record for record in records}
     expected_codes = ["conflict"] if required_unknowns(records) == [_CONFLICT] else ["no_followup"] if required_unknowns(records) == [_NO_FOLLOWUP] else []
     if selected.ordered_sources != list(by_id) or selected.current_source != records[-1]["id"] or selected.unknown_codes != expected_codes or not set(selected.answer_sources) <= set(by_id):
@@ -194,10 +222,63 @@ def local_json_request(base_url: str, path: str, body: dict | None, timeout: flo
         return json.loads(data)
 
 
-def run_record_model(*, feature: Literal["search_summary", "care_record_question"], question: str, facts: list[dict], names: list[str], all_synthetic: bool, model_override: str | None = None, semantic_selection: bool = False) -> dict:
+def _comparison_answer(
+    answer_sources: list[str],
+    *,
+    source_by_id: dict[str, dict],
+    mapping: dict[str, dict],
+    restore,
+) -> str:
+    """Render only model-selected facts with DB-owned resident labels."""
+    grouped: dict[str, list[str]] = {}
+    for token in answer_sources:
+        fact = mapping[token]
+        label = str(fact.get("resident_name") or "").strip()
+        if not label or label == "대상 미지정":
+            label = "어르신 확인 필요"
+        grouped.setdefault(label, []).append(restore(source_by_id[token]["text"]))
+    return "\n".join(
+        f"{label}\n" + "\n".join(f"- {text}" for text in texts)
+        for label, texts in grouped.items()
+    )
+
+
+def _comparison_answer_source_ids(
+    relevant_sources: list[str],
+    *,
+    mapping: dict[str, dict],
+) -> list[str]:
+    """Keep one selected fact per subject first, then remaining selected facts.
+
+    QuestionSelection already caps the model-owned selection at eight sources.
+    This ordering prevents one subject's early facts from consuming a global
+    three-source slice, and it never adds a source the model did not select.
+    """
+
+    representatives: list[str] = []
+    remaining: list[str] = []
+    seen_subjects: set[str] = set()
+    for token in relevant_sources:
+        fact = mapping[token]
+        subject_key = str(fact.get("resident_id") or "").strip()
+        if not subject_key:
+            subject_key = str(fact.get("resident_name") or "").strip()
+        if not subject_key:
+            subject_key = f"source:{token}"
+        if subject_key in seen_subjects:
+            remaining.append(token)
+            continue
+        seen_subjects.add(subject_key)
+        representatives.append(token)
+    return [*representatives, *remaining][:8]
+
+
+def run_record_model(*, feature: Literal["search_summary", "care_record_question"], question: str, facts: list[dict], names: list[str], all_synthetic: bool, model_override: str | None = None, semantic_selection: bool = False, force_resident_labels: bool = False) -> dict:
     started = perf_counter()
     outcome = {"processing_method": "rules", "model_used": None, "fallback_reason": None, "ai_elapsed_ms": 0, "attempts": []}
     try:
+        if not facts:
+            raise RecordModelError("no_relevant_records")
         document, _ = load_ai_settings()
         policy = effective_central_models(document)
         selected = central_feature_selection(policy, feature)
@@ -210,8 +291,6 @@ def run_record_model(*, feature: Literal["search_summary", "care_record_question
             raise RecordModelError("model_tag_blocked")
         if not all_synthetic and not policy.real_record_logging_verified:
             raise RecordModelError("logging_policy_unverified")
-        if not facts:
-            raise RecordModelError("no_relevant_records")
         if len(facts) > 32:
             raise RecordModelError("evidence_limit")
         records, mapping, aliases = prepare_evidence(facts, names)
@@ -268,16 +347,41 @@ def run_record_model(*, feature: Literal["search_summary", "care_record_question
                             active_records = [row for row in records if event_id(mapping[row["id"]]) in events]
                             # Selecting any member includes the entire authorized event.
                             # The model cannot remove an earlier fact, later negation or conflict.
-                            answer_ids = chosen.relevant_sources[:3]
+                            answer_ids = (
+                                _comparison_answer_source_ids(
+                                    chosen.relevant_sources,
+                                    mapping=mapping,
+                                )
+                                if force_resident_labels
+                                else chosen.relevant_sources[:3]
+                            )
                             raw_selection = {"answer_sources": answer_ids, "ordered_sources": [row["id"] for row in active_records], "current_source": active_records[-1]["id"], "unknown_codes": ["conflict"] if required_unknowns(active_records) == [_CONFLICT] else ["no_followup"] if required_unknowns(active_records) == [_NO_FOLLOWUP] else []}
-                        validated = validate_selection(raw_selection, active_records)
+                        validated = validate_selection(
+                            raw_selection,
+                            active_records,
+                            comparison=bool(
+                                semantic_selection and force_resident_labels
+                            ),
+                        )
                         def restore(value):
                             return _restore(value, aliases)
                         timeline = [{"date": item.date, "fact": restore(item.fact), "resident_name": mapping[item.citations[0]].get("resident_name", ""), "evidence_ids": [mapping[item.citations[0]]["message_id"]], "background": active_records[index]["background"]} for index, item in enumerate(validated.timeline)]
                         outcome.update(processing_method="fallback_model" if model_index else "local_ai", model_used=selected_model, answer=restore(validated.answer), timeline=timeline, current_status=restore(validated.current_status), unknowns=validated.unknowns, evidence_ids=list(dict.fromkeys(mapping[token]["message_id"] for token in validated.citations)), matched_count=len(active_records))
-                        if len({fact.get("resident_name", "") for fact in facts}) > 1:
-                            selection = ModelSelection.model_validate(raw_selection)
-                            source_by_id = {record["id"]: record for record in active_records}
+                        selection_type = (
+                            ComparisonModelSelection
+                            if semantic_selection and force_resident_labels
+                            else ModelSelection
+                        )
+                        selection = selection_type.model_validate(raw_selection)
+                        source_by_id = {record["id"]: record for record in active_records}
+                        if force_resident_labels:
+                            outcome["answer"] = _comparison_answer(
+                                selection.answer_sources,
+                                source_by_id=source_by_id,
+                                mapping=mapping,
+                                restore=restore,
+                            )
+                        elif len({fact.get("resident_name", "") for fact in facts}) > 1:
                             outcome["answer"] = " ".join(f"{mapping[token].get('resident_name') or '기록'}: {restore(source_by_id[token]['text'])}" for token in selection.answer_sources)
                             outcome["current_status"] = f"{mapping[active_records[-1]['id']].get('resident_name') or '기록'}: {restore(validated.current_status)}"
                         if semantic_selection:
@@ -286,7 +390,7 @@ def run_record_model(*, feature: Literal["search_summary", "care_record_question
                         outcome["attempts"].append({"model": selected_model, "status": "validated", "elapsed_ms": round((perf_counter()-attempt_start)*1000), "load_ms": round(response.get("load_duration", 0)/1e6), "prefill_ms": round(response.get("prompt_eval_duration", 0)/1e6), "generation_ms": round(response.get("eval_duration", 0)/1e6), "model_total_ms": round(response.get("total_duration", 0)/1e6), "prompt_tokens": response.get("prompt_eval_count"), "output_tokens": response.get("eval_count")})
                         return outcome
                     except Exception as error:
-                        code = str(error) if isinstance(error, RecordModelError) else "model_call_or_contract_failed"
+                        code = str(error) if isinstance(error, RecordModelError) else "response_contract_failed" if isinstance(error, (ValueError, KeyError, TypeError)) else "model_call_failed"
                         outcome["attempts"].append({"model": selected_model, "status": code, "elapsed_ms": round((perf_counter()-attempt_start)*1000)})
                         outcome["fallback_reason"] = code
                         if not isinstance(error, (RecordModelError, ValueError)) or retry == 1:
@@ -301,6 +405,119 @@ def run_record_model(*, feature: Literal["search_summary", "care_record_question
             _RECENT_RUNS[feature] = {key: outcome[key] for key in ("processing_method", "model_used", "ai_elapsed_ms", "fallback_reason")}
         # Metadata only; neither question, evidence, output nor error body.
         logger.info("record_model feature=%s method=%s model=%s elapsed_ms=%s reason=%s", feature, outcome["processing_method"], outcome["model_used"], outcome["ai_elapsed_ms"], outcome["fallback_reason"])
+    return outcome
+
+
+def run_general_help_model(
+    *,
+    question: str,
+    conversation: list[dict[str, str]],
+    names: list[str],
+) -> dict:
+    """Answer a general work question with the approved local model only.
+
+    This path deliberately accepts no record facts or evidence identifiers.
+    Conversation is limited by the caller to the requester's private AI room.
+    """
+    started = perf_counter()
+    outcome = {
+        "processing_method": "rules",
+        "model_used": None,
+        "fallback_reason": None,
+        "ai_elapsed_ms": 0,
+        "attempts": [],
+    }
+    try:
+        document, _ = load_ai_settings()
+        policy = effective_central_models(document)
+        selected = central_feature_selection(policy, "document_text")
+        if selected is None or selected.provider != "ollama":
+            raise RecordModelError("general_help_local_only")
+        model = selected.model
+        if not re.fullmatch(r"[A-Za-z0-9_./:-]{1,200}", model) or "cloud" in model.lower():
+            raise RecordModelError("model_tag_blocked")
+        aliases = {name: f"인물{index}" for index, name in enumerate(dict.fromkeys(filter(None, names)), 1)}
+        safe_question = deidentify(question, aliases)
+        safe_conversation = [
+            {
+                "role": "assistant" if item.get("role") == "assistant" else "user",
+                "content": deidentify(str(item.get("content") or "")[:2000], aliases),
+            }
+            for item in conversation[-6:]
+            if str(item.get("content") or "").strip()
+        ]
+        input_size = len(safe_question) + sum(len(item["content"]) for item in safe_conversation)
+        if input_size > min(policy.max_input_chars, 12000):
+            raise RecordModelError("context_limit")
+        base_url = policy.base_url or document.providers["ollama"].base_url or settings.ai_review_base_url
+        if not _SLOTS.acquire(timeout=.25):
+            raise RecordModelError("busy")
+        try:
+            deadline = started + policy.timeout_seconds
+            info = local_json_request(base_url, "/api/show", {"model": model}, min(3, deadline - perf_counter()))
+            if info.get("remote_model") or info.get("remote_host"):
+                raise RecordModelError("remote_model_blocked")
+            payload = {
+                "model": model,
+                "stream": False,
+                "think": False,
+                "format": GENERAL_HELP_RESPONSE_FORMAT,
+                "options": {
+                    "temperature": 0.1,
+                    "num_ctx": policy.context_tokens,
+                    "num_predict": 512,
+                },
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "당신은 장기요양기관 직원의 일반 업무를 돕는 MESIL AI입니다. "
+                            "제공되지 않은 내부 기록, 특정 어르신 상태, 최신 법령이나 기관 지침을 아는 것처럼 말하지 마세요. "
+                            "특정 시설의 계약·급여종류·내부 설정이 제공되지 않았다면 추측하지 말고 확인 불가와 확인할 위치를 안내하세요. "
+                            "연도와 평가판본이 없는 평가지표 번호는 내용을 단정하지 말고 필요한 판본이나 공식 문서 첨부를 요청하세요. "
+                            "진단·투약·처치·위험평가·공식 기록을 결정하거나 확정하지 말고, 일반 원칙과 확인 순서를 간결한 한국어로 안내하세요. "
+                            "JSON만 반환하세요. /no_think"
+                        ),
+                    },
+                    *safe_conversation,
+                    {"role": "user", "content": safe_question},
+                ],
+            }
+            response = local_json_request(base_url, "/api/chat", payload, deadline - perf_counter())
+            if response.get("model") != model or response.get("done") is not True:
+                raise RecordModelError("model_response_mismatch")
+            validated = GeneralHelpAnswer.model_validate_json(response["message"]["content"])
+            outcome.update(
+                processing_method="local_ai",
+                model_used=model,
+                answer=_restore(validated.answer, aliases),
+            )
+            outcome["attempts"].append(
+                {
+                    "model": model,
+                    "status": "validated",
+                    "elapsed_ms": round((perf_counter() - started) * 1000),
+                }
+            )
+        finally:
+            _SLOTS.release()
+    except Exception as error:
+        code = str(error) if isinstance(error, RecordModelError) else "local_connection_failed"
+        outcome["fallback_reason"] = code
+    finally:
+        outcome["ai_elapsed_ms"] = round((perf_counter() - started) * 1000)
+        with _RUN_LOCK:
+            _RECENT_RUNS["ai_help_general"] = {
+                key: outcome[key]
+                for key in ("processing_method", "model_used", "ai_elapsed_ms", "fallback_reason")
+            }
+        logger.info(
+            "record_model feature=ai_help_general method=%s model=%s elapsed_ms=%s reason=%s",
+            outcome["processing_method"],
+            outcome["model_used"],
+            outcome["ai_elapsed_ms"],
+            outcome["fallback_reason"],
+        )
     return outcome
 
 

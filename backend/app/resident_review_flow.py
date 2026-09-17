@@ -7,7 +7,7 @@ from uuid import UUID
 from . import main as m
 from .database import get_db
 from .dependencies import get_current_user
-from .models import AttachmentTextExtraction, Message, MessageAttachment, MessageResidentLink, User, WorkItem, utcnow
+from .models import AttachmentTextExtraction, Message, MessageAttachment, MessageResidentLink, Room, User, WorkItem, utcnow
 from .schemas import AttachmentResponse, MessageResponse, MessageResidentReviewRequest, PhotoReadingChoiceRequest
 from .services import active_membership, attachment_response, message_response, record_audit, room_member_user_ids
 from .resident_candidate_evidence import resident_link_is_current
@@ -16,11 +16,23 @@ from .photo_reading import resident_review_metadata
 router=APIRouter()
 
 
+AI_ROOM_RESIDENT_LINK_ERROR = (
+    "MESIL AI 도움방의 메시지는 어르신 기록 연결 대상이 아닙니다."
+)
+
+
+def reject_ai_room_resident_link(db: Session, message: Message) -> None:
+    room = message.room if message.room is not None else db.get(Room, message.room_id)
+    if room is not None and room.kind == "ai":
+        raise HTTPException(422, AI_ROOM_RESIDENT_LINK_ERROR)
+
+
 def message_for_editor(db, editor, message_id):
     message=db.get(Message,message_id)
     if message is None or message.organization_id != editor.organization_id:
         raise HTTPException(404,"메시지를 찾을 수 없습니다.")
     m._require_active_message(message,"어르신 연결 확인")
+    reject_ai_room_resident_link(db, message)
     if getattr(editor,"_reviewer_experience",None) is not None:
         m._message_for_member(db,editor,message_id)
     if editor.role == "admin":
@@ -58,6 +70,7 @@ def apply_review(db,editor,message_id,decision,resident_id=None,previous_residen
         if message.id != message_id or message.organization_id != editor.organization_id:
             raise HTTPException(404,"메시지를 찾을 수 없습니다.")
         m._require_active_message(message,"어르신 연결 확인")
+        reject_ai_room_resident_link(db, message)
     # Serialize competing decisions, then reload current links before auditing.
     db.execute(select(Message.id).where(Message.id==message.id).with_for_update())
     db.refresh(message)

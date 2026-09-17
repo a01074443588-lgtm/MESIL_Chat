@@ -16,6 +16,8 @@ import httpx
 from .ai_settings_store import effective_provider_settings, load_ai_settings, resolved_model_role
 from .config import settings
 from .finals_readiness import endpoint_scope
+from .domain_lexicon import handwriting_lexicon_context
+from .handwriting_evidence import source_rows
 
 
 InternalPost = Callable[..., Any]
@@ -26,9 +28,19 @@ _FINAL_TEXT_SCHEMA: dict[str, Any] = {
     "properties": {
         "final_text": {"type": "string"},
         "source_rows": {
-            "type": "array",
-            "items": {"type": "integer", "minimum": 1},
+            "type": "object",
+            "properties": {source: {"type": "array", "items": {"type": "integer", "minimum": 1}} for source in ("ocr", "whisper")},
+            "required": ["ocr", "whisper"],
+            "additionalProperties": False,
         },
+        "lexicon_applications": {"type": "array", "items": {
+            "type": "object", "properties": {
+                "canonical": {"type": "string"}, "source": {"enum": ["ocr", "whisper"]},
+                "source_row": {"type": "integer", "minimum": 1}, "source_value": {"type": "string"},
+                "match_type": {"enum": ["canonical", "spelling_alias", "speech_alias"]},
+            }, "required": ["canonical", "source", "source_row", "source_value", "match_type"],
+            "additionalProperties": False,
+        }},
     },
     "required": ["final_text", "source_rows"],
     "additionalProperties": False,
@@ -68,11 +80,12 @@ def _content_document(response: Any) -> dict[str, Any] | None:
             document = json.loads(str(content))
         final_text = str(document.get("final_text") or "").strip()
         source_rows = document.get("source_rows")
-        if not final_text or not isinstance(source_rows, list):
+        if not final_text or not isinstance(source_rows, dict):
             return None
         return {
             "final_text": final_text,
-            "source_rows": [int(item) for item in source_rows if str(item).isdigit()],
+            "source_rows": source_rows,
+            "lexicon_applications": document.get("lexicon_applications", []),
         }
     except (httpx.HTTPError, ValueError, TypeError, KeyError, json.JSONDecodeError):
         return None
@@ -100,13 +113,19 @@ def refine_handwriting_with_internal_ai(
         "task": "손글씨 OCR과 직원이 읽은 음성 전사를 함께 보고 자연스러운 최종문 초안을 작성",
         "rules": [
             "OCR과 음성에 근거가 있는 내용만 사용한다.",
-            "음성에만 있는 시험 소개, 이름 소개, 지시 문장은 추가하지 않는다.",
-            "OCR과 음성이 같은 부분은 유지한다.",
-            "한쪽 문장이 명백히 깨졌고 다른 쪽과 앞뒤 문맥이 뒷받침할 때만 자연스러운 쪽을 사용한다.",
-            "시간, 날짜, 수량, 단위, 이름, 약명, 진단, 완료상태가 충돌하면 어느 쪽도 선택하지 말고 '[항목 확인 필요]'로 남긴다.",
+            "선택 행에 정확한 canonical 또는 등록 spelling_alias/speech_alias가 있으면 canonical을 우선 사용한다.",
+            "등록되지 않은 유사어나 음운 유사성으로 용어·기관명·사람 이름을 추정하지 않는다.",
+            "full_reading에서 정상 음성과 문서 내용이 일치하면 실제 문장 내용과 자연스러운 표현은 음성을 우선한다.",
+            "OCR은 줄바꿈·행 수·작성 순서·문서 형태 근거로 사용한다. 부자연스러운 OCR을 정상 음성보다 우선하지 않는다.",
+            "낮은 품질이거나 문서와 무관한 음성은 사용하지 않고 OCR을 유지한다.",
+            "시간·수량·이름·약명·진단·완료 충돌은 Backend가 review_items로 별도 기록하고 저장 전 직원 확인을 요구한다.",
+            "최종문은 가장 근거가 좋은 자연스러운 한국어 완성문으로 작성한다. [시간 확인 필요], [확인항목] 등 placeholder는 절대 넣지 않는다.",
             "새 시간, 수량, 이름, 약명, 진단, 완료상태, 후속조치를 만들지 않는다.",
-            "설명이나 이유를 쓰지 말고 최종문만 작성한다.",
+            "source_rows에는 실제 사용한 OCR과 Whisper 행 번호를 각각 기입한다. 적용 근거를 확실히 쓸 수 없으면 lexicon_applications는 비워 둔다. Backend가 원문을 독립 검증한다.",
         ],
+        "lexicon_context": handwriting_lexicon_context(),
+        "evidence_rows": {source: [{"row": i, "text": text} for i, text in enumerate(values, 1)]
+                          for source, values in source_rows(initial_ocr, transcript).items()},
         "initial_ocr": initial_ocr,
         "audio_transcript": transcript,
         "deterministic_suggestion": deterministic_suggestion,
@@ -171,7 +190,7 @@ def refine_handwriting_with_internal_ai(
         return None
     document = _content_document(response)
     if document is None:
-        return None
+        return {"status": "invalid_response"}
     return {
         **document,
         "provider": "ollama",

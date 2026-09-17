@@ -68,7 +68,11 @@ export function ChatEntryChoice({
 
       setPlatform(nextPlatform);
       setWebAddress(window.location.origin);
-      void loadChatEntryRelease(apkDownloadsEnabled, window.fetch.bind(window), controller.signal)
+      void loadChatEntryRelease(
+        apkDownloadsEnabled,
+        window.fetch.bind(window),
+        controller.signal,
+      )
         .then((payload) => {
           if (active) setRelease(parseStaffReleaseMetadata(payload));
         })

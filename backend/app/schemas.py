@@ -58,8 +58,25 @@ class OrgUnitResponse(BaseModel):
     active_staff_count: int = 0
     active_room_count: int = 0
     active_resident_count: int = 0
+    active_participant_count: int = 0
+    system_room_count: int = 0
+    system_room_id: UUID | None = None
     reference_count: int = 0
     can_delete: bool = False
+
+
+class LivingSpaceMembersUpdate(BaseModel):
+    member_ids: list[UUID] = Field(default_factory=list, max_length=100)
+
+
+class LivingSpaceRoomResponse(BaseModel):
+    room_id: UUID
+    room_name: str
+    is_active: bool
+    member_ids: list[UUID]
+    member_count: int
+    message_count: int
+    attachment_count: int
 
 
 class JobCodeCreate(BaseModel):
@@ -1234,6 +1251,10 @@ class HandwritingVoiceCorrectionResponse(BaseModel):
     audio_quality: dict[str, Any]
     summary: dict[str, int]
     safety: dict[str, bool]
+    ai_combination: dict[str, str] = Field(default_factory=dict)
+    lexicon_applications: list[dict[str, Any]] = Field(default_factory=list)
+    review_items: list[dict[str, Any]] = Field(default_factory=list)
+    transcript_provenance: dict[str, Any] = Field(default_factory=dict)
 
 
 class HandwritingCorrectionSentenceDecision(BaseModel):
@@ -1278,6 +1299,7 @@ class HandwritingCorrectionApprovalCreate(BaseModel):
         max_length=200,
     )
     conflicts_confirmed: bool = False
+    conflict_resolutions: list[dict[str, str]] = Field(default_factory=list, max_length=200)
     supersedes_approval_id: UUID | None = None
 
     @model_validator(mode="after")
@@ -1406,6 +1428,7 @@ class AttachmentCoordinateReviewResponse(BaseModel):
 
 
 class AttachmentResponse(BaseModel):
+    correction_recording: dict[str, Any] | None = None
     photo_reading_status: Literal["general", "pending", "processing", "completed", "no_text", "not_required", "failed"] | None = None
     resident_candidate_notice: str | None = None
     resident_link_revision: int = Field(default=0, ge=0)
@@ -1474,6 +1497,7 @@ class MessageCreate(BaseModel):
     resident_ref: str | None = Field(default=None, max_length=100)
     reply_to_message_id: UUID | None = None
     action: ActionItemCreate | None = None
+    client_request_id: UUID | None = None
 
     @field_validator("body")
     @classmethod
@@ -1513,6 +1537,25 @@ class RepliedMessageSource(BaseModel):
     created_at: datetime
 
 
+class AiHelpMessageMeta(BaseModel):
+    role: Literal["user", "assistant"]
+    status: Literal[
+        "queued", "preparing", "extracting", "reasoning", "validating",
+        "completed", "failed", "cancelled"
+    ]
+    turn_id: UUID | None = None
+    source_message_id: UUID | None = None
+    question_type: Literal[
+        "attachment_guidance", "general_guidance", "record_search", "clarification"
+    ] | None = None
+    provider: str | None = None
+    model: str | None = None
+    processing_location: Literal["rules", "local", "internal", "external", "unconfigured"] | None = None
+    external_transmission: bool = False
+    evidence: list[dict[str, Any]] = Field(default_factory=list, max_length=50)
+    error_message: str | None = Field(default=None, max_length=500)
+
+
 class MessageCommentResponse(BaseModel):
     id: UUID
     author_id: UUID
@@ -1540,6 +1583,7 @@ class MessageResponse(BaseModel):
     action_item: ActionItemResponse | None = None
     forwarded_from: ForwardedMessageSource | None = None
     reply_to: RepliedMessageSource | None = None
+    ai_help: AiHelpMessageMeta | None = None
     is_recalled: bool = False
     recalled_at: datetime | None = None
     created_at: datetime
@@ -2946,6 +2990,7 @@ class CareTopic(BaseModel):
 class RecordQuestionRequest(PeriodWorkdeskRequest):
     ai_phase: Literal["auto", "prepare"] = "auto"
     range_mode: Literal["default", "fixed"] = "fixed"
+    default_resident_id: UUID | None = None
     question: str = Field(min_length=1, max_length=500)
 
     @field_validator("question")
@@ -3120,6 +3165,16 @@ class PushSubscriptionCreate(BaseModel):
 
 class PushSubscriptionDelete(BaseModel):
     endpoint: str = Field(min_length=20, max_length=2048)
+
+
+class PushTestRequest(PushSubscriptionDelete):
+    @field_validator("endpoint")
+    @classmethod
+    def validate_push_endpoint(cls, value: str) -> str:
+        endpoint = value.strip()
+        if not endpoint.startswith("https://"):
+            raise ValueError("푸시 알림 주소는 HTTPS여야 합니다.")
+        return endpoint
 
 
 class PushSubscriptionResponse(BaseModel):

@@ -361,6 +361,9 @@ export function RoomSearchOverlay({
                       <span>
                         {summary.generation_verified ? "AI 검색 요약" : "기록 기반 요약"}
                       </span>
+                      {summary.generation_verified && summary.generator ? (
+                        <small>사용 모델 {summary.generator}</small>
+                      ) : null}
                       <small>
                         {summary.cache_hit
                           ? `저장된 요약 · ${(summary.request_elapsed_ms / 1000).toFixed(1)}초`

@@ -164,17 +164,18 @@ export function AttachmentDisplay({
   const [imageOffset, setImageOffset] = useState({ x: 0, y: 0 });
   const [imageGestureActive, setImageGestureActive] = useState(false);
   const [reviewAttachment, setReviewAttachment] = useState<Attachment | null>(null);
+  const [removedCorrectionAudioIds, setRemovedCorrectionAudioIds] = useState<string[]>([]);
   const editorAttachment =
     reviewAttachment?.id === attachment.id ? reviewAttachment : attachment;
   const editorAttachments = useMemo(() => {
     const source = galleryAttachments?.length ? galleryAttachments : [attachment];
-    const next = source.map((item) =>
+    const next = source.filter((item) => !removedCorrectionAudioIds.includes(item.id)).map((item) =>
       item.id === editorAttachment.id ? editorAttachment : item,
     );
     return next.some((item) => item.id === editorAttachment.id)
       ? next
       : [editorAttachment, ...next];
-  }, [attachment, editorAttachment, galleryAttachments]);
+  }, [attachment, editorAttachment, galleryAttachments, removedCorrectionAudioIds]);
   const extraction: AttachmentTextExtraction | null =
     reviewAttachment?.id === attachment.id
       ? reviewAttachment.text_extraction
@@ -1303,6 +1304,7 @@ export function AttachmentDisplay({
               attachments={editorAttachments}
               canUse={canEditExtraction}
               initialImageId={attachment.id}
+              onRemovedRecording={(id) => setRemovedCorrectionAudioIds((current) => [...current, id])}
               coordinateReview={handwritingCoordinateReview}
               onFocusRegion={focusHandwritingRegion}
             />
@@ -1525,7 +1527,7 @@ export function AttachmentDisplay({
       <>
       <section className={`attachment-extraction status-${extraction.status}`}>
         {isImage && canEditExtraction ? <div className="photo-reading-actions">
-          {!imageBusy && !imageFailed ? <button type="button" disabled={photoChoiceBusy} onClick={() => void setPhotoReadingChoice("read")}>다시 판독하기</button> : null}
+          {!imageBusy && !imageFailed ? <button type="button" disabled={photoChoiceBusy} onClick={() => void setPhotoReadingChoice("read")}>이 이미지만 다시 판독</button> : null}
           <button type="button" disabled={photoChoiceBusy} onClick={() => void setPhotoReadingChoice("not_required")}>판독 필요 없음</button>
         </div> : null}
         <div className="attachment-extraction-heading">

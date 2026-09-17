@@ -4311,6 +4311,77 @@ textarea:focus {
   color: var(--ink);
 }
 
+.composer-file-preview {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #f2f6f5;
+}
+
+.room-icon.kind-ai {
+  width: 42px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #e8f4ef, #d5e9df);
+  color: #145b45;
+  font-size: 0.78rem;
+  letter-spacing: -0.04em;
+}
+
+.ai-help-status {
+  display: block;
+  margin-top: 0.55rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(20, 91, 69, 0.15);
+  color: #49675d;
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.ai-help-status.status-failed,
+.ai-help-status.status-cancelled {
+  color: #9b3e34;
+}
+
+.ai-help-status button {
+  margin-left: 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.18rem 0.5rem;
+}
+
+.ai-help-evidence {
+  width: 100%;
+  margin-top: 0.35rem;
+  color: var(--ink-soft);
+}
+
+.ai-help-evidence summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.ai-help-evidence ol {
+  margin: 0.35rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.ai-help-evidence li + li {
+  margin-top: 0.25rem;
+}
+
+.ai-help-no-evidence {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  color: var(--ink-soft);
+}
+
 .selected-file-list button {
   flex: 0 0 auto;
   min-height: 30px;
@@ -4974,11 +5045,22 @@ textarea:focus {
 
 .call-member-all,
 .call-member-list > label {
-  display: flex;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
   min-height: 44px;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+}
+
+.call-member-picker input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 20px;
+  accent-color: var(--brand);
 }
 
 .call-member-all {
@@ -4991,7 +5073,17 @@ textarea:focus {
 
 .call-member-list > label > span {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+.call-member-list > label strong,
+.call-member-list > label small {
+  white-space: nowrap;
 }
 
 .call-member-list small {
@@ -8653,6 +8745,26 @@ button.attachment-card.download {
   border-top: 1px solid #cddfd9;
 }
 
+.voice-correction-ai-state {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #cddfd9;
+  border-radius: 9px;
+  background: #f7faf9;
+}
+
+.voice-correction-ai-state p {
+  margin: 0;
+  color: #4a5c57;
+  font-size: 0.86rem;
+}
+
+.voice-correction-ai-state .voice-correction-review-required {
+  color: #874800;
+  font-weight: 700;
+}
+
 .voice-correction-result h4 {
   margin: 0 0 0.5rem;
 }
@@ -8748,6 +8860,117 @@ button.attachment-card.download {
   align-items: center;
   justify-content: space-between;
   gap: 0.65rem;
+}
+
+.voice-correction-review-items {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.8rem;
+  border: 1px solid #d9b75b;
+  border-radius: 10px;
+  background: #fffaf0;
+}
+
+.voice-correction-review-items > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.voice-correction-review-items > header p {
+  margin: 0.25rem 0 0;
+  color: #5d5140;
+  font-size: 0.84rem;
+}
+
+.voice-correction-review-items > ol {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.voice-correction-review-item {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border: 1px solid #e0c77e;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.voice-correction-review-item.resolved {
+  border-color: #77aa9a;
+}
+
+.voice-correction-review-item h5,
+.voice-correction-review-item p {
+  margin: 0;
+}
+
+.voice-correction-review-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.voice-correction-review-values > div {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 0.6rem;
+  border: 1px solid #d5e1dd;
+  border-radius: 8px;
+  background: #f9fbfa;
+}
+
+.voice-correction-review-values p {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.voice-correction-review-values .button {
+  width: 100%;
+  min-height: 42px;
+}
+
+.voice-correction-manual-resolution {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.55rem;
+}
+
+.voice-correction-manual-resolution label {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.voice-correction-manual-resolution input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #89aa9f;
+  border-radius: 8px;
+  padding: 0.65rem;
+  background: #fff;
+  font: inherit;
+}
+
+.voice-correction-review-result {
+  color: #175a49;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.voice-correction-review-pending {
+  color: #874800;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .approval-review-status {
@@ -8872,6 +9095,11 @@ button.attachment-card.download {
 
   .voice-correction-three-way,
   .voice-correction-three-way.without-audio {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-correction-review-values,
+  .voice-correction-manual-resolution {
     grid-template-columns: 1fr;
   }
 
@@ -20290,6 +20518,43 @@ button.attachment-card.download {
   font-size: 12px;
 }
 
+.living-space-member-editor {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  border: 1px solid #cfe3de;
+  border-radius: 16px;
+  background: #f8fcfb;
+  padding: 16px;
+}
+
+.living-space-member-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 320px;
+  overflow: auto;
+}
+
+.living-space-member-list .check-row {
+  margin: 0;
+  border: 1px solid #dbe8e5;
+  border-radius: 12px;
+  background: white;
+  padding: 10px 12px;
+}
+
+.living-space-member-list .check-row.disabled {
+  opacity: 0.62;
+}
+
+.living-space-member-list input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+}
+
 /* 채팅방은 목록을 기본으로 두고 편집기와 예외 참여자를 접어 둡니다. */
 .room-list-search,
 .room-filter-details select,
@@ -20535,6 +20800,11 @@ button.attachment-card.download {
   .organization-maintenance .managed-chip .chip-label {
     min-width: 0;
     flex: 1 1 auto;
+  }
+
+  .living-space-member-list {
+    grid-template-columns: 1fr;
+    max-height: 280px;
   }
 
   .room-list-back {

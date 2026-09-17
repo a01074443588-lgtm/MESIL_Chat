@@ -3,6 +3,11 @@
   "name": "MESIL_Chat 장기요양 업무 문맥 사전",
   "safety_rule": "원문에 없는 사람, 수치, 시간, 투약, 처치, 사건을 만들지 않는다.",
   "terms": [
+    {"canonical": "오수", "category": "rest_position", "priority": 95},
+    {"canonical": "오수시간", "aliases": ["오수 시간"], "category": "rest_position", "priority": 100},
+    {"canonical": "실버메디컬복지센터", "aliases": ["실버메디컬 복지센터"], "category": "service", "priority": 100},
+    {"canonical": "기관", "category": "service", "priority": 85},
+    {"canonical": "단기보호", "category": "service", "priority": 100},
     {"canonical": "송영", "category": "attendance_transport", "priority": 100},
     {"canonical": "아침 송영 시", "aliases": ["아침 송영시", "수동식 전차"], "category": "attendance_transport", "priority": 100},
     {"canonical": "등원", "category": "attendance_transport", "priority": 90},

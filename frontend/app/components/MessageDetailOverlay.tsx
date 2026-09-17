@@ -58,7 +58,6 @@ export function MessageDetailOverlay({
   const detail =
     loadedDetail?.requestKey === detailRequestKey ? loadedDetail.value : null;
   const [readOpen, setReadOpen] = useState(false);
-  const [attachmentActionBusyId, setAttachmentActionBusyId] = useState("");
   const [imageBatchBusy, setImageBatchBusy] = useState(false);
   const [loadError, setLoadError] = useState("");
 
@@ -164,9 +163,6 @@ export function MessageDetailOverlay({
     detail?.message.attachments.filter((attachment) =>
       attachment.mime_type.startsWith("image/"),
     ) ?? [];
-  const audioAttachment = detail?.message.attachments.find((attachment) =>
-    attachment.mime_type.startsWith("audio/"),
-  );
   const retryableImageAttachments = imageAttachments.filter((attachment) => {
     const status = attachment.text_extraction?.status;
     return !status || status === "failed";
@@ -182,69 +178,7 @@ export function MessageDetailOverlay({
       attachment.can_review_text === true ||
       attachment.can_request_reading === true,
   );
-  const canUseAudioAction = Boolean(
-    audioAttachment &&
-      (audioAttachment.can_review_text === true ||
-        audioAttachment.can_request_reading === true),
-  );
-  const fileActionCount = Number(canUseImageActions) + Number(canUseAudioAction);
-
-  function canEditAttachmentExtraction(
-    attachment: Message["attachments"][number],
-  ) {
-    return attachment.can_review_text === true;
-  }
-
-  function extractionActionLabel(attachment: Message["attachments"][number]) {
-    const status = attachment.text_extraction?.status;
-    const isAudio = attachment.mime_type.startsWith("audio/");
-    if (status === "completed" || status === "reviewed") {
-      if (!canEditAttachmentExtraction(attachment)) {
-        return isAudio ? "받아쓰기 보기" : "판독문 보기";
-      }
-      return isAudio ? "받아쓰기 보기·수정" : "판독문 보기·수정";
-    }
-    if (status === "pending" || status === "processing") {
-      return isAudio ? "받아쓰기 중…" : "글자 읽는 중…";
-    }
-    return isAudio ? "음성 받아쓰기" : "이미지 글자 읽기";
-  }
-
-  async function runAttachmentAction(attachment: Message["attachments"][number]) {
-    const status = attachment.text_extraction?.status;
-    const root = document.querySelector<HTMLElement>(
-      `[data-attachment-id="${attachment.id}"]`,
-    );
-    if (status === "completed" || status === "reviewed") {
-      root?.scrollIntoView({ behavior: "smooth", block: "center" });
-      const editButton = root?.querySelector<HTMLButtonElement>(
-        '[data-attachment-action="edit-extraction"]',
-      );
-      if (editButton) editButton.click();
-      return;
-    }
-    if (status === "pending" || status === "processing") {
-      root?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-    setAttachmentActionBusyId(attachment.id);
-    setLoadError("");
-    try {
-      await apiFetch(`/api/attachments/${attachment.id}/text-extraction`, {
-        method: "POST",
-        body: "{}",
-      });
-      const payload = await loadDetail();
-      setLoadedDetail({ requestKey: detailRequestKey, value: payload });
-      onMessageChanged();
-    } catch (reason) {
-      setLoadError(
-        reason instanceof Error ? reason.message : "글자 변환을 시작하지 못했습니다.",
-      );
-    } finally {
-      setAttachmentActionBusyId("");
-    }
-  }
+  const fileActionCount = Number(imageAttachments.length > 1 && canUseImageActions);
 
   function imageActionLabel() {
     if (imageBatchBusy) return "시작 중…";
@@ -266,11 +200,7 @@ export function MessageDetailOverlay({
         ? "이미지 글자 읽기"
         : `남은 이미지 ${retryableImageAttachments.length}장 글자 읽기`;
     }
-    const canEditAnyImage = imageAttachments.some(canEditAttachmentExtraction);
-    const suffix = canEditAnyImage ? "보기·수정" : "보기";
-    return imageAttachments.length === 1
-      ? `판독문 ${suffix}`
-      : `판독문 ${completedImageCount}장 ${suffix}`;
+    return "전체 이미지 판독 완료";
   }
 
   async function runImageBatchAction(force = false) {
@@ -398,7 +328,7 @@ export function MessageDetailOverlay({
                       attachment={attachment}
                       galleryAttachments={detail.message.attachments}
                       showExtraction
-                      canEditExtraction={canEditAttachmentExtraction(attachment)}
+                      canEditExtraction={attachment.can_review_text === true}
                       onAttachmentChanged={(nextAttachment) => {
                         setLoadedDetail((current) =>
                           current?.requestKey === detailRequestKey
@@ -462,7 +392,9 @@ export function MessageDetailOverlay({
             >
               읽은 직원 {detail.read_receipts.length}명
             </button>
-            {canUseImageActions ? (
+            {imageAttachments.length > 1 &&
+            canUseImageActions &&
+            retryableImageAttachments.length > 0 ? (
               <button
                 type="button"
                 className="button button-secondary"
@@ -472,7 +404,8 @@ export function MessageDetailOverlay({
                 {imageActionLabel()}
               </button>
             ) : null}
-            {canUseImageActions &&
+            {imageAttachments.length > 1 &&
+            canUseImageActions &&
             completedImageCount > 0 &&
             processingImageCount === 0 ? (
               <button
@@ -484,23 +417,6 @@ export function MessageDetailOverlay({
                 전체 이미지 다시 판독
               </button>
             ) : null}
-            {canUseAudioAction && audioAttachment ? (
-              <button
-                type="button"
-                className="button button-secondary"
-                disabled={
-                  attachmentActionBusyId === audioAttachment.id ||
-                  ["pending", "processing"].includes(
-                    audioAttachment.text_extraction?.status ?? "",
-                  )
-                }
-                onClick={() => void runAttachmentAction(audioAttachment)}
-              >
-                {attachmentActionBusyId === audioAttachment.id
-                  ? "시작 중…"
-                  : extractionActionLabel(audioAttachment)}
-              </button>
-            ) : null}
             {fileActionCount ? (
               <details className="mobile-action-more">
                 <summary>더보기</summary>
@@ -508,7 +424,7 @@ export function MessageDetailOverlay({
                   <button type="button" onClick={() => setReadOpen((current) => !current)}>
                     읽은 직원 {detail.read_receipts.length}명
                   </button>
-                  {imageAttachments.length > 0 && completedImageCount > 0 ? (
+                  {imageAttachments.length > 1 && completedImageCount > 0 ? (
                     <button
                       type="button"
                       disabled={imageBatchBusy || processingImageCount > 0}

@@ -11,6 +11,8 @@ from .record_text_ai import prepare_evidence,deidentify,_restore,RecordModelErro
 from .config import settings
 from .record_gpu_capacity import read_profile,require_capacity
 from .record_answer_quality import GroundedDraft,GroundingReview,guarded_sentences,review_payload,DRAFT_INSTRUCTION,REVIEW_INSTRUCTION
+from .record_answer_quality import model_json_object
+from .record_nutrition import nutrition_question, nutrition_facts, complete_meal_evidence, LIMIT
 
 _SLOTS=BoundedSemaphore(2)
 _PREPARE_SLOT=BoundedSemaphore(1)
@@ -265,6 +267,7 @@ async def local_request(client,base,path,body,timeout):
         return json.loads(data)
 
 async def generate_narrative(*,question,facts,names,all_synthetic,request_key,deadline,allow_cold_start=False,progress=None):
+    facts=nutrition_facts(question,facts)
     start=perf_counter();out={'processing_method':'rules','generation_verified':False,'error_type':None,'ai_elapsed_ms':0,'load_ms':None,'generation_ms':None,'prefill_ms':None,'rejected_sentence_count':0,'draft_sentence_count':None,'guarded_sentence_count':None,'correction_attempted':False,'validation_stage':'setup'}
     acquired=False;prepare_acquired=False;registered=False
     try:
@@ -348,12 +351,15 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
             total_rejected=0;guard_reasons=set();sentences=[];previous=None
             out['draft_ms']=0;out['evidence_review_ms']=0
             out['draft_generation_ms']=0;out['draft_prefill_ms']=0;out['review_generation_ms']=0
+            primary_generation_error=None
             for attempt in range(2):
                 correction=attempt==1
                 if correction:out['correction_attempted']=True
                 out['validation_stage']='correction_generation' if correction else 'draft_generation'
                 draft_started=perf_counter();generation_before=out['generation_ms'] or 0;prefill_before=out['prefill_ms'] or 0
                 prompt=(DRAFT_INSTRUCTION if not correction else DRAFT_INSTRUCTION+'\n이전 초안은 일부 사실 또는 근거 검사를 통과하지 못했습니다. 검증 가능한 핵심만 남겨 다시 작성하세요. 같은 오류를 반복하지 마세요.')
+                if nutrition_question(question):
+                    prompt+='\n식사 질문에는 확인된 날짜와 실제 섭취 내용을 간결하게 답하세요. 섭취표의 수치는 섭취 기록이며 단순 제공 기록과 구분하세요. 피부 등 무관한 내용은 제외하세요. 한두 기록으로 전반적인 식사 상태를 단정하지 말고 판단 한계를 limitation 문장으로 명시하세요.'
                 if correction and 'question_not_answered' in guard_reasons:
                     prompt+='\n이전 초안은 질문의 결론에 직접 답하지 못했습니다. 같은 날짜순 사실 목록을 반복하지 마세요. 비교 질문이면 변화 여부를 판단할 수 있는지를 첫 문장에 답하세요. 이전 또는 이후의 실제 값이 기록되지 않았다면 증가·감소를 단정하지 말고 비교할 수 없는 이유를 limitation으로 설명하세요. 제공량과 실제 섭취량을 서로 비교하지 마세요. 확인된 최근 사실은 그 다음에 간결하게 덧붙이세요.'
                 if correction and 'resident' in guard_reasons:
@@ -368,12 +374,14 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 out['draft_generation_ms']+=(out['generation_ms'] or 0)-generation_before
                 out['draft_prefill_ms']+=(out['prefill_ms'] or 0)-prefill_before
                 if response.get('done_reason') in {'length','max_tokens'}:
-                    if not correction:previous={'sentences':[]};guard_reasons.add('response_truncated');continue
+                    if not correction:
+                        primary_generation_error='response_truncated';previous={'sentences':[]};guard_reasons.add('response_truncated');continue
                     raise RecordModelError('response_truncated')
                 out['validation_stage']='draft_validation'
-                try:raw=json.loads(response['message']['content'])
+                try:raw=model_json_object(response['message']['content'])
                 except (json.JSONDecodeError,TypeError,KeyError):
-                    if not correction:previous={'sentences':[]};guard_reasons.add('response_format_invalid');continue
+                    if not correction:
+                        primary_generation_error='response_format_invalid';previous={'sentences':[]};guard_reasons.add('response_format_invalid');continue
                     raise RecordModelError('response_format_invalid')
                 previous=raw
                 out['draft_sentence_count']=len(raw.get('sentences',[])) if isinstance(raw,dict) else None
@@ -384,29 +392,40 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 total_rejected+=rejected;guard_reasons.update(guard_diagnostics)
                 out['rejected_sentence_count']=total_rejected
                 if not sentences:
-                    if not correction:continue
-                    raise RecordModelError('no_relevant_records' if raw=={'sentences':[]} else 'narrative_validation_failed')
+                    if not correction:
+                        if raw != {'sentences':[]}:
+                            primary_generation_error='narrative_validation_failed'
+                        continue
+                    if primary_generation_error:
+                        raise RecordModelError(primary_generation_error)
+                    if raw=={'sentences':[]}:
+                        out['empty_result_verified']=True
+                        raise RecordModelError('no_relevant_records')
+                    raise RecordModelError('narrative_validation_failed')
                 # Review can accept/reject facts but cannot add a conclusion.
                 # This draft cannot meet the final answer contract even if all
                 # review flags are true; spend the remaining budget on repair.
                 if not any(s.role in ('conclusion','limitation') for s in sentences):
                     guard_reasons.add('missing_conclusion')
-                    if not correction:continue
+                    if not correction:
+                        primary_generation_error='question_answer_not_supported';continue
                     raise RecordModelError('question_answer_not_supported')
                 out['validation_stage']='semantic_review'
                 review_started=perf_counter();generation_before=out['generation_ms'] or 0
                 review_response=await chat(REVIEW_INSTRUCTION,review_payload(sentences,records,safe_question),GroundingReview,80)
                 out['evidence_review_ms']+=round((perf_counter()-review_started)*1000)
                 out['review_generation_ms']+=(out['generation_ms'] or 0)-generation_before
-                try:review=GroundingReview.model_validate_json(review_response['message']['content'])
+                try:review=GroundingReview.model_validate(model_json_object(review_response['message']['content']))
                 except ValueError:
-                    if not correction:guard_reasons.add('review_format_invalid');continue
+                    if not correction:
+                        primary_generation_error='review_format_invalid';guard_reasons.add('review_format_invalid');continue
                     raise RecordModelError('review_format_invalid')
                 if len(review.supported)>len(sentences):
                     review=review.model_copy(update={'supported':review.supported[:len(sentences)]})
                     guard_reasons.add('review_count_normalized')
                 elif len(review.supported)<len(sentences):
-                    if not correction:guard_reasons.add('review_count_mismatch');continue
+                    if not correction:
+                        primary_generation_error='question_answer_not_supported';guard_reasons.add('review_count_mismatch');continue
                     raise RecordModelError('question_answer_not_supported')
                 total_rejected+=sum(not item for item in review.supported)
                 out['rejected_sentence_count']=total_rejected
@@ -417,11 +436,17 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 out['guard_rejection_types']=','.join(sorted(guard_reasons)) or None
                 sentences=[sentence for sentence,supported in zip(sentences,review.supported) if supported]
                 if review.answers_question and sentences and any(s.role in ('conclusion','limitation') for s in sentences):break
-                if not correction:guard_reasons.add('semantic_review');continue
+                if not correction:
+                    primary_generation_error='question_answer_not_supported';guard_reasons.add('semantic_review');continue
                 raise RecordModelError('question_answer_not_supported')
             out.update(guarded_sentence_count=len(sentences),rejected_sentence_count=total_rejected,
                 guard_rejection_types=','.join(sorted(guard_reasons)) or None)
             rendered=[{'text':_restore(s.text,aliases),'evidence_ids':[mapping[token]['message_id'] for token in s.citations]} for s in sentences]
+            if not complete_meal_evidence(question, facts, rendered):
+                out['validation_stage'] = 'meal_evidence_completeness'
+                raise RecordModelError('incomplete_meal_evidence')
+            if nutrition_question(question) and not any(s.role=='limitation' for s in sentences):
+                rendered.append({'text':LIMIT,'evidence_ids':list(dict.fromkeys(identifier for s in rendered for identifier in s['evidence_ids']))})
             out.update(processing_method='local_ai',generation_verified=True,sentences=rendered,answer=' '.join(s['text'] for s in rendered),evidence_ids=list(dict.fromkeys(identifier for s in rendered for identifier in s['evidence_ids'])),keep_alive_seconds=keep_alive)
             out['validation_stage']='complete'
             out['selected_facts']=[mapping[token] for token in dict.fromkeys(token for sentence in sentences for token in sentence.citations)]

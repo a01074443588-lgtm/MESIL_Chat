@@ -56,6 +56,7 @@ from .models import (
 from .organization_catalog import ensure_approved_organization_catalog
 from .schemas import (
     ActionItemResponse,
+    AiHelpMessageMeta,
     AttachmentResponse,
     AttachmentTextExtractionAttemptResponse,
     AttachmentTextExtractionResponse,
@@ -703,6 +704,7 @@ def message_response(
         reply_user_count = len({comment.author_id for comment in comments})
     forwarded_from = None
     reply_to = None
+    ai_help = None
     if show_content and message.extra_data:
         raw_forwarded = message.extra_data.get("forwarded_from")
         if isinstance(raw_forwarded, dict):
@@ -716,6 +718,12 @@ def message_response(
                 reply_to = RepliedMessageSource.model_validate(raw_reply)
             except ValueError:
                 reply_to = None
+        raw_ai_help = message.extra_data.get("ai_help")
+        if isinstance(raw_ai_help, dict):
+            try:
+                ai_help = AiHelpMessageMeta.model_validate(raw_ai_help)
+            except ValueError:
+                ai_help = None
     return MessageResponse(
         id=message.id,
         room_id=message.room_id,
@@ -761,6 +769,7 @@ def message_response(
         action_item=action_item_response(message.action_item) if show_content else None,
         forwarded_from=forwarded_from,
         reply_to=reply_to,
+        ai_help=ai_help,
         is_recalled=is_recalled,
         recalled_at=as_utc(message.recalled_at),
         created_at=as_utc(message.created_at),
@@ -1193,7 +1202,9 @@ def attachment_response(
         review_name = f"가상 문서 자료 {upload_ordinal + 1}.pdf"
     else:
         review_name = f"가상 첨부 자료 {upload_ordinal + 1}{safe_extension}"
+    from .correction_recordings import removal_state
     return AttachmentResponse(
+        correction_recording=removal_state(db, attachment, viewer_id) if attachment.mime_type.startswith("audio/") and access["can_review_text"] else None,
         photo_reading_status=photo_state,
         can_download_original=(
             True if use_admin_download_url else access["can_download_original"]
@@ -1478,6 +1489,66 @@ def ensure_scope_room(db: Session, unit: OrgUnit) -> Room | None:
     return room
 
 
+def ensure_living_space_room(db: Session, unit: OrgUnit) -> Room:
+    """Return the one protected, manually managed room for a floor unit."""
+    if unit.unit_type != "floor":
+        raise ValueError("생활공간 시스템방은 floor 조직정보에만 연결할 수 있습니다.")
+    room = db.scalar(
+        select(Room).where(
+            Room.organization_id == unit.organization_id,
+            Room.kind == "living_space",
+            Room.scope_unit_id == unit.id,
+        )
+    )
+    expected_name = f"{unit.name} 생활공간"
+    if room is None:
+        room = Room(
+            organization_id=unit.organization_id,
+            name=expected_name,
+            kind="living_space",
+            scope_unit_id=unit.id,
+            resident_scope="floor",
+            resident_scope_unit_id=unit.id,
+            is_active=unit.is_active,
+            is_test_data=unit.is_test_data,
+        )
+        db.add(room)
+        db.flush()
+    elif room.name != expected_name:
+        room.name = expected_name
+        db.flush()
+    return room
+
+
+def backfill_living_space_rooms(db: Session, organization_id: UUID) -> int:
+    """Create only missing rooms for active floors; never infer memberships."""
+    floors = list(
+        db.scalars(
+            select(OrgUnit)
+            .where(
+                OrgUnit.organization_id == organization_id,
+                OrgUnit.unit_type == "floor",
+                OrgUnit.is_active.is_(True),
+            )
+            .order_by(OrgUnit.id)
+        ).all()
+    )
+    created = 0
+    for floor in floors:
+        room_id = db.scalar(
+            select(Room.id).where(
+                Room.organization_id == organization_id,
+                Room.kind == "living_space",
+                Room.scope_unit_id == floor.id,
+            )
+        )
+        if room_id is not None:
+            continue
+        ensure_living_space_room(db, floor)
+        created += 1
+    return created
+
+
 def ensure_job_room(
     db: Session, organization_id: UUID, job: StaffJobCode
 ) -> Room:
@@ -1529,6 +1600,85 @@ def ensure_self_room(db: Session, user: User) -> Room | None:
         db.add(room)
         db.flush()
     return room
+
+
+def ensure_ai_help_room(db: Session, user: User) -> Room | None:
+    """활성 직원에게만 개인 AI 도움방을 멱등 생성합니다."""
+    if not settings.ai_help_room_enabled or user.staff is None:
+        return None
+    room = db.scalar(
+        select(Room).where(
+            Room.organization_id == user.organization_id,
+            Room.kind == "ai",
+            Room.owner_staff_id == user.staff.id,
+        )
+    )
+    if room is None:
+        room = Room(
+            organization_id=user.organization_id,
+            name="MESIL AI 도움방",
+            kind="ai",
+            owner_staff_id=user.staff.id,
+            resident_scope="all",
+            # 일반 업무방을 먼저 보여 주고 개인 도구방은 목록 하단에 둔다.
+            sort_order=900,
+            is_test_data=settings.environment != "production",
+        )
+        try:
+            with db.begin_nested():
+                db.add(room)
+                db.flush()
+        except Exception:
+            room = db.scalar(
+                select(Room).where(
+                    Room.organization_id == user.organization_id,
+                    Room.kind == "ai",
+                    Room.owner_staff_id == user.staff.id,
+                )
+            )
+            if room is None:
+                raise
+    elif not room.is_active:
+        # 롤백은 대화 이력을 삭제하지 않고 방만 숨긴다. 기능을 다시 켜면
+        # 같은 방을 되살려 직원별 유일 방과 기존 문맥을 모두 보존한다.
+        room.is_active = True
+        db.flush()
+    return room
+
+
+def ensure_mesil_ai_user(db: Session, organization_id: UUID) -> User:
+    """로그인할 수 없는 조직별 시스템 AI 작성자를 반환합니다."""
+    username = f"__mesil_ai__{organization_id.hex}"
+    user = db.scalar(
+        select(User).where(
+            User.organization_id == organization_id,
+            User.username == username,
+        )
+    )
+    if user is None:
+        user = User(
+            organization_id=organization_id,
+            username=username,
+            display_name="MESIL AI",
+            password_hash=hash_password(uuid4().hex + uuid4().hex),
+            is_active=False,
+            can_process_records=False,
+            must_change_password=False,
+        )
+        try:
+            with db.begin_nested():
+                db.add(user)
+                db.flush()
+        except Exception:
+            user = db.scalar(
+                select(User).where(
+                    User.organization_id == organization_id,
+                    User.username == username,
+                )
+            )
+            if user is None:
+                raise
+    return user
 
 
 def validate_unit_assignments(
@@ -1727,7 +1877,7 @@ def staff_matches_room_rule(staff: Staff, room: Room) -> bool:
             and service_assignment.job.is_active
             for service_assignment in staff.service_assignments
         )
-    if room.kind == "self":
+    if room.kind in {"self", "ai"}:
         return room.owner_staff_id == staff.id
     return False
 
@@ -1751,6 +1901,9 @@ def sync_auto_memberships(db: Session, user: User) -> None:
         self_room = ensure_self_room(db, user)
         if self_room is not None and self_room.is_active:
             desired_room_ids.add(self_room.id)
+        ai_room = ensure_ai_help_room(db, user)
+        if ai_room is not None and ai_room.is_active:
+            desired_room_ids.add(ai_room.id)
         desired_room_ids.update(
             db.scalars(
                 select(Room.id).where(
@@ -2101,6 +2254,7 @@ def list_user_rooms(db: Session, user_id: UUID) -> list[RoomResponse]:
     return sorted(
         result,
         key=lambda item: (
+            item.kind != "ai",
             item.last_message_at is not None,
             item.last_message_at or datetime.min.replace(tzinfo=timezone.utc),
             str(item.id),

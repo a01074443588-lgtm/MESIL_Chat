@@ -28,6 +28,34 @@ export type PushEnvironment = {
   requiresIOSUpgrade: boolean;
 };
 
+export function safeWebPushErrorMessage(
+  error: unknown,
+  fallback = "시험 알림을 보내지 못했습니다. 잠시 후 다시 시도해 주세요.",
+) {
+  const message = error instanceof Error ? error.message.trim() : "";
+  const normalized = message.toLowerCase();
+  if (
+    message.includes("권한") ||
+    normalized.includes("permission denied") ||
+    normalized.includes("permission was denied")
+  ) {
+    return "브라우저 또는 휴대전화 설정에서 알림 권한을 허용해 주세요.";
+  }
+  if (message.includes("구독")) {
+    return "현재 기기의 알림 구독을 찾지 못했습니다. 알림을 다시 켜 주세요.";
+  }
+  if (message.includes("지원하지")) {
+    return "이 브라우저에서는 잠금화면 알림을 지원하지 않습니다.";
+  }
+  if (message.includes("알림 서버가 아직 준비되지")) {
+    return "휴대전화 알림 서버가 아직 준비되지 않았습니다.";
+  }
+  if (message.includes("알림 전송에 실패")) {
+    return "휴대전화 알림 전송에 실패했습니다. 알림을 다시 켠 뒤 시험해 주세요.";
+  }
+  return fallback;
+}
+
 export function readPushEnvironment(): PushEnvironment {
   if (typeof window === "undefined" || typeof navigator === "undefined") {
     return {
@@ -237,8 +265,22 @@ export async function disableWebPush() {
 }
 
 export async function sendWebPushTest() {
+  if (!supportsWebPush()) {
+    throw new Error("이 브라우저에서는 잠금화면 알림을 지원하지 않습니다.");
+  }
+  if (Notification.permission === "denied") {
+    throw new Error("브라우저 또는 휴대전화 설정에서 알림 권한을 허용해 주세요.");
+  }
+  if (Notification.permission !== "granted") {
+    throw new Error("시험 알림을 보내려면 먼저 알림 권한을 허용해 주세요.");
+  }
+  const registration = await navigator.serviceWorker.ready;
+  const subscription = await registration.pushManager.getSubscription();
+  if (!subscription?.endpoint) {
+    throw new Error("현재 기기의 알림 구독을 찾지 못했습니다. 알림을 다시 켜 주세요.");
+  }
   return apiFetch<PushResult>("/api/push/test", {
     method: "POST",
-    body: "{}",
+    body: JSON.stringify({ endpoint: subscription.endpoint }),
   });
 }

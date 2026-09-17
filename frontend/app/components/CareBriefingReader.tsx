@@ -118,8 +118,6 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
     window.addEventListener("mesil-resident-links-changed", changed);
     return () => window.removeEventListener("mesil-resident-links-changed", changed);
   }, []);
-  const scopeLabel = `${residentName || "전체 어르신"} · ${startDate} ~ ${endDate}`;
-
   useEffect(() => () => { requestRef.current?.abort(); evidenceRequestRef.current?.abort(); }, []);
   useEffect(() => {
     const controller = new AbortController();
@@ -157,11 +155,11 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
     evidenceTriggerRef.current?.focus({ preventScroll: true });
   }
 
-  async function askRecords(retry = false, briefing = false) {
+  async function askRecords(retry = false, briefing = false, rangeOverride?: "default" | "fixed") {
     const requestedQuestion = briefing ? BRIEFING_QUESTION
       : retry ? lastRequestRef.current?.question ?? answer?.question ?? question.trim() : question.trim();
-    const requestedRangeMode = briefing ? "fixed"
-      : retry ? lastRequestRef.current?.rangeMode ?? rangeMode : rangeMode;
+    const requestedRangeMode = rangeOverride ?? (briefing ? "fixed"
+      : retry ? lastRequestRef.current?.rangeMode ?? rangeMode : rangeMode);
     if (!requestedQuestion || questionFlightRef.current) return;
     lastRequestRef.current = { question: requestedQuestion, rangeMode: requestedRangeMode };
     questionFlightRef.current = true;
@@ -186,7 +184,7 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
     }, 1000);
     try {
       const result = await runRecordQuestion<CareRecordAnswer>(apiFetch,
-        JSON.stringify({ start_date: startDate, end_date: endDate, range_mode: requestedRangeMode, resident_id: residentId || null, room_id: roomId || null, message_type: messageType || null, question: requestedQuestion }),
+        JSON.stringify({ start_date: startDate, end_date: endDate, range_mode: requestedRangeMode, resident_id: null, default_resident_id: residentId || null, room_id: roomId || null, message_type: messageType || null, question: requestedQuestion }),
         controller.signal, phase => { answerStarted = !["model_preparing", "waiting_capacity"].includes(phase); setQuestionPhase(phase); });
       if (!controller.signal.aborted) {
         evidenceRequestRef.current?.abort();
@@ -202,7 +200,7 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
         setAnswer(null);
       }
       if (!controller.signal.aborted) setQuestionError(error instanceof RecordPreparationError ? error.message : error instanceof ApiError
-        ? error.status >= 500 ? "서버 오류로 답변을 받지 못했습니다. 잠시 후 다시 시도해 주세요." : error.message
+        ? error.status >= 500 ? "기록을 조회하지 못했습니다. 잠시 후 다시 시도해 주세요." : error.message
         : "서버와 연결이 끊겼습니다. 연결 상태를 확인하고 다시 시도해 주세요.");
     } finally {
       window.clearInterval(poll);
@@ -211,9 +209,18 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
     }
   }
 
+  // The response scope, not the reader's default selection, labels the answer.
+  const answerResidentLabel = answer?.processing_method === "clarification"
+    ? "대상 확인 필요"
+    : answer?.resident_id === null
+      ? "전체 어르신"
+      : answer?.resolved_resident_name?.trim()
+        || (answer?.resident_id === residentId ? residentName : "")
+        || "대상 어르신";
+
   async function copyAnswer() {
     if (!answer) return;
-    const text = `${answer.resolved_resident_name || residentName || "전체 어르신"} · ${answer.period_start} ~ ${answer.period_end}\n질문: ${answer.question}\n${answer.answer}${answer.unknowns?.length ? `\n미확인: ${answer.unknowns.join(" ")}` : ""}${answer.limitation ? `\n${answer.limitation}` : ""}`;
+    const text = `${answerResidentLabel} · ${answer.period_start} ~ ${answer.period_end}\n질문: ${answer.question}\n${answer.answer}${answer.unknowns?.length ? `\n미확인: ${answer.unknowns.join(" ")}` : ""}${answer.limitation ? `\n${answer.limitation}` : ""}`;
     try {
       await navigator.clipboard.writeText(text);
       setCopyStatus("복사했습니다.");
@@ -238,7 +245,9 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
       {residentId && (sourceIds?.length || sources.length) ? <button type="button" className="care-reader-more" onClick={() => void openEvidence(sourceIds ?? sources.map((source) => source.message.id))}>이 기간의 기록 더 보기</button> : null}
       <section className="care-record-question" aria-label="기록에 질문하기" ref={questionSectionRef}>
         <h3>기록에 질문하기</h3>
-        <p className="care-question-scope">{scopeLabel} 기록에서 찾습니다.</p>
+        <p className="care-question-scope">
+          {residentId ? `기본 대상: ${residentName}` : "기본 대상: 전체 어르신"} · 조회 기간: {startDate} ~ {endDate}
+        </p>
         {!answer ? <div className="care-question-examples">{["최근에 어떠셨어?", "전보다 달라진 게 있어?", "보호자에게 말할 내용 있어?"].map((example) => <button type="button" key={example} onClick={() => { setQuestion(example); questionRef.current?.focus(); }}>{example}</button>)}</div> : null}
         <form onSubmit={(event) => { event.preventDefault(); void askRecords(); }}>
           <label htmlFor="care-record-question">궁금한 내용</label>
@@ -256,14 +265,14 @@ export function CareBriefingReader({ topics, sources, sourceIds, startDate, endD
         {questionLoading ? <div><p role="status" className="care-answer-progress">{questionPhase === "waiting_capacity" ? "다른 AI 작업이 끝나거나 GPU 여유가 확보되기를 기다리고 있습니다. 기존 작업은 중단하지 않습니다." : questionPhase === "model_preparing" ? "로컬 AI 모델을 준비하고 있습니다. 처음 실행할 때는 시간이 걸릴 수 있습니다." : questionPhase === "retrieving" ? "관련 기록을 찾고 있습니다." : questionPhase === "preparing" ? "답변을 정리하고 있습니다." : "답변과 근거를 확인하고 있습니다."}</p><button type="button" onClick={() => { requestRef.current?.abort(); setQuestionError("질문 대기를 취소했습니다. 다시 질문할 수 있습니다. 공유 모델 준비는 다른 사용자를 위해 계속될 수 있습니다."); }}>질문 취소</button></div> : null}
         {questionError ? <div className="form-error" role="alert"><p>{questionError}</p>{!answer ? <button type="button" disabled={questionLoading} onClick={() => void askRecords(true)}>질문 다시 시도</button> : null}</div> : null}
         {answer ? <article className="care-record-answer" aria-live="polite">
-          <small>{answer.resolved_resident_name || residentName || "전체 어르신"} · {answer.period_start} ~ {answer.period_end}</small>
+          <small>{answerResidentLabel} · {answer.period_start} ~ {answer.period_end}</small>
           <p className="care-answer-method">{answer.processing_method === "local_ai" && answer.generation_verified ? "로컬 AI" : answer.processing_method === "failed" ? "AI 답변 미완성" : "확인 결과"}</p>
           <h4>{answer.question}</h4>
           {answer.answer_sentences?.length ? <p>{answer.answer_sentences.map((sentence, index) => <span key={index}>{sentence.text} <button type="button" aria-label={`답변 ${index + 1}번 문장 근거`} onClick={() => void openEvidence(sentence.evidence_ids, answer.period_start, answer.period_end, answer.resident_id)}>[{index + 1}]</button>{" "}</span>)}</p> : <p>{answer.answer || "이번에는 AI 답변을 완성하지 못했습니다."}</p>}
           {answer.unknowns?.length ? <div className="care-unknowns"><strong>아직 확인되지 않은 내용</strong><ul>{answer.unknowns.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
-          {answer.fallback_notice ? <p className="care-answer-limit">{answer.fallback_notice} <button type="button" disabled={questionLoading} onClick={() => void askRecords(true)}>다시 질문하기</button></p> : null}
+          {answer.fallback_notice ? <p className="care-answer-limit">{answer.fallback_notice} {answer.processing_method === "failed" ? <button type="button" disabled={questionLoading} onClick={() => void askRecords(true)}>다시 질문하기</button> : null}</p> : null}
           {answer.limitation ? <p className="care-answer-limit">{answer.limitation}</p> : null}
-          <div>{answer.evidence_ids.length ? <button type="button" onClick={() => openEvidence(answer.evidence_ids, answer.period_start, answer.period_end, answer.resident_id)}>근거 기록 {answer.evidence_ids.length}건 보기</button> : null}<button type="button" onClick={() => void copyAnswer()}>내용 복사</button><span role="status">{copyStatus}</span></div>
+          <div>{answer.processing_method === "no_records" ? <><button type="button" onClick={() => void openEvidence(sourceIds ?? sources.map((source) => source.message.id), answer.period_start, answer.period_end, answer.resident_id)}>이 기간의 기록 보기</button><button type="button" disabled={questionLoading} onClick={() => void askRecords(true, false, "default")}>기간 넓혀서 다시 찾기</button></> : answer.evidence_ids.length ? <button type="button" onClick={() => openEvidence(answer.evidence_ids, answer.period_start, answer.period_end, answer.resident_id)}>근거 기록 {answer.evidence_ids.length}건 보기</button> : null}<button type="button" onClick={() => void copyAnswer()}>내용 복사</button><span role="status">{copyStatus}</span></div>
         </article> : null}
       </section>
       {residentId ? <button type="button" className="care-reader-compare" onClick={onCompare}>기존 서류와 비교</button> : null}

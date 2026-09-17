@@ -11,6 +11,7 @@ import {
   enableWebPush,
   readPushEnvironment,
   readPushStatus,
+  safeWebPushErrorMessage,
   sendWebPushTest,
   type PushConfig,
   type PushSupportState,
@@ -56,6 +57,8 @@ const pushLabels: Record<PushSupportState, string> = {
   active: "사용 중",
 };
 
+type FeedbackKind = "neutral" | "success" | "error";
+
 export function NotificationSoundPanel({
   mode,
   onModeChanged,
@@ -68,6 +71,7 @@ export function NotificationSoundPanel({
   reviewOnly?: boolean;
 }) {
   const [feedback, setFeedback] = useState("");
+  const [feedbackKind, setFeedbackKind] = useState<FeedbackKind>("neutral");
   const [pushState, setPushState] = useState<PushSupportState>("checking");
   const [pushConfig, setPushConfig] = useState<PushConfig | null>(null);
   const [pushBusy, setPushBusy] = useState(false);
@@ -215,7 +219,10 @@ export function NotificationSoundPanel({
       const testResult = await sendWebPushTest();
       setFeedback(`휴대전화 알림을 켰습니다. ${testResult.message}`);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "잠금화면 알림을 켜지 못했습니다.";
+      const message = safeWebPushErrorMessage(
+        error,
+        "잠금화면 알림을 켜지 못했습니다. 잠시 후 다시 시도해 주세요.",
+      );
       const permissionDenied = nativeApp
         ? message.includes("알림 권한")
         : typeof Notification !== "undefined" && Notification.permission === "denied";
@@ -239,15 +246,22 @@ export function NotificationSoundPanel({
       setPushState("ready");
       setFeedback(result.message);
     } catch (error) {
-      setFeedback(error instanceof Error ? error.message : "잠금화면 알림을 끄지 못했습니다.");
+      setFeedback(
+        safeWebPushErrorMessage(
+          error,
+          "잠금화면 알림을 끄지 못했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+      );
     } finally {
       setPushBusy(false);
     }
   }
 
   async function testPush() {
+    if (pushBusy) return;
     setPushBusy(true);
     setFeedback("");
+    setFeedbackKind("neutral");
     try {
       if (nativeApp) {
         const result = await synchronizeNativePushRegistration();
@@ -257,12 +271,15 @@ export function NotificationSoundPanel({
         setFullScreenIntentAllowed(result.fullScreenIntentAllowed);
         setNativeReadiness("ready");
         setFeedback("Android 앱 알림 연결을 다시 확인했습니다.");
+        setFeedbackKind("success");
         return;
       }
       const result = await sendWebPushTest();
       setFeedback(result.message);
+      setFeedbackKind("success");
     } catch (error) {
-      setFeedback(error instanceof Error ? error.message : "시험 알림을 보내지 못했습니다.");
+      setFeedback(safeWebPushErrorMessage(error));
+      setFeedbackKind("error");
     } finally {
       setPushBusy(false);
     }
@@ -384,7 +401,9 @@ export function NotificationSoundPanel({
                   disabled={pushBusy || reviewOnly}
                   onClick={() => void testPush()}
                 >
-                  {nativeApp ? "연결 상태 다시 확인" : "시험 알림 보내기"}
+                  {pushBusy
+                    ? "시험 알림 보내는 중…"
+                    : nativeApp ? "연결 상태 다시 확인" : "시험 알림 보내기"}
                 </button>
                 <button
                   className="button button-secondary"
@@ -476,7 +495,15 @@ export function NotificationSoundPanel({
             메딕 시험 소리 듣기
           </button>
         </section>
-        {feedback ? <p className="form-success">{feedback}</p> : null}
+        {feedback ? (
+          <p
+            className={feedbackKind === "error" ? "form-error" : "form-success"}
+            role={feedbackKind === "error" ? "alert" : "status"}
+            aria-live="polite"
+          >
+            {feedback}
+          </p>
+        ) : null}
       </section>
     </div>
   );

@@ -4,6 +4,8 @@ No prompt, original record or model response is logged here.
 """
 from __future__ import annotations
 import re
+import json
+from .record_nutrition import intake_table, nutrition_question
 from .record_hydration import hydration_answer
 from pydantic import BaseModel,ConfigDict,Field
 from typing import Literal
@@ -119,10 +121,14 @@ def guarded_sentences(raw,records,question,diagnostics=None):
         source=' '.join(r['text'] for r in evidence)
         if not numeric_guard(sentence.text,evidence):rejected+=1;reject('number_or_date');continue
         # An offer or a prescription is never evidence of consumption.
-        if CONSUMED.search(sentence.text) and not CONSUMED.search(source) and not UNCERTAIN.search(sentence.text):rejected+=1;reject('consumption');continue
+        if CONSUMED.search(sentence.text) and not CONSUMED.search(source) and not any(intake_table(r['text']) for r in evidence) and not UNCERTAIN.search(sentence.text):rejected+=1;reject('consumption');continue
         if MEDICATION_TAKEN.search(sentence.text) and not MEDICATION_TAKEN.search(source) and not UNCERTAIN.search(sentence.text):rejected+=1;reject('medication_taken');continue
         if COMPLETED_ACTION.search(sentence.text) and FUTURE_PLAN.search(source) and not COMPLETED_ACTION.search(source):rejected+=1;reject('future_as_completed');continue
         if HYDRATION_QUESTION.search(question) and re.search(r'충분|잘\s*(?:보충|섭취)',sentence.text) and not UNCERTAIN.search(sentence.text) and not re.search(r'충분|잘\s*(?:보충|섭취)',source):rejected+=1;reject('unsupported_assessment');continue
+        if nutrition_question(question) and re.search(r'잘\s*(?:드|먹|하)|충분|양호|정상',sentence.text) and not UNCERTAIN.search(sentence.text) and not re.search(r'잘\s*(?:드|먹|하)|충분|양호|정상',source):
+            rejected += 1
+            reject('unsupported_nutrition_assessment')
+            continue
         if re.search(r'진단(?:받|을\s*받|되)|처방(?:받|되)|투약(?:했|함)|복용(?:했|함)',sentence.text) and not re.search(r'진단|처방|투약|복용',source):rejected+=1;reject('medical_claim');continue
         # Explicit polarity reversals must fail before the semantic reviewer.
         bad=False
@@ -139,6 +145,23 @@ def guarded_sentences(raw,records,question,diagnostics=None):
 def review_payload(sentences,records,question):
     lookup={r['id']:r for r in records}
     return {'question':question,'sentences':[{'text':s.text,'role':s.role,'evidence':[lookup[token] for token in s.citations]} for s in sentences]}
+
+def model_json_object(content):
+    """Unwrap one JSON object; retain strict downstream field/fact validation."""
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        wrapped = re.fullmatch(r'[^{}\[\]`]{0,200}```(?:json)?\s*(\{.*\})\s*```[^{}\[\]`]{0,200}', content.strip(), re.S)
+        if wrapped:
+            return json.loads(wrapped[1])
+        start = content.find('{')
+        if start < 0 or start > 200 or re.search(r'[{}\[\]]', content[:start]):
+            raise
+        value, end = json.JSONDecoder().raw_decode(content[start:])
+        suffix = content[start + end:]
+        if len(suffix) > 200 or re.search(r'[{}\[\]]', suffix):
+            raise ValueError('multiple_or_trailing_json')
+        return value
 
 DRAFT_INSTRUCTION='''선택된 기록에 관해 직원의 질문에 직접 답하세요. 필요한 만큼 자연스러운 한국어 1~4문장으로 쓰고, 답변 문장 전체를 250자 이내로 간결하게 정리하세요.
 sentences 배열에 문장 객체를 1~4개 넣으세요. 한 문장으로 충분하면 억지로 늘리지 마세요. 각 text에는 문장 하나만 쓰고, 여러 문장을 객체 하나에 합치지 마세요.

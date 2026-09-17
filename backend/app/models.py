@@ -1669,8 +1669,12 @@ class Room(Base):
     __tablename__ = "staff_hub_rooms"
     __table_args__ = (
         CheckConstraint(
-            "room_type IN ('all', 'business', 'department', 'floor', 'team', 'job', 'custom', 'self')",
+            "room_type IN ('all', 'business', 'department', 'floor', 'team', 'job', 'custom', 'self', 'ai', 'living_space')",
             name="staff_hub_rooms_type_check",
+        ),
+        CheckConstraint(
+            "room_type != 'living_space' OR (unit_id IS NOT NULL AND job_code IS NULL AND owner_staff_id IS NULL)",
+            name="staff_hub_rooms_living_space_shape_check",
         ),
         Index("ix_staff_hub_rooms_active_type", "organization_id", "is_active", "room_type"),
         Index(
@@ -1682,8 +1686,9 @@ class Room(Base):
             ),
         ),
         Index(
-            "uq_staff_hub_rooms_unit",
+            "uq_staff_hub_rooms_unit_kind",
             "organization_id",
+            "room_type",
             "unit_id",
             unique=True,
             postgresql_where=text("unit_id IS NOT NULL"),
@@ -1702,6 +1707,15 @@ class Room(Base):
             unique=True,
             postgresql_where=text(
                 "room_type = 'self' AND owner_staff_id IS NOT NULL"
+            ),
+        ),
+        Index(
+            "uq_staff_hub_rooms_ai",
+            "organization_id",
+            "owner_staff_id",
+            unique=True,
+            postgresql_where=text(
+                "room_type = 'ai' AND owner_staff_id IS NOT NULL"
             ),
         ),
         Index(
@@ -1903,12 +1917,23 @@ class Message(Base):
             name="staff_hub_messages_lifecycle_status_check",
         ),
         Index("ix_staff_hub_messages_room_created", "room_id", "created_at", "id"),
+        Index(
+            "uq_staff_hub_messages_ai_client_request",
+            "organization_id",
+            "author_user_id",
+            "client_request_id",
+            unique=True,
+            postgresql_where=text("client_request_id IS NOT NULL"),
+        ),
         Index("ix_staff_hub_messages_author_created", "author_user_id", "created_at"),
         Index("ix_staff_hub_messages_lifecycle", "lifecycle_status", "created_at"),
         Index("ix_staff_hub_messages_recall_group", "recall_group_id"),
     )
 
     id: Mapped[UUID] = uuid_pk()
+    client_request_id: Mapped[UUID | None] = mapped_column(
+        Uuid(as_uuid=True), nullable=True
+    )
     organization_id: Mapped[UUID] = mapped_column(
         ForeignKey("organizations.id"), index=True
     )

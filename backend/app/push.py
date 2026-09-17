@@ -51,6 +51,7 @@ def _send_web_push_payload(
     *,
     payload: dict[str, Any],
     ttl_seconds: int = WEB_PUSH_TTL_SECONDS,
+    endpoint: str | None = None,
 ) -> int:
     recipient_ids = set(user_ids)
     if not settings.web_push_active or not recipient_ids:
@@ -59,7 +60,7 @@ def _send_web_push_payload(
     now = utcnow()
     sent_count = 0
     with SessionLocal() as db:
-        subscriptions = db.scalars(
+        subscription_query = (
             select(PushSubscription)
             .join(User, User.id == PushSubscription.user_id)
             .join(Staff, Staff.id == User.staff_id)
@@ -74,7 +75,13 @@ def _send_web_push_payload(
                 Staff.employment_status == "active",
                 LoginSession.revoked_at.is_(None),
             )
-        ).all()
+        )
+        if endpoint is not None:
+            subscription_query = subscription_query.where(
+                PushSubscription.endpoint_hash
+                == sha256(endpoint.encode("utf-8")).hexdigest()
+            )
+        subscriptions = db.scalars(subscription_query).all()
 
         for subscription in subscriptions:
             login_session = db.get(LoginSession, subscription.login_session_id)
@@ -165,6 +172,7 @@ def send_web_push_to_users(
     comment_id: UUID | None = None,
     notification_kind: Literal["message", "comment"] = "message",
     is_test: bool = False,
+    endpoint: str | None = None,
 ) -> int:
     """Send a privacy-safe notification after the chat transaction has committed."""
     if is_test:
@@ -194,7 +202,11 @@ def send_web_push_to_users(
         "kind": kind,
     }
     recipient_ids = set(user_ids)
-    sent_count = _send_web_push_payload(recipient_ids, payload=payload)
+    sent_count = _send_web_push_payload(
+        recipient_ids,
+        payload=payload,
+        endpoint=endpoint,
+    )
     if not is_test:
         sent_count += send_mobile_push_to_users(
             recipient_ids,
@@ -236,24 +248,19 @@ def send_voice_call_web_push(
             {
                 "room": str(room_id),
                 "call": str(call_id),
-                "caller": str(caller_user_id),
-                "caller_name": caller_name,
                 "call_mode": call_mode,
-                "member_count": member_count,
                 "call_expires": expires_at,
             }
         )
         payload = {
             "title": f"MESIL_Chat {call_label}",
-            "body": f"{caller_name}님이 전화를 걸었습니다.",
+            "body": "통화 요청이 도착했습니다.",
             "url": target_url,
             "tag": tag,
             "kind": "voice_call",
             "event": "voice_call_invite",
             "call_id": str(call_id),
             "room_id": str(room_id),
-            "caller_user_id": str(caller_user_id),
-            "caller_name": caller_name,
             "call_mode": call_mode,
             "member_count": member_count,
             "expires_at": expires_at,

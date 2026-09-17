@@ -3,6 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { apiFetch } from "../api";
+import {
+  activateHandwritingEvidence,
+  clearHandwritingStaffDraft,
+  createHandwritingDraftState,
+  handwritingEvidenceScopeKey,
+  recordHandwritingStaffDraft,
+  resolveHandwritingWorkspaceDraft,
+} from "../handwritingVoiceDraft.mjs";
 import type {
   Attachment,
   AttachmentCoordinateReview,
@@ -16,6 +24,15 @@ type CorrectionMode =
   | "full_reading"
   | "partial_correction"
   | "story_hint";
+
+// Existing attachment API metadata; the server rechecks this on DELETE.
+type CorrectionRecordingAttachment = Attachment & {
+  correction_recording?: {
+    can_remove: boolean;
+    image_attachment_id: string | null;
+    reason: string;
+  } | null;
+};
 
 const modeOptions: { value: CorrectionMode; label: string; help: string }[] = [
   { value: "direct_typing", label: "직접 타이핑", help: "OCR 문장을 직원이 직접 고칩니다." },
@@ -34,6 +51,10 @@ function recordingExtension(mimeType: string) {
   if (normalized.includes("mpeg")) return "mp3";
   if (normalized.includes("aac")) return "aac";
   return "webm";
+}
+
+function recordingFilename(mimeType: string) {
+  return `handwriting-correction-${Date.now()}.${recordingExtension(mimeType)}`;
 }
 
 function safeRecordingError(reason: unknown) {
@@ -74,6 +95,7 @@ const factLabels = {
   follow_up: "후속 확인",
   completion: "완료 상태",
   negation: "부정 표현",
+  official_record: "공식 기록 여부",
 } as const;
 
 const factParticles = {
@@ -84,6 +106,7 @@ const factParticles = {
   follow_up: "이",
   completion: "가",
   negation: "이",
+  official_record: "가",
 } as const;
 
 const changedFieldLabels = {
@@ -98,6 +121,7 @@ const changedFieldLabels = {
   name: "이름",
   medication: "약명",
   diagnosis: "진단",
+  official_record: "공식 기록 여부",
 } as const;
 
 function completed(attachment: Attachment | undefined) {
@@ -253,6 +277,7 @@ export function HandwritingVoiceCorrectionPanel({
   canUse,
   initialImageId,
   onRecordedAttachment,
+  onRemovedRecording,
   coordinateReview,
   onFocusRegion,
 }: {
@@ -260,13 +285,16 @@ export function HandwritingVoiceCorrectionPanel({
   canUse: boolean;
   initialImageId?: string;
   onRecordedAttachment?: (attachment: Attachment) => void;
+  onRemovedRecording?: (attachmentId: string) => void;
   coordinateReview?: AttachmentCoordinateReview | null;
   onFocusRegion?: (region: CoordinateRegion) => void;
 }) {
   const [recordedAttachments, setRecordedAttachments] = useState<Attachment[]>([]);
+  const [removingAudioId, setRemovingAudioId] = useState("");
+  const [removedAudioIds, setRemovedAudioIds] = useState<string[]>([]);
   const availableAttachments = useMemo(
-    () => [...attachments, ...recordedAttachments],
-    [attachments, recordedAttachments],
+    () => [...attachments, ...recordedAttachments].filter((item) => !removedAudioIds.includes(item.id)),
+    [attachments, recordedAttachments, removedAudioIds],
   );
   const images = useMemo(
     () => availableAttachments.filter((item) => item.mime_type.startsWith("image/")),
@@ -302,7 +330,8 @@ export function HandwritingVoiceCorrectionPanel({
   const uploadingRef = useRef(false);
   const fallbackFileRef = useRef<HTMLInputElement | null>(null);
   const comparisonRequestRef = useRef(0);
-  const draftDirtyRef = useRef(false);
+  const [staffDraftState, setStaffDraftState] = useState(createHandwritingDraftState);
+  const staffDraftStateRef = useRef(staffDraftState);
 
   useEffect(() => () => {
     comparisonRequestRef.current += 1;
@@ -322,6 +351,18 @@ export function HandwritingVoiceCorrectionPanel({
 
   const selectedImage = images.find((item) => item.id === imageId);
   const selectedAudio = audioFiles.find((item) => item.id === audioId);
+  const recordingRemoval = (selectedAudio as CorrectionRecordingAttachment | undefined)?.correction_recording;
+  const isCorrectionRecording = recordingRemoval
+    ? recordingRemoval.image_attachment_id === selectedImage?.id
+    : recordedAttachments.some((item) => item.id === selectedAudio?.id);
+  const canRemoveRecording = Boolean(
+    canUse && isCorrectionRecording && (recordingRemoval?.can_remove ?? true),
+  );
+  const evidenceScopeKey = handwritingEvidenceScopeKey({
+    messageId: selectedImage?.message_id ?? "",
+    imageId: selectedImage?.id ?? "",
+    audioId,
+  });
   const imageReady = completed(selectedImage);
   const audioReady = completed(selectedAudio);
   const audioRequired = mode !== "direct_typing";
@@ -369,10 +410,32 @@ export function HandwritingVoiceCorrectionPanel({
 
   function resetResult() {
     comparisonRequestRef.current += 1;
-    draftDirtyRef.current = false;
     setComparison(null);
     setRefining(false);
     setError("");
+  }
+
+  function activateEvidenceScope(targetAudioId: string) {
+    const scopeKey = handwritingEvidenceScopeKey({
+      messageId: selectedImage?.message_id ?? "",
+      imageId: selectedImage?.id ?? "",
+      audioId: targetAudioId,
+    });
+    const nextState = activateHandwritingEvidence(
+      staffDraftStateRef.current,
+      scopeKey,
+    );
+    staffDraftStateRef.current = nextState;
+    setStaffDraftState(nextState);
+    return scopeKey;
+  }
+
+  function clearStaffDraft() {
+    const nextState = clearHandwritingStaffDraft(
+      staffDraftStateRef.current,
+    );
+    staffDraftStateRef.current = nextState;
+    setStaffDraftState(nextState);
   }
 
   function selectMode(nextMode: CorrectionMode) {
@@ -455,7 +518,7 @@ export function HandwritingVoiceCorrectionPanel({
     form.set("mode", mode);
     form.set(
       "file",
-      new File([blob], `handwriting-correction-${Date.now()}.${recordingExtension(mimeType)}`, {
+      new File([blob], recordingFilename(mimeType), {
         type: mimeType.split(";")[0] || "audio/webm",
       }),
     );
@@ -603,6 +666,41 @@ export function HandwritingVoiceCorrectionPanel({
     if (fallbackFileRef.current) fallbackFileRef.current.value = "";
   }
 
+  async function removeRecordedAudio(attachment: Attachment) {
+    if (
+      removingAudioId ||
+      !canRemoveRecording || attachment.id !== selectedAudio?.id ||
+      !window.confirm("추가한 음성을 제거할까요? 저장된 원본이나 승인 근거는 제거되지 않습니다.")
+    ) return;
+    setRemovingAudioId(attachment.id);
+    setError("");
+    try {
+      await apiFetch(`/api/attachments/${attachment.id}/voice-correction-recording`, {
+        method: "DELETE",
+      });
+      setRecordedAttachments((current) => current.filter((item) => item.id !== attachment.id));
+      setRemovedAudioIds((current) => [...current, attachment.id]);
+      onRemovedRecording?.(attachment.id);
+      if (audioId === attachment.id) {
+        recordingRequestRef.current += 1;
+        setAudioId("");
+        setRecordingState("idle");
+        setRecordingMessage("추가한 음성을 제거했습니다.");
+        resetResult();
+        clearStaffDraft();
+        setDirectEdit("");
+      }
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "추가한 음성을 제거하지 못했습니다. 음성과 직원 수정문은 그대로 유지됩니다.",
+      );
+    } finally {
+      setRemovingAudioId("");
+    }
+  }
+
   async function compareEvidence(targetAudioId = audioId, targetMode = mode) {
     if (
       !selectedImage ||
@@ -611,6 +709,7 @@ export function HandwritingVoiceCorrectionPanel({
       refining ||
       targetMode === "direct_typing"
     ) return;
+    activateEvidenceScope(targetAudioId);
     const requestNo = comparisonRequestRef.current + 1;
     comparisonRequestRef.current = requestNo;
     const parameters = new URLSearchParams({
@@ -631,7 +730,6 @@ export function HandwritingVoiceCorrectionPanel({
         (stage) => stage.stage === "ai_correction_suggestion",
       );
       const initialSuggestion = suggestion?.text ?? "";
-      draftDirtyRef.current = false;
       setDirectEdit(initialSuggestion);
       setLoading(false);
 
@@ -647,7 +745,7 @@ export function HandwritingVoiceCorrectionPanel({
         const refinedText = refined.stages.find(
           (stage) => stage.stage === "ai_correction_suggestion",
         )?.text ?? initialSuggestion;
-        if (!draftDirtyRef.current) setDirectEdit(refinedText);
+        setDirectEdit(refinedText);
       } catch {
         if (comparisonRequestRef.current === requestNo) {
           setError("기본 교정 제안을 표시했습니다. 내부 문장 다듬기는 완료하지 못했습니다.");
@@ -730,6 +828,9 @@ export function HandwritingVoiceCorrectionPanel({
               disabled={!canUse || loading}
               onChange={(event) => {
                 const nextId = event.target.value;
+                const nextDraftState = createHandwritingDraftState();
+                staffDraftStateRef.current = nextDraftState;
+                setStaffDraftState(nextDraftState);
                 setImageId(nextId);
                 resetResult();
                 if (mode === "direct_typing") {
@@ -813,6 +914,7 @@ export function HandwritingVoiceCorrectionPanel({
                   disabled={!canUse || loading}
                   onChange={(event) => {
                     const nextAudioId = event.target.value;
+                    activateEvidenceScope(nextAudioId);
                     setAudioId(nextAudioId);
                     setDirectEdit("");
                     resetResult();
@@ -829,6 +931,21 @@ export function HandwritingVoiceCorrectionPanel({
                   ))}
                 </select>
               </label>
+            ) : null}
+            {selectedAudio && isCorrectionRecording ? (
+              <>
+              <button
+                type="button"
+                className="button button-secondary"
+                disabled={!canRemoveRecording || Boolean(removingAudioId) || recordingState === "recording"}
+                onClick={() => void removeRecordedAudio(selectedAudio)}
+              >
+                {removingAudioId === selectedAudio.id ? "음성 제거 중…" : "추가한 음성 제거"}
+              </button>
+              {recordingRemoval && !recordingRemoval.can_remove ? (
+                <p role="note">{recordingRemoval.reason}</p>
+              ) : null}
+              </>
             ) : null}
           </details>
         </section>
@@ -873,11 +990,30 @@ export function HandwritingVoiceCorrectionPanel({
           {comparison.audio_quality.message}
         </p>
       ) : null}
+      {comparison ? (
+        <div className="voice-correction-ai-state" role="status" aria-live="polite">
+          <strong>
+            {comparison.ai_combination.status === "applied"
+              ? "AI 조합 완료"
+              : "AI 조합 미적용 · 기본 비교안"}
+          </strong>
+          <p>
+            {comparison.ai_combination.status === "applied"
+              ? "OCR과 검증된 음성 근거를 조합한 초안입니다. 직원 확인 전에는 확정되지 않습니다."
+              : "OCR과 음성의 차이를 기본 규칙으로 표시했습니다. 원문과 음성을 확인해 최종문을 수정해 주세요."}
+          </p>
+          {comparison.review_items.length ? (
+            <p className="voice-correction-review-required">
+              중요 항목 확인 필요 · 아래 항목을 각각 확인해야 저장할 수 있습니다.
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {mode === "direct_typing" && selectedImage && imageReady ? (
         <div className="voice-correction-result">
           <ApprovalWorkspace
-            key={`direct_typing-${imageId}-${directEdit}`}
+            key={`direct_typing-${imageId}`}
             imageId={imageId}
             messageId={selectedImage.message_id}
             audioId={null}
@@ -888,12 +1024,10 @@ export function HandwritingVoiceCorrectionPanel({
             proposedText={directEdit}
             warningLines={[]}
             requiresConfirmation={false}
+            reviewItems={[]}
             canUse={canUse}
             coordinateReview={coordinateReview}
             onFocusRegion={onFocusRegion}
-            onUserEdit={() => {
-              draftDirtyRef.current = true;
-            }}
           />
         </div>
       ) : null}
@@ -901,7 +1035,7 @@ export function HandwritingVoiceCorrectionPanel({
       {comparison ? (
         <div className="voice-correction-result">
           <ApprovalWorkspace
-            key={`${mode}-${imageId}-${audioId}-${directEdit}`}
+            key={evidenceScopeKey}
             imageId={imageId}
             messageId={selectedImage?.message_id}
             audioId={audioId}
@@ -917,9 +1051,25 @@ export function HandwritingVoiceCorrectionPanel({
                 ["needs_confirmation", "blocked"].includes(field.status),
               )
             }
+            reviewItems={comparison.review_items}
             canUse={canUse}
             coordinateReview={coordinateReview}
             onFocusRegion={onFocusRegion}
+            preservedDraft={resolveHandwritingWorkspaceDraft(
+              staffDraftState,
+              evidenceScopeKey,
+              directEdit,
+            )}
+            onUserEdit={(value) => {
+              const nextState = recordHandwritingStaffDraft(
+                staffDraftStateRef.current,
+                evidenceScopeKey,
+                value,
+              );
+              staffDraftStateRef.current = nextState;
+              setStaffDraftState(nextState);
+            }}
+            onSaveSuccess={clearStaffDraft}
           />
         </div>
       ) : null}
@@ -945,10 +1095,13 @@ function ApprovalWorkspace({
   proposedText,
   warningLines,
   requiresConfirmation,
+  reviewItems,
   canUse,
   coordinateReview,
   onFocusRegion,
+  preservedDraft,
   onUserEdit,
+  onSaveSuccess,
 }: {
   imageId: string;
   messageId?: string;
@@ -960,10 +1113,13 @@ function ApprovalWorkspace({
   proposedText: string;
   warningLines: string[];
   requiresConfirmation: boolean;
+  reviewItems: HandwritingVoiceCorrectionComparison["review_items"];
   canUse: boolean;
   coordinateReview?: AttachmentCoordinateReview | null;
   onFocusRegion?: (region: CoordinateRegion) => void;
-  onUserEdit?: () => void;
+  preservedDraft?: { text: string; dirty: boolean };
+  onUserEdit?: (value: string) => void;
+  onSaveSuccess?: () => void;
 }) {
   const proposedSentences = useMemo(
     () => splitCorrectionSentences(proposedText),
@@ -983,15 +1139,30 @@ function ApprovalWorkspace({
   const shouldLoadHistory = Boolean(
     canUse && imageId && (mode === "direct_typing" || audioId),
   );
-  const [finalDraftText, setFinalDraftText] = useState(() => proposedSentences.join("\n"));
+  const [finalDraftText, setFinalDraftText] = useState(
+    () => preservedDraft?.text ?? proposedSentences.join("\n"),
+  );
   const [finalConfirmed, setFinalConfirmed] = useState(false);
   const [history, setHistory] = useState<HandwritingCorrectionApprovalHistory | null>(null);
   const [loadingHistory, setLoadingHistory] = useState(shouldLoadHistory);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState("");
+  const [reviewResolutions, setReviewResolutions] = useState<Record<string, {
+    review_item_id: string;
+    selected_source: "ocr" | "whisper" | "ai_recommendation" | "staff_manual";
+    selected_value: string;
+  }>>({});
+  const [manualReviewValues, setManualReviewValues] = useState<Record<string, string>>({});
   const savingRef = useRef(false);
-  const finalDirtyRef = useRef(false);
+  const finalDirtyRef = useRef(Boolean(preservedDraft?.dirty));
+
+  useEffect(() => {
+    if (!finalDirtyRef.current) {
+      setFinalDraftText(proposedText.trim());
+      setFinalConfirmed(false);
+    }
+  }, [proposedText]);
 
   useEffect(() => {
     if (!shouldLoadHistory) return;
@@ -1040,6 +1211,9 @@ function ApprovalWorkspace({
       ? warningLines
       : ["충돌하거나 확인되지 않은 값이 있습니다. 원본과 다시 대조해 주세요."]
     : [];
+  const allReviewItemsResolved = reviewItems.every(
+    (item) => Boolean(reviewResolutions[item.review_item_id]),
+  );
   const confirmedRegions = useMemo(() => {
     const unique = new Map<string, CoordinateRegion>();
     for (const regions of confirmedRegionsBySentence) {
@@ -1050,6 +1224,7 @@ function ApprovalWorkspace({
   const canSave = Boolean(
     canUse &&
       finalConfirmed &&
+      allReviewItemsResolved &&
       finalText.trim() &&
       !matchesLatest &&
       !saving,
@@ -1061,10 +1236,41 @@ function ApprovalWorkspace({
   }
 
   function updateFinalDraft(value: string) {
-    onUserEdit?.();
+    onUserEdit?.(value);
     finalDirtyRef.current = true;
     setFinalDraftText(value);
     setFinalConfirmed(false);
+    resetSubmission();
+  }
+
+  function selectReviewValue(
+    item: HandwritingVoiceCorrectionComparison["review_items"][number],
+    selectedSource: "ocr" | "whisper" | "ai_recommendation" | "staff_manual",
+    selectedValue: string,
+  ) {
+    const value = selectedValue.trim();
+    if (!value) return;
+    finalDirtyRef.current = true;
+    setReviewResolutions((current) => ({
+      ...current,
+      [item.review_item_id]: {
+        review_item_id: item.review_item_id,
+        selected_source: selectedSource,
+        selected_value: value,
+      },
+    }));
+    setFinalConfirmed(false);
+    const candidates = [
+      ...item.ocr_values,
+      ...item.whisper_values,
+      ...(item.ai_recommendation ? [item.ai_recommendation] : []),
+    ].filter((candidate) => candidate && candidate !== value);
+    const currentValue = candidates.find((candidate) => finalDraftText.includes(candidate));
+    const nextValue = currentValue
+      ? finalDraftText.replace(currentValue, value)
+      : finalDraftText;
+    onUserEdit?.(nextValue);
+    setFinalDraftText(nextValue);
     resetSubmission();
   }
 
@@ -1085,6 +1291,9 @@ function ApprovalWorkspace({
             mode,
             idempotency_key: requestKey,
             conflicts_confirmed: finalConfirmed,
+            conflict_resolutions: reviewItems.map(
+              (item) => reviewResolutions[item.review_item_id],
+            ),
             supersedes_approval_id: latestApproval?.id ?? null,
             sentences: [{
               sentence_no: 1,
@@ -1103,6 +1312,8 @@ function ApprovalWorkspace({
         },
       );
       setHistory(result);
+      finalDirtyRef.current = false;
+      onSaveSuccess?.();
       window.dispatchEvent(new CustomEvent("mesil-resident-links-changed", {
         detail: {
           messageId,
@@ -1171,6 +1382,111 @@ function ApprovalWorkspace({
         </section>
       </div>
 
+      {reviewItems.length ? (
+        <section className="voice-correction-review-items" aria-labelledby="review-items-title">
+          <header>
+            <strong id="review-items-title">중요 항목 확인 필요</strong>
+            <span>{Object.keys(reviewResolutions).length}/{reviewItems.length}개 확인</span>
+          </header>
+          <p>AI 추천은 초안일 뿐 사실이나 직원 승인으로 확정되지 않습니다.</p>
+          <ol>
+            {reviewItems.map((item) => {
+              const resolved = reviewResolutions[item.review_item_id];
+              const manualValue = manualReviewValues[item.review_item_id] ?? "";
+              return (
+                <li key={item.review_item_id} className={resolved ? "resolved" : ""}>
+                  <div className="voice-correction-review-heading">
+                    <strong>{changedFieldLabels[item.category]}</strong>
+                    <span>{item.kind === "conflict" ? "근거 충돌" : "한쪽 근거 중요 항목"}</span>
+                  </div>
+                  <div className="voice-correction-review-values">
+                    <div>
+                      <span>OCR</span>
+                      <p>{item.ocr_values.join(" · ") || "확인되지 않음"}</p>
+                      {item.ocr_values.map((value) => (
+                        <button
+                          type="button"
+                          className="button button-secondary"
+                          key={`ocr-${value}`}
+                          disabled={!canUse}
+                          aria-pressed={resolved?.selected_source === "ocr" && resolved.selected_value === value}
+                          onClick={() => selectReviewValue(item, "ocr", value)}
+                        >
+                          OCR 값 선택 · {value}
+                        </button>
+                      ))}
+                    </div>
+                    <div>
+                      <span>음성</span>
+                      <p>{item.whisper_values.join(" · ") || "확인되지 않음"}</p>
+                      {item.whisper_values.map((value) => (
+                        <button
+                          type="button"
+                          className="button button-secondary"
+                          key={`whisper-${value}`}
+                          disabled={!canUse}
+                          aria-pressed={resolved?.selected_source === "whisper" && resolved.selected_value === value}
+                          onClick={() => selectReviewValue(item, "whisper", value)}
+                        >
+                          음성 값 선택 · {value}
+                        </button>
+                      ))}
+                    </div>
+                    <div>
+                      <span>AI 추천</span>
+                      <p>{item.ai_recommendation || "추천값 없음 · 직원이 근거를 확인해 주세요."}</p>
+                      {item.ai_recommendation ? (
+                        <>
+                          {item.ai_recommendation_reason ? <small>{item.ai_recommendation_reason}</small> : null}
+                          <button
+                            type="button"
+                            className="button button-secondary"
+                            disabled={!canUse}
+                            aria-pressed={resolved?.selected_source === "ai_recommendation"}
+                            onClick={() => selectReviewValue(item, "ai_recommendation", item.ai_recommendation || "")}
+                          >
+                            AI 추천 선택 · {item.ai_recommendation}
+                          </button>
+                        </>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="voice-correction-manual-resolution">
+                    <label>
+                      직접 입력
+                      <input
+                        value={manualValue}
+                        disabled={!canUse}
+                        onChange={(event) => setManualReviewValues((current) => ({
+                          ...current,
+                          [item.review_item_id]: event.target.value,
+                        }))}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      disabled={!canUse || !manualValue.trim()}
+                      aria-pressed={resolved?.selected_source === "staff_manual"}
+                      onClick={() => selectReviewValue(item, "staff_manual", manualValue)}
+                    >
+                      직접 입력 확인
+                    </button>
+                  </div>
+                  {resolved ? (
+                    <p className="voice-correction-resolution-result">
+                      직원 선택 · {resolved.selected_source === "staff_manual" ? "직접 입력" : resolved.selected_value}
+                    </p>
+                  ) : (
+                    <p className="voice-correction-resolution-pending">이 항목을 확인해 주세요.</p>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      ) : null}
+
       <div className="voice-correction-compact-review">
         {confirmedRegions.length ? (
           <button
@@ -1189,7 +1505,7 @@ function ApprovalWorkspace({
           <input
             type="checkbox"
             checked={finalConfirmed}
-            disabled={!canUse || !finalText.trim()}
+            disabled={!canUse || !finalText.trim() || !allReviewItemsResolved}
             onChange={(event) => {
               setFinalConfirmed(event.target.checked);
               resetSubmission();
@@ -1219,6 +1535,8 @@ function ApprovalWorkspace({
         <small id="approval-save-help">
           {!canUse
             ? "작성자 또는 기록 담당 직원만 승인할 수 있습니다."
+            : !allReviewItemsResolved
+              ? "중요 항목을 각각 확인한 뒤 최종문을 승인할 수 있습니다."
             : !finalConfirmed
                 ? "최종문 전체 확인 후 교정자료로 저장할 수 있습니다."
                 : "교정자료에만 새 버전으로 저장되며 공식 기록과 분리됩니다."}

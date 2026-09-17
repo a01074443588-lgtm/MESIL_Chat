@@ -11,8 +11,8 @@ import {
 import { ApiError, apiFetch, apiUpload, websocketUrl } from "../api";
 import {
   CHAT_ATTACHMENT_ACCEPT,
-  attachmentNameError,
 } from "../attachmentFormats";
+import { MAX_ATTACHMENTS_PER_MESSAGE, attachmentSelectionKey, attachmentSelectionError, prepareComposerFiles, readComposerClipboard } from "../composerAttachments";
 import type {
   JobCode,
   ManagedRoom,
@@ -164,6 +164,8 @@ const kindLabels: Record<Room["kind"], string> = {
   team: "팀",
   custom: "지정",
   self: "개인",
+  ai: "개인 AI",
+  living_space: "생활공간",
 };
 
 const actionLabels = {
@@ -319,57 +321,18 @@ type PendingVoiceCall = {
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-const MAX_ATTACHMENTS_PER_MESSAGE = 10;
-const MAX_ATTACHMENT_BYTES = 30 * 1024 * 1024;
-const MAX_ATTACHMENTS_TOTAL_BYTES = 100 * 1024 * 1024;
-
-function attachmentSelectionKey(file: File) {
-  return `${file.name}:${file.size}:${file.lastModified}:${file.type}`;
-}
-
-function mergeAttachmentSelections(currentFiles: File[], addedFiles: File[]) {
-  const knownFiles = new Set(currentFiles.map(attachmentSelectionKey));
-  return [
-    ...currentFiles,
-    ...addedFiles.filter((file) => {
-      const key = attachmentSelectionKey(file);
-      if (knownFiles.has(key)) return false;
-      knownFiles.add(key);
-      return true;
-    }),
-  ];
-}
-
-function attachmentSelectionError(selectedFiles: File[]) {
-  if (selectedFiles.length > MAX_ATTACHMENTS_PER_MESSAGE) {
-    return `파일은 한 메시지에 최대 ${MAX_ATTACHMENTS_PER_MESSAGE}개까지 첨부할 수 있습니다. 현재 ${selectedFiles.length}개를 선택했습니다.`;
-  }
-  const emptyFile = selectedFiles.find((file) => file.size <= 0);
-  if (emptyFile) {
-    return `빈 파일은 첨부할 수 없습니다: ${emptyFile.name}`;
-  }
-  for (const file of selectedFiles) {
-    const formatError = attachmentNameError(file.name);
-    if (formatError) return formatError;
-  }
-  const oversizedFiles = selectedFiles.filter(
-    (file) => file.size > MAX_ATTACHMENT_BYTES,
-  );
-  if (oversizedFiles.length > 0) {
-    const names = oversizedFiles
-      .slice(0, 3)
-      .map((file) => file.name)
-      .join(", ");
-    const remainder = oversizedFiles.length > 3
-      ? ` 외 ${oversizedFiles.length - 3}개`
-      : "";
-    return `파일 하나의 최대 크기는 30MB입니다. 다시 선택해 주세요: ${names}${remainder}`;
-  }
-  const totalBytes = selectedFiles.reduce((sum, file) => sum + file.size, 0);
-  if (totalBytes > MAX_ATTACHMENTS_TOTAL_BYTES) {
-    return "한 메시지의 파일 전체 용량은 100MB 이하여야 합니다.";
-  }
-  return "";
+function ComposerFilePreview({ file }: {file: File}) {
+  const imageRef = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const element = imageRef.current;
+    if (!element) return;
+    const url = URL.createObjectURL(file);
+    element.src = url;
+    return () => { element.removeAttribute('src'); URL.revokeObjectURL(url); };
+  }, [file]);
+  // Local, unsent Blob previews must not pass through an image optimization server.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img ref={imageRef} className="composer-file-preview" alt={`${file.name} 미리보기`} />;
 }
 
 function sharedTargetErrorMessage(code: string) {
@@ -463,7 +426,18 @@ export function ChatApp() {
   const [replyTarget, setReplyTarget] = useState<Message | null>(null);
   const [selectedResidentIds, setSelectedResidentIds] = useState<string[]>([]);
   const [residentPickerOpen, setResidentPickerOpen] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFilesState] = useState<File[]>([]);
+  const filesRef = useRef<File[]>([]);
+  const selectionEpoch = useRef(0);
+  const selectionTail = useRef<Promise<void>>(Promise.resolve());
+  const selectionCount = useRef(0);
+  const [preparingFiles, setPreparingFiles] = useState(false);
+  function setFiles(next: File[]) {
+    // Cancellation/room changes invalidate in-flight reads, without resurrecting drafts.
+    selectionEpoch.current += 1;
+    filesRef.current = next;
+    setFilesState(next);
+  }
   const [pendingSharedFiles, setPendingSharedFiles] = useState<File[]>([]);
   const [sharedTargetError, setSharedTargetError] = useState("");
   const [sharedRoomOpeningId, setSharedRoomOpeningId] = useState<string | null>(null);
@@ -541,6 +515,7 @@ export function ChatApp() {
   const metadataRefreshesRef = useRef<Map<string, Promise<void>>>(new Map());
   const metadataRefreshedAtRef = useRef<Map<string, number>>(new Map());
   const sendingRef = useRef(false);
+  const composerRequestIdRef = useRef(crypto.randomUUID());
   const wakeSyncInFlightRef = useRef(false);
   const roomRefreshRequestRef = useRef(0);
   const lastWakeSyncAtRef = useRef(0);
@@ -1019,6 +994,7 @@ export function ChatApp() {
     async (roomId: string, synchronizeHistory = true) => {
       if (activeRoomRef.current !== roomId) {
         messageReturnPositionRef.current = null;
+        composerRequestIdRef.current = crypto.randomUUID();
       }
       keepRoomAtLatestRef.current = !messageReturnPositionRef.current;
       if (synchronizeHistory) {
@@ -1851,6 +1827,13 @@ export function ChatApp() {
             void refreshRooms();
           }
         }
+        if (payload.event === "message_updated" && payload.message) {
+          const updated = payload.message;
+          setMessages((current) =>
+            current.map((item) => (item.id === updated.id ? updated : item)),
+          );
+          return;
+        }
         if (payload.event === "message_recalled" && payload.message_ids?.length) {
           const recalledIds = new Set(payload.message_ids);
           setMessages((current) => {
@@ -2106,9 +2089,34 @@ export function ChatApp() {
     return () => window.clearTimeout(timer);
   }, [sendFeedback]);
 
+  function queueComposerFiles(added: File[], clipboard = false) {
+    if (sendingRef.current || mentorFullReview || !activeRoomId) {
+      setError(mentorFullReview ? "검토 계정은 새 파일을 첨부할 수 없습니다." : "전송이 끝난 뒤 파일을 추가해 주세요.");
+      return;
+    }
+    const epoch = selectionEpoch.current;
+    const roomId = activeRoomId;
+    selectionCount.current += 1;
+    setPreparingFiles(true);
+    selectionTail.current = selectionTail.current.then(async () => {
+      if (epoch !== selectionEpoch.current || activeRoomRef.current !== roomId) return;
+      const selected = await prepareComposerFiles(filesRef.current, added, {clipboard});
+      if (epoch !== selectionEpoch.current || activeRoomRef.current !== roomId || sendingRef.current) return;
+      filesRef.current = selected;
+      setFilesState(selected);
+      setError("");
+      if (!selected.some(file => file.type.startsWith("image/"))) setReportImage(false);
+    }).catch(reason => {
+      if (epoch === selectionEpoch.current) setError(reason instanceof Error ? reason.message : "파일을 읽지 못했습니다. 파일 선택 버튼으로 다시 추가해 주세요.");
+    }).finally(() => {
+      selectionCount.current -= 1;
+      setPreparingFiles(selectionCount.current > 0);
+    });
+  }
+
   async function sendMessage(event: FormEvent) {
     event.preventDefault();
-    if (sendingRef.current) return;
+    if (sendingRef.current || selectionCount.current > 0) return;
     if (!activeRoomId || (!messageBody.trim() && files.length === 0)) return;
     const body = messageBody.trim();
     const residentIds = selectedResidentIds;
@@ -2132,6 +2140,7 @@ export function ChatApp() {
         setUploadProgress(0);
         const formData = new FormData();
         formData.append("body", body);
+        formData.append("client_request_id", composerRequestIdRef.current);
         if (noticeMode) formData.append("message_type", "notice");
         residentIds.forEach((residentId) =>
           formData.append("resident_ids", residentId),
@@ -2151,6 +2160,7 @@ export function ChatApp() {
           method: "POST",
           body: JSON.stringify({
             body,
+            client_request_id: composerRequestIdRef.current,
             ...(noticeMode ? { message_type: "notice" } : {}),
             resident_id: residentIds[0] ?? null,
             resident_ids: residentIds,
@@ -2164,6 +2174,7 @@ export function ChatApp() {
         current.some((item) => item.id === sent.id) ? current : [...current, sent],
       );
       setFiles([]);
+      composerRequestIdRef.current = crypto.randomUUID();
       setReportImage(false);
       await markRead(activeRoomId, sent.id);
       setSendFeedback(
@@ -2277,6 +2288,21 @@ export function ChatApp() {
     setDetailRefreshVersion((current) => current + 1);
   }
 
+  async function updateAiHelpRequest(message: Message, action: "cancel" | "retry") {
+    try {
+      const updated = await apiFetch<Message>(
+        `/api/ai-help/messages/${message.id}/${action}`,
+        { method: "POST" },
+      );
+      setMessages((current) =>
+        current.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      setError("");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "AI 요청 상태를 바꾸지 못했습니다.");
+    }
+  }
+
   function captureResidentLinkPosition(messageId: string) {
     const area = messageAreaRef.current;
     const roomId = activeRoomRef.current;
@@ -2328,7 +2354,6 @@ export function ChatApp() {
       setError("이 근거 대화에 접근할 수 있는 채팅방을 찾지 못했습니다.");
       return;
     }
-    setWorkdeskOpen(false);
     const nextMessages = await openRoom(roomId);
     if (!nextMessages) return;
     openMessageDetail(messageId);
@@ -2683,7 +2708,7 @@ export function ChatApp() {
   }
 
   function renderMessageActions(message: Message, mine: boolean) {
-    if (message.is_recalled) return null;
+    if (message.is_recalled || message.ai_help) return null;
     const menuOpen = messageActionMenuId === message.id;
     return (
       <div
@@ -3199,7 +3224,7 @@ export function ChatApp() {
                   {rooms.length === 0 ? (
                     <p className="share-room-loading">채팅방을 불러오는 중입니다…</p>
                   ) : (
-                    rooms.map((room) => (
+                    rooms.filter((room) => room.kind !== "ai").map((room) => (
                       <button
                         key={room.id}
                         type="button"
@@ -3376,6 +3401,8 @@ export function ChatApp() {
                 <span className={`room-icon kind-${room.kind}`}>
                   {room.kind === "all"
                     ? "전"
+                    : room.kind === "ai"
+                      ? "AI"
                     : roomDisplayName(room, me).slice(0, 1)}
                 </span>
                 <span className="room-copy">
@@ -3438,7 +3465,11 @@ export function ChatApp() {
               </button>
               <div>
                 <h2>{roomDisplayName(activeRoom, me)}</h2>
-                <p>{kindLabels[activeRoom.kind]} 채팅방</p>
+                <p>
+                  {activeRoom.kind === "ai"
+                    ? "나만 볼 수 있는 로컬 AI 대화"
+                    : `${kindLabels[activeRoom.kind]} 채팅방`}
+                </p>
               </div>
               <div className="chat-header-actions">
                 <button
@@ -3503,9 +3534,13 @@ export function ChatApp() {
                 </div>
               ) : messages.length === 0 ? (
                 <div className="empty-messages">
-                  <span>{roomDisplayName(activeRoom, me).slice(0, 1)}</span>
-                  <h3>첫 업무대화를 시작하세요.</h3>
-                  <p>짧고 명확하게 작성하고, 개인정보는 필요한 범위에서만 사용하세요.</p>
+                  <span>{activeRoom.kind === "ai" ? "AI" : roomDisplayName(activeRoom, me).slice(0, 1)}</span>
+                  <h3>{activeRoom.kind === "ai" ? "MESIL AI에게 질문해 보세요." : "첫 업무대화를 시작하세요."}</h3>
+                  <p>
+                    {activeRoom.kind === "ai"
+                      ? "최근 이 방의 대화와 내가 볼 권한이 있는 기록만 사용합니다. AI 답변은 제안이며 사람이 확인해야 합니다."
+                      : "짧고 명확하게 작성하고, 개인정보는 필요한 범위에서만 사용하세요."}
+                  </p>
                 </div>
               ) : (
                 messages.map((message) => {
@@ -3709,7 +3744,7 @@ export function ChatApp() {
                         </article>
                       ) : (
                         <article className={`message-row ${mine ? "mine" : ""}`}>
-                          {!mine && !me.is_reviewer_session ? (
+                          {!mine && !me.is_reviewer_session && message.ai_help?.role !== "assistant" ? (
                             <button
                               type="button"
                               className="avatar message-sender-avatar"
@@ -3727,7 +3762,7 @@ export function ChatApp() {
                             <span className="avatar">{message.sender_name.slice(0, 1)}</span>
                           ) : null}
                           <div className="message-stack">
-                            {!mine && !me.is_reviewer_session ? (
+                            {!mine && !me.is_reviewer_session && message.ai_help?.role !== "assistant" ? (
                               <button
                                 type="button"
                                 className="message-sender-name"
@@ -3757,13 +3792,15 @@ export function ChatApp() {
                                   message.is_recalled ? "recalled" : ""
                                 }`}
                               >
-                                <ResidentLinkReview
-                                  message={message}
-                                  canEdit={me.role === "admin" || me.can_process_records}
-                                  onManagerOpen={captureResidentLinkPosition}
-                                  onManagerClose={restoreResidentLinkPosition}
-                                  onChanged={updated => setMessages(current => current.map(item => item.id === updated.id ? updated : item))}
-                                />
+                                {activeRoom.kind !== "ai" ? (
+                                  <ResidentLinkReview
+                                    message={message}
+                                    canEdit={me.role === "admin" || me.can_process_records}
+                                    onManagerOpen={captureResidentLinkPosition}
+                                    onManagerClose={restoreResidentLinkPosition}
+                                    onChanged={updated => setMessages(current => current.map(item => item.id === updated.id ? updated : item))}
+                                  />
+                                ) : null}
                                 {message.reply_to ? (
                                   <button
                                     type="button"
@@ -3804,6 +3841,53 @@ export function ChatApp() {
                                   ) : (
                                     <span className="bubble-text">{displayBody}</span>
                                   )
+                                ) : null}
+                                {message.ai_help?.role === "assistant" ? (
+                                  <div className={`ai-help-status status-${message.ai_help.status}`}>
+                                    {message.ai_help.status === "completed"
+                                      ? message.ai_help.question_type === "general_guidance"
+                                        ? `일반 업무 안내 · 내부 기록 미사용${message.ai_help.model ? ` · ${message.ai_help.model}` : ""} · 사람이 확인해 주세요`
+                                        : message.ai_help.question_type === "attachment_guidance"
+                                          ? `첨부 판독 안내${message.ai_help.model ? ` · ${message.ai_help.model}` : ""} · 사람이 확인해 주세요`
+                                        : message.ai_help.question_type === "record_search" && message.ai_help.evidence.length === 0
+                                          ? "기록 검색 · 조회 가능한 기록 없음"
+                                          : message.ai_help.question_type === "clarification"
+                                            ? "질문 범위 확인"
+                                            : `${message.ai_help.processing_location === "local" ? "로컬 AI" : "AI"}${message.ai_help.model ? ` · ${message.ai_help.model}` : ""} · 사람이 확인해 주세요`
+                                      : message.ai_help.status === "failed"
+                                        ? "답변 실패 · 다시 질문할 수 있습니다"
+                                        : message.ai_help.status === "cancelled"
+                                          ? "요청 취소됨"
+                                          : "AI 답변 생성 중"}
+                                    {message.ai_help.status === "failed" || message.ai_help.status === "cancelled" ? (
+                                      <button type="button" onClick={() => void updateAiHelpRequest(message, "retry")}>
+                                        다시 시도
+                                      </button>
+                                    ) : message.ai_help.status !== "completed" ? (
+                                      <button type="button" onClick={() => void updateAiHelpRequest(message, "cancel")}>
+                                        취소
+                                      </button>
+                                    ) : null}
+                                    {message.ai_help.status === "completed" ? (
+                                      message.ai_help.question_type === "general_guidance" ? null : message.ai_help.evidence.length > 0 ? (
+                                        <details className="ai-help-evidence">
+                                          <summary>
+                                            {message.ai_help.question_type === "attachment_guidance" ? "첨부 근거" : "답변 근거"}{" "}
+                                            {message.ai_help.evidence.length}건
+                                          </summary>
+                                          <ol>
+                                            {message.ai_help.evidence.map((evidence, index) => (
+                                              <li key={`${evidence.source_no ?? index}-${evidence.statement ?? ""}`}>
+                                                {evidence.statement}
+                                              </li>
+                                            ))}
+                                          </ol>
+                                        </details>
+                                      ) : (
+                                        <span className="ai-help-no-evidence">확인 가능한 기록 근거가 없습니다.</span>
+                                      )
+                                    ) : null}
+                                  </div>
                                 ) : null}
                                 {message.attachments.length > 0 ? (
                                   <span
@@ -3947,18 +4031,7 @@ export function ChatApp() {
                     disabled={isSending || mentorFullReview}
                     onChange={(event) => {
                       const added = Array.from(event.target.files ?? []);
-                      const selected = mergeAttachmentSelections(files, added);
-                      const selectionError = attachmentSelectionError(selected);
-                      if (selectionError) {
-                        setError(selectionError);
-                        event.currentTarget.value = "";
-                        return;
-                      }
-                      setError("");
-                      setFiles(selected);
-                      if (!selected.some((file) => file.type.startsWith("image/"))) {
-                        setReportImage(false);
-                      }
+                      queueComposerFiles(added);
                       event.currentTarget.value = "";
                     }}
                   />
@@ -3976,7 +4049,7 @@ export function ChatApp() {
                     파일 취소
                   </button>
                 ) : null}
-                {me.role === "admin" || me.can_process_records ? (
+                {activeRoom.kind !== "ai" && (me.role === "admin" || me.can_process_records) ? (
                   <>
                     <button
                       type="button"
@@ -4016,17 +4089,18 @@ export function ChatApp() {
                       </div>
                     ) : null}
                   </>
-                ) : (
+                ) : activeRoom.kind !== "ai" ? (
                   <small className="composer-chat-first-note">
                     어르신을 먼저 고르지 않아도 바로 보낼 수 있습니다. 보낸 직원이나 담당자가 나중에 확인할 수 있습니다.
                   </small>
-                )}
+                ) : null}
               </div>
               {mentorFullReview ? (
                 <p className="mentor-review-lock-note" role="note">
                   기존 가상 사진·음성·첨부와 처리 결과는 열람할 수 있습니다. 실제 자료 업로드는 개인정보 보호를 위해 잠겨 있습니다.
                 </p>
               ) : null}
+              {preparingFiles ? <small role="status">첨부파일을 확인하는 중입니다.</small> : null}
               {files.length > 0 ? (
                 <div className="selected-files" aria-live="polite">
                   <div className="selected-files-summary">
@@ -4038,6 +4112,7 @@ export function ChatApp() {
                   <ul className="selected-file-list" aria-label="선택한 첨부파일">
                     {files.map((file, index) => (
                       <li key={attachmentSelectionKey(file)}>
+                        {file.type.startsWith('image/') ? <ComposerFilePreview file={file} /> : null}
                         <span title={file.name}>{file.name}</span>
                         <button
                           type="button"
@@ -4062,7 +4137,7 @@ export function ChatApp() {
                       </li>
                     ))}
                   </ul>
-                  {files.some((file) => file.type.startsWith("image/")) ? (
+                  {activeRoom.kind !== "ai" && files.some((file) => file.type.startsWith("image/")) ? (
                     <div className="photo-reading-selection">
                       <span>{reportImage ? "사진을 보내면 글자도 읽습니다." : "일반 사진으로 보냅니다."}</span>
                       <button type="button" className="photo-reading-choice" aria-pressed={reportImage} disabled={isSending}
@@ -4095,6 +4170,16 @@ export function ChatApp() {
                 <span className="sr-only">메시지</span>
                 <textarea
                   value={messageBody}
+                  onPaste={(event) => {
+                    const clipboard = readComposerClipboard(event.clipboardData);
+                    if (clipboard.kind === "text") return;
+                    event.preventDefault();
+                    if (clipboard.kind === "unavailable") {
+                      setError("브라우저가 복사한 파일을 전달하지 못했습니다. 사진·음성·파일 버튼으로 추가해 주세요.");
+                    } else {
+                      queueComposerFiles(clipboard.files, true);
+                    }
+                  }}
                   onChange={(event) => {
                     setMessageBody(event.target.value);
                     if (sendFeedback) setSendFeedback("");
@@ -4112,7 +4197,9 @@ export function ChatApp() {
                   maxLength={2000}
                   rows={1}
                   placeholder={
-                    noticeMode
+                    activeRoom.kind === "ai"
+                      ? "MESIL AI에게 질문하세요. 첨부 판독이 끝난 내용만 답변에 사용합니다."
+                      : noticeMode
                       ? "직원 공지 내용을 입력하세요."
                       : "메시지를 입력하세요."
                   }
@@ -4122,6 +4209,7 @@ export function ChatApp() {
                 className="send-button"
                 disabled={
                   isSending ||
+                  preparingFiles ||
                   (!messageBody.trim() && files.length === 0) ||
                   connectionState === "offline"
                 }
@@ -4271,7 +4359,6 @@ export function ChatApp() {
           roomId={activeRoom.id}
           roomName={roomDisplayName(activeRoom, me)}
           onOpenMessage={(messageId) => {
-            setRoomFilesOpen(false);
             openMessageDetail(messageId);
           }}
           onClose={() => setRoomFilesOpen(false)}
@@ -4398,7 +4485,7 @@ export function ChatApp() {
             <form onSubmit={submitForward}>
               <div className="message-forward-room-list">
                 {rooms
-                  .filter((room) => room.id !== forwardTarget.room_id)
+                  .filter((room) => room.id !== forwardTarget.room_id && room.kind !== "ai")
                   .map((room) => (
                     <label key={room.id}>
                       <input

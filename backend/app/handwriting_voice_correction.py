@@ -8,8 +8,15 @@ official record or a learning example merely because it was compared here.
 from __future__ import annotations
 
 from difflib import SequenceMatcher
+import hashlib
+import json
 import re
 from typing import Any, Callable, Literal
+
+from .handwriting_evidence import (
+    normalize_spoken_numbers, source_rows, standardize_exact,
+    validate_lexicon, voice_document,
+)
 
 
 _SPACE = re.compile(r"\s+")
@@ -413,27 +420,19 @@ def _replace_scalar_conflicts(
     suggestion: str,
     facts: list[dict[str, Any]],
 ) -> str:
-    labels = {
-        "date": "날짜",
-        "time": "시간",
-        "quantity": "수량",
-    }
-    result = suggestion
-    for row in facts:
-        if row["status"] != "different" or row["category"] not in labels:
-            continue
-        replacement = f"[{labels[row['category']]} 확인 필요]"
-        replaced = False
-        for value in row["image_values"]:
-            result, changed = _replace_one(result, value, replacement)
-            replaced = replaced or changed
-        if not replaced:
-            for value in row["audio_values"]:
-                result, changed = _replace_one(result, value, replacement)
-                replaced = replaced or changed
-        if not replaced and replacement not in result:
-            result = f"{result.rstrip()} {replacement}".strip()
-    return result
+    # Keep the best source-backed sentence intact. Conflicting scalar values
+    # remain in critical_facts/changed_fields for staff confirmation instead of
+    # degrading the final sentence with a generic placeholder.
+    return suggestion
+
+
+def _contains_review_placeholder(value: str) -> bool:
+    return bool(
+        re.search(
+            r"\[[^\]\n]*(?:확인\s*필요|확인\s*항목)[^\]\n]*\]",
+            value,
+        )
+    )
 
 
 def _candidate_from_supported_evidence(
@@ -448,8 +447,10 @@ def _candidate_from_supported_evidence(
     result = candidate.strip()
     if not result or len(result) > max(12000, (len(initial_ocr) + len(transcript)) * 3):
         return None
+    if _contains_review_placeholder(result):
+        return None
 
-    source = f"{initial_ocr}\n{transcript}"
+    source = normalize_spoken_numbers(f"{initial_ocr}\n{transcript}")
     source_numbers = set(re.findall(r"\d+(?:\.\d+)?", source))
     candidate_numbers = set(re.findall(r"\d+(?:\.\d+)?", result))
     if candidate_numbers - source_numbers:
@@ -457,7 +458,7 @@ def _candidate_from_supported_evidence(
 
     source_claims = {
         (category, _normalized(value))
-        for category, value in _sensitive_claims(initial_ocr)
+        for category, value in _sensitive_claims(source)
     }
     candidate_claims = {
         (category, _normalized(value))
@@ -468,7 +469,7 @@ def _candidate_from_supported_evidence(
 
     candidate_facts = _facts(result)
     source_facts = _facts(source)
-    for category in ("completion", "negation"):
+    for category in ("date", "time", "quantity", "completion", "negation"):
         supported = {_normalized(item) for item in source_facts[category]}
         proposed = {_normalized(item) for item in candidate_facts[category]}
         if proposed - supported:
@@ -517,6 +518,16 @@ def _full_reading_suggestion(
         selected_segments.append(audio_text if audio_is_better_supported else image_text)
 
     suggestion = "\n".join(selected_segments).strip() or initial_ocr
+    if low_quality:
+        suggestion = initial_ocr
+    if not low_quality and not voice_obviously_broken:
+        # The full reading supplies content; OCR supplies document layout.
+        # A low-quality or unrelated reading retains the original OCR path.
+        natural_voice = voice_document(initial_ocr, transcript)
+        if natural_voice is not None:
+            suggestion = natural_voice
+    if not low_quality:
+        suggestion = "\n".join(standardize_exact(row) for row in suggestion.splitlines())
     if not low_quality and not voice_obviously_broken:
         suggestion = _replace_scalar_conflicts(suggestion, facts)
     changed_fields = [
@@ -559,6 +570,53 @@ def _full_reading_suggestion(
     return suggestion, changed_fields
 
 
+def build_review_items(initial_ocr: str, transcript: str, facts: list[dict]) -> list[dict]:
+    rows = source_rows(initial_ocr, transcript)
+    items = []
+    review_facts = list(facts)
+    for category in ("name", "medication", "diagnosis"):
+        left = _unique([v for c, v in _sensitive_claims(initial_ocr) if c == category])
+        right = _unique([v for c, v in _sensitive_claims(transcript) if c == category])
+        if set(left) != set(right):
+            review_facts.append({"category": category, "image_values": left, "audio_values": right,
+                                 "requires_staff_confirmation": True})
+    for fact in review_facts:
+        if not fact["requires_staff_confirmation"]:
+            continue
+        left, right = fact["image_values"], fact["audio_values"]
+        refs = []
+        for source, values in (("ocr", left), ("whisper", right)):
+            for number, raw in enumerate(rows[source], 1):
+                if any(_normalized(normalize_spoken_numbers(v)) in _normalized(normalize_spoken_numbers(raw)) for v in values):
+                    refs.append({"source": source, "source_row": number, "text": raw})
+        identity = json.dumps([fact["category"], refs, left, right], ensure_ascii=False, sort_keys=True)
+        items.append({"review_item_id": hashlib.sha256(identity.encode()).hexdigest()[:24],
+                      "category": fact["category"], "kind": "conflict" if left and right else "one_sided_critical",
+                      "ocr_values": left, "whisper_values": right, "source_rows": refs})
+    return items
+
+
+def validate_review_resolutions(items: list[dict], resolutions: list[dict]) -> list[dict]:
+    """Recomputed source choices only; no AI call and no blanket-confirm bypass."""
+    by_id = {item["review_item_id"]: item for item in items}
+    if len(resolutions) != len(by_id):
+        raise ValueError("중요 항목을 각각 확인해 주세요.")
+    checked, seen = [], set()
+    for resolution in resolutions:
+        key, choice, value = (resolution.get(k) for k in ("review_item_id", "choice", "value"))
+        if key not in by_id or key in seen or not isinstance(value, str) or not value.strip():
+            raise ValueError("확인 항목 또는 직원 입력값이 현재 근거와 다릅니다.")
+        seen.add(key)
+        if choice in {"ocr", "whisper"}:
+            allowed = by_id[key]["ocr_values" if choice == "ocr" else "whisper_values"]
+            if value != " · ".join(allowed) or not allowed:
+                raise ValueError("선택한 값이 현재 원문 근거와 다릅니다.")
+        elif choice != "staff_manual":
+            raise ValueError("허용되지 않은 확인 방법입니다.")
+        checked.append({"review_item_id": key, "choice": choice, "value": value.strip()})
+    return checked
+
+
 def build_handwriting_voice_comparison(
     *,
     initial_ocr: str,
@@ -586,7 +644,7 @@ def build_handwriting_voice_comparison(
         raise ValueError("지원하지 않는 손글씨 교정 방식입니다.")
 
     alignments = _aligned_segments(raw_ocr, raw_transcript)
-    facts = _fact_rows(raw_ocr, raw_transcript)
+    facts = _fact_rows(normalize_spoken_numbers(raw_ocr), normalize_spoken_numbers(raw_transcript))
     quality = _audio_quality_document(audio_quality)
     different_count = sum(
         row["status"] != "same" for row in alignments
@@ -621,7 +679,16 @@ def build_handwriting_voice_comparison(
 
     suggestion_provider = "local_evidence_fusion"
     suggestion_model = "handwriting_voice_correction_v2"
+    rows = source_rows(raw_ocr, raw_transcript)
+    all_rows = {source: list(range(1, len(values) + 1)) for source, values in rows.items()}
+    lexicon_applications = []
+    try:
+        lexicon_applications, _ = validate_lexicon(suggestion, rows, all_rows, [])
+    except ValueError:
+        suggestion = raw_ocr
+    combination_status = "not_requested"
     if mode == "full_reading" and ai_refiner is not None:
+        combination_status = "provider_unavailable"
         try:
             refined = ai_refiner(
                 initial_ocr=raw_ocr,
@@ -634,14 +701,29 @@ def build_handwriting_voice_comparison(
         except (OSError, TimeoutError, TypeError, ValueError):
             refined = None
         if isinstance(refined, dict):
-            validated = _candidate_from_supported_evidence(
-                candidate=str(refined.get("final_text") or ""),
-                initial_ocr=raw_ocr,
-                transcript=raw_transcript,
-                facts=facts,
-            )
+            combination_status = "evidence_validation_failed"
+            validated = None
+            if refined.get("status") in {"provider_unavailable", "invalid_response"}:
+                combination_status = refined["status"]
+            else:
+                try:
+                    applications, selected = validate_lexicon(
+                        str(refined.get("final_text") or ""), rows,
+                        refined.get("source_rows"), refined.get("lexicon_applications", []),
+                    )
+                    validated = _candidate_from_supported_evidence(
+                        candidate=str(refined.get("final_text") or ""),
+                        initial_ocr="\n".join(selected["ocr"]),
+                        transcript="\n".join(selected["whisper"]), facts=facts,
+                    )
+                    if quality["status"] == "low" and validated != raw_ocr:
+                        validated = None
+                except (ValueError, TypeError):
+                    validated = None
             if validated:
                 suggestion = validated
+                lexicon_applications = applications
+                combination_status = "applied"
                 suggestion_provider = str(refined.get("provider") or "internal_text_ai")
                 suggestion_model = str(refined.get("model") or "internal_text_ai")
 
@@ -651,6 +733,9 @@ def build_handwriting_voice_comparison(
         "schema_version": "handwriting_voice_correction_v1",
         "status": "awaiting_staff_approval",
         "mode": mode,
+        "ai_combination": {"status": combination_status},
+        "lexicon_applications": lexicon_applications,
+        "review_items": build_review_items(raw_ocr, raw_transcript, facts) if mode == "full_reading" else [],
         "stages": [
             {
                 "revision_no": 1,

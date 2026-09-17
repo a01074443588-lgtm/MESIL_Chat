@@ -41,10 +41,19 @@ type Tab =
   | "organization"
   | "custom-room"
   | "residents";
-type RoomKind = ManagedRoom["kind"];
+type RoomKind = Exclude<ManagedRoom["kind"], "living_space">;
 type ResidentScope = ManagedRoom["resident_scope"];
 type EmployeeStatusFilter = "all" | StaffDirectoryEntry["employment_status"];
 type RoomKindFilter = "all" | RoomKind;
+type LivingSpaceRoomDetails = {
+  room_id: string;
+  room_name: string;
+  is_active: boolean;
+  member_ids: string[];
+  member_count: number;
+  message_count: number;
+  attachment_count: number;
+};
 type StaffReviewDraftEditor = {
   expected_revision: number | null;
   identity_decision: StaffReviewIdentityDecision;
@@ -282,6 +291,7 @@ const roomKindLabels: Record<RoomKind, string> = {
   team: "팀 기준",
   job: "직종 기준",
   custom: "직원 직접 선택",
+  ai: "개인 MESIL AI",
 };
 
 const approvedOrganizationDisplayOrder: Record<string, number> = {
@@ -526,7 +536,8 @@ function fetchStaffApplicationPlan(batchId: string) {
 
 function roomRuleLabel(room: ManagedRoom): string {
   const scope = room.scope_name ?? room.job_name;
-  return scope ? `${roomKindLabels[room.kind]} · ${scope}` : roomKindLabels[room.kind];
+  const kindLabel = room.kind === "living_space" ? "생활공간" : roomKindLabels[room.kind];
+  return scope ? `${kindLabel} · ${scope}` : kindLabel;
 }
 
 function orgUnitDisplayName(unit: OrgUnit): string {
@@ -1197,6 +1208,9 @@ export function AdminDrawer({
   const [saving, setSaving] = useState(false);
   const [showInactiveRooms, setShowInactiveRooms] = useState(false);
   const [showInactiveOrganization, setShowInactiveOrganization] = useState(false);
+  const [selectedLivingSpaceUnitId, setSelectedLivingSpaceUnitId] = useState<string | null>(null);
+  const [livingSpaceDetails, setLivingSpaceDetails] = useState<LivingSpaceRoomDetails | null>(null);
+  const [livingSpaceMemberIds, setLivingSpaceMemberIds] = useState<string[]>([]);
   const [roomQuery, setRoomQuery] = useState("");
   const [roomKindFilter, setRoomKindFilter] = useState<RoomKindFilter>("all");
   const [residentOrder, setResidentOrder] = useState<string[]>([]);
@@ -1488,6 +1502,7 @@ export function AdminDrawer({
   const visibleRooms = useMemo(() => {
     const query = roomQuery.trim().toLocaleLowerCase("ko-KR");
     return managedRooms.filter((room) => {
+      if (room.kind === "living_space") return false;
       if (!showInactiveRooms && !room.is_active) return false;
       if (roomKindFilter !== "all" && room.kind !== roomKindFilter) return false;
       if (!query) return true;
@@ -1791,6 +1806,7 @@ export function AdminDrawer({
   }
 
   function openManagedRoom(room: ManagedRoom) {
+    if (room.kind === "living_space") return;
     if (roomEditorOpen && selectedRoomId === room.id) {
       revealDetailOnSmallScreen(roomDetailRef);
       return;
@@ -1963,6 +1979,24 @@ export function AdminDrawer({
       setSelectedResidentSyncItemIds([]);
       await refreshResidentSyncHistory();
     }, "선택한 어르신 변경사항을 승인하고 반영했습니다.");
+  }
+
+  async function openLivingSpaceMembers(unit: OrgUnit) {
+    setSaving(true);
+    setError("");
+    setStatusMessage("");
+    try {
+      const details = await apiFetch<LivingSpaceRoomDetails>(
+        `/api/org-units/${unit.id}/living-space-members`,
+      );
+      setSelectedLivingSpaceUnitId(unit.id);
+      setLivingSpaceDetails(details);
+      setLivingSpaceMemberIds(details.member_ids);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "참여 직원을 불러오지 못했습니다.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function refreshStaffSyncHistory() {
@@ -4096,7 +4130,7 @@ export function AdminDrawer({
                         .map((unit) => {
                           const usageLabel =
                             unit.unit_type === "floor"
-                              ? `어르신 ${unit.active_resident_count}명 · 직원 ${unit.active_staff_count}명 · 채팅방 ${unit.active_room_count}개`
+                              ? `어르신 ${unit.active_resident_count}명 · 참여 직원 ${unit.active_participant_count}명 · 시스템 채팅방 ${unit.system_room_count}개`
                               : `직원 ${unit.active_staff_count}명 · 채팅방 ${unit.active_room_count}개`;
                           return (
                             <span
@@ -4130,6 +4164,16 @@ export function AdminDrawer({
                                       : "목록에서 삭제됨"}
                                 </small>
                               </button>
+                              {unit.unit_type === "floor" && unit.is_active ? (
+                                <button
+                                  type="button"
+                                  className="chip-action"
+                                  disabled={saving}
+                                  onClick={() => void openLivingSpaceMembers(unit)}
+                                >
+                                  참여 직원 관리
+                                </button>
+                              ) : null}
                               <button
                                 type="button"
                                 className="chip-action"
@@ -4162,6 +4206,89 @@ export function AdminDrawer({
                   </div>
                 ))}
               </div>
+              {selectedLivingSpaceUnitId && livingSpaceDetails ? (
+                <section className="admin-form living-space-member-editor" aria-label="생활공간 참여 직원 관리">
+                  <div className="section-heading">
+                    <div>
+                      <h3>
+                        {units.find((unit) => unit.id === selectedLivingSpaceUnitId)?.name ?? "생활공간"} 참여 직원
+                      </h3>
+                      <p>
+                        {livingSpaceDetails.room_name} · 현재 {livingSpaceMemberIds.length}명 · 대화 {livingSpaceDetails.message_count}건 · 첨부 {livingSpaceDetails.attachment_count}건
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      onClick={() => {
+                        setSelectedLivingSpaceUnitId(null);
+                        setLivingSpaceDetails(null);
+                        setLivingSpaceMemberIds([]);
+                      }}
+                    >
+                      닫기
+                    </button>
+                  </div>
+                  <p className="field-help">
+                    이 선택은 직원의 사업부·부서·직종·직위를 바꾸지 않습니다. 로그인 계정이 있어야 채팅방에 참여할 수 있습니다.
+                  </p>
+                  <div className="living-space-member-list">
+                    {staffDirectory
+                      .filter((employee) => employee.employment_status === "active")
+                      .map((employee) => {
+                        const unavailable =
+                          employee.login_user_id === null || employee.login_status !== "enabled";
+                        const userId = employee.login_user_id;
+                        return (
+                          <label className={`check-row ${unavailable ? "disabled" : ""}`} key={employee.staff_id}>
+                            <input
+                              type="checkbox"
+                              disabled={saving || unavailable}
+                              checked={Boolean(userId && livingSpaceMemberIds.includes(userId))}
+                              onChange={(event) => {
+                                if (!userId) return;
+                                setLivingSpaceMemberIds((current) =>
+                                  event.target.checked
+                                    ? Array.from(new Set([...current, userId]))
+                                    : current.filter((id) => id !== userId),
+                                );
+                              }}
+                            />
+                            <span>
+                              {employee.display_name}
+                              <small>
+                                {unavailable
+                                  ? "로그인 계정 없음 · 참여 불가"
+                                  : [
+                                      employee.legacy_assignment.job_name,
+                                      employee.legacy_assignment.position_title,
+                                    ].filter(Boolean).join(" · ") || "재직 직원"}
+                              </small>
+                            </span>
+                          </label>
+                        );
+                      })}
+                  </div>
+                  <button
+                    type="button"
+                    className="button button-primary"
+                    disabled={saving}
+                    onClick={() => void run(async () => {
+                      const next = await apiFetch<LivingSpaceRoomDetails>(
+                        `/api/org-units/${selectedLivingSpaceUnitId}/living-space-members`,
+                        {
+                          method: "PUT",
+                          body: JSON.stringify({ member_ids: livingSpaceMemberIds }),
+                        },
+                      );
+                      setLivingSpaceDetails(next);
+                      setLivingSpaceMemberIds(next.member_ids);
+                    }, "생활공간 참여 직원을 저장했습니다.")}
+                  >
+                    참여 직원 저장
+                  </button>
+                </section>
+              ) : null}
               <form
                 className="admin-form compact-form"
                 onSubmit={(event) => {

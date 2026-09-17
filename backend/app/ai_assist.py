@@ -3730,13 +3730,9 @@ def ai_assist_config_route(
             codex_ready = worker.health().credential_ready
         except CodexWorkerError:
             codex_ready = False
-    whisper_ready = bool(
-        app_settings.stt_enabled
-        and (
-            app_settings.stt_provider == "stub"
-            or app_settings.stt_shared_token is not None
-        )
-    )
+    from .stt import stt_readiness
+
+    whisper_ready = bool(stt_readiness(timeout_seconds=2.0)["ready"])
     local_ai_ready, local_ai_status_message = local_summary_provider_status()
     return AiAssistConfigResponse(
         enabled=True,

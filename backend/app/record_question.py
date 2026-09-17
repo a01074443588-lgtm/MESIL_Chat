@@ -18,19 +18,43 @@ from .record_answer_quality import (
     focused_rule_answer,
 )
 from .record_hydration import hydration_quantity_fact, hydration_quantity_intent, hydration_answer
+from .record_nutrition import nutrition_question, nutrition_facts, nutrition_answer
 
 KST = ZoneInfo("Asia/Seoul")
+
+
+def resident_state_overview(question):
+    """A residents' state overview is not an overview of administrative chat."""
+    return bool(
+        re.search(r"(?:전체|모든)\s*어르신|어르신들", question)
+        and re.search(r"상태|모습|컨디션|경과|돌봄|어떠|어때|어땠|요약", question)
+    )
+
+
+def resident_round_robin(items):
+    """Keep event chains intact while sharing the existing budget by person."""
+    by_person = defaultdict(list)
+    for item in items:
+        by_person[item[0][0]].append(item)
+    return [items[index] for index in range(max(map(len, by_person.values()), default=0))
+            for items in by_person.values() if index < len(items)]
+
+
 FIRST = re.compile(r"언제부터|처음|최초|시작")
 FOLLOWUP = re.compile(r"그\s*뒤|이후|경과|후속|괜찮아|회복|호전")
 REPEAT = re.compile(r"반복|비슷|또\s*있|다시|같은")
 OVERVIEW = re.compile(
     r"요약|정리|중요|알아야|어떠|어때|어땠|컨디션|지내|어떤\s*상태|요즘|최근|달라|변화|말할\s*내용|전달할\s*내용"
 )
+REPORT_OVERVIEW = re.compile(
+    r"(?:최근.{0,24}(?:기록|보고).{0,16}(?:뭐|무엇|있|알려)|"
+    r"(?:기록|보고).{0,24}(?:뭐|무엇|있|알려))"
+)
 # These are optional ranking hints, not accepted-question or accepted-topic lists.
 HINTS = [
     (
-        r'행동\s*양상|평소\s*모습|요즘\s*반응|어떻게\s*반응|행동.*달라',
-        ('표정', '반응', '대화', '웃', '참여', '거부', '직원', '말씀', '소리', '짜증'),
+        r'문제\s*행동|행동\s*(?:문제|변화|양상)|이상\s*행동|평소\s*모습|요즘\s*반응|어떻게\s*반응|행동.*달라|배회|불안|초조|거부|화냄|공격적\s*반응|반복\s*행동|야간\s*행동|수면',
+        ('표정', '반응', '대화', '웃', '참여', '거부', '거절', '소리', '짜증', '배회', '불안', '초조', '화냄', '화를', '공격', '반복', '수면', '야간', '잠을', '잠들'),
     ),
     (
         r"병원|진료|검사|진단|치료|처방",
@@ -64,6 +88,36 @@ def event_id(fact):
 def question_date_window(question: str, reference: date | None = None):
     """Resolve only explicit conversational periods; None means use the UI scope."""
     reference = reference or datetime.now(KST).date()
+    # Resolve a written range before conversational hints (e.g. '오늘 확인할
+    # 2026년 8월 18일부터 9월 17일까지'). Both retrieval and expansion guards
+    # consume this same window; an empty explicit range must not be widened.
+    day_pattern = (
+        r"(?:(?:\d{4}\s*년\s*)?\d{1,2}\s*월\s*\d{1,2}\s*일"
+        r"|\d{4}\s*[-./]\s*\d{1,2}\s*[-./]\s*\d{1,2})"
+    )
+    written_range = re.search(
+        rf"(?<!\d)({day_pattern})\s*(?:부터|[~～–—])\s*"
+        rf"({day_pattern})(?!\d)",
+        question,
+    )
+    if written_range:
+        start_parts, end_parts = (
+            [int(value) for value in re.findall(r"\d+", part)]
+            for part in written_range.groups()
+        )
+        start_year = (
+            start_parts[0] if len(start_parts) == 3
+            else end_parts[0] if len(end_parts) == 3 else reference.year
+        )
+        end_year = end_parts[0] if len(end_parts) == 3 else start_year
+        try:
+            start = date(start_year, *start_parts[-2:])
+            end = date(end_year, *end_parts[-2:])
+        except ValueError:
+            return None
+        if start <= end:
+            return start, end
+        return None
     compact = re.sub(r"\s+", "", question)
     if "지난달" in compact:
         last = reference.replace(day=1) - timedelta(days=1)
@@ -120,7 +174,12 @@ def plan_question(
 ) -> dict:
     groups = defaultdict(list)
     names = defaultdict(set)
+    resident_overview = resident_state_overview(question)
     for topic in topics:
+        # No resident link means we cannot present this as someone's state.
+        # Generic conversation/report searches retain their previous behavior.
+        if resident_overview and not topic.get("resident_id"):
+            continue
         if resident_id is not None and str(topic["resident_id"]) != str(resident_id):
             continue
         names[topic["resident_name"]].add(str(topic["resident_id"]))
@@ -164,6 +223,10 @@ def plan_question(
         notes.append(
             f"화면의 선택 범위 안에서 {window[0]}~{window[1]} 기록을 확인했습니다."
         )
+    nutrition_focus = nutrition_question(question)
+    if nutrition_focus:
+        groups = {key: nutrition_facts(question, facts) for key, facts in groups.items()}
+        groups = {key: facts for key, facts in groups.items() if facts}
     text = question
     for name in mentioned:
         text = text.replace(name, " ")
@@ -172,12 +235,17 @@ def plan_question(
         not terms
         or bool(
             re.search(r"요약|정리|중요|알아야|말할\s*내용|전달할\s*내용|달라", text)
+            or REPORT_OVERVIEW.search(text)
         )
     )
+    overview = overview or bool(re.search(
+        r"(?:최근|요즘).{0,12}(?:상태|모습)|(?:우리\s*(?:기관|시설)|기관\s*전체).{0,30}(?:돌봄|특성|특징|잘하|잘\s*하)", text
+    ))
+    overview = overview or resident_overview
     specific_topic = any(label in text for label in TOPIC_TERMS if label != "돌봄")
     sharing_overview = bool(re.search(r"(?:말할|전달할)\s*내용", text))
     overview = overview and (not specific_topic or sharing_overview)
-    if re.search(r'행동\s*양상|평소\s*모습|요즘\s*반응|어떻게\s*반응|행동.*달라', text):
+    if re.search(HINTS[0][0], text):
         overview = False
     if overview:
         terms = []
@@ -188,6 +256,8 @@ def plan_question(
         facts.sort(key=lambda fact: (at(fact["occurred_at"]), str(fact["message_id"])))
         body = " ".join(fact["summary"] for fact in facts)
         score = _similarity(terms, body)
+        if nutrition_focus:
+            score += 8
         if hydration_focus:
             score = score + 8 if HYDRATION_RECORD.search(body) else -100
         if not overview:
@@ -213,6 +283,8 @@ def plan_question(
     ranking.sort(
         key=lambda item: (item[2], at(item[1][-1]["occurred_at"])), reverse=True
     )
+    if resident_overview:
+        ranking = resident_round_robin(ranking)
     matches = [item for item in ranking if item[2] > 0 or generic and item[2] >= 0]
     if REPEAT.search(text) and any(
         any(f["kind"] == "repeated" for f in item[1]) for item in matches
@@ -288,6 +360,7 @@ def answer_facts(
     ambiguous=False,
     focus=(),
 ) -> dict:
+    facts = nutrition_facts(question, facts)
     limitations = list(notes)
     visible = []
     if ambiguous:
@@ -371,7 +444,68 @@ def answer_facts(
             # Keep it stable regardless of local-model warm/cold state.
             result['_deterministic_fact'] = True
             result['structured_facts'] = [quantity['fact']]
+    meal = nutrition_answer(question, facts) if not ambiguous and not result.get('structured_facts') else None
+    if meal:
+        result.update(meal)
+    if resident_state_overview(question) and not ambiguous and facts:
+        # Deterministic fallback: each person keeps their own latest complete
+        # event and date. Do not join unrelated first/last rows into a conclusion.
+        residents = defaultdict(list)
+        for fact in facts:
+            if fact.get("resident_id"):
+                residents[str(fact["resident_id"])].append(fact)
+        sentences = []
+        for person_facts in residents.values():
+            latest_fact = max(person_facts, key=lambda f: (at(f["occurred_at"]), str(f["message_id"])))
+            chain = sorted((f for f in person_facts if event_id(f) == event_id(latest_fact)),
+                           key=lambda f: at(f["occurred_at"]))
+            observations = list(dict.fromkeys(
+                f"{at(f['occurred_at']).month}월 {at(f['occurred_at']).day}일 기록: {f['summary']}"
+                for f in chain
+            ))
+            sentences.append({
+                "text": f"{latest_fact['resident_name']} — " + " ".join(observations),
+                "evidence_ids": list(dict.fromkeys(f["message_id"] for f in chain)),
+            })
+        result.update(
+            answer="\n".join(s["text"] for s in sentences),
+            answer_sentences=sentences,
+            evidence_ids=list(dict.fromkeys(i for s in sentences for i in s["evidence_ids"])),
+            limitation=" ".join([*notes,
+                "대상자가 연결된 기록에서 사람별 최근 사건을 확인했습니다. 기록이 없는 어르신의 상태나 전반적인 건강 상태를 단정하지 않습니다."]),
+        )
     return result
+
+
+def complete_resident_overview(question, facts, generated):
+    """Append attributed source facts only for people omitted by a verified AI.
+
+    `facts` is the existing authorized, date-filtered candidate scope. Coverage
+    uses resident IDs from validated citations, never names or message IDs alone.
+    No model retry or relaxation of the model's fact guards is involved.
+    """
+    if (not resident_state_overview(question) or nutrition_question(question)
+            or not generated.get("generation_verified")):
+        return generated
+    covered = {str(f["resident_id"]) for f in generated["selected_facts"]
+               if f.get("resident_id")}
+    missing = [f for f in facts if f.get("resident_id")
+               and str(f["resident_id"]) not in covered]
+    if not missing:
+        return generated
+    supplement = answer_facts(question, missing)["answer_sentences"]
+    additions = [{**s, "text": "기록 기반 보완: " + s["text"]} for s in supplement]
+    sentences = [*generated["sentences"], *additions]
+    added_ids = {i for s in additions for i in s["evidence_ids"]}
+    return {
+        **generated,
+        "sentences": sentences,
+        "answer": generated["answer"] + "\n" + "\n".join(s["text"] for s in additions),
+        "evidence_ids": list(dict.fromkeys(i for s in sentences for i in s["evidence_ids"])),
+        "selected_facts": [*generated["selected_facts"],
+                           *(f for f in missing if f["message_id"] in added_ids)],
+        "fallback_notice": "검증된 AI 답변을 유지하고, 누락된 대상자는 같은 조회 범위의 원문 기록으로 보완했습니다. '기록 기반 보완' 부분은 AI 생성문이 아닙니다.",
+    }
 
 
 def question_unknowns(question, facts):

@@ -15,7 +15,7 @@ import secrets
 from shutil import copy2
 import tempfile
 from time import monotonic, perf_counter
-from typing import Annotated, Any, Literal, NoReturn, Sequence
+from typing import Annotated, Any, Literal, NamedTuple, NoReturn, Sequence
 from uuid import UUID, uuid4
 
 from fastapi import (
@@ -58,6 +58,12 @@ from .attachment_validation import (
 )
 from .period_review_performance import PeriodTiming, PeriodTimingMiddleware, briefing_sources, prefetch_period_relations
 from .record_narrative import generate_narrative, prepare_record_model, await_connected, natural_clause, source_clauses
+from .record_text_ai import run_general_help_model, run_record_model
+from .ai_help_questions import (
+    apply_general_guidance_boundaries,
+    classify_ai_help_question,
+    is_multi_resident_record_search,
+)
 from .search_summary_narrative import (
     build_search_fallback,
     choose_summary_mode,
@@ -86,8 +92,16 @@ from .ai_analysis import (
     append_ai_analysis_snapshot,
     content_fingerprint,
 )
-from .ai_assist import AiAssistRuntimeSettings, router as ai_assist_router
-from .ai_assist_schemas import AiAssistSourceSnapshot
+from .ai_assist import (
+    AiAssistRuntimeSettings,
+    cancel_ai_turn,
+    create_ai_conversation,
+    process_ai_turn,
+    router as ai_assist_router,
+    turn_response as ai_assist_turn_response,
+)
+from .ai_assist_models import AiAssistTurn
+from .ai_assist_schemas import AiAssistSourceSnapshot, AiAssistTaskRequest
 from .ai_system import router as ai_system_router
 from .codex_worker_client import CodexWorkerClient, CodexWorkerError
 from .smcodi_outbox import router as smcodi_outbox_router
@@ -168,19 +182,24 @@ from .local_ai import (
 )
 from .field_care_briefing import KST, build_field_care_briefing
 from .care_record_journey import build_care_topics
-from .record_question import plan_question, answer_facts, event_id, question_date_window
+from .record_question import plan_question, answer_facts, event_id, question_date_window, complete_resident_overview
 from .record_aggregate import aggregate_question, is_aggregate_question, has_later_record_correction, has_unattributed_source, has_unread_aggregate_attachments
 from .message_nature import MessageNatureDecision, classify_message_nature
 from .image_variants import ensure_image_thumbnail, thumbnail_path
 from .handwriting_preprocessing import prepare_handwriting_for_ocr
 from .image_ocr_geometry import prepare_image_geometry
-from .resident_candidate_evidence import resident_link_is_current, visible_image_text
+from .resident_candidate_evidence import (
+    current_message_resident,
+    resident_link_is_current,
+    visible_image_text,
+)
 from .photo_reading import photo_reading_status, resident_review_metadata
 from .ocr import is_pathological_handwriting_output
 from .image_ocr_runtime import attachment_image_runtime, requested_image_runtime, safe_image_failure, ImageOcrFailure
 from .handwriting_voice_correction import (
     build_handwriting_voice_comparison,
     correction_sentences,
+    validate_review_resolutions,
 )
 from .handwriting_voice_ai import refine_handwriting_with_internal_ai
 from .ocr import (
@@ -309,6 +328,8 @@ from .schemas import (
     JobCodeCreate,
     JobCodeUpdate,
     JobCodeResponse,
+    LivingSpaceMembersUpdate,
+    LivingSpaceRoomResponse,
     LOGIN_USERNAME_PATTERN,
     ManagedCustomRoomResponse,
     ManagedRoomCreate,
@@ -335,6 +356,7 @@ from .schemas import (
     PushSubscriptionCreate,
     PushSubscriptionDelete,
     PushSubscriptionResponse,
+    PushTestRequest,
     ReadRequest,
     ReadReceiptResponse,
     RecordClassification,
@@ -475,6 +497,7 @@ from .security import (
 from .stt import (
     SttTranscriptionResult,
     stt_readiness,
+    stt_runtime_enabled,
     transcribe_audio,
     transcribe_audio_with_metadata,
 )
@@ -487,7 +510,9 @@ from .services import (
     create_employee,
     create_staff_directory_entry,
     ensure_bootstrap_admin,
+    ensure_mesil_ai_user,
     ensure_developer_launcher_user,
+    ensure_living_space_room,
     ensure_reference_data,
     ensure_system_rooms,
     list_user_rooms,
@@ -1071,6 +1096,8 @@ def _sync_message_resident_candidates(
     extraction: AttachmentTextExtraction | None = None,
     staff_reviewed: bool = False,
 ) -> list[MessageResidentLink]:
+    if message.room is not None and message.room.kind == "ai":
+        return []
     # A staff decision may arrive while OCR is running. Read its current
     # suppression flag under the same message lock used by the review route.
     db.flush()
@@ -1194,6 +1221,14 @@ def _finalize_message_resident_links_from_reviewed_extractions(
     keeps a late transcript from reintroducing a name after the final text was
     saved.
     """
+
+    if message.room is not None and message.room.kind == "ai":
+        return {
+            "finalized": False,
+            "confirmed_count": 0,
+            "rejected_count": 0,
+            "revision": int(resident_review_metadata(message).get("revision", 0) or 0),
+        }
 
     db.flush()
     db.execute(select(Message.id).where(Message.id == message.id).with_for_update())
@@ -1415,6 +1450,11 @@ def _confirm_manual_resident_link(
     resident: Resident | None,
     origin: str = "uploader",
 ) -> MessageResidentLink | None:
+    if message.room is not None and message.room.kind == "ai":
+        raise HTTPException(
+            status_code=422,
+            detail="MESIL AI 도움방의 메시지는 어르신 기록 연결 대상이 아닙니다.",
+        )
     if resident is None:
         return None
     message.extra_data = {**(message.extra_data or {}), "resident_review": {
@@ -1451,6 +1491,8 @@ def _confirmed_message_resident_links(
 ) -> list[MessageResidentLink]:
     message = db.get(Message, message_id)
     if message is None:
+        return []
+    if message.room is not None and message.room.kind == "ai":
         return []
     links = db.scalars(
         select(MessageResidentLink)
@@ -1528,6 +1570,11 @@ def _ensure_work_item(
     *,
     force: bool = False,
 ) -> WorkItem | None:
+    room = db.get(Room, message.room_id)
+    if room is not None and room.kind == "ai":
+        # AI 도움방 질문과 첨부 판독은 개인 대화 문맥일 뿐, 일반 채팅의
+        # 기록 검토 후보로 승격하지 않는다.
+        return None
     if message.resident_id is None and not force:
         return None
     existing = db.scalar(
@@ -1538,7 +1585,6 @@ def _ensure_work_item(
     # SessionLocal은 의도적으로 autoflush=False다. 사진까지 같은 원문
     # 스냅샷에 포함하려면 아직 대기 중인 첨부 메타데이터를 먼저 반영한다.
     db.flush()
-    room = db.get(Room, message.room_id)
     attachment_ids = db.scalars(
         select(MessageAttachment.id)
         .where(MessageAttachment.message_id == message.id)
@@ -2033,6 +2079,11 @@ def _work_item_response(
     )
 
 
+_AI_ROOM_WORK_ITEM_BLOCK_DETAIL = (
+    "MESIL AI 도움방의 메시지는 기록 검토 및 어르신 연결 대상이 아닙니다."
+)
+
+
 def _work_item_for_processor(
     db: Session, processor: User, work_item_id: UUID
 ) -> WorkItem:
@@ -2042,6 +2093,11 @@ def _work_item_for_processor(
     if item.organization_id != processor.organization_id:
         raise HTTPException(
             status_code=403, detail="이 업무 항목을 처리할 수 없습니다."
+        )
+    if item.source_message.room.kind == "ai":
+        raise HTTPException(
+            status_code=422,
+            detail=_AI_ROOM_WORK_ITEM_BLOCK_DETAIL,
         )
     _require_active_message(item.source_message, "업무 처리")
     sender = item.source_message.sender
@@ -2065,9 +2121,11 @@ def _visible_work_items_for_processor(
     query = (
         select(WorkItem)
         .join(Message, Message.id == WorkItem.source_message_id)
+        .join(Room, Room.id == Message.room_id)
         .where(
             WorkItem.organization_id == processor.organization_id,
             Message.lifecycle_status == "active",
+            Room.kind != "ai",
         )
         .order_by(WorkItem.updated_at.desc(), WorkItem.created_at.desc())
     )
@@ -2299,6 +2357,12 @@ def _queue_attachment_text_extraction(
         extraction.completed_at = None
         extraction.reviewed_at = None
     return extraction
+
+
+def _require_stt_ready() -> None:
+    readiness = stt_readiness(timeout_seconds=2.0)
+    if not readiness["ready"]:
+        raise HTTPException(status_code=503, detail=str(readiness["message"]))
 
 
 def _attachment_roster_evidence(
@@ -2650,6 +2714,11 @@ def _run_attachment_text_extraction_impl(attachment_id: UUID, attempt_context: d
                     target,
                     mime_type=attachment.mime_type,
                 )
+                # The queue-time environment value can differ from the protected
+                # runtime service. Persist the model reported by the service that
+                # actually produced this transcript.
+                extraction.provider = "local_whisper_service"
+                extraction.model_name = transcription.model
                 result = transcription.text
                 audio_quality_detail = {
                     "kind": "audio_quality",
@@ -4909,6 +4978,9 @@ def _org_unit_responses(
     active_resident_counts: dict[UUID, int] = {}
     resident_scope_room_counts: dict[UUID, int] = {}
     action_item_counts: dict[UUID, int] = {}
+    living_space_room_ids: dict[UUID, UUID] = {}
+    living_space_room_counts: dict[UUID, int] = {}
+    living_space_participant_counts: dict[UUID, int] = {}
     if unit_ids:
         assignment_counts = dict(
             db.execute(
@@ -4964,6 +5036,48 @@ def _org_unit_responses(
                 .group_by(ActionItem.assignee_unit_id)
             ).all()
         )
+        living_space_room_ids = dict(
+            db.execute(
+                select(Room.scope_unit_id, Room.id)
+                .where(
+                    Room.scope_unit_id.in_(unit_ids),
+                    Room.kind == "living_space",
+                )
+                .order_by(Room.created_at, Room.id)
+            ).all()
+        )
+        living_space_room_counts = dict(
+            db.execute(
+                select(Room.scope_unit_id, func.count(Room.id))
+                .where(
+                    Room.scope_unit_id.in_(unit_ids),
+                    Room.kind == "living_space",
+                    Room.is_active.is_(True),
+                )
+                .group_by(Room.scope_unit_id)
+            ).all()
+        )
+        living_space_participant_counts = dict(
+            db.execute(
+                select(Room.scope_unit_id, func.count(func.distinct(Staff.id)))
+                .join(RoomMembership, RoomMembership.room_id == Room.id)
+                .join(Staff, Staff.id == RoomMembership.staff_id)
+                .join(User, User.staff_id == Staff.id)
+                .where(
+                    Room.scope_unit_id.in_(unit_ids),
+                    Room.kind == "living_space",
+                    Room.is_active.is_(True),
+                    RoomMembership.left_at.is_(None),
+                    User.organization_id == Room.organization_id,
+                    User.is_active.is_(True),
+                    Staff.organization_id == Room.organization_id,
+                    Staff.is_active.is_(True),
+                    Staff.deleted_at.is_(None),
+                    Staff.employment_status == "active",
+                )
+                .group_by(Room.scope_unit_id)
+            ).all()
+        )
     return [
         OrgUnitResponse.model_validate(unit).model_copy(
             update={
@@ -4973,6 +5087,13 @@ def _org_unit_responses(
                 "active_resident_count": int(
                     active_resident_counts.get(unit.id, 0)
                 ),
+                "active_participant_count": int(
+                    living_space_participant_counts.get(unit.id, 0)
+                ),
+                "system_room_count": int(
+                    living_space_room_counts.get(unit.id, 0)
+                ),
+                "system_room_id": living_space_room_ids.get(unit.id),
                 "reference_count": (
                     int(assignment_counts.get(unit.id, 0))
                     + int(child_counts.get(unit.id, 0))
@@ -5203,6 +5324,8 @@ def create_org_unit(
     db.add(unit)
     try:
         db.flush()
+        if unit.unit_type == "floor":
+            ensure_living_space_room(db, unit)
         record_audit(
             db,
             actor_id=admin.id,
@@ -5211,14 +5334,14 @@ def create_org_unit(
             target_id=unit.id,
             details={"unit_type": unit.unit_type, "name": unit.name},
         )
+        response = _org_unit_responses(db, [unit])[0]
         db.commit()
     except IntegrityError:
         db.rollback()
         raise HTTPException(
             status_code=409, detail="같은 종류와 이름의 조직정보가 이미 있습니다."
         )
-    db.refresh(unit)
-    return unit
+    return response
 
 
 @app.patch("/api/org-units/{unit_id}", response_model=OrgUnitResponse)
@@ -5239,40 +5362,73 @@ async def update_org_unit(
     values = payload.model_dump(exclude_unset=True)
     if not values:
         raise HTTPException(status_code=422, detail="변경할 조직정보가 없습니다.")
-    if (
-        values.get("is_active") is False
-        and unit.is_active
-        and unit.unit_type != "floor"
-    ):
-        active_assignments = int(
-            db.scalar(
-                select(func.count(StaffOrganizationAssignment.id))
-                .join(Staff, Staff.id == StaffOrganizationAssignment.staff_id)
-                .where(
-                    StaffOrganizationAssignment.unit_id == unit.id,
-                    StaffOrganizationAssignment.end_date.is_(None),
-                    Staff.is_active.is_(True),
-                )
+    living_space_room = (
+        db.scalar(
+            select(Room).where(
+                Room.organization_id == unit.organization_id,
+                Room.kind == "living_space",
+                Room.scope_unit_id == unit.id,
             )
-            or 0
         )
-        active_rooms = int(
-            db.scalar(
-                select(func.count(Room.id)).where(
-                    Room.scope_unit_id == unit.id,
-                    Room.is_active.is_(True),
+        if unit.unit_type == "floor"
+        else None
+    )
+    before_member_ids = (
+        room_member_user_ids(db, living_space_room.id)
+        if living_space_room is not None
+        else set()
+    )
+    if values.get("is_active") is False and unit.is_active:
+        if unit.unit_type == "floor":
+            active_residents = int(
+                db.scalar(
+                    select(func.count(Resident.id))
+                    .join(RecipientRoom, RecipientRoom.id == Resident.room_id)
+                    .where(
+                        RecipientRoom.floor_unit_id == unit.id,
+                        Resident.is_active.is_(True),
+                    )
                 )
+                or 0
             )
-            or 0
-        )
-        if active_assignments or active_rooms:
-            raise HTTPException(
-                status_code=409,
-                detail=(
-                    f"재직 직원 {active_assignments}명과 활성 채팅방 {active_rooms}개가 "
-                    "사용 중입니다. 직원 이동과 방 종료 후 사용중지하세요."
-                ),
+            if active_residents:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        f"활성 어르신 {active_residents}명이 이 생활공간을 사용 중입니다. "
+                        "먼저 다른 생활공간으로 이동해 주세요."
+                    ),
+                )
+        else:
+            active_assignments = int(
+                db.scalar(
+                    select(func.count(StaffOrganizationAssignment.id))
+                    .join(Staff, Staff.id == StaffOrganizationAssignment.staff_id)
+                    .where(
+                        StaffOrganizationAssignment.unit_id == unit.id,
+                        StaffOrganizationAssignment.end_date.is_(None),
+                        Staff.is_active.is_(True),
+                    )
+                )
+                or 0
             )
+            active_rooms = int(
+                db.scalar(
+                    select(func.count(Room.id)).where(
+                        Room.scope_unit_id == unit.id,
+                        Room.is_active.is_(True),
+                    )
+                )
+                or 0
+            )
+            if active_assignments or active_rooms:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        f"재직 직원 {active_assignments}명과 활성 채팅방 {active_rooms}개가 "
+                        "사용 중입니다. 직원 이동과 방 종료 후 사용중지하세요."
+                    ),
+                )
     if "name" in values:
         duplicate = db.scalar(
             select(OrgUnit).where(
@@ -5290,6 +5446,23 @@ async def update_org_unit(
         unit.name = values["name"]
     if "is_active" in values:
         unit.is_active = values["is_active"]
+    if unit.unit_type == "floor":
+        if living_space_room is None:
+            living_space_room = ensure_living_space_room(db, unit)
+        living_space_room.name = f"{unit.name} 생활공간"
+        if "is_active" in values:
+            if values["is_active"]:
+                living_space_room.is_active = True
+            else:
+                living_space_room.is_active = False
+                now = utcnow()
+                for membership in db.scalars(
+                    select(RoomMembership).where(
+                        RoomMembership.room_id == living_space_room.id,
+                        RoomMembership.left_at.is_(None),
+                    )
+                ).all():
+                    membership.left_at = now
     record_audit(
         db,
         actor_id=admin.id,
@@ -5298,13 +5471,194 @@ async def update_org_unit(
         target_id=unit.id,
         details={"changed_fields": sorted(values)},
     )
+    db.flush()
+    response = _org_unit_responses(db, [unit])[0]
+    after_member_ids = (
+        room_member_user_ids(db, living_space_room.id)
+        if living_space_room is not None
+        else set()
+    )
     db.commit()
-    db.refresh(unit)
     await manager.send_to_users(
-        {admin.id},
+        before_member_ids | after_member_ids | {admin.id},
         {"event": "organization_changed", "unit_id": str(unit.id)},
     )
-    return _org_unit_responses(db, [unit])[0]
+    if living_space_room is not None:
+        await manager.send_to_users(
+            before_member_ids | after_member_ids | {admin.id},
+            {"event": "rooms_changed", "room_id": str(living_space_room.id)},
+        )
+    return response
+
+
+def _living_space_room_for_admin(
+    db: Session,
+    admin: User,
+    unit_id: UUID,
+) -> tuple[OrgUnit, Room]:
+    unit = db.get(OrgUnit, unit_id)
+    if (
+        unit is None
+        or unit.organization_id != admin.organization_id
+        or unit.unit_type != "floor"
+    ):
+        raise HTTPException(status_code=404, detail="생활공간을 찾을 수 없습니다.")
+    room = db.scalar(
+        select(Room).where(
+            Room.organization_id == admin.organization_id,
+            Room.kind == "living_space",
+            Room.scope_unit_id == unit.id,
+        )
+    )
+    if room is None:
+        raise HTTPException(
+            status_code=409,
+            detail="생활공간 시스템 채팅방이 준비되지 않았습니다.",
+        )
+    return unit, room
+
+
+def _living_space_room_response(db: Session, room: Room) -> LivingSpaceRoomResponse:
+    member_ids = list(
+        db.scalars(
+            select(User.id)
+            .join(Staff, Staff.id == User.staff_id)
+            .join(RoomMembership, RoomMembership.staff_id == Staff.id)
+            .where(
+                RoomMembership.room_id == room.id,
+                RoomMembership.left_at.is_(None),
+                User.organization_id == room.organization_id,
+                User.is_active.is_(True),
+                Staff.organization_id == room.organization_id,
+                Staff.is_active.is_(True),
+                Staff.deleted_at.is_(None),
+                Staff.employment_status == "active",
+            )
+            .distinct()
+            .order_by(User.id)
+        ).all()
+    )
+    return LivingSpaceRoomResponse(
+        room_id=room.id,
+        room_name=room.name,
+        is_active=room.is_active,
+        member_ids=member_ids,
+        member_count=len(member_ids),
+        message_count=int(
+            db.scalar(select(func.count(Message.id)).where(Message.room_id == room.id))
+            or 0
+        ),
+        attachment_count=int(
+            db.scalar(
+                select(func.count(MessageAttachment.id))
+                .join(Message, Message.id == MessageAttachment.message_id)
+                .where(Message.room_id == room.id)
+            )
+            or 0
+        ),
+    )
+
+
+@app.get(
+    "/api/org-units/{unit_id}/living-space-members",
+    response_model=LivingSpaceRoomResponse,
+)
+def get_living_space_members(
+    unit_id: UUID,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    _unit, room = _living_space_room_for_admin(db, admin, unit_id)
+    return _living_space_room_response(db, room)
+
+
+@app.put(
+    "/api/org-units/{unit_id}/living-space-members",
+    response_model=LivingSpaceRoomResponse,
+)
+async def update_living_space_members(
+    unit_id: UUID,
+    payload: LivingSpaceMembersUpdate,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    unit, room = _living_space_room_for_admin(db, admin, unit_id)
+    if not unit.is_active or not room.is_active:
+        raise HTTPException(
+            status_code=409,
+            detail="사용 중인 생활공간에서만 참여 직원을 변경할 수 있습니다.",
+        )
+    requested_ids = set(payload.member_ids)
+    users = _active_room_users(db, admin.organization_id, requested_ids)
+    before_user_ids = room_member_user_ids(db, room.id)
+    now = utcnow()
+    active_memberships = {
+        membership.staff_id: membership
+        for membership in db.scalars(
+            select(RoomMembership).where(
+                RoomMembership.room_id == room.id,
+                RoomMembership.left_at.is_(None),
+            )
+        ).all()
+    }
+    desired_staff_ids = {user.staff_id for user in users if user.staff_id is not None}
+    for staff_id, membership in active_memberships.items():
+        if staff_id not in desired_staff_ids:
+            membership.left_at = now
+    for user in users:
+        if user.staff_id in active_memberships:
+            continue
+        prior = db.scalar(
+            select(RoomMembership)
+            .where(
+                RoomMembership.room_id == room.id,
+                RoomMembership.staff_id == user.staff_id,
+                RoomMembership.source == "manual",
+            )
+            .order_by(RoomMembership.joined_at.desc(), RoomMembership.id.desc())
+        )
+        if prior is None:
+            db.add(
+                RoomMembership(
+                    organization_id=admin.organization_id,
+                    room_id=room.id,
+                    staff_id=user.staff_id,
+                    source="manual",
+                    joined_at=now,
+                    created_by=admin.id,
+                )
+            )
+        else:
+            prior.left_at = None
+            prior.joined_at = now
+            prior.created_by = admin.id
+    db.flush()
+    after_user_ids = room_member_user_ids(db, room.id)
+    record_audit(
+        db,
+        actor_id=admin.id,
+        action="living_space.members_updated",
+        target_type="room",
+        target_id=room.id,
+        details={
+            "unit_id": str(unit.id),
+            "member_count": len(after_user_ids),
+            "added_user_ids": sorted(str(value) for value in after_user_ids - before_user_ids),
+            "removed_user_ids": sorted(str(value) for value in before_user_ids - after_user_ids),
+        },
+    )
+    response = _living_space_room_response(db, room)
+    db.commit()
+    recipients = before_user_ids | after_user_ids | {admin.id}
+    await manager.send_to_users(
+        recipients,
+        {"event": "rooms_changed", "room_id": str(room.id)},
+    )
+    await manager.send_to_users(
+        recipients,
+        {"event": "organization_changed", "unit_id": str(unit.id)},
+    )
+    return response
 
 
 @app.delete("/api/org-units/{unit_id}", response_model=OrgUnitResponse)
@@ -6787,6 +7141,8 @@ def register_web_push_subscription(
         )
         db.add(subscription)
     else:
+        if subscription.user_id != user.id or subscription.organization_id != user.organization_id:
+            raise HTTPException(status_code=403, detail="다른 사용자의 알림 구독은 변경할 수 없습니다. 이 기기의 알림을 해제한 뒤 다시 등록해 주세요.")
         if not subscription.is_active and subscription.failure_count > 0:
             return PushSubscriptionResponse(
                 enabled=True,
@@ -6938,7 +7294,9 @@ def delete_mobile_push_device(
     status_code=202,
 )
 def test_web_push_notification(
+    payload: PushTestRequest,
     auth: tuple[LoginSession, User] = Depends(get_current_session_and_user),
+    db: Session = Depends(get_db),
 ):
     login_session, user = auth
     _block_reviewer_account_setting(login_session)
@@ -6947,7 +7305,26 @@ def test_web_push_notification(
             status_code=503,
             detail="휴대전화 알림 서버가 아직 준비되지 않았습니다.",
         )
-    sent_count = send_web_push_to_users({user.id}, is_test=True)
+    endpoint = payload.endpoint
+    endpoint_hash = sha256(endpoint.encode("utf-8")).hexdigest()
+    current_subscription = db.scalar(
+        select(PushSubscription).where(
+            PushSubscription.endpoint_hash == endpoint_hash,
+            PushSubscription.user_id == user.id,
+            PushSubscription.login_session_id == login_session.id,
+            PushSubscription.is_active.is_(True),
+        )
+    )
+    if current_subscription is None:
+        raise HTTPException(
+            status_code=409,
+            detail="현재 기기의 알림 구독을 찾지 못했습니다. 알림을 다시 켜 주세요.",
+        )
+    sent_count = send_web_push_to_users(
+        {user.id},
+        is_test=True,
+        endpoint=endpoint,
+    )
     if sent_count == 0:
         raise HTTPException(
             status_code=502,
@@ -7118,7 +7495,11 @@ def _admin_conversation_room(
     room_id: UUID,
 ) -> Room:
     room = db.get(Room, room_id)
-    if room is None or room.organization_id != admin.organization_id:
+    if (
+        room is None
+        or room.organization_id != admin.organization_id
+        or room.kind == "ai"
+    ):
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
     return room
 
@@ -7197,6 +7578,8 @@ def get_admin_conversation_message(
     message = db.get(Message, message_id)
     if message is None or message.organization_id != admin.organization_id:
         raise HTTPException(status_code=404, detail="메시지를 찾을 수 없습니다.")
+    if (message.extra_data or {}).get("ai_help") is not None:
+        raise HTTPException(status_code=404, detail="메시지를 찾을 수 없습니다.")
     receipts = db.scalars(
         select(MessageReadReceipt)
         .where(MessageReadReceipt.message_id == message.id)
@@ -7257,6 +7640,8 @@ def download_admin_conversation_attachment(
     message = db.get(Message, attachment.message_id)
     if message is None or message.organization_id != admin.organization_id:
         raise HTTPException(status_code=404, detail="첨부파일을 찾을 수 없습니다.")
+    if (message.extra_data or {}).get("ai_help") is not None:
+        raise HTTPException(status_code=404, detail="첨부파일을 찾을 수 없습니다.")
     record_audit(
         db,
         actor_id=admin.id,
@@ -7273,6 +7658,10 @@ def download_admin_conversation_attachment(
 
 @app.get("/api/rooms", response_model=list[RoomResponse])
 def rooms(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # 배포 전에 로그인한 세션도 기능 활성화 직후 같은 보장을 받는다.
+    # 동기화 함수와 DB 고유 인덱스가 반복 조회 및 동시 요청의 중복 생성을 막는다.
+    sync_auto_memberships(db, user)
+    db.commit()
     return list_user_rooms(db, user.id)
 
 
@@ -7347,7 +7736,12 @@ def _active_room_users(
         )
     ).all()
     if {user.id for user in users} != member_ids or any(
-        user.staff_id is None or user.employment_status != "active" for user in users
+        user.staff is None
+        or user.staff.organization_id != organization_id
+        or not user.staff.is_active
+        or user.staff.deleted_at is not None
+        or user.staff.employment_status != "active"
+        for user in users
     ):
         raise HTTPException(
             status_code=422, detail="참여자 중 존재하지 않거나 퇴사한 직원이 있습니다."
@@ -7454,11 +7848,12 @@ def _custom_room_for_active_member(
     room_id: UUID,
 ) -> tuple[Room, RoomMembership]:
     room = db.get(Room, room_id)
-    if (
-        room is None
-        or room.organization_id != user.organization_id
-        or room.kind != "custom"
-    ):
+    if room is not None and room.kind == "living_space":
+        raise HTTPException(
+            status_code=403,
+            detail="생활공간 시스템 채팅방은 관리자가 생활공간 설정에서 관리합니다.",
+        )
+    if room is None or room.organization_id != user.organization_id or room.kind != "custom":
         raise HTTPException(status_code=404, detail="직원 대화방을 찾을 수 없습니다.")
     if not room.is_active:
         raise HTTPException(status_code=409, detail="종료된 직원 대화방입니다.")
@@ -8126,7 +8521,7 @@ def list_managed_rooms(
 ):
     query = select(Room).where(
         Room.organization_id == admin.organization_id,
-        Room.kind != "self",
+        Room.kind.not_in(("self", "ai", "living_space")),
     )
     if is_mentor_full_reviewer(admin):
         query = query.join(
@@ -8256,6 +8651,11 @@ async def update_managed_room(
     room = db.get(Room, room_id)
     if room is None or room.organization_id != admin.organization_id:
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
+    if room.kind == "living_space":
+        raise HTTPException(
+            status_code=409,
+            detail="생활공간 시스템 채팅방은 생활공간 설정에서만 관리할 수 있습니다.",
+        )
     if not room.is_active:
         raise HTTPException(
             status_code=409, detail="종료된 채팅방은 먼저 복구해야 합니다."
@@ -8320,6 +8720,11 @@ async def close_managed_room(
     room = db.get(Room, room_id)
     if room is None or room.organization_id != admin.organization_id:
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
+    if room.kind == "living_space":
+        raise HTTPException(
+            status_code=409,
+            detail="생활공간 시스템 채팅방은 생활공간과 함께 사용 중지해야 합니다.",
+        )
     if not room.is_active:
         raise HTTPException(status_code=409, detail="이미 종료된 채팅방입니다.")
     member_ids = room_member_user_ids(db, room.id)
@@ -8358,6 +8763,11 @@ async def restore_managed_room(
     room = db.get(Room, room_id)
     if room is None or room.organization_id != admin.organization_id:
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
+    if room.kind == "living_space":
+        raise HTTPException(
+            status_code=409,
+            detail="생활공간 시스템 채팅방은 생활공간과 함께 다시 사용해야 합니다.",
+        )
     if room.is_active:
         return _managed_room_response(db, room)
     if room.kind == "custom":
@@ -13389,8 +13799,9 @@ async def summarize_room_search(
                 mode=summary_mode,
                 all_synthetic=bool(facts) and all(row.get("is_test_data") is True for row in facts),
                 request_key=cache_key,
-                deadline=perf_counter() + settings.ai_review_timeout_seconds,
+                deadline=perf_counter() + settings.search_summary_timeout_seconds,
                 model_override=payload.local_model_override,
+                conversation_only=bool(ordered_messages and ordered_messages[0].room.kind == "ai"),
             )
         ),
         request,
@@ -13482,6 +13893,12 @@ async def summarize_room_search(
             "draft_ms": generated.get("draft_ms") or 0,
             "review_ms": generated.get("review_ms") or 0,
             "validation_ms": generated.get("validation_ms") or 0,
+            "validation_attempts": generated.get("validation_attempts") or 0,
+            "draft_attempts": generated.get("draft_attempts") or 0,
+            "attempt_1_tokens": generated.get("attempt_1_tokens"),
+            "attempt_2_tokens": generated.get("attempt_2_tokens"),
+            "attempt_1_done_reason": generated.get("attempt_1_done_reason"),
+            "attempt_2_done_reason": generated.get("attempt_2_done_reason"),
             "accepted_sentence_count": generated.get("accepted_sentence_count") or 0,
             "rejected_sentence_count": generated.get("rejected_sentence_count") or 0,
             "rejection_types": generated.get("rejection_types"),
@@ -13510,6 +13927,1701 @@ async def summarize_room_search(
     return response
 
 
+def _ai_help_payload(
+    *,
+    role: str,
+    status_value: str,
+    source_message_id: UUID | None = None,
+    turn_id: UUID | None = None,
+    question_type: str | None = None,
+    provider: str | None = None,
+    model: str | None = None,
+    processing_location: str | None = None,
+    external_transmission: bool = False,
+    evidence: list[dict[str, Any]] | None = None,
+    error_message: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "role": role,
+        "status": status_value,
+        "source_message_id": str(source_message_id) if source_message_id else None,
+        "turn_id": str(turn_id) if turn_id else None,
+        "question_type": question_type,
+        "provider": provider,
+        "model": model,
+        "processing_location": processing_location,
+        "external_transmission": external_transmission,
+        "evidence": evidence or [],
+        "error_message": error_message,
+    }
+
+
+def _existing_ai_help_message(
+    db: Session,
+    *,
+    user: User,
+    room: Room,
+    client_request_id: UUID | None,
+) -> Message | None:
+    if client_request_id is None:
+        return None
+    return db.scalar(
+        select(Message).where(
+            Message.organization_id == user.organization_id,
+            Message.room_id == room.id,
+            Message.sender_id == user.id,
+            Message.client_request_id == client_request_id,
+        )
+    )
+
+
+def _create_ai_help_message_pair(
+    db: Session,
+    *,
+    user: User,
+    room: Room,
+    body: str,
+    client_request_id: UUID | None,
+) -> tuple[Message, Message, bool]:
+    existing = _existing_ai_help_message(
+        db,
+        user=user,
+        room=room,
+        client_request_id=client_request_id,
+    )
+    if existing is not None:
+        assistant = db.scalar(
+            select(Message)
+            .where(
+                Message.room_id == room.id,
+                Message.extra_data["ai_help"]["source_message_id"].as_string()
+                == str(existing.id),
+            )
+            .order_by(Message.created_at, Message.id)
+        )
+        if assistant is None:
+            raise HTTPException(
+                status_code=409,
+                detail="기존 AI 질문의 응답 상태를 확인하지 못했습니다. 새로고침해 주세요.",
+            )
+        return existing, assistant, False
+
+    ai_user = ensure_mesil_ai_user(db, user.organization_id)
+    user_message = Message(
+        organization_id=user.organization_id,
+        room_id=room.id,
+        sender_id=user.id,
+        client_request_id=client_request_id or uuid4(),
+        message_type="chat",
+        body=body,
+        extra_data={"ai_help": _ai_help_payload(role="user", status_value="queued")},
+        is_test_data=_interaction_is_test_data(user, room=room),
+    )
+    db.add(user_message)
+    db.flush()
+    assistant_message = Message(
+        organization_id=user.organization_id,
+        room_id=room.id,
+        sender_id=ai_user.id,
+        message_type="chat",
+        body="답변을 준비하고 있습니다.",
+        extra_data={
+            "ai_help": _ai_help_payload(
+                role="assistant",
+                status_value="queued",
+                source_message_id=user_message.id,
+            )
+        },
+        is_test_data=user_message.is_test_data,
+    )
+    db.add(assistant_message)
+    db.add(
+        MessageReadReceipt(
+            organization_id=user.organization_id,
+            message_id=user_message.id,
+            user_id=user.id,
+            is_test_data=user_message.is_test_data,
+        )
+    )
+    db.flush()
+    return user_message, assistant_message, True
+
+
+def _ai_help_member_scoped_facts(
+    db: Session,
+    *,
+    requester: User,
+    source: Message,
+) -> tuple[list[dict[str, Any]], list[str], bool]:
+    context = _prepare_ai_help_record_search(
+        db,
+        requester=requester,
+        source=source,
+    )
+    return context["facts"], context["names"], context["all_synthetic"]
+
+
+def _ai_help_record_window(question: str, reference: date) -> tuple[date, date]:
+    explicit = question_date_window(question, reference)
+    if explicit is not None:
+        return explicit
+    previous_days = re.search(r"지난\s*(\d{1,3})\s*일(?:\s*동안|간)?", question)
+    if previous_days:
+        days = max(1, min(int(previous_days.group(1)), 184))
+        return reference - timedelta(days=days - 1), reference
+    # AI 도움방에는 별도의 기간 선택 UI가 없으므로 '최근'과 기간 생략
+    # 기록질문 모두 같은 명시적 기본 범위를 사용한다.
+    return reference - timedelta(days=6), reference
+
+
+def _ai_help_question_resident_match(
+    db: Session,
+    *,
+    requester: User,
+    question: str,
+) -> tuple[Resident | None, bool]:
+    """Resolve an explicit resident in the request without widening on failure."""
+    residents = list(
+        db.scalars(
+            select(Resident).where(
+                Resident.organization_id == requester.organization_id,
+                Resident.is_active.is_(True),
+                Resident.status == "active",
+            )
+        )
+    )
+    matches = [
+        resident
+        for resident in residents
+        if re.search(
+            r"(?<![가-힣A-Za-z0-9])"
+            + re.escape(resident.display_name)
+            + r"(?=$|[\s,.!?]|어르신|님|은|는|이|가|의|께|에|을|를|에\s*관해)",
+            question,
+        )
+    ]
+    has_explicit_reference = bool(
+        matches
+        or re.search(r"(?<![가-힣A-Za-z0-9])어르\d{4}(?!\d)", question)
+    )
+    return (matches[0] if len(matches) == 1 else None), has_explicit_reference
+
+
+def _ai_help_question_resident(
+    db: Session,
+    *,
+    requester: User,
+    question: str,
+) -> Resident | None:
+    resident, _ = _ai_help_question_resident_match(
+        db,
+        requester=requester,
+        question=question,
+    )
+    return resident
+
+
+def _ai_help_member_period_messages(
+    db: Session,
+    *,
+    requester: User,
+    start_date: date,
+    end_date: date,
+    resident_id: UUID | None,
+) -> list[Message]:
+    if requester.staff_id is None:
+        return []
+    kst = timezone(timedelta(hours=9))
+    period_start = datetime.combine(start_date, time.min, tzinfo=kst).astimezone(
+        timezone.utc
+    )
+    period_end = datetime.combine(
+        end_date + timedelta(days=1), time.min, tzinfo=kst
+    ).astimezone(timezone.utc)
+    room_ids = list(
+        db.scalars(
+            select(Room.id)
+            .join(RoomMembership, RoomMembership.room_id == Room.id)
+            .where(
+                Room.organization_id == requester.organization_id,
+                Room.is_active.is_(True),
+                Room.kind.notin_(("self", "ai")),
+                RoomMembership.staff_id == requester.staff_id,
+                RoomMembership.left_at.is_(None),
+            )
+            .order_by(Room.id)
+        ).unique()
+    )
+    if not room_ids:
+        return []
+    resident_filter = (
+        or_(
+            Message.resident_id == resident_id,
+            Message.resident_links.any(
+                and_(
+                    MessageResidentLink.resident_id == resident_id,
+                    MessageResidentLink.status == "confirmed",
+                )
+            ),
+        )
+        if resident_id is not None
+        else True
+    )
+    base = (
+        Message.organization_id == requester.organization_id,
+        Message.room_id.in_(room_ids),
+        Message.lifecycle_status == "active",
+        resident_filter,
+    )
+    messages = list(
+        db.scalars(
+            select(Message)
+            .where(
+                *base,
+                Message.created_at >= period_start,
+                Message.created_at < period_end,
+            )
+            .order_by(Message.created_at, Message.id)
+        ).unique()
+    )
+    # A reply written inside the window remains evidence even when its parent
+    # message is older. This mirrors the verified record-question retrieval.
+    reply_parents = list(
+        db.scalars(
+            select(Message)
+            .join(MessageComment, MessageComment.message_id == Message.id)
+            .where(
+                *base,
+                MessageComment.created_at >= period_start,
+                MessageComment.created_at < period_end,
+            )
+            .order_by(Message.created_at, Message.id)
+        ).unique()
+    )
+    combined = {message.id: message for message in [*messages, *reply_parents]}
+    selected = sorted(
+        combined.values(), key=lambda item: (_as_utc(item.created_at), str(item.id))
+    )
+    prefetch_period_relations(db, selected)
+    return selected
+
+
+def _prepare_ai_help_record_search(
+    db: Session,
+    *,
+    requester: User,
+    source: Message,
+) -> dict[str, Any]:
+    reference = datetime.now(KST).date()
+    initial_start, end_date = _ai_help_record_window(source.body, reference)
+    resident, has_explicit_resident_reference = _ai_help_question_resident_match(
+        db,
+        requester=requester,
+        question=source.body,
+    )
+    comparison = is_multi_resident_record_search(source.body)
+    notes = [
+        f"{initial_start}~{end_date} 현재 참여 중인 일반 채팅방 기록을 확인했습니다."
+    ]
+
+    if has_explicit_resident_reference and resident is None:
+        return {
+            "facts": [],
+            "names": _record_identity_names(db, requester.organization_id),
+            "all_synthetic": False,
+            "scope_ids": set(),
+            "scope_message_count": 0,
+            "start_date": initial_start,
+            "end_date": end_date,
+            "expanded_days": None,
+            "notes": notes,
+            "truncated": False,
+            "comparison": False,
+            "comparison_candidate_count": 0,
+            "model_candidate_reduced": False,
+            "unresolved_resident_reference": True,
+            "target_resident_id": None,
+            "target_resident_label": None,
+        }
+
+    def retrieve(start_date: date) -> tuple[list[Message], dict[str, Any]]:
+        messages = _ai_help_member_period_messages(
+            db,
+            requester=requester,
+            start_date=start_date,
+            end_date=end_date,
+            resident_id=resident.id if resident is not None else None,
+        )
+        kst = timezone(timedelta(hours=9))
+        period_start = datetime.combine(start_date, time.min, tzinfo=kst).astimezone(
+            timezone.utc
+        )
+        period_end = datetime.combine(
+            end_date + timedelta(days=1), time.min, tzinfo=kst
+        ).astimezone(timezone.utc)
+        topics = build_care_topics(
+            sources=briefing_sources(db, messages),
+            period_start=period_start,
+            period_end=period_end,
+            resident_id=resident.id if resident is not None else None,
+            split_resident_text=_resident_specific_period_text,
+            include_unclassified=True,
+        )
+        return messages, plan_question(
+            source.body,
+            topics,
+            resident_id=resident.id if resident is not None else None,
+            today=reference,
+        )
+
+    start_date = initial_start
+    messages, plan = retrieve(start_date)
+    expanded_days: int | None = None
+    if (
+        resident is not None
+        and not comparison
+        and plan.get("matched_event_count", 0) == 0
+        and question_date_window(source.body, reference) is None
+        and not re.search(r"지난\s*\d{1,3}\s*일", source.body)
+    ):
+        for days in (30, 90, 180):
+            candidate_start = end_date - timedelta(days=days - 1)
+            messages, plan = retrieve(candidate_start)
+            start_date = candidate_start
+            expanded_days = days
+            if plan.get("matched_event_count", 0) > 0:
+                break
+        if start_date < initial_start:
+            notes.append(
+                f"초기 7일에 관련 기록이 없어 {start_date}~{end_date}까지 넓혀 확인했습니다."
+            )
+
+    facts = list(plan.get("facts") or [])
+    comparison_candidate_count = len(facts)
+    model_candidate_reduced = False
+    if comparison:
+        # Compare the full permission-filtered seven-day scope first. The local
+        # model receives every event that contains a recorded difference signal,
+        # rather than an arbitrary slice of the latest chat messages.
+        change_signal = re.compile(
+            r"(?:평소|이전|전날|어제).{0,40}(?:달라|다르|늘|줄|증가|감소|절반)|"
+            r"(?:달라졌|변경됨|변경함|새로\s*관찰|급격한\s*변화|식사량.{0,20}(?:줄|감소))"
+        )
+        scope_facts = list(plan.get("scope_facts") or [])
+        change_events = {
+            event_id(fact)
+            for fact in scope_facts
+            if fact.get("kind") in {"different", "conflict"}
+            or change_signal.search(str(fact.get("summary") or ""))
+        }
+        comparison_facts = [
+            fact for fact in scope_facts if event_id(fact) in change_events
+        ]
+        comparison_facts.sort(
+            key=lambda fact: (_as_utc(fact["occurred_at"]), str(fact["message_id"]))
+        )
+        if comparison_facts:
+            comparison_candidate_count = len(comparison_facts)
+            selected_comparison_facts: list[dict[str, Any]] = []
+            used_bytes = 0
+            for fact in comparison_facts:
+                size = len(str(fact["summary"]).encode("utf-8")) + 200
+                if len(selected_comparison_facts) >= 32 or used_bytes + size > 6000:
+                    model_candidate_reduced = True
+                    continue
+                selected_comparison_facts.append(fact)
+                used_bytes += size
+            facts = selected_comparison_facts
+    # The entire authorized period is searched and ranked first. Only then is
+    # the already-bounded evidence set sent to the local model.
+    scope_ids = {message.id for message in messages}
+    all_synthetic = bool(scope_ids) and all(
+        message.is_test_data is True
+        and all(comment.is_test_data is True for comment in message.comments)
+        for message in messages
+    )
+    return {
+        "facts": facts,
+        "rule_facts": list(plan.get("rule_facts") or []),
+        "names": _record_identity_names(db, requester.organization_id),
+        "all_synthetic": all_synthetic,
+        "scope_ids": scope_ids,
+        "scope_message_count": len(messages),
+        "start_date": start_date,
+        "end_date": end_date,
+        "expanded_days": expanded_days,
+        "notes": [*notes, *list(plan.get("notes") or [])],
+        "truncated": model_candidate_reduced,
+        "comparison": comparison,
+        "comparison_candidate_count": comparison_candidate_count,
+        "model_candidate_reduced": model_candidate_reduced,
+        "unresolved_resident_reference": False,
+        "target_resident_id": resident.id if resident is not None else None,
+        "target_resident_label": resident.display_name if resident is not None else None,
+    }
+
+
+def _recheck_ai_help_record_scope_access(
+    db: Session,
+    requester: User,
+    message_ids: set[UUID],
+) -> None:
+    db.expire_all()
+    if (
+        not requester.is_active
+        or requester.staff_id is None
+        or (
+            requester.staff is not None
+            and (not requester.staff.is_active or requester.staff.deleted_at is not None)
+        )
+    ):
+        raise HTTPException(status_code=403, detail="현재 기록 조회 권한을 확인할 수 없습니다.")
+    if not message_ids:
+        return
+    visible = set(
+        db.scalars(
+            select(Message.id)
+            .join(Room, Room.id == Message.room_id)
+            .join(RoomMembership, RoomMembership.room_id == Room.id)
+            .where(
+                Message.id.in_(message_ids),
+                Message.organization_id == requester.organization_id,
+                Message.lifecycle_status == "active",
+                Room.organization_id == requester.organization_id,
+                Room.is_active.is_(True),
+                Room.kind.notin_(("self", "ai")),
+                RoomMembership.staff_id == requester.staff_id,
+                RoomMembership.left_at.is_(None),
+            )
+        )
+    )
+    if visible != message_ids:
+        raise HTTPException(
+            status_code=403,
+            detail="기록 접근 권한이 변경되어 결과를 표시할 수 없습니다.",
+        )
+
+
+class _AiHelpResidentIdentity(NamedTuple):
+    resident_id: UUID | None
+    display_label: str
+    verified: bool
+
+
+def _ai_help_fact_resident_identity(
+    db: Session,
+    *,
+    requester: User,
+    fact: dict[str, Any],
+) -> _AiHelpResidentIdentity:
+    """Resolve identity and display text from current authorized links only."""
+    message_id = fact.get("message_id")
+    try:
+        message = db.get(Message, UUID(str(message_id))) if message_id else None
+    except (TypeError, ValueError):
+        message = None
+    if (
+        message is None
+        or message.organization_id != requester.organization_id
+        or message.lifecycle_status != "active"
+    ):
+        return _AiHelpResidentIdentity(None, "어르신 확인 필요", False)
+
+    def valid(resident: Resident | None) -> bool:
+        return bool(
+            resident is not None
+            and resident.organization_id == requester.organization_id
+            and resident.is_active
+            and resident.status == "active"
+        )
+
+    current_primary = current_message_resident(message)
+    confirmed = [
+        link.resident
+        for link in message.resident_links
+        if link.organization_id == requester.organization_id
+        and link.status == "confirmed"
+        and resident_link_is_current(link, message)
+        and valid(link.resident)
+    ]
+    resident_id = fact.get("resident_id")
+    try:
+        selected_id = UUID(str(resident_id)) if resident_id else None
+    except (TypeError, ValueError):
+        selected_id = None
+    if selected_id is not None:
+        selected = db.get(Resident, selected_id)
+        if not valid(selected):
+            return _AiHelpResidentIdentity(None, "어르신 확인 필요", False)
+        if (
+            valid(current_primary)
+            and current_primary.id == selected.id
+        ) or any(resident.id == selected.id for resident in confirmed):
+            return _AiHelpResidentIdentity(
+                selected.id,
+                selected.display_name,
+                True,
+            )
+        return _AiHelpResidentIdentity(None, "어르신 확인 필요", False)
+    if valid(current_primary):
+        return _AiHelpResidentIdentity(
+            current_primary.id,
+            current_primary.display_name,
+            True,
+        )
+    unique_confirmed = {resident.id: resident for resident in confirmed}
+    if len(unique_confirmed) == 1:
+        resident = next(iter(unique_confirmed.values()))
+        return _AiHelpResidentIdentity(resident.id, resident.display_name, True)
+    return _AiHelpResidentIdentity(None, "어르신 확인 필요", False)
+
+
+def _ai_help_fact_resident_label(
+    db: Session,
+    *,
+    requester: User,
+    fact: dict[str, Any],
+) -> str:
+    """Compatibility wrapper for callers that need display text only."""
+    return _ai_help_fact_resident_identity(
+        db,
+        requester=requester,
+        fact=fact,
+    ).display_label
+
+
+def _ai_help_comparison_safe_labels(
+    identities: list[_AiHelpResidentIdentity],
+) -> dict[UUID, str]:
+    """Disambiguate verified homonyms without exposing private identifiers."""
+    residents_by_label: dict[str, list[UUID]] = {}
+    for identity in identities:
+        if not identity.verified or identity.resident_id is None:
+            continue
+        resident_ids = residents_by_label.setdefault(identity.display_label, [])
+        if identity.resident_id not in resident_ids:
+            resident_ids.append(identity.resident_id)
+
+    labels: dict[UUID, str] = {}
+    for display_label, resident_ids in residents_by_label.items():
+        if len(resident_ids) == 1:
+            labels[resident_ids[0]] = display_label
+            continue
+        for index, resident_id in enumerate(
+            sorted(resident_ids, key=str),
+            1,
+        ):
+            labels[resident_id] = (
+                f"{display_label} (동명이인 확인 필요 · 항목 {index})"
+            )
+    return labels
+
+
+def _ai_help_verified_comparison_resident_ids(
+    db: Session,
+    *,
+    requester: User,
+    selected_facts: list[dict[str, Any]],
+) -> set[UUID]:
+    result: set[UUID] = set()
+    for fact in selected_facts:
+        identity = _ai_help_fact_resident_identity(
+            db,
+            requester=requester,
+            fact=fact,
+        )
+        if identity.verified and identity.resident_id is not None:
+            result.add(identity.resident_id)
+    return result
+
+
+def _ai_help_comparison_facts(
+    result: dict[str, Any],
+    facts: list[dict[str, Any]],
+    evidence_ids: list[UUID],
+    *,
+    include_event_facts: bool = False,
+) -> list[dict[str, Any]]:
+    """Keep only model-selected/focus facts; never invent an extra subject."""
+    selected = list(
+        (
+            result.get("selected_facts")
+            if include_event_facts
+            else result.get("focus_facts")
+        )
+        or result.get("selected_facts")
+        or []
+    )
+    if not selected:
+        selected = [fact for fact in facts if fact.get("message_id") in evidence_ids]
+    allowed = set(evidence_ids)
+    result_facts: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for fact in selected:
+        try:
+            message_id = UUID(str(fact.get("message_id")))
+        except (TypeError, ValueError):
+            continue
+        if message_id not in allowed:
+            continue
+        key = (
+            str(message_id),
+            str(fact.get("resident_id") or ""),
+            str(fact.get("summary") or "").strip(),
+        )
+        if not key[2] or key in seen:
+            continue
+        seen.add(key)
+        result_facts.append(fact)
+    return result_facts
+
+
+def _ai_help_comparison_answer(
+    db: Session,
+    *,
+    requester: User,
+    selected_facts: list[dict[str, Any]],
+) -> str:
+    resolved = [
+        (
+            fact,
+            _ai_help_fact_resident_identity(
+                db,
+                requester=requester,
+                fact=fact,
+            ),
+        )
+        for fact in selected_facts
+    ]
+    safe_labels = _ai_help_comparison_safe_labels(
+        [identity for _, identity in resolved]
+    )
+    grouped: dict[UUID | str, tuple[str, list[str]]] = {}
+    for fact, identity in resolved:
+        key: UUID | str = (
+            identity.resident_id
+            if identity.verified and identity.resident_id is not None
+            else "unverified"
+        )
+        label = (
+            safe_labels[identity.resident_id]
+            if identity.verified and identity.resident_id is not None
+            else identity.display_label
+        )
+        if key not in grouped:
+            grouped[key] = (label, [])
+        grouped[key][1].append(str(fact["summary"]).strip())
+    return "\n".join(
+        f"{label}\n" + "\n".join(f"- {summary}" for summary in summaries)
+        for label, summaries in grouped.values()
+    )
+
+
+def _ai_help_comparison_subject_sections(
+    db: Session,
+    *,
+    requester: User,
+    selected_facts: list[dict[str, Any]],
+) -> list[tuple[UUID | str, str, list[str]]]:
+    """Return ordered, verified subject groups used by the final answer budget."""
+    resolved = [
+        (
+            fact,
+            _ai_help_fact_resident_identity(
+                db,
+                requester=requester,
+                fact=fact,
+            ),
+        )
+        for fact in selected_facts
+    ]
+    safe_labels = _ai_help_comparison_safe_labels(
+        [identity for _, identity in resolved]
+    )
+    grouped: dict[UUID | str, tuple[str, list[str]]] = {}
+    for fact, identity in resolved:
+        key: UUID | str = (
+            identity.resident_id
+            if identity.verified and identity.resident_id is not None
+            else "unverified"
+        )
+        label = (
+            safe_labels[identity.resident_id]
+            if identity.verified and identity.resident_id is not None
+            else identity.display_label
+        )
+        summary = str(fact.get("summary") or "").strip()
+        if not summary:
+            continue
+        if key not in grouped:
+            grouped[key] = (label, [])
+        if summary not in grouped[key][1]:
+            grouped[key][1].append(summary)
+    return [
+        (key, label, summaries)
+        for key, (label, summaries) in grouped.items()
+        if summaries
+    ]
+
+
+def _truncate_ai_help_summary(text: str, limit: int) -> str:
+    """Shorten only explanatory text, preferring a complete sentence boundary."""
+    clean = text.strip()
+    if len(clean) <= limit:
+        return clean
+    if limit < 2:
+        return ""
+    candidate = clean[: limit - 1].rstrip()
+    boundary = max(candidate.rfind(mark) for mark in (".", "!", "?", "。", "！", "？"))
+    if boundary >= max(4, len(candidate) // 2):
+        candidate = candidate[: boundary + 1].rstrip()
+    candidate = candidate.rstrip(" ,;:")
+    return f"{candidate}…" if candidate else ""
+
+
+def _fit_ai_help_comparison_body(
+    *,
+    period_notice: str,
+    answer: str,
+    safety_notice: str,
+    subject_sections: list[tuple[UUID | str, str, list[str]]],
+    limit: int = 2000,
+) -> str:
+    """Fit a comparison answer without ever trimming a selected subject label."""
+    full_body = f"{period_notice}\n\n{answer}{safety_notice}"
+    if len(full_body) <= limit:
+        return full_body
+    if not subject_sections:
+        raise RuntimeError("AI 도움방 비교 답변의 대상 정보를 확인할 수 없습니다.")
+
+    prefix = f"{period_notice}\n\n"
+    suffix = safety_notice
+    minimum_summary_chars = 12
+    labels = [label for _, label, _ in subject_sections]
+    representatives = [summaries[0].strip() for _, _, summaries in subject_sections]
+    minimums = [
+        min(len(summary), minimum_summary_chars) for summary in representatives
+    ]
+    fixed_chars = (
+        len(prefix)
+        + len(suffix)
+        + max(0, len(subject_sections) - 1)
+        + sum(len(label) + len("\n- ") for label in labels)
+    )
+    if any(not summary for summary in representatives) or fixed_chars + sum(minimums) > limit:
+        raise RuntimeError(
+            "2,000자 안에 모든 대상의 핵심 내용을 안전하게 표시할 수 없습니다."
+        )
+
+    quotas = minimums[:]
+    remaining = limit - fixed_chars - sum(quotas)
+    active = [
+        index
+        for index, summary in enumerate(representatives)
+        if quotas[index] < len(summary)
+    ]
+    while remaining > 0 and active:
+        share = max(1, remaining // len(active))
+        next_active: list[int] = []
+        for index in active:
+            growth = min(len(representatives[index]) - quotas[index], share, remaining)
+            quotas[index] += growth
+            remaining -= growth
+            if quotas[index] < len(representatives[index]):
+                next_active.append(index)
+            if remaining == 0:
+                next_active.extend(item for item in active if item > index)
+                break
+        active = next_active
+
+    group_lines = [
+        [label, f"- {_truncate_ai_help_summary(summary, quota)}"]
+        for label, summary, quota in zip(labels, representatives, quotas, strict=True)
+    ]
+
+    def assembled() -> str:
+        return prefix + "\n".join("\n".join(lines) for lines in group_lines) + suffix
+
+    body = assembled()
+    if len(body) < limit:
+        maximum_extra_index = max(len(summaries) for _, _, summaries in subject_sections)
+        for extra_index in range(1, maximum_extra_index):
+            for section_index, (_, _, summaries) in enumerate(subject_sections):
+                if extra_index >= len(summaries):
+                    continue
+                available = limit - len(body) - len("\n- ")
+                if available < minimum_summary_chars:
+                    continue
+                extra = _truncate_ai_help_summary(summaries[extra_index], available)
+                if len(extra) < minimum_summary_chars and len(summaries[extra_index]) >= minimum_summary_chars:
+                    continue
+                group_lines[section_index].append(f"- {extra}")
+                body = assembled()
+
+    if len(body) > limit:
+        raise RuntimeError("AI 도움방 비교 답변의 2,000자 제한을 적용하지 못했습니다.")
+    return body
+
+
+def _require_ai_help_comparison_body_subjects(
+    *,
+    body: str,
+    subject_sections: list[tuple[UUID | str, str, list[str]]],
+) -> set[UUID | str]:
+    """Recheck the exact persisted body after all length budgeting is complete."""
+    expected = {key for key, _, _ in subject_sections}
+    label_lines = set(body.splitlines())
+    found = {
+        key for key, label, _ in subject_sections if label in label_lines
+    }
+    if len(body) > 2000 or found != expected:
+        raise RuntimeError(
+            "AI 도움방 최종 저장 답변과 검증된 모든 대상 범위가 일치하지 않습니다."
+        )
+    return found
+
+
+def _ai_help_comparison_evidence(
+    db: Session,
+    *,
+    requester: User,
+    selected_facts: list[dict[str, Any]],
+    evidence_ids: list[UUID],
+) -> list[dict[str, Any]]:
+    """Preserve each selected subject/fact while keeping its source message."""
+    source_numbers = {
+        message_id: index for index, message_id in enumerate(evidence_ids, 1)
+    }
+    resolved = [
+        (
+            fact,
+            _ai_help_fact_resident_identity(
+                db,
+                requester=requester,
+                fact=fact,
+            ),
+        )
+        for fact in selected_facts
+    ]
+    safe_labels = _ai_help_comparison_safe_labels(
+        [identity for _, identity in resolved]
+    )
+    result: list[dict[str, Any]] = []
+    seen: set[tuple[UUID, UUID | None, str]] = set()
+    for fact, identity in resolved:
+        try:
+            message_id = UUID(str(fact.get("message_id")))
+        except (TypeError, ValueError):
+            continue
+        if message_id not in source_numbers:
+            continue
+        summary = str(fact.get("summary") or "").strip()
+        if not summary:
+            continue
+        resident_id = (
+            identity.resident_id
+            if identity.verified and identity.resident_id is not None
+            else None
+        )
+        label = (
+            safe_labels[resident_id]
+            if resident_id is not None
+            else identity.display_label
+        )
+        key = (message_id, resident_id, summary)
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(
+            {
+                "source_no": source_numbers[message_id],
+                "source_type": "record",
+                "source_message_id": str(message_id),
+                "statement": f"{label} · {summary}",
+            }
+        )
+    return result
+
+
+_AI_HELP_READABLE_ATTACHMENT_STATUSES = {"completed", "reviewed", "no_text"}
+
+
+def _require_owned_ai_help_source(
+    db: Session,
+    *,
+    requester: User,
+    source: Message,
+) -> Room:
+    room = db.get(Room, source.room_id)
+    if (
+        requester.staff_id is None
+        or source.organization_id != requester.organization_id
+        or source.lifecycle_status != "active"
+        or room is None
+        or room.organization_id != requester.organization_id
+        or room.kind != "ai"
+        or not room.is_active
+        or room.owner_staff_id != requester.staff_id
+        or source.sender_id != requester.id
+        or active_membership(db, requester.id, room.id) is None
+    ):
+        raise HTTPException(
+            status_code=403,
+            detail="현재 AI 도움방 첨부에 접근할 수 없습니다.",
+        )
+    return room
+
+
+def _ai_help_attachment_facts(
+    db: Session,
+    *,
+    requester: User,
+    source: Message,
+) -> tuple[list[dict[str, Any]], list[str], bool]:
+    _require_owned_ai_help_source(db, requester=requester, source=source)
+    facts: list[dict[str, Any]] = []
+    for attachment in sorted(
+        source.attachments,
+        key=lambda item: (item.upload_ordinal, item.created_at, str(item.id)),
+    ):
+        extraction = attachment.text_extraction
+        if extraction is None or extraction.status not in _AI_HELP_READABLE_ATTACHMENT_STATUSES:
+            continue
+        text = (attachment_evidence_text(attachment) or "").strip()
+        if not text and extraction.status in {"completed", "reviewed"}:
+            # AI 도움방의 개인 첨부 설명은 공식 기록 생성 경로가 아니다.
+            # 따라서 완료된 판독 원문은 사용할 수 있지만, 이 텍스트를
+            # 일반 WorkItem/돌봄기록 근거로 승격하지 않는다.
+            text = (extraction.reviewed_text or extraction.extracted_text or "").strip()
+        if not text and extraction.status == "no_text":
+            text = "판독 가능한 글자가 확인되지 않았습니다."
+        if not text:
+            continue
+        facts.append(
+            {
+                "message_id": attachment.id,
+                "attachment_id": attachment.id,
+                "source_message_id": source.id,
+                "occurred_at": attachment.created_at,
+                "resident_id": None,
+                "resident_name": "",
+                "summary": f"첨부 {attachment.original_name}: {text}"[:4000],
+                "kind": "attachment",
+                "background": False,
+            }
+        )
+    return facts, _record_identity_names(db, requester.organization_id), bool(
+        facts and source.is_test_data
+    )
+
+
+def _recheck_ai_help_attachment_access(
+    db: Session,
+    requester: User,
+    *,
+    source_message_id: UUID,
+    attachment_ids: set[UUID],
+) -> None:
+    db.expire_all()
+    if (
+        not requester.is_active
+        or requester.staff_id is None
+        or (
+            requester.staff is not None
+            and (not requester.staff.is_active or requester.staff.deleted_at is not None)
+        )
+    ):
+        raise HTTPException(status_code=403, detail="현재 AI 도움방 첨부에 접근할 수 없습니다.")
+    source = db.get(Message, source_message_id)
+    if source is None:
+        raise HTTPException(status_code=403, detail="현재 AI 도움방 첨부에 접근할 수 없습니다.")
+    _require_owned_ai_help_source(db, requester=requester, source=source)
+    allowed_ids = {
+        attachment.id
+        for attachment in source.attachments
+        if attachment.text_extraction is not None
+        and attachment.text_extraction.status in _AI_HELP_READABLE_ATTACHMENT_STATUSES
+    }
+    if not attachment_ids or not attachment_ids <= allowed_ids:
+        raise HTTPException(status_code=403, detail="현재 AI 도움방 첨부에 접근할 수 없습니다.")
+
+
+def _ai_help_private_general_context(
+    db: Session,
+    *,
+    source: Message,
+    assistant_id: UUID,
+) -> list[dict[str, str]]:
+    messages = list(
+        db.scalars(
+            select(Message)
+            .where(
+                Message.room_id == source.room_id,
+                Message.id.notin_((source.id, assistant_id)),
+                Message.lifecycle_status == "active",
+            )
+            .order_by(Message.created_at.desc(), Message.id.desc())
+            .limit(12)
+        )
+    )
+    context: list[dict[str, str]] = []
+    for item in reversed(messages):
+        meta = (item.extra_data or {}).get("ai_help")
+        if not isinstance(meta, dict) or meta.get("question_type") != "general_guidance":
+            continue
+        if meta.get("role") == "assistant" and meta.get("status") != "completed":
+            continue
+        text = (item.body or "").strip()
+        if not text or text == "답변을 준비하고 있습니다.":
+            continue
+        context.append(
+            {
+                "role": "assistant" if meta.get("role") == "assistant" else "user",
+                "content": text[:2000],
+            }
+        )
+    return context[-6:]
+
+
+def _ai_help_failure_message(reason: str) -> str:
+    if reason == "timeout":
+        return "로컬 AI가 제한 시간 안에 답변을 마치지 못했습니다. 잠시 후 다시 시도해 주세요."
+    if reason == "busy":
+        return "다른 AI 작업이 진행 중입니다. 잠시 후 다시 시도해 주세요."
+    if reason in {"local_connection_failed", "model_metadata_unavailable"}:
+        return "로컬 AI 서버에 연결하지 못했습니다. 연결 상태를 확인한 뒤 다시 시도해 주세요."
+    return "승인된 로컬 AI가 답변을 완성하지 못했습니다. 잠시 후 다시 시도해 주세요."
+
+
+def _ai_help_evidence_fallback(result, context):
+    """Return copied, scoped evidence, never invented prose or an AI success."""
+    if result.get("answer") and result.get("evidence_ids"):
+        return result
+    relevant = list(context.get("rule_facts") or [])
+    if not relevant or context.get("unresolved_resident_reference"):
+        return result
+    selected = sorted(relevant, key=lambda fact: (_as_utc(fact["occurred_at"]), str(fact["message_id"])), reverse=True)[:6]
+    reason = result.get("fallback_reason") or "response_contract_failed"
+    notice = (
+        "AI 응답 형식을 확인하지 못해 검색된 원문 근거를 표시합니다."
+        if reason in {"question_selection_invalid", "response_contract_failed", "model_response_mismatch"}
+        else "AI 답변을 완성하지 못해 검색된 원문 근거를 표시합니다."
+    )
+    kinds = {"message": "대화 기록", "comment": "후속 답글", "attachment": "첨부 기록"}
+    lines = [notice]
+    for fact in selected:
+        day = _as_utc(fact["occurred_at"]).astimezone(KST).strftime("%Y-%m-%d")
+        lines.append(f"- {day} · {kinds.get(fact.get('source_kind'), '돌봄 기록')} · {fact.get('resident_name') or '대상 미지정'}: {fact['summary']}")
+    return {**result, "processing_method": "evidence_fallback", "model_used": None,
+            "answer": "\n".join(lines), "evidence_ids": list(dict.fromkeys(fact["message_id"] for fact in selected)),
+            "selected_facts": selected, "focus_facts": selected, "fallback_reason": reason}
+
+
+def _process_ai_help_message_sync(
+    source_message_id: UUID,
+    assistant_message_id: UUID,
+    requester_id: UUID,
+) -> tuple[UUID, set[UUID], dict[str, Any]]:
+    with SessionLocal() as db:
+        source = db.get(Message, source_message_id)
+        assistant = db.get(Message, assistant_message_id)
+        requester = db.get(User, requester_id)
+        if source is None or assistant is None or requester is None:
+            raise RuntimeError("AI 도움방 원본 또는 응답 메시지를 찾을 수 없습니다.")
+        room = db.get(Room, source.room_id)
+        if (
+            room is None
+            or room.kind != "ai"
+            or room.owner_staff_id != requester.staff_id
+            or source.sender_id != requester.id
+        ):
+            raise RuntimeError("AI 도움방 권한 경계가 일치하지 않습니다.")
+        names = _record_identity_names(db, requester.organization_id)
+        resident_names = list(
+            db.scalars(
+                select(Resident.display_name).where(
+                    Resident.organization_id == requester.organization_id,
+                    Resident.is_active.is_(True),
+                )
+            )
+        )
+        question_type = classify_ai_help_question(
+            source.body,
+            known_resident_names=resident_names,
+        )
+        source_meta = (source.extra_data or {}).get("ai_help") or {}
+        source.extra_data = {
+            "ai_help": _ai_help_payload(
+                role="user",
+                status_value=str(source_meta.get("status") or "queued"),
+                question_type=question_type,
+            )
+        }
+        assistant_meta = (assistant.extra_data or {}).get("ai_help")
+        if isinstance(assistant_meta, dict) and assistant_meta.get("status") == "cancelled":
+            payload = message_response(
+                assistant, db=db, viewer_id=requester.id
+            ).model_dump(mode="json")
+            return room.id, room_member_user_ids(db, room.id), payload
+
+        attachments = sorted(
+            source.attachments,
+            key=lambda item: (item.upload_ordinal, item.created_at, str(item.id)),
+        )
+        pending = []
+        failed = []
+        for attachment in attachments:
+            extraction = db.scalar(
+                select(AttachmentTextExtraction).where(
+                    AttachmentTextExtraction.attachment_id == attachment.id
+                )
+            )
+            if attachment.mime_type.startswith(("audio/", "image/")) or attachment.mime_type in DOCUMENT_MIME_TYPES:
+                if extraction is None or extraction.status in {"pending", "processing"}:
+                    pending.append(attachment.original_name)
+                elif extraction.status in {"failed", "unsupported"}:
+                    failed.append(attachment.original_name)
+        if pending:
+            assistant.body = "첨부 판독이 아직 끝나지 않았습니다. 완료 후 다시 질문해 주세요."
+            assistant.extra_data = {
+                "ai_help": _ai_help_payload(
+                    role="assistant",
+                    status_value="failed",
+                    source_message_id=source.id,
+                    question_type=question_type,
+                    error_message="첨부 OCR·STT 처리가 준비되지 않았습니다.",
+                )
+            }
+            db.commit()
+        elif failed:
+            assistant.body = (
+                "첨부 판독에 실패하여 해당 파일의 내용을 읽지 않았습니다. "
+                "파일을 확인한 뒤 다시 첨부하거나 판독을 재시도해 주세요."
+            )
+            assistant.extra_data = {
+                "ai_help": _ai_help_payload(
+                    role="assistant",
+                    status_value="failed",
+                    source_message_id=source.id,
+                    question_type=question_type,
+                    error_message="첨부 OCR·STT 판독에 실패했습니다.",
+                )
+            }
+            db.commit()
+        else:
+            assistant.extra_data = {
+                "ai_help": _ai_help_payload(
+                    role="assistant",
+                    status_value="preparing",
+                    source_message_id=source.id,
+                    question_type=question_type,
+                )
+            }
+            db.commit()
+            if question_type == "clarification":
+                assistant.body = "무엇을 알고 싶으신지 한 문장으로 조금 더 구체적으로 알려주세요."
+                assistant.extra_data = {
+                    "ai_help": _ai_help_payload(
+                        role="assistant",
+                        status_value="completed",
+                        source_message_id=source.id,
+                        question_type=question_type,
+                        processing_location="rules",
+                    )
+                }
+                db.commit()
+                db.refresh(assistant)
+                payload = message_response(assistant, db=db, viewer_id=requester.id).model_dump(mode="json")
+                return room.id, room_member_user_ids(db, room.id), payload
+
+            facts: list[dict[str, Any]] = []
+            record_context: dict[str, Any] | None = None
+            if question_type == "general_guidance":
+                result = run_general_help_model(
+                    question=source.body,
+                    conversation=_ai_help_private_general_context(
+                        db,
+                        source=source,
+                        assistant_id=assistant.id,
+                    ),
+                    names=names,
+                )
+            elif question_type == "attachment_guidance":
+                facts, names, all_synthetic = _ai_help_attachment_facts(
+                    db,
+                    requester=requester,
+                    source=source,
+                )
+                result = run_record_model(
+                    feature="care_record_question",
+                    question=source.body,
+                    facts=facts,
+                    names=names,
+                    all_synthetic=all_synthetic,
+                    semantic_selection=True,
+                )
+            else:
+                record_context = _prepare_ai_help_record_search(
+                    db,
+                    requester=requester,
+                    source=source,
+                )
+                facts = record_context["facts"]
+                names = record_context["names"]
+                all_synthetic = record_context["all_synthetic"]
+                if record_context.get("unresolved_resident_reference"):
+                    result = {
+                        "processing_method": "rules",
+                        "model_used": None,
+                        "answer": "",
+                        "evidence_ids": [],
+                        "fallback_reason": "resident_reference_not_found",
+                    }
+                else:
+                    _recheck_ai_help_record_scope_access(
+                        db,
+                        requester,
+                        record_context["scope_ids"],
+                    )
+                    result = run_record_model(
+                        feature="care_record_question",
+                        question=source.body,
+                        facts=facts,
+                        names=names,
+                        all_synthetic=all_synthetic,
+                        semantic_selection=True,
+                        force_resident_labels=record_context["comparison"],
+                    )
+                    result = _ai_help_evidence_fallback(result, record_context)
+            db.refresh(assistant)
+            current_meta = (assistant.extra_data or {}).get("ai_help") or {}
+            if current_meta.get("status") == "cancelled":
+                payload = message_response(
+                    assistant, db=db, viewer_id=requester.id
+                ).model_dump(mode="json")
+                return room.id, room_member_user_ids(db, room.id), payload
+
+            local_method = result.get("processing_method") in {
+                "local_ai",
+                "fallback_model",
+            }
+            answer = str(result.get("answer") or "").strip()
+            evidence_ids = (
+                list(
+                    dict.fromkeys(
+                        UUID(str(identifier))
+                        for identifier in result.get("evidence_ids") or []
+                    )
+                )
+                if question_type in {"record_search", "attachment_guidance"}
+                else []
+            )
+            if question_type == "general_guidance" and local_method and answer:
+                assistant.body = apply_general_guidance_boundaries(source.body, answer)[:2000]
+                status_value = "completed"
+                error_message = None
+                evidence = []
+            elif question_type == "record_search" and (local_method or result.get("processing_method") == "evidence_fallback") and answer and evidence_ids:
+                if record_context is None:
+                    raise RuntimeError("AI 도움방 기록검색 범위를 확인할 수 없습니다.")
+                _recheck_ai_help_record_scope_access(
+                    db,
+                    requester,
+                    record_context["scope_ids"],
+                )
+                fact_by_id = {fact["message_id"]: fact for fact in facts}
+                target_resident_id = record_context.get("target_resident_id")
+                target_resident_label = record_context.get("target_resident_label")
+                if target_resident_id is not None:
+                    target_resident_id = UUID(str(target_resident_id))
+                    verified_by_message: dict[UUID, dict[str, Any]] = {}
+                    for fact in facts:
+                        message_id = UUID(str(fact["message_id"]))
+                        if message_id not in evidence_ids:
+                            continue
+                        identity = _ai_help_fact_resident_identity(
+                            db,
+                            requester=requester,
+                            fact=fact,
+                        )
+                        if (
+                            not identity.verified
+                            or identity.resident_id != target_resident_id
+                        ):
+                            raise RuntimeError(
+                                "AI 도움방 특정 어르신 답변과 근거의 대상이 일치하지 않습니다."
+                            )
+                        verified_by_message.setdefault(message_id, fact)
+                    if set(verified_by_message) != set(evidence_ids):
+                        raise RuntimeError(
+                            "AI 도움방 특정 어르신 답변의 근거를 확인할 수 없습니다."
+                        )
+                    fact_by_id = verified_by_message
+                    other_labels = list(
+                        db.scalars(
+                            select(Resident.display_name).where(
+                                Resident.organization_id == requester.organization_id,
+                                Resident.id != target_resident_id,
+                                Resident.is_active.is_(True),
+                                Resident.status == "active",
+                            )
+                        )
+                    )
+                    if any(label and label in answer for label in other_labels):
+                        raise RuntimeError(
+                            "AI 도움방 특정 어르신 답변에 다른 대상이 포함됐습니다."
+                        )
+                    if not target_resident_label:
+                        raise RuntimeError(
+                            "AI 도움방 특정 어르신 표시 이름을 확인할 수 없습니다."
+                        )
+                    answer = f"{target_resident_label}\n{answer}"
+                comparison_facts: list[dict[str, Any]] = []
+                comparison_subject_sections: list[
+                    tuple[UUID | str, str, list[str]]
+                ] = []
+                if record_context.get("comparison"):
+                    comparison_facts = _ai_help_comparison_facts(
+                        result,
+                        facts,
+                        evidence_ids,
+                    )
+                    comparison_answer = _ai_help_comparison_answer(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_facts,
+                    )
+                    if comparison_answer:
+                        answer = comparison_answer
+                    comparison_subject_sections = _ai_help_comparison_subject_sections(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_facts,
+                    )
+                comparison_evidence_facts: list[dict[str, Any]] = []
+                if record_context.get("comparison"):
+                    comparison_evidence_facts = _ai_help_comparison_facts(
+                        result,
+                        facts,
+                        evidence_ids,
+                        include_event_facts=True,
+                    )
+                    answer_resident_ids = _ai_help_verified_comparison_resident_ids(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_facts,
+                    )
+                    evidence_resident_ids = _ai_help_verified_comparison_resident_ids(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_evidence_facts,
+                    )
+                    evidence_subject_sections = _ai_help_comparison_subject_sections(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_evidence_facts,
+                    )
+                    answer_subject_keys = {
+                        key for key, _, _ in comparison_subject_sections
+                    }
+                    evidence_subject_keys = {
+                        key for key, _, _ in evidence_subject_sections
+                    }
+                    if (
+                        answer_resident_ids != evidence_resident_ids
+                        or answer_subject_keys != evidence_subject_keys
+                    ):
+                        raise RuntimeError(
+                            "AI 도움방 비교 답변과 근거의 대상 범위가 일치하지 않습니다."
+                        )
+                evidence = (
+                    _ai_help_comparison_evidence(
+                        db,
+                        requester=requester,
+                        selected_facts=comparison_evidence_facts,
+                        evidence_ids=evidence_ids,
+                    )
+                    if record_context.get("comparison")
+                    else [
+                        {
+                            "source_no": index,
+                            "source_type": "record",
+                            "source_message_id": str(identifier),
+                            "statement": (
+                                f"{target_resident_label} · "
+                                f"{fact_by_id[identifier]['summary']}"
+                                if target_resident_id is not None
+                                else fact_by_id[identifier]["summary"]
+                            ),
+                        }
+                        for index, identifier in enumerate(evidence_ids, 1)
+                        if identifier in fact_by_id
+                    ]
+                )
+                period_notice = (
+                    f"{record_context['start_date']}~{record_context['end_date']} "
+                    "현재 참여 중인 일반 채팅방 기록을 확인했습니다."
+                )
+                if record_context.get("expanded_days"):
+                    period_notice = (
+                        "최근 7일에 관련 기록이 없어 "
+                        f"{record_context['start_date']}~{record_context['end_date']}까지 "
+                        "조회 범위를 넓혔습니다."
+                    )
+                safety_notice = ""
+                if re.search(r"우리\s*(?:기관|시설)|기관\s*전체", source.body):
+                    safety_notice = "\n\n권한 범위의 기록에 나타난 돌봄 특성입니다. 기관 간 우열이나 절대적인 수행 능력 평가가 아닙니다."
+                if record_context.get("comparison"):
+                    safety_notice = (
+                        "\n\n이는 해당 기간에 기록된 변화 표현을 정리한 것이며, "
+                        "의료적 상태 악화·진단·위험평가를 확정하지 않습니다."
+                    )
+                    if record_context.get("model_candidate_reduced"):
+                        safety_notice += (
+                            " 변화 기록 후보가 모델 입력 범위를 넘어 일부 근거만 정리했으므로 "
+                            "누가 가장 급격히 변했다고 단정하지 않습니다."
+                        )
+                if record_context.get("comparison"):
+                    assistant.body = _fit_ai_help_comparison_body(
+                        period_notice=period_notice,
+                        answer=answer,
+                        safety_notice=safety_notice,
+                        subject_sections=comparison_subject_sections,
+                    )
+                    persisted_subject_keys = _require_ai_help_comparison_body_subjects(
+                        body=assistant.body,
+                        subject_sections=comparison_subject_sections,
+                    )
+                    persisted_resident_ids = {
+                        key for key in persisted_subject_keys if isinstance(key, UUID)
+                    }
+                    if (
+                        persisted_resident_ids != answer_resident_ids
+                        or persisted_resident_ids != evidence_resident_ids
+                    ):
+                        raise RuntimeError(
+                            "AI 도움방 최종 저장 답변과 근거의 대상 범위가 일치하지 않습니다."
+                        )
+                else:
+                    assistant.body = f"{period_notice}\n\n{answer}{safety_notice}"[:2000]
+                status_value = "completed"
+                error_message = None
+            elif question_type == "attachment_guidance" and local_method and answer and evidence_ids:
+                _recheck_ai_help_attachment_access(
+                    db,
+                    requester,
+                    source_message_id=source.id,
+                    attachment_ids=set(evidence_ids),
+                )
+                fact_by_id = {fact["message_id"]: fact for fact in facts}
+                evidence = [
+                    {
+                        "source_no": index,
+                        "source_type": "attachment",
+                        "attachment_id": str(identifier),
+                        "statement": fact_by_id[identifier]["summary"],
+                    }
+                    for index, identifier in enumerate(evidence_ids, 1)
+                    if identifier in fact_by_id
+                ]
+                assistant.body = answer[:2000]
+                status_value = "completed"
+                error_message = None
+            else:
+                reason = str(result.get("fallback_reason") or "no_relevant_records")
+                if question_type == "record_search" and reason == "resident_reference_not_found":
+                    if record_context is None:
+                        raise RuntimeError("AI 도움방 기록검색 범위를 확인할 수 없습니다.")
+                    assistant.body = (
+                        f"{record_context['start_date']}~{record_context['end_date']} "
+                        "현재 조직에서 확인 가능한 어르신을 찾지 못했습니다. "
+                        "어르신 표시 이름이나 코드를 확인해 주세요."
+                    )
+                    status_value = "completed"
+                    error_message = None
+                elif question_type == "record_search" and reason in {
+                    "no_relevant_records",
+                }:
+                    if record_context is None:
+                        raise RuntimeError("AI 도움방 기록검색 범위를 확인할 수 없습니다.")
+                    _recheck_ai_help_record_scope_access(
+                        db,
+                        requester,
+                        record_context["scope_ids"],
+                    )
+                    assistant.body = (
+                        f"{record_context['start_date']}~{record_context['end_date']} "
+                        "현재 참여 중인 일반 채팅방 기록을 확인했지만 관련 내용을 찾지 못했습니다."
+                    )
+                    status_value = "completed"
+                    error_message = None
+                else:
+                    assistant.body = _ai_help_failure_message(reason)
+                    status_value = "failed"
+                    error_message = reason
+                evidence = []
+            assistant.extra_data = {
+                "ai_help": _ai_help_payload(
+                    role="assistant",
+                    status_value=status_value,
+                    source_message_id=source.id,
+                    question_type=question_type,
+                    provider="ollama" if local_method else None,
+                    model=result.get("model_used"),
+                    processing_location="local" if local_method else "rules" if result.get("processing_method") == "evidence_fallback" else None,
+                    external_transmission=False,
+                    evidence=evidence,
+                    error_message=error_message,
+                )
+            }
+            db.commit()
+        db.refresh(assistant)
+        payload = message_response(assistant, db=db, viewer_id=requester.id).model_dump(mode="json")
+        return room.id, room_member_user_ids(db, room.id), payload
+
+
+async def process_ai_help_message_background(
+    source_message_id: UUID,
+    assistant_message_id: UUID,
+    requester_id: UUID,
+) -> None:
+    try:
+        room_id, member_ids, payload = await asyncio.to_thread(
+            _process_ai_help_message_sync,
+            source_message_id,
+            assistant_message_id,
+            requester_id,
+        )
+    except Exception:
+        logger.exception("AI help room background processing failed")
+        with SessionLocal() as db:
+            assistant = db.get(Message, assistant_message_id)
+            if assistant is None:
+                return
+            meta = (assistant.extra_data or {}).get("ai_help") or {}
+            assistant.body = "AI 답변을 완료하지 못했습니다. 잠시 후 다시 시도해 주세요."
+            assistant.extra_data = {
+                "ai_help": _ai_help_payload(
+                    role="assistant",
+                    status_value="failed",
+                    source_message_id=source_message_id,
+                    turn_id=UUID(meta["turn_id"]) if meta.get("turn_id") else None,
+                    error_message="AI 도움 작업이 안전하게 종료되었습니다.",
+                )
+            }
+            db.commit()
+            db.refresh(assistant)
+            room_id = assistant.room_id
+            member_ids = room_member_user_ids(db, room_id)
+            payload = message_response(assistant, db=db).model_dump(mode="json")
+    await manager.send_to_users(
+        member_ids,
+        {"event": "message_updated", "message": payload},
+    )
+
+
+def _owned_ai_help_assistant(
+    db: Session,
+    *,
+    user: User,
+    message_id: UUID,
+) -> tuple[Room, Message, dict[str, Any]]:
+    message = db.get(Message, message_id)
+    if message is None or message.organization_id != user.organization_id:
+        raise HTTPException(status_code=404, detail="AI 답변을 찾을 수 없습니다.")
+    room = db.get(Room, message.room_id)
+    meta = (message.extra_data or {}).get("ai_help")
+    if (
+        room is None
+        or room.kind != "ai"
+        or room.owner_staff_id != user.staff_id
+        or active_membership(db, user.id, room.id) is None
+        or not isinstance(meta, dict)
+        or meta.get("role") != "assistant"
+    ):
+        raise HTTPException(status_code=404, detail="AI 답변을 찾을 수 없습니다.")
+    return room, message, meta
+
+
+@app.post("/api/ai-help/messages/{message_id}/cancel", response_model=MessageResponse)
+async def cancel_ai_help_message(
+    message_id: UUID,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    room, message, meta = _owned_ai_help_assistant(
+        db, user=user, message_id=message_id
+    )
+    if meta.get("status") not in {
+        "queued", "preparing", "extracting", "reasoning", "validating"
+    }:
+        raise HTTPException(status_code=409, detail="처리 중인 AI 질문만 취소할 수 있습니다.")
+    turn_id = UUID(meta["turn_id"]) if meta.get("turn_id") else None
+    if turn_id is not None:
+        try:
+            cancel_ai_turn(db, user, turn_id)
+        except HTTPException as exc:
+            if exc.status_code != 409:
+                raise
+    message.body = "AI 답변 요청을 취소했습니다."
+    message.extra_data = {
+        "ai_help": _ai_help_payload(
+            role="assistant",
+            status_value="cancelled",
+            source_message_id=UUID(meta["source_message_id"]),
+            turn_id=turn_id,
+        )
+    }
+    db.commit()
+    db.refresh(message)
+    response_payload = message_response(message, db=db, viewer_id=user.id)
+    await manager.send_to_users(
+        room_member_user_ids(db, room.id),
+        {"event": "message_updated", "message": response_payload.model_dump(mode="json")},
+    )
+    return response_payload
+
+
+@app.post("/api/ai-help/messages/{message_id}/retry", response_model=MessageResponse)
+async def retry_ai_help_message(
+    message_id: UUID,
+    background_tasks: BackgroundTasks,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    room, message, meta = _owned_ai_help_assistant(
+        db, user=user, message_id=message_id
+    )
+    if meta.get("status") not in {"failed", "cancelled"}:
+        raise HTTPException(status_code=409, detail="실패하거나 취소한 AI 질문만 재시도할 수 있습니다.")
+    source_message_id = UUID(meta["source_message_id"])
+    source = db.get(Message, source_message_id)
+    if source is None or source.lifecycle_status != "active":
+        raise HTTPException(status_code=409, detail="원본 질문이 없어 재시도할 수 없습니다.")
+    message.body = "답변을 다시 준비하고 있습니다."
+    message.extra_data = {
+        "ai_help": _ai_help_payload(
+            role="assistant",
+            status_value="queued",
+            source_message_id=source_message_id,
+        )
+    }
+    db.commit()
+    db.refresh(message)
+    background_tasks.add_task(
+        process_ai_help_message_background,
+        source_message_id,
+        message.id,
+        user.id,
+    )
+    response_payload = message_response(message, db=db, viewer_id=user.id)
+    await manager.send_to_users(
+        room_member_user_ids(db, room.id),
+        {"event": "message_updated", "message": response_payload.model_dump(mode="json")},
+    )
+    return response_payload
+
+
 @app.post(
     "/api/rooms/{room_id}/messages", response_model=MessageResponse, status_code=201
 )
@@ -13529,6 +15641,56 @@ async def send_message(
     room = db.get(Room, room_id)
     if room is None or not room.is_active:
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
+    if room.kind == "ai":
+        if (
+            payload.message_type != "chat"
+            or payload.resident_id is not None
+            or payload.resident_ids
+            or payload.resident_ref is not None
+            or payload.reply_to_message_id is not None
+            or payload.action is not None
+        ):
+            raise HTTPException(
+                status_code=422,
+                detail="MESIL AI 도움방에는 일반 질문만 보낼 수 있습니다.",
+            )
+        user_message, assistant_message, created = _create_ai_help_message_pair(
+            db,
+            user=user,
+            room=room,
+            body=payload.body,
+            client_request_id=payload.client_request_id,
+        )
+        if created:
+            db.commit()
+            db.refresh(user_message)
+            db.refresh(assistant_message)
+            background_tasks.add_task(
+                process_ai_help_message_background,
+                user_message.id,
+                assistant_message.id,
+                user.id,
+            )
+            member_ids = room_member_user_ids(db, room.id)
+            await manager.send_to_users(
+                member_ids,
+                {
+                    "event": "message_created",
+                    "message": message_response(
+                        user_message, db=db, viewer_id=user.id
+                    ).model_dump(mode="json"),
+                },
+            )
+            await manager.send_to_users(
+                member_ids,
+                {
+                    "event": "message_created",
+                    "message": message_response(
+                        assistant_message, db=db, viewer_id=user.id
+                    ).model_dump(mode="json"),
+                },
+            )
+        return message_response(user_message, db=db, viewer_id=user.id)
     interaction_is_test_data = _interaction_is_test_data(user, room=room)
     reply_snapshot = _reply_snapshot_for_room(
         db,
@@ -13658,6 +15820,7 @@ async def send_message_with_files(
     action_priority: Annotated[str, Form()] = "normal",
     action_due_at: Annotated[datetime | None, Form()] = None,
     report_image: Annotated[bool, Form()] = False,
+    client_request_id: Annotated[UUID | None, Form()] = None,
     files: Annotated[list[UploadFile], File()] = [],
     photos: Annotated[list[UploadFile], File()] = [],
     user: User = Depends(get_current_user),
@@ -13691,6 +15854,100 @@ async def send_message_with_files(
     room = db.get(Room, room_id)
     if room is None or not room.is_active:
         raise HTTPException(status_code=404, detail="채팅방을 찾을 수 없습니다.")
+    if room.kind == "ai":
+        if (
+            message_type != "chat"
+            or resident_id is not None
+            or resident_ids
+            or reply_to_message_id is not None
+            or action_type is not None
+        ):
+            raise HTTPException(
+                status_code=422,
+                detail="MESIL AI 도움방에는 일반 질문과 첨부만 보낼 수 있습니다.",
+            )
+        normalized_body = body.strip() or "첨부 내용을 확인해 주세요."
+        user_message, assistant_message, created = _create_ai_help_message_pair(
+            db,
+            user=user,
+            room=room,
+            body=normalized_body,
+            client_request_id=client_request_id,
+        )
+        if not created:
+            return message_response(user_message, db=db, viewer_id=user.id)
+        stored_paths: list[Path] = []
+        stored_total_bytes = 0
+        extraction_attachments: list[tuple[UUID, str]] = []
+        try:
+            for upload_ordinal, upload in enumerate(uploads):
+                attachment, stored_path = await _store_attachment(
+                    db,
+                    upload=upload,
+                    upload_ordinal=upload_ordinal,
+                    message=user_message,
+                    user=user,
+                )
+                stored_paths.append(stored_path)
+                stored_total_bytes += attachment.size_bytes
+                if stored_total_bytes > settings.max_attachments_total_bytes:
+                    raise HTTPException(
+                        status_code=413,
+                        detail=(
+                            "한 메시지의 파일 전체 용량은 "
+                            f"{settings.max_attachments_total_bytes // (1024 * 1024)}MB 이하이어야 합니다."
+                        ),
+                    )
+                if (
+                    attachment.mime_type in IMAGE_MIME_TYPES
+                    or (stt_runtime_enabled() and attachment.mime_type in AUDIO_MIME_TYPES)
+                    or attachment.mime_type in DOCUMENT_MIME_TYPES
+                ):
+                    _queue_attachment_text_extraction(
+                        db,
+                        attachment=attachment,
+                        requested_by=user,
+                    )
+                    extraction_attachments.append((attachment.id, attachment.mime_type))
+            db.commit()
+        except Exception:
+            db.rollback()
+            for stored_path in stored_paths:
+                stored_path.unlink(missing_ok=True)
+            raise
+        db.refresh(user_message)
+        db.refresh(assistant_message)
+        if extraction_attachments:
+            background_tasks.add_task(
+                _run_new_attachment_processing_batch,
+                extraction_attachments,
+            )
+        background_tasks.add_task(
+            process_ai_help_message_background,
+            user_message.id,
+            assistant_message.id,
+            user.id,
+        )
+        member_ids = room_member_user_ids(db, room.id)
+        await manager.send_to_users(
+            member_ids,
+            {
+                "event": "message_created",
+                "message": message_response(
+                    user_message, db=db, viewer_id=user.id
+                ).model_dump(mode="json"),
+            },
+        )
+        await manager.send_to_users(
+            member_ids,
+            {
+                "event": "message_created",
+                "message": message_response(
+                    assistant_message, db=db, viewer_id=user.id
+                ).model_dump(mode="json"),
+            },
+        )
+        return message_response(user_message, db=db, viewer_id=user.id)
     interaction_is_test_data = _interaction_is_test_data(user, room=room)
     reply_snapshot = _reply_snapshot_for_room(
         db,
@@ -13815,7 +16072,7 @@ async def send_message_with_files(
                 and report_image
             )
             should_transcribe_audio = (
-                settings.stt_enabled and attachment.mime_type in AUDIO_MIME_TYPES
+                stt_runtime_enabled() and attachment.mime_type in AUDIO_MIME_TYPES
             )
             if should_extract_image or should_transcribe_audio or attachment.mime_type in DOCUMENT_MIME_TYPES:
                 _queue_attachment_text_extraction(
@@ -13953,7 +16210,7 @@ async def forward_message(
         target_ids = {
             room_id
             for room_id, room in allowed_rooms.items()
-            if room_id != source_message.room_id and room.kind != "self"
+            if room_id != source_message.room_id and room.kind not in {"self", "ai"}
         }
     else:
         target_ids = set(payload.room_ids)
@@ -13963,6 +16220,11 @@ async def forward_message(
             raise HTTPException(
                 status_code=403,
                 detail="참여하지 않은 채팅방에는 전달할 수 없습니다.",
+            )
+        if any(allowed_rooms[room_id].kind == "ai" for room_id in target_ids):
+            raise HTTPException(
+                status_code=422,
+                detail="MESIL AI 도움방에는 메시지를 전달할 수 없습니다.",
             )
     if not target_ids:
         raise HTTPException(
@@ -15432,11 +17694,8 @@ def retry_attachment_text_extraction(
             status_code=422,
             detail="이미지 글자 판독과 음성파일 받아쓰기만 지원합니다.",
         )
-    if attachment.mime_type in AUDIO_MIME_TYPES and not settings.stt_enabled:
-        raise HTTPException(
-            status_code=503,
-            detail="로컬 음성 판독 기능이 꺼져 있습니다.",
-        )
+    if attachment.mime_type in AUDIO_MIME_TYPES:
+        _require_stt_ready()
     if attachment.text_extraction is not None and attachment.text_extraction.status in {
         "pending",
         "processing",
@@ -15516,6 +17775,14 @@ def get_staff_review_context(attachment_id: UUID, editor: User = Depends(get_cur
     }
 
 
+def _saved_audio_transcript(extraction) -> str:
+    """Only persisted staff review is an input; the original stays immutable."""
+    reviewed = getattr(extraction, "reviewed_text", None)
+    if reviewed is not None:
+        return reviewed
+    return extraction.original_extracted_text or extraction.extracted_text or ""
+
+
 @app.get(
     "/api/attachments/{image_attachment_id}/voice-correction-comparison",
     response_model=HandwritingVoiceCorrectionResponse,
@@ -15563,11 +17830,7 @@ def get_handwriting_voice_correction_comparison(
         or image_extraction.extracted_text
         or ""
     )
-    transcript = (
-        audio_extraction.original_extracted_text
-        or audio_extraction.extracted_text
-        or ""
-    )
+    transcript = _saved_audio_transcript(audio_extraction)
     try:
         comparison = build_handwriting_voice_comparison(
             initial_ocr=initial_ocr,
@@ -15590,6 +17853,11 @@ def get_handwriting_voice_correction_comparison(
         )
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
+    comparison["transcript_provenance"] = {
+        "original_text": audio_extraction.original_extracted_text or audio_extraction.extracted_text or "",
+        "staff_reviewed": audio_extraction.reviewed_text is not None,
+        "audio_attachment_id": str(audio_attachment.id),
+    }
     return HandwritingVoiceCorrectionResponse.model_validate(comparison)
 
 
@@ -15615,11 +17883,7 @@ async def create_handwriting_voice_correction_recording(
     )
     if image_attachment.mime_type not in IMAGE_MIME_TYPES:
         raise HTTPException(status_code=422, detail="손글씨 이미지 파일을 선택해 주세요.")
-    if not settings.stt_enabled:
-        raise HTTPException(
-            status_code=503,
-            detail="내부 음성 받아쓰기 기능이 꺼져 있습니다.",
-        )
+    _require_stt_ready()
     if (file.content_type or "").lower() not in AUDIO_MIME_TYPES:
         raise HTTPException(
             status_code=422,
@@ -15670,6 +17934,46 @@ async def create_handwriting_voice_correction_recording(
     response_payload = attachment_response(recording, db=db, viewer_id=editor.id)
     background_tasks.add_task(_run_attachment_text_extraction, recording.id)
     return response_payload
+
+
+@app.delete(
+    "/api/attachments/{audio_attachment_id}/voice-correction-recording",
+    status_code=204,
+)
+def delete_unapproved_handwriting_voice_recording(
+    audio_attachment_id: UUID,
+    editor: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Remove only an unapproved recording created inside this correction workspace."""
+
+    attachment = _attachment_for_text_editor(db, editor, audio_attachment_id)
+    if attachment.uploader_id != editor.id:
+        raise HTTPException(status_code=403, detail="본인이 추가한 미승인 음성만 제거할 수 있습니다.")
+    if attachment.mime_type not in AUDIO_MIME_TYPES:
+        raise HTTPException(status_code=422, detail="교정 작업공간에 추가한 음성만 제거할 수 있습니다.")
+    from .correction_recordings import REMOVED_RECORDING, removal_state
+    db.refresh(attachment, with_for_update=True)
+    state = removal_state(db, attachment, editor.id)
+    if not state["can_remove"]:
+        raise HTTPException(status_code=409, detail=state["reason"])
+    record_audit(
+        db,
+        actor_id=editor.id,
+        action="handwriting_correction.recording_removed",
+        target_type="attachment",
+        target_id=attachment.id,
+        details={
+            "message_id": str(attachment.message_id),
+            "approved_evidence": False,
+            "original_message_attachment": False,
+            "file_and_automatic_history_retained": True,
+        },
+    )
+    attachment.entity_type = REMOVED_RECORDING
+    db.commit()
+    db.expire_all()
+    return Response(status_code=204)
 
 
 @app.get("/api/attachments/{image_attachment_id}/voice-correction-readiness")
@@ -15884,11 +18188,7 @@ def create_handwriting_correction_approval(
                 status_code=409,
                 detail="음성 받아쓰기가 끝난 뒤 승인할 수 있습니다.",
             )
-        audio_text = (
-            audio_extraction.original_extracted_text
-            or audio_extraction.extracted_text
-            or ""
-        ).strip()
+        audio_text = _saved_audio_transcript(audio_extraction).strip()
         try:
             comparison = build_handwriting_voice_comparison(
                 initial_ocr=initial_ocr,
@@ -15926,6 +18226,14 @@ def create_handwriting_correction_approval(
             "blocked_field_count": comparison["summary"]["blocked_field_count"],
             "source": "internal_evidence_comparison",
         }
+        if comparison.get("review_items"):
+            try:
+                confidence_state["conflict_resolutions"] = validate_review_resolutions(
+                    comparison["review_items"], payload.conflict_resolutions,
+                )
+            except ValueError as exc:
+                raise HTTPException(status_code=409, detail=str(exc)) from exc
+            confidence_state["review_items"] = comparison["review_items"]
         evidence_refs.append(f"attachment:{audio_attachment.id}")
 
     whole_document_proposal = (ai_suggestion or initial_ocr).strip()
@@ -16622,7 +18930,10 @@ def list_room_digests(
     db: Session = Depends(get_db),
 ):
     period_start, period_end = _digest_period(period, anchor)
-    room_query = select(Room).where(Room.organization_id == processor.organization_id)
+    room_query = select(Room).where(
+        Room.organization_id == processor.organization_id,
+        Room.kind != "ai",
+    )
     if processor.role != "admin":
         if processor.staff_id is None:
             return []
@@ -18291,6 +20602,7 @@ def create_period_workdesk_review(
     room_query = select(Room).where(
         Room.organization_id == processor.organization_id,
         Room.is_active.is_(True),
+        Room.kind != "ai",
     )
     if processor.role != "admin":
         if processor.staff_id is None:
@@ -19580,6 +21892,10 @@ def _recheck_record_text_access(db: Session, user: User, message_ids: set[UUID],
     if processor_required:
         _require_processor(user)
     query = select(Message.id).join(Room, Room.id == Message.room_id).where(Message.id.in_(message_ids), Message.organization_id == user.organization_id, Message.lifecycle_status == "active", Room.organization_id == user.organization_id, Room.is_active.is_(True))
+    # Explicit member-room search can summarize its own AI-room conversation.
+    # Care-record retrieval still excludes AI conversations as source records.
+    if not require_membership:
+        query = query.where(Room.kind != "ai")
     if require_membership or user.role != "admin":
         query = query.join(RoomMembership, RoomMembership.room_id == Room.id).where(RoomMembership.staff_id == user.staff_id, RoomMembership.left_at.is_(None))
     if getattr(user, "_reviewer_experience", None) is not None:
@@ -19594,14 +21910,45 @@ def _prepare_care_record_question(
     db: Session = Depends(get_db),
 ):
     resolved_name = None
-    if payload.resident_id is None:
-        roster = list_residents_for_workdesk(processor=processor, db=db)
-        matches = [resident for resident in roster if re.search(r"(?<![가-힣A-Za-z0-9])" + re.escape(resident.display_name) + r"(?=$|[\s,.!?]|어르신|님|은|는|이|가|의|께|에|을|를)", payload.question)]
-        if len(matches) > 1 and not (is_aggregate_question(payload.question) and len({resident.display_name for resident in matches}) == len(matches)):
-            return {"clarification": True, "payload": payload}
-        if len(matches) == 1:
-            payload = payload.model_copy(update={"resident_id": matches[0].id})
-            resolved_name = matches[0].display_name
+    roster = list_residents_for_workdesk(processor=processor, db=db)
+    roster_by_id = {resident.id: resident for resident in roster}
+    matches = [
+        resident
+        for resident in roster
+        if re.search(
+            r"(?<![가-힣A-Za-z0-9])"
+            + re.escape(resident.display_name)
+            + r"(?=$|[\s,.!?]|어르신|님|은|는|이|가|의|께|에|을|를|와|과)",
+            payload.question,
+        )
+    ]
+    asks_all_residents = bool(
+        re.search(r"(?:전체|모든\s*어르신|우리\s*(?:기관|시설)|어르신들)", payload.question)
+    )
+    if asks_all_residents or len(matches) > 1:
+        payload = payload.model_copy(update={"resident_id": None})
+    elif len(matches) == 1:
+        payload = payload.model_copy(update={"resident_id": matches[0].id})
+        resolved_name = matches[0].display_name
+    elif re.search(r"어르\d+", payload.question):
+        raise HTTPException(status_code=403, detail="질문에 지정한 어르신의 기록을 조회할 수 없습니다.")
+    elif payload.resident_id is not None:
+        selected = roster_by_id.get(payload.resident_id)
+        if selected is None:
+            raise HTTPException(
+                status_code=403,
+                detail="현재 선택한 어르신의 기록을 조회할 수 없습니다.",
+            )
+        resolved_name = selected.display_name
+    elif payload.default_resident_id is not None:
+        selected = roster_by_id.get(payload.default_resident_id)
+        if selected is None:
+            raise HTTPException(
+                status_code=403,
+                detail="현재 선택한 어르신의 기록을 조회할 수 없습니다.",
+            )
+        payload = payload.model_copy(update={"resident_id": selected.id})
+        resolved_name = selected.display_name
     period_notes=[]
     explicit_window=question_date_window(payload.question,datetime.now(KST).date())
     if explicit_window and payload.range_mode=="default":
@@ -19706,6 +22053,39 @@ def _prepare_care_record_question(
 _record_question_progress: dict[UUID, tuple[str, float]] = {}
 
 
+def _no_matching_record_result(question: str, result: dict) -> dict:
+    """Return a normal empty-search result without claiming that no event occurred."""
+
+    guardian_consultation = bool(re.search(
+        r"(?:보호자|가족).{0,16}(?:상담|통화|연락)|(?:상담|통화|연락).{0,16}(?:보호자|가족)",
+        question,
+    ))
+    empty_answer = (
+        "조회한 기간의 기록에서 보호자 상담으로 확인되는 내용은 찾지 못했습니다."
+        if guardian_consultation
+        else "조회한 기간의 기록에서 질문과 관련해 확인되는 내용은 찾지 못했습니다."
+    )
+    result.update(
+        answer=empty_answer,
+        limitation="해당 내용이 없었던 것인지, 아직 기록되지 않은 것인지는 원문 기록을 확인해 주세요."
+        if not guardian_consultation
+        else "상담이 없었던 것인지, 아직 기록되지 않은 것인지는 원문 기록을 확인해 주세요.",
+        processing_method="no_records",
+        error_type=None,
+        generation_verified=False,
+        answer_sentences=[],
+        evidence_ids=[],
+        structured_facts=[],
+        timeline=[],
+        current_status=None,
+        unknowns=[],
+        generator="record-scope-check-v1",
+        ai_enhancement_available=False,
+        fallback_notice=None,
+    )
+    return result
+
+
 @app.post("/api/workdesk/record-question/model-ready")
 async def prepare_care_question_model(request: Request, processor: User = Depends(_require_processor),
     feature: Literal['care_record_question','search_summary','document_text'] = 'care_record_question'):
@@ -19751,10 +22131,7 @@ async def ask_care_record_question(
         # is a normal scope result, not a GPU or real-data logging-policy error.
         terminal_result = dict(context["result"])
         terminal_result.pop("_deterministic_fact", None)
-        terminal_result.update(processing_method="no_records", error_type=None,
-            generation_verified=False, answer_sentences=[], evidence_ids=[],
-            structured_facts=[], timeline=[], current_status=None, unknowns=[],
-            generator="record-scope-check-v1", ai_enhancement_available=False)
+        terminal_result = _no_matching_record_result(payload.question, terminal_result)
     if terminal_result is not None:
         await asyncio.to_thread(_recheck_record_text_access,db,processor,context["selected_ids"],processor_required=True)
         if context["attachment_review_fingerprint"] != message_review_fingerprint(db,context["selected_ids"]):
@@ -19795,6 +22172,7 @@ async def ask_care_record_question(
                   ai_elapsed_ms=generated["ai_elapsed_ms"], error_type=generated["error_type"],
                   ai_enhancement_available=enhancement_retryable)
     if generated["generation_verified"]:
+        generated = complete_resident_overview(payload.question, context["facts"], generated)
         selected_events = {event_id(fact) for fact in generated["selected_facts"]}
         chain = [fact for fact in context["facts"] if event_id(fact) in selected_events]
         scope_limitation=result.get("limitation")
@@ -19803,7 +22181,8 @@ async def ask_care_record_question(
                       processing_method="local_ai",
                       generation_verified=True, generator="local-narrative-v1",
                       structured_facts=structured, timeline=[], current_status=None,
-                      unknowns=[], limitation=scope_limitation)
+                      unknowns=[], limitation=scope_limitation,
+                      fallback_notice=generated.get("fallback_notice"))
         # The compact answer's drawer may expose only records cited by a
         # validated final sentence, not all selected retrieval context.
         result["evidence_ids"] = list(dict.fromkeys(
@@ -19811,10 +22190,21 @@ async def ask_care_record_question(
             for sentence in generated["sentences"]
             for evidence_id in sentence["evidence_ids"]
         ))
-    elif not context["facts"]:
-        result.update(processing_method="no_records", answer_sentences=[], evidence_ids=[],
-            structured_facts=[], timeline=[], current_status=None, unknowns=[],
-            generator="record-scope-check-v1")
+    elif generated["error_type"] and result.get("evidence_ids"):
+        # These are already matched, authorized rule facts, not the broader
+        # model candidate pool. A model error cannot erase their existence.
+        pending_model = generated["error_type"] in {
+            "model_preparing", "model_not_ready", "model_cold", "model_prepare_busy",
+        }
+        result.update(processing_method="rules", generation_verified=False,
+                      generator="record-evidence-fallback-v1",
+                      error_type=generated["error_type"] if pending_model else None,
+                      fallback_notice="AI 답변 검증을 완료하지 못해 질문과 관련해 검색된 원문 근거를 표시합니다.")
+    elif (
+        generated["error_type"] == "no_relevant_records"
+        and generated.get("empty_result_verified") is True
+    ):
+        _no_matching_record_result(payload.question, result)
     elif generated["error_type"]:
         notices = {
             "model_cold": "로컬 AI 모델 준비가 끝나지 않았습니다. 잠시 후 다시 시도해 주세요.",
@@ -19877,6 +22267,7 @@ async def ask_care_record_question(
         "correction_attempted": generated.get("correction_attempted"),
         "guard_rejection_types": generated.get("guard_rejection_types"),
         "model_candidate_count": generated.get("model_candidate_count"),
+        "model_error_type": generated["error_type"],
         "evidence_verified": generated["generation_verified"], "processing_method": result["processing_method"]}
     progress('complete')
     return RecordQuestionResponse(
@@ -19904,7 +22295,7 @@ def _can_read_care_briefing_history(history: FieldCareBriefingHistory, processor
         .where(
             Message.id.in_(source_ids), Message.organization_id == processor.organization_id,
             Message.lifecycle_status == "active", Room.organization_id == processor.organization_id,
-            Room.is_active.is_(True),
+            Room.is_active.is_(True), Room.kind != "ai",
         )
     )
     if processor.role != "admin":
@@ -20006,6 +22397,7 @@ def create_period_record_summary(
     room_query = select(Room.id).where(
         Room.organization_id == processor.organization_id,
         Room.is_active.is_(True),
+        Room.kind != "ai",
     )
     if processor.role != "admin":
         if processor.staff_id is None:
@@ -21303,6 +23695,7 @@ async def _voice_call_error(
     message: str,
     *,
     source_event: str | None = None,
+    target_user_id: str | None = None,
 ) -> None:
     payload = {
         "event": "voice_call_error",
@@ -21311,6 +23704,8 @@ async def _voice_call_error(
     }
     if source_event:
         payload["source_event"] = source_event
+    if target_user_id:
+        payload["target_user_id"] = target_user_id
     await websocket.send_json(payload)
 
 
@@ -21712,7 +24107,7 @@ def pending_voice_calls(
         .join(Room, Room.id == VoiceCallInvitation.room_id)
         .where(
             VoiceCallInvitation.organization_id == user.organization_id,
-            VoiceCallInvitation.state == "ringing",
+            VoiceCallInvitation.state.in_({"ringing", "accepted"}),
             VoiceCallParticipant.user_id == user.id,
             VoiceCallParticipant.state == "ringing",
             VoiceCallInvitation.expires_at > utcnow(),
@@ -21722,7 +24117,7 @@ def pending_voice_calls(
     return [
         {
             "call_id": str(invitation.id),
-            "call_state": invitation.state,
+            "call_state": participant.state,
             "room_id": str(invitation.room_id),
             "room_name": room.name,
             "caller_user_id": str(invitation.caller_user_id),
@@ -21731,7 +24126,7 @@ def pending_voice_calls(
             "member_count": invitation.member_count,
             "expires_at": _as_utc(invitation.expires_at).isoformat(),
         }
-        for invitation, _participant, caller, room in rows
+        for invitation, participant, caller, room in rows
     ]
 
 
@@ -22159,11 +24554,17 @@ async def _handle_voice_call_websocket(
             await manager.send_to_users(participant_ids - {user.id}, outbound_payload)
         return True
     except ValueError as exc:
+        target_user_id = (
+            str(payload.get("target_user_id") or "").strip()
+            if event == "voice_call_signal"
+            else ""
+        )
         await _voice_call_error(
             websocket,
             "invalid_call",
             str(exc),
             source_event=str(event),
+            target_user_id=target_user_id or None,
         )
         return True
 

@@ -78,6 +78,7 @@ class Settings(BaseSettings):
     dev_launcher_cookie_name: str = "smcodi_chat_dev_controller"
     dev_impersonation_minutes: int = Field(default=120, ge=10, le=480)
     self_chat_enabled: bool = True
+    ai_help_room_enabled: bool = False
     max_message_length: int = 2000
     upload_dir: str = DEFAULT_UPLOAD_DIR
     max_attachment_bytes: int = Field(
@@ -123,6 +124,7 @@ class Settings(BaseSettings):
     ai_review_local_models: str = "qwen3.6:35b,gemma4:e4b"
     ai_review_base_url: str = "http://127.0.0.1:11434"
     ai_review_timeout_seconds: int = Field(default=45, ge=10, le=900)
+    search_summary_timeout_seconds: int = Field(default=75, ge=30, le=180)
     ai_review_external_enabled: bool = False
     # Optional JSON overlay in the protected environment, never a feature default.
     ai_central_models_json: str | None = None
