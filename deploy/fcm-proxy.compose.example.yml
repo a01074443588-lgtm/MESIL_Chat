@@ -1,0 +1,27 @@
+# Standalone example; existing external networks and a verified Python runtime required.
+services:
+  fcm-proxy:
+    image: "${FCM_PROXY_IMAGE:?Set a verified Python 3.12+ runtime image digest}"
+    restart: unless-stopped
+    user: "65534:65534"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 96m
+    cpus: 0.5
+    entrypoint: [python]
+    command: ["-B", /app/fcm_proxy.py]
+    volumes:
+      - ./fcm_proxy.py:/app/fcm_proxy.py:ro
+    networks:
+      push_internal:
+        aliases: [fcm-proxy]
+      push_egress: {}
+networks:
+  push_internal:
+    external: true
+    name: "${FCM_INTERNAL_NETWORK:?Set an existing trusted internal network name}"
+  push_egress:
+    external: true
+    name: "${FCM_EGRESS_NETWORK:?Set an existing egress network name}"

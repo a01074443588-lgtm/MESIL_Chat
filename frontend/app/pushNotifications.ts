@@ -1,4 +1,4 @@
-import { apiFetch } from "./api";
+import { ApiError, apiFetch } from "./api";
 
 export type PushConfig = {
   enabled: boolean;
@@ -17,6 +17,7 @@ export type PushSupportState =
   | "checking"
   | "unsupported"
   | "disabled"
+  | "error"
   | "permission-denied"
   | "ready"
   | "active";
@@ -34,6 +35,9 @@ export function safeWebPushErrorMessage(
 ) {
   const message = error instanceof Error ? error.message.trim() : "";
   const normalized = message.toLowerCase();
+  if (isSubscriptionOwnerConflict(error)) {
+    return "이 기기의 이전 알림 연결이 현재 로그인과 맞지 않습니다. ‘이 기기 알림 다시 연결’을 눌러 복구해 주세요.";
+  }
   if (
     message.includes("권한") ||
     normalized.includes("permission denied") ||
@@ -54,6 +58,11 @@ export function safeWebPushErrorMessage(
     return "휴대전화 알림 전송에 실패했습니다. 알림을 다시 켠 뒤 시험해 주세요.";
   }
   return fallback;
+}
+
+function isSubscriptionOwnerConflict(error: unknown) {
+  return error instanceof ApiError && error.status === 403 &&
+    error.message === "다른 사용자의 알림 구독은 변경할 수 없습니다. 이 기기의 알림을 해제한 뒤 다시 등록해 주세요.";
 }
 
 export function readPushEnvironment(): PushEnvironment {
@@ -171,6 +180,7 @@ async function createSubscription(
 async function registerOrReplaceSubscription(
   registration: ServiceWorkerRegistration,
   config: PushConfig,
+  allowOwnerRecovery = false,
 ) {
   if (!config.enabled || !config.public_key) {
     return null;
@@ -181,7 +191,23 @@ async function registerOrReplaceSubscription(
     subscription = await createSubscription(registration, config.public_key);
   }
 
-  let result = await registerSubscription(subscription);
+  let result: PushResult;
+  try {
+    result = await registerSubscription(subscription);
+  } catch (error) {
+    if (!allowOwnerRecovery || !isSubscriptionOwnerConflict(error)) throw error;
+    // Only an explicit enable action may replace this browser's stale endpoint.
+    // Never DELETE or transfer another user's server-side subscription.
+    const oldEndpoint = subscription.endpoint;
+    if (!await subscription.unsubscribe()) {
+      throw new Error("이 기기의 이전 알림 연결을 해제하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+    subscription = await createSubscription(registration, config.public_key);
+    if (subscription.endpoint === oldEndpoint) {
+      throw new Error("새 알림 주소를 만들지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+    result = await registerSubscription(subscription);
+  }
   if (!result.resubscribe_required) {
     return result;
   }
@@ -230,7 +256,8 @@ export async function readPushStatus(): Promise<{
   return { state: result?.active ? "active" : "ready", config };
 }
 
-export async function enableWebPush(config: PushConfig) {
+export async function enableWebPush(config: PushConfig | null) {
+  config ??= await apiFetch<PushConfig>("/api/push/config");
   if (!config.enabled || !config.public_key) {
     throw new Error("휴대전화 알림 서버가 아직 준비되지 않았습니다.");
   }
@@ -239,7 +266,7 @@ export async function enableWebPush(config: PushConfig) {
     throw new Error("휴대전화 알림 권한을 허용해 주세요.");
   }
   const registration = await ensureMesilServiceWorker();
-  const result = await registerOrReplaceSubscription(registration, config);
+  const result = await registerOrReplaceSubscription(registration, config, true);
   if (!result) {
     throw new Error("휴대전화 알림 서버가 아직 준비되지 않았습니다.");
   }

@@ -52,6 +52,7 @@ const pushLabels: Record<PushSupportState, string> = {
   checking: "확인 중",
   unsupported: "이 기기에서는 사용할 수 없음",
   disabled: "잠금화면 알림 사용 안 함",
+  error: "알림 연결 확인 필요",
   "permission-denied": "휴대전화 설정에서 알림 허용 필요",
   ready: "알림을 켜 주세요",
   active: "사용 중",
@@ -129,8 +130,12 @@ export function NotificationSoundPanel({
         setPushState(state);
         setPushConfig(config);
       })
-      .catch(() => {
-        if (!cancelled) setPushState("disabled");
+      .catch((error) => {
+        if (!cancelled) {
+          setPushState("error");
+          setFeedbackKind("error");
+          setFeedback(safeWebPushErrorMessage(error, "알림 연결을 확인하지 못했습니다. 이 기기 알림 다시 연결을 눌러 주세요."));
+        }
       });
     return () => {
       cancelled = true;
@@ -213,11 +218,17 @@ export function NotificationSoundPanel({
         setFeedback(result.message);
         return;
       }
-      if (!pushConfig) return;
       await enableWebPush(pushConfig);
       setPushState("active");
-      const testResult = await sendWebPushTest();
-      setFeedback(`휴대전화 알림을 켰습니다. ${testResult.message}`);
+      try {
+        const testResult = await sendWebPushTest();
+        setFeedbackKind("success");
+        setFeedback(`휴대전화 알림을 켰습니다. ${testResult.message}`);
+      } catch (error) {
+        // Registration succeeded; delivery failure is a separate state.
+        setFeedbackKind("error");
+        setFeedback(`이 기기 알림 등록은 완료됐지만 시험 알림 전송은 실패했습니다. ${safeWebPushErrorMessage(error)}`);
+      }
     } catch (error) {
       const message = safeWebPushErrorMessage(
         error,
@@ -226,7 +237,8 @@ export function NotificationSoundPanel({
       const permissionDenied = nativeApp
         ? message.includes("알림 권한")
         : typeof Notification !== "undefined" && Notification.permission === "denied";
-      setPushState(permissionDenied ? "permission-denied" : "ready");
+      setPushState(permissionDenied ? "permission-denied" : "error");
+      setFeedbackKind("error");
       if (nativeApp) setNativeReadiness(permissionDenied ? "check" : "failed");
       setFeedback(message);
     } finally {
@@ -372,7 +384,7 @@ export function NotificationSoundPanel({
           ) : null}
           {pushState === "disabled" ? (
             <div className="push-guidance push-guidance-warning" role="status">
-              <strong>이 발표환경에서는 잠금화면 알림을 제공하지 않습니다.</strong>
+              <strong>현재 서버에서 잠금화면 알림을 사용할 수 없습니다.</strong>
               <p>
                 채팅 화면을 보고 있을 때 나는 메딕 소리는 아래에서 선택하고 시험할 수
                 있습니다.
@@ -424,7 +436,7 @@ export function NotificationSoundPanel({
                 }
                 onClick={() => void turnOnPush()}
               >
-                {nativeApp ? "Android 앱 알림 켜기" : "휴대전화 알림 켜고 시험하기"}
+                {nativeApp ? "Android 앱 알림 켜기" : pushState === "error" ? "이 기기 알림 다시 연결" : "휴대전화 알림 켜고 시험하기"}
               </button>
             )}
           </div>
