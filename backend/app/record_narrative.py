@@ -12,7 +12,7 @@ from .config import settings
 from .record_gpu_capacity import read_profile,require_capacity
 from .record_answer_quality import GroundedDraft,GroundingReview,guarded_sentences,review_payload,DRAFT_INSTRUCTION,REVIEW_INSTRUCTION
 from .record_answer_quality import model_json_object
-from .record_nutrition import nutrition_question, nutrition_facts, complete_meal_evidence, LIMIT
+from .record_nutrition import nutrition_question, nutrition_facts, complete_meal_evidence, intake_requirements, missing_intake_records, LIMIT
 
 _SLOTS=BoundedSemaphore(2)
 _PREPARE_SLOT=BoundedSemaphore(1)
@@ -334,6 +334,9 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
             keep_alive=model_retention(selected.model,policy.context_tokens)
             safe_question=deidentify(question,aliases)
             instruction={'question':safe_question,'records':records}
+            required_intake = intake_requirements(records)
+            if required_intake:
+                instruction['required_intake_records'] = required_intake
             if len(json.dumps(instruction,ensure_ascii=False))>policy.max_input_chars:raise RecordModelError('context_limit')
             async def chat(prompt,payload,schema,max_tokens):
                 body={'model':selected.model,'stream':False,'think':False,'keep_alive':keep_alive,'format':schema.model_json_schema(),'options':{'temperature':0,'num_ctx':policy.context_tokens,'num_predict':max_tokens},'messages':[{'role':'system','content':prompt},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]}
@@ -349,6 +352,8 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 return response
             if progress:progress('verifying')
             total_rejected=0;guard_reasons=set();sentences=[];previous=None
+            partial_repair = None
+            missing_intake = []
             out['draft_ms']=0;out['evidence_review_ms']=0
             out['draft_generation_ms']=0;out['draft_prefill_ms']=0;out['review_generation_ms']=0
             primary_generation_error=None
@@ -366,10 +371,35 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                     prompt+='\n대상 혼합 오류를 수정하세요. 이전 문장의 여러 person을 각각 별도 문장 객체로 나누고 각 객체에는 동일 person의 근거만 인용하세요. 사람별 요약 자체가 conclusion이 될 수 있습니다. 근거가 있는 사람별 사실을 버리고 빈 sentences로 바꾸지 마세요.'
                 if correction and 'event_relation' in guard_reasons:
                     prompt+='\n별개 사건을 경과로 연결한 오류를 수정하세요. event_group이 다른 원문의 상태를 한 사건 이후의 결과처럼 쓰지 말고 별도의 사실로 나누세요. 특히 식사 뒤 상태를 낙상 뒤 상태로 바꾸지 마세요.'
-                draft_payload=(instruction if not correction else {**instruction,'previous_draft':previous,'validation_feedback':sorted(guard_reasons) or ['semantic_review']})
+                if correction and 'incomplete_meal_evidence' in guard_reasons:
+                    prompt+='\n섭취표의 최초 섭취와 추가 섭취가 모두 필요합니다. 추가량을 누락하지 마세요. 같은 사실이 별도의 추가 섭취 원문에도 있으면 그 원문만 직접 인용하세요. 다른 event_group의 계획과 연결하지 말고 실제 추가 섭취 사실 자체를 설명하세요.'
+                if correction and 'repeated_quantity' in guard_reasons:
+                    prompt+='\n한 번의 양과 횟수를 함께 보존하세요. 예를 들어 원문에 두 차례이면 자주 또는 한 번의 양만으로 바꾸지 말고 두 차례를 명시하세요. 합계는 임의 계산하지 마세요.'
+                if required_intake:
+                    prompt+='\nrequired_intake_records는 원문에서 실제 섭취가 명시된 핵심 근거입니다. 각 id의 섭취량과 횟수를 모두 답변에 보존하세요. 제공량·계획은 섭취량이 아닙니다. 동일한 양의 반복은 횟수를 쓰고 임의로 합산하지 마세요. 최초 관찰과 뒤의 추가 섭취를 구분하며, 한 시점의 일부 섭취를 하루 전체량으로 한정하지 마세요. 행정적인 연락 문구보다 이 사실을 우선하세요.'
+                draft_payload=(instruction if not correction else {**instruction,'previous_draft':previous,'validation_feedback':sorted(guard_reasons) or ['semantic_review'], 'missing_intake_records': missing_intake})
+                focused_repair = correction and partial_repair and bool(guard_reasons & {'repeated_quantity', 'incomplete_meal_evidence', 'unsupported_conclusion'})
+                if focused_repair:
+                    repair_records = partial_repair['records']
+                    repair_groups = {r.get('event_group') for r in repair_records}
+                    repair_intake = [r for r in required_intake if any(
+                        candidate['id'] == r['id'] and candidate.get('event_group') in repair_groups
+                        for candidate in records)]
+                    if repair_intake and all(re.search(r'\d+\s*(?:mL|ml|밀리리터)', row['text']) for row in partial_repair['rejected']):
+                        repair_records = [r for r in records if any(required['id'] == r['id'] for required in repair_intake)]
+                    draft_payload = {'question': safe_question, 'records': repair_records,
+                                     'previous_draft': {'sentences': partial_repair['rejected']},
+                                     'validation_feedback': sorted(guard_reasons),
+                                     'required_sentences': len(partial_repair['rejected'])}
+                    if repair_intake:
+                        draft_payload['required_intake_records'] = repair_intake
+                    prompt += '\n서버가 나머지 문장을 보존합니다. 탈락한 핵심 문장만 required_sentences 개로 다시 쓰세요. 다른 사실이나 한계 문장을 새로 추가하지 말고 수량·횟수·추가 섭취를 인용 원문대로 완결하세요.'
+                    prompt += '\n최초 관찰과 이후 추가 섭취가 구분되면 처음 또는 해당 관찰 시점이라고 명확히 쓰세요. 한 시점의 일부 섭취량을 하루나 오전 전체의 섭취량으로 한정하지 마세요. 문장을 직접 뒷받침하는 최소 근거만 인용하세요.'
+                    prompt += '\n서로 다른 event_group의 사실은 이후·뒤·그 결과로 연결하지 마세요. 각 원문의 처음·오전 중·오후 같은 시점을 따로 쓰고 쉼표와 그리고로 독립된 사실을 나란히 설명하세요. 원문에 없는 합계·총량을 계산하지 말고 개별 양과 횟수를 그대로 쓰세요.'
                 # Korean text plus citation/role JSON can exceed 256 tokens even
                 # for a short answer. The outer timeout still bounds correction.
-                response=await chat(prompt,draft_payload,GroundedDraft,512)
+                response=await chat(prompt,draft_payload,GroundedDraft,
+                                    min(512,128+128*len(partial_repair['rejected'])) if focused_repair else 512)
                 out['draft_ms']+=round((perf_counter()-draft_started)*1000)
                 out['draft_generation_ms']+=(out['generation_ms'] or 0)-generation_before
                 out['draft_prefill_ms']+=(out['prefill_ms'] or 0)-prefill_before
@@ -384,6 +414,11 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                         primary_generation_error='response_format_invalid';previous={'sentences':[]};guard_reasons.add('response_format_invalid');continue
                     raise RecordModelError('response_format_invalid')
                 previous=raw
+                if focused_repair and isinstance(raw, dict) and isinstance(raw.get('sentences'), list):
+                    if len(raw['sentences']) != len(partial_repair['rejected']):
+                        raise RecordModelError('repair_count_mismatch')
+                    replacements = iter(raw['sentences'])
+                    raw = {**raw, 'sentences': [next(replacements) if row is None else row for row in partial_repair['layout']]}
                 out['draft_sentence_count']=len(raw.get('sentences',[])) if isinstance(raw,dict) else None
                 guard_diagnostics={}
                 try:sentences,rejected=guarded_sentences(raw,records,safe_question,guard_diagnostics)
@@ -391,6 +426,27 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                     sentences=[];rejected=0;guard_diagnostics={'response_format_invalid':1}
                 total_rejected+=rejected;guard_reasons.update(guard_diagnostics)
                 out['rejected_sentence_count']=total_rejected
+                missing_intake = missing_intake_records(records, [s.model_dump() for s in sentences])
+                if missing_intake:
+                    guard_reasons.add('incomplete_meal_evidence')
+                if not correction and sentences and rejected:
+                    rejected_rows = [row for row in raw['sentences']
+                                     if not guarded_sentences({'sentences': [row]}, records, safe_question)[0]]
+                    tokens = {token for row in rejected_rows for token in row.get('citations', [])}
+                    repair_records = [row for row in records if row['id'] in tokens]
+                    if rejected_rows and repair_records:
+                        layout = []
+                        for row in raw['sentences']:
+                            accepted_row = guarded_sentences({'sentences': [row]}, records, safe_question)[0]
+                            layout.append(accepted_row[0].model_dump() if accepted_row else None)
+                        partial_repair = {'layout': layout, 'rejected': rejected_rows, 'records': repair_records}
+                if 'repeated_quantity' in guard_diagnostics:
+                    # Dropping the rejected amount sentence is not a complete
+                    # answer: retry within the existing two-draft budget.
+                    if not correction:
+                        primary_generation_error='incomplete_quantity_evidence'
+                        continue
+                    raise RecordModelError('incomplete_quantity_evidence')
                 if not sentences:
                     if not correction:
                         if raw != {'sentences':[]}:
@@ -410,6 +466,13 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                     if not correction:
                         primary_generation_error='question_answer_not_supported';continue
                     raise RecordModelError('question_answer_not_supported')
+                pending=[{'text':_restore(s.text,aliases),'evidence_ids':[mapping[token]['message_id'] for token in s.citations]} for s in sentences]
+                if not complete_meal_evidence(question, facts, pending):
+                    guard_reasons.add('incomplete_meal_evidence')
+                    if not correction:
+                        primary_generation_error='incomplete_meal_evidence'
+                        continue
+                    raise RecordModelError('incomplete_meal_evidence')
                 out['validation_stage']='semantic_review'
                 review_started=perf_counter();generation_before=out['generation_ms'] or 0
                 review_response=await chat(REVIEW_INSTRUCTION,review_payload(sentences,records,safe_question),GroundingReview,80)
@@ -434,7 +497,27 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 # Keep actionable, content-free feedback on terminal failures
                 # too; the final success-only update used to lose this reason.
                 out['guard_rejection_types']=','.join(sorted(guard_reasons)) or None
+                rejected_conclusion = any(not supported and sentence.role == 'conclusion'
+                                          for sentence, supported in zip(sentences, review.supported))
+                if rejected_conclusion:
+                    guard_reasons.add('unsupported_conclusion')
+                    if correction:
+                        raise RecordModelError('question_answer_not_supported')
+                    rejected_rows = [s.model_dump() for s, supported in zip(sentences, review.supported) if not supported]
+                    tokens = {token for row in rejected_rows for token in row['citations']}
+                    partial_repair = {'layout': [s.model_dump() if supported else None for s, supported in zip(sentences, review.supported)],
+                                      'rejected': rejected_rows, 'records': [row for row in records if row['id'] in tokens]}
+                    primary_generation_error='question_answer_not_supported'
+                    continue
                 sentences=[sentence for sentence,supported in zip(sentences,review.supported) if supported]
+                missing_intake = missing_intake_records(records, [s.model_dump() for s in sentences])
+                if missing_intake:
+                    guard_reasons.add('incomplete_meal_evidence')
+                    if not correction:
+                        primary_generation_error='incomplete_meal_evidence'
+                        partial_repair = None
+                        continue
+                    raise RecordModelError('incomplete_meal_evidence')
                 if review.answers_question and sentences and any(s.role in ('conclusion','limitation') for s in sentences):break
                 if not correction:
                     primary_generation_error='question_answer_not_supported';guard_reasons.add('semantic_review');continue
@@ -447,7 +530,7 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
                 raise RecordModelError('incomplete_meal_evidence')
             if nutrition_question(question) and not any(s.role=='limitation' for s in sentences):
                 rendered.append({'text':LIMIT,'evidence_ids':list(dict.fromkeys(identifier for s in rendered for identifier in s['evidence_ids']))})
-            out.update(processing_method='local_ai',generation_verified=True,sentences=rendered,answer=' '.join(s['text'] for s in rendered),evidence_ids=list(dict.fromkeys(identifier for s in rendered for identifier in s['evidence_ids'])),keep_alive_seconds=keep_alive)
+            out.update(processing_method='local_ai',generation_verified=True,model_used=selected.model,sentences=rendered,answer=' '.join(s['text'] for s in rendered),evidence_ids=list(dict.fromkeys(identifier for s in rendered for identifier in s['evidence_ids'])),keep_alive_seconds=keep_alive)
             out['validation_stage']='complete'
             out['selected_facts']=[mapping[token] for token in dict.fromkeys(token for sentence in sentences for token in sentence.citations)]
     except (TimeoutError,httpx.TimeoutException):out['error_type']='timeout'
@@ -462,6 +545,18 @@ async def generate_narrative(*,question,facts,names,all_synthetic,request_key,de
             with _LOCK:_ACTIVE.discard(request_key)
         out['ai_elapsed_ms']=round((perf_counter()-start)*1000)
     return out
+
+def run_help_record_answer(*,question,facts,names,all_synthetic,request_key):
+    """Use the same grounded prose contract after the help-room access checks."""
+    if not facts:
+        return {'processing_method':'rules','generation_verified':False,
+                'answer':'','evidence_ids':[],'model_used':None,
+                'fallback_reason':'no_relevant_records'}
+    result=asyncio.run(generate_narrative(question=question,facts=facts,names=names,
+        all_synthetic=all_synthetic,request_key=request_key,deadline=perf_counter()+33,
+        allow_cold_start=True))
+    return {**result,'fallback_reason':result.get('error_type')}
+
 
 async def await_connected(task,request):
     try:

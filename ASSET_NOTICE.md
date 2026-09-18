@@ -26,3 +26,7 @@
 MESIL Chat 합성자료 화면의 무음 편집 영상입니다. 기존 의존성 대조와 구분한
 [영상 출처·확인 범위](docs/DEMO_VIDEO.md)를 확인하세요. 영상 및 포함된 브랜드에
 소스코드 라이선스를 일괄 적용하거나 별도 재사용 권한을 추정하지 않습니다.
+
+README 대표 화면 `docs/images/mesil-chat-overview-20260918.png`는 사용자가 제공하고
+공개를 승인한 합성자료 UI 캡처입니다. 포함 브랜드에는 위 별도 조건이 그대로
+적용됩니다. [자산과 라이선스 안내](docs/PUBLIC_ASSETS_AND_LICENSES.md)를 확인하세요.

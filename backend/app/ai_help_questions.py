@@ -37,7 +37,7 @@ _SPECIFIC_RESIDENT_RECORD_CONTEXT = re.compile(
 _SPECIFIC_RESIDENT_QUERY_ACTION = re.compile(
     r"(?:알려|보여|찾아|검색|조회|어때|있어|뭐|무엇|몇\s*(?:건|번))"
 )
-_SPECIFIC_RESIDENT_CARE_FACT = re.compile(r"(?:모습|음용량|출석|내부\s*기록)")
+_SPECIFIC_RESIDENT_CARE_FACT = re.compile(r"(?:모습|음용량|식사|섭취|밥|반찬|식욕|출석|내부\s*기록)")
 _SPECIFIC_RESIDENT_CARE_FACT_ACTION = re.compile(
     r"(?:알려|보여|어때|어떻게\s*돼|얼마|몇|했|하였|됐|있|볼\s*수|확인)"
 )
@@ -181,3 +181,4 @@ def apply_general_guidance_boundaries(question: str, answer: str) -> str:
             "최신 제도·공단 기준은 최신 원문과 기관 지침을 직접 확인한 뒤 적용하세요."
         )
     return "\n\n".join([answer.strip(), *notices]).strip()
+

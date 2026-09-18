@@ -27,7 +27,7 @@ def resident_state_overview(question):
     """A residents' state overview is not an overview of administrative chat."""
     return bool(
         re.search(r"(?:전체|모든)\s*어르신|어르신들", question)
-        and re.search(r"상태|모습|컨디션|경과|돌봄|어떠|어때|어땠|요약", question)
+        and re.search(r"상태|모습|컨디션|경과|돌봄|어떠|어때|어땠|요약|정리", question)
     )
 
 
@@ -41,6 +41,14 @@ def resident_round_robin(items):
 
 
 FIRST = re.compile(r"언제부터|처음|최초|시작")
+FOLLOWING_REQUEST = re.compile(r"추가|이후|그\s*뒤|나중|후속|경과|마지막|최근|비교|전후|더\s*(?:드|먹|마)")
+
+
+def first_event_only(question):
+    """Asking for initial AND subsequent facts is not an earliest-only query."""
+    return bool(FIRST.search(question)) and not FOLLOWING_REQUEST.search(question)
+
+
 FOLLOWUP = re.compile(r"그\s*뒤|이후|경과|후속|괜찮아|회복|호전")
 REPEAT = re.compile(r"반복|비슷|또\s*있|다시|같은")
 OVERVIEW = re.compile(
@@ -118,6 +126,14 @@ def question_date_window(question: str, reference: date | None = None):
         if start <= end:
             return start, end
         return None
+    single_dates = list(re.finditer(rf"(?<!\d)({day_pattern})(?!\d)", question))
+    if len(single_dates) == 1:
+        parts = [int(value) for value in re.findall(r"\d+", single_dates[0][1])]
+        try:
+            day = date(parts[0] if len(parts) == 3 else reference.year, *parts[-2:])
+        except ValueError:
+            return None
+        return day, day
     compact = re.sub(r"\s+", "", question)
     if "지난달" in compact:
         last = reference.replace(day=1) - timedelta(days=1)
@@ -268,7 +284,7 @@ def plan_question(
                 if re.search(pattern, text):
                     score += sum(term in body for term in synonyms)
         if (
-            FIRST.search(text)
+            first_event_only(text)
             and re.search(r"도움|부축", text)
             and not any(_has_recorded_help(fact["summary"]) for fact in facts)
         ):
@@ -292,7 +308,7 @@ def plan_question(
         matches = [
             item for item in matches if any(f["kind"] == "repeated" for f in item[1])
         ]
-    if FIRST.search(text) and matches:
+    if first_event_only(text) and matches:
         matches = [min(matches, key=lambda item: at(item[1][0]["occurred_at"]))]
     # A water-volume question needs one completed, linked event. Choosing its
     # latest completion also prevents a broad model candidate set from mixing
@@ -328,7 +344,7 @@ def plan_question(
 
     candidates = bounded(
         matches
-        if matches and (focused_query or hydration_focus or generic or FIRST.search(text) or REPEAT.search(text))
+        if matches and (focused_query or hydration_focus or generic or first_event_only(text) or REPEAT.search(text))
         else ranking,
         model_budget=True,
     )
@@ -345,7 +361,7 @@ def plan_question(
         "ambiguous": ambiguous,
         "notes": notes,
         "question": question,
-        "first": bool(FIRST.search(text)),
+        "first": first_event_only(text),
         "matched_event_count": len(matches),
     }
 
@@ -447,6 +463,34 @@ def answer_facts(
     meal = nutrition_answer(question, facts) if not ambiguous and not result.get('structured_facts') else None
     if meal:
         result.update(meal)
+    elif (not ambiguous and not first and facts and not focused
+          and re.search(r"요약|정리", question) and not resident_state_overview(question)):
+        # A model timeout must not reduce a multi-day overview to the first
+        # row and the final two rows, erasing all intake from intervening days.
+        # Keep dated source wording, not an unverified model draft.
+        intake = nutrition_answer("식사", facts)
+        intake_ids = set(intake["evidence_ids"]) if intake else set()
+        nutrition_rows = nutrition_facts("식사", facts)
+        by_day = defaultdict(list)
+        for fact in sorted(facts, key=lambda f: (at(f["occurred_at"]), str(f["message_id"]))):
+            by_day[(str(fact.get("resident_id") or fact.get("resident_name")),
+                    at(fact["occurred_at"]).date())].append(fact)
+        sentences = []
+        for (_, day), rows in by_day.items():
+            anchors = [rows[0], *rows[-2:]]
+            chosen = [fact for fact in rows if fact in anchors or (
+                fact["message_id"] in intake_ids and any(
+                    row["message_id"] == fact["message_id"] and row["summary"] in fact["summary"]
+                    for row in nutrition_rows))]
+            wording = list(dict.fromkeys(fact["summary"].strip() for fact in chosen))
+            label = chosen[0].get("resident_name") or "기록"
+            sentences.append({
+                "text": f"{day.month}월 {day.day}일 · {label}: " + " ".join(wording),
+                "evidence_ids": list(dict.fromkeys(fact["message_id"] for fact in chosen)),
+            })
+        result.update(answer="\n".join(s["text"] for s in sentences),
+                      answer_sentences=sentences,
+                      evidence_ids=list(dict.fromkeys(i for s in sentences for i in s["evidence_ids"])))
     if resident_state_overview(question) and not ambiguous and facts:
         # Deterministic fallback: each person keeps their own latest complete
         # event and date. Do not join unrelated first/last rows into a conclusion.

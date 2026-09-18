@@ -2689,9 +2689,9 @@ textarea:focus {
 
 .profile-strip {
   display: grid;
-  gap: 10px;
+  gap: 14px;
   margin: 15px 16px;
-  padding: 13px;
+  padding: 16px;
   border: 1px solid #dce9e6;
   border-radius: 16px;
   background: #fff;
@@ -2720,24 +2720,67 @@ textarea:focus {
 .profile-task-row .icon-button {
   flex: 1 1 0;
   min-width: 0;
-  padding-inline: 10px;
-  white-space: nowrap;
+  height: auto;
+  min-height: 44px;
+  padding: 10px 8px;
+  border: 1px solid #c7d7b4;
+  border-radius: 10px;
+  color: var(--brand-dark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.profile-task-row .workdesk-button {
+  background: var(--brand-soft);
+}
+
+.profile-task-row .record-review-button {
+  background: #fff;
+}
+
+.profile-task-row .icon-button:hover {
+  background: #e5eed8;
 }
 
 .profile-identity-row .admin-button {
-  min-width: 52px;
-  padding-inline: 10px;
+  min-width: 56px;
+  padding-inline: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f7faf5;
+  color: var(--brand-dark);
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
+.profile-identity-row .admin-button:hover {
+  background: var(--brand-soft);
+}
+
+.profile-strip .icon-button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
 .profile-strip strong {
-  font-size: 15px;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-strip small {
   overflow: hidden;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
+  line-height: 1.4;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -58,6 +58,7 @@ from .attachment_validation import (
 )
 from .period_review_performance import PeriodTiming, PeriodTimingMiddleware, briefing_sources, prefetch_period_relations
 from .record_narrative import generate_narrative, prepare_record_model, await_connected, natural_clause, source_clauses
+from .record_narrative import run_help_record_answer
 from .record_text_ai import run_general_help_model, run_record_model
 from .ai_help_questions import (
     apply_general_guidance_boundaries,
@@ -15183,15 +15184,19 @@ def _process_ai_help_message_sync(
                         requester,
                         record_context["scope_ids"],
                     )
-                    result = run_record_model(
-                        feature="care_record_question",
-                        question=source.body,
-                        facts=facts,
-                        names=names,
-                        all_synthetic=all_synthetic,
-                        semantic_selection=True,
-                        force_resident_labels=record_context["comparison"],
-                    )
+                    if record_context["comparison"]:
+                        result = run_record_model(
+                            feature="care_record_question",
+                            question=source.body, facts=facts, names=names,
+                            all_synthetic=all_synthetic, semantic_selection=True,
+                            force_resident_labels=True,
+                        )
+                    else:
+                        result = run_help_record_answer(
+                            question=source.body, facts=facts, names=names,
+                            all_synthetic=all_synthetic,
+                            request_key=f"help:{assistant.id}",
+                        )
                     result = _ai_help_evidence_fallback(result, record_context)
             db.refresh(assistant)
             current_meta = (assistant.extra_data or {}).get("ai_help") or {}
