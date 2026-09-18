@@ -2,7 +2,7 @@
   "release": "final-public-cumulative-20260918",
   "baseline_public_commit": "f846f261329119dbf411cac9d0d338a4cdeb0a22",
   "backend_image": "sha256:c7d8daef820931f831a4881020fd46fc9d771c8752da7c0a36161e783d41edf3",
-  "frontend_image": "sha256:d35a6076e6a3866f68f6516a0347b4b6916b8671308775d2c1405e3e9cb9f711",
+  "frontend_image": "sha256:322b0f53b4a0db1f6c712785131e0e3fcc815709f30cbb720c32d65c4f1e69c7",
   "stt_image": "sha256:52a7888b4831cda7643a0044fbeb5699ddc320e0163ee2d0087c71fd8f3b7f9e",
   "migration": "050_living_space_rooms",
   "provenance": "Read-only extraction of the deployed application source; no production environment/data/credentials.",
@@ -202,7 +202,7 @@
     "frontend/app/navigationHistory.ts": "60f8305f004172b4d78d29c9ddd25534d5ec0b1d6634fa80459fe12b4b552122",
     "frontend/app/staffTextReview.css": "522342eabb5c56dfbb1ed900e8c2b9a8cf8d54e3bfadce1fb7825ba0db011eb0",
     "frontend/app/reviewer/page.tsx": "925f7460a008edeb87f49b21fbc1e216bbebf4d2af1613619367539b9ac44fb9",
-    "frontend/app/components/HandwritingVoiceCorrectionPanel.tsx": "baaced8aef1d0b440410d7e103c92a39cc1f9a243cda212ae83b597d4aa65d40",
+    "frontend/app/components/HandwritingVoiceCorrectionPanel.tsx": "04165e27563ca4e53158be0416e07fde0958f11393385a5c667174d9962782fa",
     "frontend/app/components/LoginScreen.tsx": "29e3054c383c41d09e383c9898630c04b90fa33d02b0edc45a544c9547a073bd",
     "frontend/app/components/AiConnectionPanel.tsx": "771127d73b3b16a4db0a593cb2b6236045f06fc5ed75c63d9d9ccc6dd86bcb18",
     "frontend/app/components/DeveloperLauncher.tsx": "ea273d2c92260f65c7d72394f4b9a6cda26353a573769154c229fbf4b6c11274",
@@ -306,7 +306,7 @@
     "LICENSE": "917e18b8707bbc7aead6aeb553f1db693279bca3751a908c8e424cb8406a11c0",
     "LICENSE-DOCS": "90f45bc2b7cc97442c2201b4915077c8a9ef216d0250e5b77b70a66e2daf84d2",
     "NOTICE": "f4f781be07ea526f40584d09c493fd631832f5db305bd08a90de9607b8c53a7e",
-    "README.md": "40af5e1c5f74effe749f9b5a491a5dbb0d47beaa94e7b52eed3458cea45e49e9",
+    "README.md": "093eb62715ddf40c6e3e4d8e38e313a71c795b74abb13d74175491388ada20f9",
     "README.roles.md": "34dd759348d71518bd5924514f7afb0edbfac602c7a3a61a481718a0121131b0",
     "backend/.dockerignore": "b73f823306fa0aa5f7bddd445879e23afad5bbedd384f0075d29b44089c684dd",
     "backend/alembic.ini": "635b9fecd0e8c72092a7f34d658a152b1479da88389854ebf3020b2202cf59b7",
@@ -319,7 +319,7 @@
     "docs/DEMO_VIDEO.md": "4533f32b6ab072ec0bde7da0689abbbb40330cdda0a5a2731f3d9ec9c5061aac",
     "docs/PUBLIC_ASSETS_AND_LICENSES.md": "64be9c5a34d2dd9f5a9d475167858250b0835a57162c84bfdf62ff51db311014",
     "docs/PUBLIC_INSTALL.md": "77190c28289f036402f8d2f610f12ce86cdebcdd8af1a20bd5c8972f899d5d74",
-    "docs/RELEASE_BASELINE_20260918.md": "cf13e7fb8569d6f54503835629107a55a42902291363c5b11eef5ea37bfd8285",
+    "docs/RELEASE_BASELINE_20260918.md": "2bf1ce22b28f77df86313d0fc10d3e2020703c53d1022a8a02b28005b15edc09",
     "docs/THIRD_PARTY_DEPENDENCIES.csv": "74f1f5ed1504005a8fe89a14b358f6a0788bbb9f4052667ce910a5dfb0f32469",
     "docs/THIRD_PARTY_NOTICES.md": "e6d2e7be38d522e13ed21bf48105aa591267716c3d0e2046887f65cb1b659d78",
     "docs/THIRD_PARTY_REVIEW.json": "574a888ddffb8c13797e0f25103ed65c5b386040d7393bb445db45b7e5410fe6",
@@ -859,6 +859,7 @@
     "frontend/public/sw.js": "be7074a2195ebec9bb61f36c7ec346bda5a9f215f4ca6b28f5570131bfcfb7a7",
     "frontend/tests/active-briefing.test.mjs": "453be9c0938ac4c82f9832afb16fda7fa36ea6218d8e2b758534a723b0fd2dc8",
     "frontend/tests/care-briefing-reader.test.mjs": "b5a58a8e738398729e808241fde14ed0e84022920bbdaee35e57d9ec31427274",
+    "frontend/tests/handwriting-review-confirmation.test.mjs": "e9f42b39a7028159e071804b284ff911bf923de955b25a94d6f00f04c9dba496",
     "frontend/tests/rendered-html.test.mjs": "8c2889853d9f3c06a1c06df850f15354f160aafc645f9b4ba8306a2af8622f30",
     "frontend/worker/index.ts": "515c61f2e69a38e4aceeb3cd4ec0df6d5c1beaef79318b14f85deb1411618336",
     "frontend/app/components/AdminConversationReview.tsx": "ef214ac96e77a9690264d6b5faa9ecf4e50d13377e012c1107433cd23668833c",
@@ -877,7 +878,7 @@
     "frontend/app/components/CoordinateTextEditor.tsx": "5cdac3897b06623f8df33d6fe4d8c5a8eeb82feb67b5e79a78d40f687ad873e5",
     "frontend/app/components/DeveloperLauncher.tsx": "ea273d2c92260f65c7d72394f4b9a6cda26353a573769154c229fbf4b6c11274",
     "frontend/app/components/DocumentCandidateDashboard.tsx": "4b31de2196cec0aa43b889a4fa3e0d938cd1583740178ce16d5f6823840f3eff",
-    "frontend/app/components/HandwritingVoiceCorrectionPanel.tsx": "baaced8aef1d0b440410d7e103c92a39cc1f9a243cda212ae83b597d4aa65d40",
+    "frontend/app/components/HandwritingVoiceCorrectionPanel.tsx": "04165e27563ca4e53158be0416e07fde0958f11393385a5c667174d9962782fa",
     "frontend/app/components/LoginScreen.tsx": "29e3054c383c41d09e383c9898630c04b90fa33d02b0edc45a544c9547a073bd",
     "frontend/app/components/MessageDetailOverlay.tsx": "f2f62cb14453090864453816b8c258e2d5fda5122ace61ec9c9607a35e33b71a",
     "frontend/app/components/NotificationSoundPanel.tsx": "d51b815adef7bed9b287a58bb22fee9808999c72d47b8239e61fba647e40190e",
@@ -985,5 +986,16 @@
     "notes": "docs/DEMO_VIDEO.md",
     "product_source_unchanged": true,
     "prior_license_review_scope_unchanged": true
+  },
+  "deployed_correction_publication": {
+    "base_public_commit": "f3eb6e06a183a2989058de82c1460ce160712129",
+    "runtime_changed_files": [
+      "frontend/app/components/HandwritingVoiceCorrectionPanel.tsx"
+    ],
+    "runtime_files_compared": 271,
+    "regression_test": "frontend/tests/handwriting-review-confirmation.test.mjs",
+    "service_deployment_performed": false,
+    "dependencies_assets_licenses_unchanged": true,
+    "model_transition_changes_included": false
   }
 }

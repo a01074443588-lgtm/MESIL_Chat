@@ -1153,7 +1153,6 @@ function ApprovalWorkspace({
     selected_source: "ocr" | "whisper" | "ai_recommendation" | "staff_manual";
     selected_value: string;
   }>>({});
-  const [manualReviewValues, setManualReviewValues] = useState<Record<string, string>>({});
   const savingRef = useRef(false);
   const finalDirtyRef = useRef(Boolean(preservedDraft?.dirty));
 
@@ -1161,6 +1160,7 @@ function ApprovalWorkspace({
     if (!finalDirtyRef.current) {
       setFinalDraftText(proposedText.trim());
       setFinalConfirmed(false);
+      setReviewResolutions({});
     }
   }, [proposedText]);
 
@@ -1240,37 +1240,27 @@ function ApprovalWorkspace({
     finalDirtyRef.current = true;
     setFinalDraftText(value);
     setFinalConfirmed(false);
+    setReviewResolutions({});
     resetSubmission();
   }
 
-  function selectReviewValue(
+  function confirmReviewItem(
     item: HandwritingVoiceCorrectionComparison["review_items"][number],
-    selectedSource: "ocr" | "whisper" | "ai_recommendation" | "staff_manual",
-    selectedValue: string,
   ) {
-    const value = selectedValue.trim();
-    if (!value) return;
-    finalDirtyRef.current = true;
+    if (!canUse || !finalText) return;
+    // Confirm the employee-reviewed document, never substitute a value from
+    // a category-wide list into an unrelated event in that document.
     setReviewResolutions((current) => ({
       ...current,
       [item.review_item_id]: {
         review_item_id: item.review_item_id,
-        selected_source: selectedSource,
-        selected_value: value,
+        selected_source: "staff_manual",
+        // The existing API limits this confirmation field to 500 characters.
+        // The complete, employee-reviewed text is stored in sentences.final_text.
+        selected_value: `직원 최종문 대조 확인 · ${changedFieldLabels[item.category]} (확정 내용은 함께 저장한 최종문 참조)`,
       },
     }));
     setFinalConfirmed(false);
-    const candidates = [
-      ...item.ocr_values,
-      ...item.whisper_values,
-      ...(item.ai_recommendation ? [item.ai_recommendation] : []),
-    ].filter((candidate) => candidate && candidate !== value);
-    const currentValue = candidates.find((candidate) => finalDraftText.includes(candidate));
-    const nextValue = currentValue
-      ? finalDraftText.replace(currentValue, value)
-      : finalDraftText;
-    onUserEdit?.(nextValue);
-    setFinalDraftText(nextValue);
     resetSubmission();
   }
 
@@ -1291,9 +1281,15 @@ function ApprovalWorkspace({
             mode,
             idempotency_key: requestKey,
             conflicts_confirmed: finalConfirmed,
-            conflict_resolutions: reviewItems.map(
-              (item) => reviewResolutions[item.review_item_id],
-            ),
+            conflict_resolutions: reviewItems.map((item) => {
+              const resolution = reviewResolutions[item.review_item_id];
+              // Keep both contracts while deployed backends use choice/value.
+              return {
+                ...resolution,
+                choice: resolution.selected_source,
+                value: resolution.selected_value,
+              };
+            }),
             supersedes_approval_id: latestApproval?.id ?? null,
             sentences: [{
               sentence_no: 1,
@@ -1388,11 +1384,10 @@ function ApprovalWorkspace({
             <strong id="review-items-title">중요 항목 확인 필요</strong>
             <span>{Object.keys(reviewResolutions).length}/{reviewItems.length}개 확인</span>
           </header>
-          <p>AI 추천은 초안일 뿐 사실이나 직원 승인으로 확정되지 않습니다.</p>
+          <p>아래 차이를 원본과 대조해 주세요. 최종문이 맞으면 항목별로 확인하고, 틀리면 위 최종문에서 직접 고쳐 주세요. 확인 버튼은 문장을 바꾸지 않습니다.</p>
           <ol>
             {reviewItems.map((item) => {
               const resolved = reviewResolutions[item.review_item_id];
-              const manualValue = manualReviewValues[item.review_item_id] ?? "";
               return (
                 <li key={item.review_item_id} className={resolved ? "resolved" : ""}>
                   <div className="voice-correction-review-heading">
@@ -1403,34 +1398,10 @@ function ApprovalWorkspace({
                     <div>
                       <span>OCR</span>
                       <p>{item.ocr_values.join(" · ") || "확인되지 않음"}</p>
-                      {item.ocr_values.map((value) => (
-                        <button
-                          type="button"
-                          className="button button-secondary"
-                          key={`ocr-${value}`}
-                          disabled={!canUse}
-                          aria-pressed={resolved?.selected_source === "ocr" && resolved.selected_value === value}
-                          onClick={() => selectReviewValue(item, "ocr", value)}
-                        >
-                          OCR 값 선택 · {value}
-                        </button>
-                      ))}
                     </div>
                     <div>
                       <span>음성</span>
                       <p>{item.whisper_values.join(" · ") || "확인되지 않음"}</p>
-                      {item.whisper_values.map((value) => (
-                        <button
-                          type="button"
-                          className="button button-secondary"
-                          key={`whisper-${value}`}
-                          disabled={!canUse}
-                          aria-pressed={resolved?.selected_source === "whisper" && resolved.selected_value === value}
-                          onClick={() => selectReviewValue(item, "whisper", value)}
-                        >
-                          음성 값 선택 · {value}
-                        </button>
-                      ))}
                     </div>
                     <div>
                       <span>AI 추천</span>
@@ -1438,47 +1409,27 @@ function ApprovalWorkspace({
                       {item.ai_recommendation ? (
                         <>
                           {item.ai_recommendation_reason ? <small>{item.ai_recommendation_reason}</small> : null}
-                          <button
-                            type="button"
-                            className="button button-secondary"
-                            disabled={!canUse}
-                            aria-pressed={resolved?.selected_source === "ai_recommendation"}
-                            onClick={() => selectReviewValue(item, "ai_recommendation", item.ai_recommendation || "")}
-                          >
-                            AI 추천 선택 · {item.ai_recommendation}
-                          </button>
                         </>
                       ) : null}
                     </div>
                   </div>
                   <div className="voice-correction-manual-resolution">
-                    <label>
-                      직접 입력
-                      <input
-                        value={manualValue}
-                        disabled={!canUse}
-                        onChange={(event) => setManualReviewValues((current) => ({
-                          ...current,
-                          [item.review_item_id]: event.target.value,
-                        }))}
-                      />
-                    </label>
                     <button
                       type="button"
                       className="button button-secondary"
-                      disabled={!canUse || !manualValue.trim()}
-                      aria-pressed={resolved?.selected_source === "staff_manual"}
-                      onClick={() => selectReviewValue(item, "staff_manual", manualValue)}
+                      disabled={!canUse || !finalText}
+                      aria-pressed={Boolean(resolved)}
+                      onClick={() => confirmReviewItem(item)}
                     >
-                      직접 입력 확인
+                      {resolved ? "이 항목 확인 완료" : "최종문에서 이 항목 확인"}
                     </button>
                   </div>
                   {resolved ? (
                     <p className="voice-correction-resolution-result">
-                      직원 선택 · {resolved.selected_source === "staff_manual" ? "직접 입력" : resolved.selected_value}
+                      최종문을 대조해 확인했습니다. 문장은 변경하지 않았습니다.
                     </p>
                   ) : (
-                    <p className="voice-correction-resolution-pending">이 항목을 확인해 주세요.</p>
+                    <p className="voice-correction-resolution-pending">위 최종문에서 이 항목이 맞는지 확인해 주세요. 본문을 수정하면 확인 표시가 해제됩니다.</p>
                   )}
                 </li>
               );
