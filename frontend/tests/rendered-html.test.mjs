@@ -425,7 +425,8 @@ test("keeps handwriting correction inside the image editor with instant internal
   assert.match(panel, /refine: "false"/);
   assert.match(panel, /setComparison\(result\)/);
   assert.match(panel, /setRefining\(true\)/);
-  assert.match(panel, /if \(!draftDirtyRef\.current\) setDirectEdit\(refinedText\)/);
+  assert.match(panel, /if \(comparisonRequestRef\.current !== requestNo\) return/);
+  assert.match(panel, /if \(!finalDirtyRef\.current\) \{\s*setFinalDraftText\(proposedText\.trim\(\)\)/);
   assert.match(panel, /내부 AI가 문장을 다듬는 중입니다/);
   assert.match(panel, /원본·음성·최종문 비교/);
   assert.match(panel, /원본 OCR/);
@@ -435,7 +436,7 @@ test("keeps handwriting correction inside the image editor with instant internal
   assert.match(panel, /voice-correction-final-editor/);
   assert.match(panel, /value=\{finalDraftText\}/);
   assert.match(panel, /updateFinalDraft/);
-  assert.match(panel, /const finalDirtyRef = useRef\(false\)/);
+  assert.match(panel, /const finalDirtyRef = useRef\(Boolean\(preservedDraft\?\.dirty\)\)/);
   assert.match(panel, /result\.versions\.at\(-1\)/);
   assert.match(panel, /setFinalDraftText\(latest\.approved_final_text\)/);
   assert.match(panel, /setFinalConfirmed\(true\)/);
@@ -1445,8 +1446,10 @@ test("keeps AI help tied to an active message and Android Back history", async (
   assert.doesNotMatch(messageDetail, /AI 업무 도움/);
   assert.doesNotMatch(messageDetail, /AI로 확인/);
   assert.doesNotMatch(messageDetail, /onOpenAiAssist/);
-  assert.match(messageDetail, /판독문 보기·수정/);
-  assert.match(messageDetail, /받아쓰기 보기·수정/);
+  const attachmentDisplay = await readFile(new URL("../app/components/AttachmentDisplay.tsx", import.meta.url), "utf8");
+  assert.match(messageDetail, /<AttachmentDisplay/);
+  assert.match(attachmentDisplay, /판독문 확인·수정/);
+  assert.match(attachmentDisplay, /받아쓰기 확인·수정/);
   assert.match(messageDetail, /관련 어르신 \$\{detailResidents\.length\}명/);
   assert.match(
     messageDetail,
@@ -1467,7 +1470,7 @@ test("keeps AI help tied to an active message and Android Back history", async (
   );
   assert.match(
     messageDetail,
-    /판독문 \$\{completedImageCount\}장 \$\{suffix\}/,
+    /completedImageCount > 0[\s\S]*?전체 이미지 다시 판독/,
   );
   assert.doesNotMatch(chatApp, /canUseAi=\{!me\.is_reviewer_session\}/);
   assert.match(
@@ -1509,6 +1512,7 @@ test("keeps AI help tied to an active message and Android Back history", async (
 });
 
 test("guards ten attachments and shows the selected total size", async () => {
+  const composerAttachments = await readFile(new URL("../app/composerAttachments.ts", import.meta.url), "utf8");
   const [chatApp, attachmentFormats, attachmentDisplay, styles] = await Promise.all([
     readFile(new URL("../app/components/ChatApp.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/attachmentFormats.ts", import.meta.url), "utf8"),
@@ -1516,15 +1520,15 @@ test("guards ten attachments and shows the selected total size", async () => {
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 
-  assert.match(chatApp, /const MAX_ATTACHMENTS_PER_MESSAGE = 10/);
-  assert.match(chatApp, /const MAX_ATTACHMENT_BYTES = 30 \* 1024 \* 1024/);
+  assert.match(composerAttachments, /const MAX_ATTACHMENTS_PER_MESSAGE = 10/);
+  assert.match(composerAttachments, /const MAX_ATTACHMENT_BYTES = 30 \* 1024 \* 1024/);
   assert.match(
-    chatApp,
+    composerAttachments,
     /const MAX_ATTACHMENTS_TOTAL_BYTES = 100 \* 1024 \* 1024/,
   );
-  assert.match(chatApp, /attachmentSelectionError\(selected\)/);
+  assert.match(composerAttachments, /attachmentSelectionError\(selected\)/);
   assert.match(chatApp, /attachmentSelectionError\(selectedFiles\)/);
-  assert.match(chatApp, /mergeAttachmentSelections\(files, added\)/);
+  assert.match(chatApp, /prepareComposerFiles\(current, incoming, \{clipboard\}\)/);
   assert.match(chatApp, /event\.currentTarget\.value = ""/);
   assert.match(chatApp, /사진·음성·파일/);
   assert.match(chatApp, /aria-label="선택한 첨부파일"/);
@@ -1533,8 +1537,8 @@ test("guards ten attachments and shows the selected total size", async () => {
   assert.doesNotMatch(chatApp, /slice\(0, 4\)/);
   assert.match(chatApp, /총 \{totalAttachmentMegabytes\(files\)\}MB/);
   assert.match(chatApp, /파일당 최대 30MB/);
-  assert.match(chatApp, /파일 전체 용량은 100MB/);
-  assert.match(chatApp, /현재 \$\{selectedFiles\.length\}개를 선택했습니다/);
+  assert.match(composerAttachments, /파일 전체 용량은 100MB/);
+  assert.match(composerAttachments, /현재 \$\{files\.length\}개를 선택했습니다/);
   assert.match(chatApp, /글자도 읽기/);
   for (const extension of ["xlsx", "xls", "hwp", "hwpx", "docx", "doc", "pptx", "ppt", "txt", "csv"]) {
     assert.match(attachmentFormats, new RegExp(`\\.${extension}`));
@@ -1653,12 +1657,14 @@ test("keeps attachment messages and mobile actions simple and independent", asyn
   assert.match(styles, /\.latest-comment-preview-body/);
   assert.match(styles, /-webkit-line-clamp: 2/);
   assert.match(chatApp, /const longMessage = isLongMessageBody\(displayBody\)/);
-  assert.match(chatApp, /className="bubble-text long-message-preview"/);
-  assert.match(
-    chatApp,
-    /className="long-message-preview notice-long-message-preview"/,
-  );
-  assert.match(chatApp, /aria-label="긴 글 전체 내용 열기"/);
+  assert.equal((chatApp.match(/<MessageBody text=/g) ?? []).length, 2);
+  assert.match(chatApp, /className="bubble-text" collapsed=\{longMessage\}/);
+  assert.match(chatApp, /className="notice-long-message-preview" collapsed=\{longMessage\}/);
+  assert.match(messageDetail, /<MessageBody text=\{detailBody\} as="p"/);
+  const messageBody = await readFile(new URL("../app/components/MessageBody.tsx", import.meta.url), "utf8");
+  assert.match(messageBody, /className="long-message-open"/);
+  assert.match(messageBody, />\s*전체 보기\s*</);
+  assert.match(messageBody, /onClick=\{onOpenDetail\}/);
   assert.doesNotMatch(chatApp, />\s*전체보기\s*</);
   assert.doesNotMatch(chatApp, /!longMessage \?/);
   assert.doesNotMatch(chatApp, /open-detail-hint/);
@@ -1755,6 +1761,7 @@ test("keeps attachment messages and mobile actions simple and independent", asyn
 });
 
 test("keeps product metadata, security flow, and PWA assets aligned", async () => {
+  const composerAttachments = await readFile(new URL("../app/composerAttachments.ts", import.meta.url), "utf8");
   const [
     page,
     layout,
@@ -1870,7 +1877,7 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(chatApp, /서버에 안전하게 저장하는 중/);
   assert.match(
     chatApp,
-    /data-app-update-dirty=\{[\s\S]*?messageBody\.trim\(\)\.length > 0[\s\S]*?files\.length > 0[\s\S]*?isSending/,
+    /data-app-update-dirty=\{composerStore\.hasPendingWork\(\)/,
   );
   assert.match(api, /XMLHttpRequest/);
   assert.match(api, /apiUpload/);
@@ -1997,7 +2004,6 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(adminDrawer, /직원 이름이나 소속을 먼저 검색해 주세요/);
   assert.match(adminDrawer, /참여자 예외 조정/);
   assert.match(adminDrawer, /이 방에서 먼저 보여줄 어르신/);
-  assert.doesNotMatch(adminDrawer, /\["staff-sync", "케어포 직원"\]/);
   assert.doesNotMatch(adminDrawer, /\["new-employee", "예외 직원 등록"\]/);
   assert.match(adminDrawer, /aria-label="직원 관리 도구"/);
   assert.match(adminDrawer, /summary>엑셀 관리/);
@@ -2032,10 +2038,6 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.doesNotMatch(adminDrawer, /직원 등록 및 채팅방 자동 배정/);
   assert.doesNotMatch(adminDrawer, /직원 기본정보와 로그인 여부를 직접 입력합니다/);
   assert.match(adminDrawer, /useState<EmployeeStatusFilter>\("active"\)/);
-  assert.doesNotMatch(
-    adminDrawer,
-    /!open \|\| !\["employees", "staff-sync"\]\.includes\(tab\)/,
-  );
   assert.match(adminDrawer, /어르신정보 갱신/);
   assert.match(adminDrawer, /codedSyntheticMode/);
   assert.match(
@@ -2049,97 +2051,13 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.doesNotMatch(adminDrawer, /careforResidents/);
   assert.doesNotMatch(adminDrawer, /확보한 가명 직원 명단 확인/);
   assert.match(adminDrawer, /residentSyncIsFullyComplete/);
-  assert.match(adminDrawer, /직원정보 연결 승인 기준/);
-  assert.match(adminDrawer, /가명 시험직원/);
-  assert.match(
-    adminDrawer,
-    /휴직은 기록과 권한자료를 보존하지만 로그인과 업무 접근은 중지/,
-  );
-  assert.match(adminDrawer, /최신 직원정보 확인/);
-  assert.match(adminDrawer, /확인 필요한 직원/);
-  assert.match(adminDrawer, /따로 확인할 직원이 없습니다/);
-  assert.match(adminDrawer, /가져온 곳: 케어포/);
-  assert.match(adminDrawer, /지난 갱신 기록/);
-  assert.match(adminDrawer, /admin-advanced-details/);
-  assert.doesNotMatch(adminDrawer, /unique_name_count/);
-  assert.match(adminDrawer, /새 계정 후보/);
-  assert.match(adminDrawer, /생년 근거가 없으면 관리자가 확인/);
-  assert.doesNotMatch(adminDrawer, /직위 확인 필요: 시설장은/);
-  assert.match(adminDrawer, /assignment-preview/);
-  assert.match(adminDrawer, /staffCandidateNeedsAttention/);
-  assert.match(adminDrawer, /확인이 필요한 직원/);
-  assert.match(adminDrawer, /동일인 확인 필요/);
-  assert.match(adminDrawer, /개발 시험 조직표의 이름만 참고/);
-  assert.match(adminDrawer, /staffAssignmentReviewLabels/);
-  assert.match(adminDrawer, /관리자 검토 결정안/);
-  assert.match(adminDrawer, /이 판단 저장/);
-  assert.match(adminDrawer, /review-drafts/);
-  assert.match(adminDrawer, /두 계정은 같은 사람/);
-  assert.match(adminDrawer, /모두 각각 다른 사람/);
-  assert.match(adminDrawer, /일부 계정만 같은 사람/);
-  assert.doesNotMatch(adminDrawer, /주 사업부/);
-  assert.doesNotMatch(adminDrawer, /주 직종/);
-  assert.doesNotMatch(adminDrawer, /주 직위/);
-  assert.match(adminDrawer, /실제 자격 직종/);
-  assert.match(adminDrawer, /required_for_review/);
-  assert.match(adminDrawer, /미지정 가능/);
-  assert.match(adminDrawer, /자격 직종은 선택 사항/);
-  assert.match(
-    adminDrawer,
-    /account\.assignment_required \?\? account\.employment_status !== "retired"/,
-  );
-  assert.match(adminDrawer, /staff-assignment-history-notice/);
-  assert.match(adminDrawer, /과거 근무 이력/);
-  assert.match(
-    adminDrawer,
-    /현재 조직·직종·직위 배정 대상이 아니며 별도 입력하지 않습니다/,
-  );
-  assert.doesNotMatch(adminDrawer, /실제 자격·주 직종/);
-  assert.match(adminDrawer, /current\[candidateKey\] \?\? editor/);
-  assert.match(adminDrawer, /아직 저장하지 않은 판단/);
+  assert.match(adminDrawer, /직원 직접 등록/);
+  assert.match(adminDrawer, /updateEmployee/);
+  assert.match(adminDrawer, /퇴사 처리/);
+  assert.match(adminDrawer, /useState<EmployeeStatusFilter>\("active"\)/);
+  assert.match(adminDrawer, /hasUnsavedEmployeeChanges/);
   assert.match(adminDrawer, /beforeunload/);
   assert.match(adminDrawer, /data-app-update-dirty/);
-  assert.match(adminDrawer, /미완료 확인대상/);
-  assert.match(adminDrawer, /전체 검토대상/);
-  assert.match(adminDrawer, /expandedStaffReviewCandidateKeys/);
-  assert.match(adminDrawer, /disabled=\{locked\}/);
-  assert.match(adminDrawer, /staffReviewSaveInFlightRef/);
-  assert.match(adminDrawer, /staffReviewEditorIsDirty\(candidate, editor\)/);
-  assert.match(adminDrawer, /검토 완료/);
-  assert.match(adminDrawer, /실제 직원·로그인·권한에는 반영하지 않습니다/);
-  assert.match(adminDrawer, /이름·생년 확인됨/);
-  assert.match(adminDrawer, /생년 원문은 표시하지 않고 동일인 구분에만 사용/);
-  assert.ok(
-    adminDrawer.indexOf('<div className="staff-assignment-accounts">') <
-      adminDrawer.indexOf("<StaffReviewDraftForm"),
-    "직원 계정 근거가 판단 저장 화면보다 먼저 보여야 합니다.",
-  );
-  assert.match(globalStyles, /\.staff-review-draft/);
-  assert.match(globalStyles, /\.staff-review-save/);
-  assert.match(
-    adminDrawer,
-    /carefor-staff-sync\/batches\/.*\/application-plan/,
-  );
-  assert.match(adminDrawer, /읽기 전용 3단계/);
-  assert.match(adminDrawer, /실제 반영 전 영향 확인/);
-  assert.match(adminDrawer, /개별계획 준비/);
-  assert.match(adminDrawer, /설계 필요/);
-  assert.match(adminDrawer, />차단</);
-  assert.match(adminDrawer, /계획 지문/);
-  assert.match(
-    adminDrawer,
-    /행별 변경계획은 준비됐지만 실제 반영·복구 실행기는 아직 잠겨 있습니다/,
-  );
-  assert.match(adminDrawer, /실제 조직표/);
-  assert.match(adminDrawer, /시험자료/);
-  assert.match(adminDrawer, /먼저 해결할 조건/);
-  assert.match(adminDrawer, /결정안: 자동 기본안/);
-  assert.match(adminDrawer, /저장 완료/);
-  assert.match(adminDrawer, /미완료/);
-  assert.match(adminDrawer, /로그인 계정 변경/);
-  assert.doesNotMatch(adminDrawer, /실제 반영 \(잠김\)/);
-  assert.match(globalStyles, /\.staff-application-plan/);
-  assert.match(globalStyles, /\.staff-application-state-summary/);
   assert.match(globalStyles, /\.organization-tree/);
   assert.match(
     globalStyles,
@@ -2153,7 +2071,6 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
     globalStyles,
     /@media \(max-width: 720px\)[\s\S]*?\.member-picker\s*\{[\s\S]*?max-height:\s*none/,
   );
-  assert.doesNotMatch(adminDrawer, /carefor-staff-sync\/batches\/.*\/apply/);
   assert.match(adminDrawer, /staffUnitTypes/);
   assert.match(adminDrawer, /사업부를 먼저 선택하세요/);
   assert.match(adminDrawer, /시설장은 직종이며, 대표는 직위로 선택합니다/);
@@ -2279,9 +2196,9 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(chatApp, /잘못되었거나 접근 권한이 없는 알림 주소/);
   assert.match(chatApp, /window\.history\.replaceState/);
   assert.match(chatApp, /consumeSharedTargetFiles/);
-  assert.match(chatApp, /const MAX_ATTACHMENTS_PER_MESSAGE = 10/);
-  assert.match(chatApp, /const MAX_ATTACHMENT_BYTES = 30 \* 1024 \* 1024/);
-  assert.match(chatApp, /attachmentSelectionError\(selected\)/);
+  assert.match(composerAttachments, /const MAX_ATTACHMENTS_PER_MESSAGE = 10/);
+  assert.match(composerAttachments, /const MAX_ATTACHMENT_BYTES = 30 \* 1024 \* 1024/);
+  assert.match(composerAttachments, /attachmentSelectionError\(selected\)/);
   assert.doesNotMatch(chatApp, /slice\(0, 4\)/);
   assert.match(chatApp, /총 \{totalAttachmentMegabytes\(files\)\}MB/);
   assert.match(chatApp, /파일당 최대 30MB/);
@@ -2326,7 +2243,7 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(notificationPanel, /readNativePushPermissionStatus/);
   assert.match(notificationPanel, /openNativeNotificationSettings/);
   assert.match(notificationPanel, /notification-sound-panel desktop-resizable-dialog/);
-  assert.match(notificationPanel, /이 발표환경에서는 잠금화면 알림을 제공하지 않습니다/);
+  assert.match(notificationPanel, /pushState === "disabled"[\s\S]*?현재 서버에서 잠금화면 알림을 사용할 수 없습니다/);
   assert.match(notificationPanel, /잠금화면 알림 사용 안 함/);
   assert.match(notificationPanel, /sendWebPushTest/);
   assert.match(notificationPanel, /메딕 시험 소리 듣기/);
@@ -2694,13 +2611,13 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   );
   assert.match(messageDetail, /showExtraction/);
   assert.match(messageDetail, /canEditExtraction/);
-  assert.match(messageDetail, /return attachment\.can_review_text === true/);
+  assert.match(messageDetail, /canEditExtraction=\{attachment\.can_review_text === true\}/);
   assert.doesNotMatch(messageDetail, /attachment\.uploader_id === currentUserId/);
   assert.match(
     messageDetail,
     /ResidentLinkReview message=\{detail\.message\} canEdit=\{canProcessRecords\}/,
   );
-  assert.match(messageDetail, /판독문 보기/);
+  assert.match(attachmentDisplay, /판독문 확인·수정/);
   assert.match(adminDrawer, /function employeeOrganizationSummary/);
   assert.match(adminDrawer, /function serviceAssignmentJobLabel/);
   assert.match(adminDrawer, /직종 확인 필요/);
@@ -2723,7 +2640,7 @@ test("keeps product metadata, security flow, and PWA assets aligned", async () =
   assert.match(adminDrawer, /로그인 계정이 없어도 서비스별 직종·직위는 저장/);
   assert.match(globalStyles, /\.service-assignment-editor-card\.selected/);
   assert.match(globalStyles, /\.service-assignment-fields/);
-  assert.match(adminDrawer, /기존 자료 연결/);
+  assert.match(adminDrawer, /관리자 확인/);
   assert.match(adminDrawer, /첫 로그인 비밀번호 변경/);
   assert.doesNotMatch(
     adminDrawer,

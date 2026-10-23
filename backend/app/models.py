@@ -247,7 +247,7 @@ class StaffSourceAccount(Base):
     staff_id: Mapped[UUID | None] = mapped_column(
         ForeignKey("staff.id"), nullable=True, index=True
     )
-    source_system: Mapped[str] = mapped_column(String(30), default="carefor")
+    source_system: Mapped[str] = mapped_column(String(30), default="manual")
     service_type: Mapped[str] = mapped_column(String(30))
     external_id: Mapped[str] = mapped_column(String(80))
     display_name_snapshot: Mapped[str] = mapped_column(String(100))
@@ -331,7 +331,7 @@ class StaffServiceAssignment(Base):
     """A service-specific organization and job assignment for one staff member.
 
     Legacy test accounts keep using ``StaffOrganizationAssignment`` and
-    ``StaffJobAssignment``. Carefor-backed staff can have one current row for
+    ``StaffJobAssignment``. Manually assigned staff can have one current row for
     each facility/daycare/homecare service without collapsing those roles into
     a single login-account assignment.
     """
@@ -347,7 +347,7 @@ class StaffServiceAssignment(Base):
             name="staff_service_assignments_dates_check",
         ),
         CheckConstraint(
-            "assignment_basis IN ('carefor_auto', 'admin_confirmed', 'legacy_manual')",
+            "assignment_basis IN ('admin_confirmed', 'legacy_manual')",
             name="staff_service_assignments_basis_check",
         ),
         UniqueConstraint(
@@ -412,10 +412,7 @@ class StaffServiceAssignment(Base):
     start_date: Mapped[date] = mapped_column(Date)
     end_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     assignment_basis: Mapped[str] = mapped_column(
-        String(30), default="carefor_auto"
-    )
-    source_batch_id: Mapped[UUID | None] = mapped_column(
-        ForeignKey("staff_sync_batches.id", ondelete="SET NULL"), nullable=True
+        String(30), default="admin_confirmed"
     )
     note: Mapped[str] = mapped_column(Text, default="")
     is_test_data: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -448,9 +445,6 @@ class StaffServiceAssignment(Base):
     job: Mapped[StaffJobCode | None] = relationship(foreign_keys=[job_code])
     position: Mapped[StaffPositionCode | None] = relationship(
         foreign_keys=[position_code_id]
-    )
-    source_batch: Mapped[StaffSyncBatch | None] = relationship(
-        foreign_keys=[source_batch_id]
     )
 
 
@@ -1370,299 +1364,18 @@ class ResidentSyncItem(Base):
     current_resident: Mapped[Resident | None] = relationship()
 
 
-class StaffSyncBatch(Base):
-    __tablename__ = "staff_sync_batches"
-    __table_args__ = (
-        Index(
-            "ix_staff_sync_batches_org_created",
-            "organization_id",
-            "created_at",
-        ),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    organization_id: Mapped[UUID] = mapped_column(
-        ForeignKey("organizations.id"), index=True
-    )
-    source: Mapped[str] = mapped_column(String(60), default="carefor_read_only_capture")
-    original_name: Mapped[str] = mapped_column(String(180))
-    file_sha256: Mapped[str] = mapped_column(String(64), index=True)
-    source_generated_at: Mapped[datetime | None] = mapped_column(
-        DateTime(timezone=True), nullable=True
-    )
-    status: Mapped[str] = mapped_column(String(30), default="preview", index=True)
-    summary: Mapped[dict[str, Any]] = mapped_column(JSON_DATA, default=dict)
-    created_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, onupdate=utcnow
-    )
-
-    created_by: Mapped[User] = relationship(foreign_keys=[created_by_id])
-    items: Mapped[list[StaffSyncItem]] = relationship(
-        back_populates="batch",
-        cascade="all, delete-orphan",
-        order_by="StaffSyncItem.created_at",
-    )
-    review_drafts: Mapped[list[StaffSyncReviewDraft]] = relationship(
-        back_populates="batch",
-        cascade="all, delete-orphan",
-        order_by="StaffSyncReviewDraft.created_at",
-    )
 
 
-class StaffSyncItem(Base):
-    __tablename__ = "staff_sync_items"
-    __table_args__ = (
-        UniqueConstraint(
-            "batch_id", "source_key", name="uq_staff_sync_item_source_key"
-        ),
-        Index(
-            "ix_staff_sync_items_batch_status",
-            "batch_id",
-            "status",
-            "change_type",
-        ),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    batch_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_sync_batches.id", ondelete="CASCADE"), index=True
-    )
-    organization_id: Mapped[UUID] = mapped_column(
-        ForeignKey("organizations.id"), index=True
-    )
-    source_key: Mapped[str] = mapped_column(String(140))
-    service_type: Mapped[str] = mapped_column(String(30))
-    external_id: Mapped[str] = mapped_column(String(80))
-    change_type: Mapped[str] = mapped_column(String(30), index=True)
-    status: Mapped[str] = mapped_column(String(30), default="pending", index=True)
-    current_staff_id: Mapped[UUID | None] = mapped_column(
-        ForeignKey("staff.id"), nullable=True, index=True
-    )
-    incoming_payload: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    current_snapshot: Mapped[dict[str, Any] | None] = mapped_column(
-        JSON_DATA, nullable=True
-    )
-    conflict_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-
-    batch: Mapped[StaffSyncBatch] = relationship(back_populates="items")
-    current_staff: Mapped[Staff | None] = relationship()
 
 
-class StaffSyncReviewDraft(Base):
-    __tablename__ = "staff_sync_review_drafts"
-    __table_args__ = (
-        UniqueConstraint(
-            "batch_id",
-            "candidate_key",
-            name="uq_staff_sync_review_draft_candidate",
-        ),
-        CheckConstraint(
-            "completion_status IN ('draft', 'complete')",
-            name="staff_sync_review_drafts_completion_status_check",
-        ),
-        CheckConstraint(
-            "revision >= 1",
-            name="staff_sync_review_drafts_revision_check",
-        ),
-        Index(
-            "ix_staff_sync_review_drafts_org_batch",
-            "organization_id",
-            "batch_id",
-        ),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    organization_id: Mapped[UUID] = mapped_column(
-        ForeignKey("organizations.id"), index=True
-    )
-    batch_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_sync_batches.id", ondelete="CASCADE"), index=True
-    )
-    candidate_key: Mapped[str] = mapped_column(String(40))
-    decision_payload: Mapped[dict[str, Any]] = mapped_column(JSON_DATA, default=dict)
-    completion_status: Mapped[str] = mapped_column(
-        String(20), default="draft", index=True
-    )
-    completion_issues: Mapped[list[str]] = mapped_column(JSON_DATA, default=list)
-    revision: Mapped[int] = mapped_column(Integer, default=1)
-    created_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    updated_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, onupdate=utcnow
-    )
-
-    batch: Mapped[StaffSyncBatch] = relationship(back_populates="review_drafts")
-    created_by: Mapped[User] = relationship(foreign_keys=[created_by_id])
-    updated_by: Mapped[User] = relationship(foreign_keys=[updated_by_id])
 
 
-class StaffApplicationRun(Base):
-    __tablename__ = "staff_application_runs"
-    __table_args__ = (
-        UniqueConstraint(
-            "organization_id",
-            "batch_id",
-            "plan_fingerprint",
-            "change_fingerprint",
-            name="uq_staff_application_run_plan",
-        ),
-        CheckConstraint(
-            "status IN ('prepared', 'backup_verified', 'restore_verified', "
-            "'evidence_ready', 'stale')",
-            name="staff_application_runs_status_check",
-        ),
-        Index(
-            "ix_staff_application_runs_org_created",
-            "organization_id",
-            "created_at",
-        ),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    organization_id: Mapped[UUID] = mapped_column(
-        ForeignKey("organizations.id"), index=True
-    )
-    batch_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_sync_batches.id", ondelete="RESTRICT"), index=True
-    )
-    manifest_schema_version: Mapped[int] = mapped_column(Integer, default=1)
-    plan_schema_version: Mapped[int] = mapped_column(Integer, default=2)
-    plan_fingerprint: Mapped[str] = mapped_column(String(64))
-    change_fingerprint: Mapped[str] = mapped_column(String(64))
-    manifest_fingerprint: Mapped[str] = mapped_column(String(64), unique=True)
-    organization_catalog_version: Mapped[str] = mapped_column(String(40))
-    organization_catalog_fingerprint: Mapped[str] = mapped_column(String(64))
-    leave_access_policy_version: Mapped[str] = mapped_column(String(40))
-    leave_access_policy_fingerprint: Mapped[str] = mapped_column(String(64))
-    policy_snapshot: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    plan_summary: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    entry_count: Mapped[int] = mapped_column(Integer)
-    status: Mapped[str] = mapped_column(String(30), default="prepared", index=True)
-    created_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, onupdate=utcnow
-    )
-
-    batch: Mapped[StaffSyncBatch] = relationship()
-    created_by: Mapped[User] = relationship(foreign_keys=[created_by_id])
-    entries: Mapped[list[StaffApplicationEntry]] = relationship(
-        back_populates="run",
-        cascade="all, delete-orphan",
-        order_by="StaffApplicationEntry.ordinal",
-    )
-    backup_proof: Mapped[StaffApplicationBackupProof | None] = relationship(
-        back_populates="run",
-        cascade="all, delete-orphan",
-        uselist=False,
-    )
-    restore_receipt: Mapped[StaffApplicationRestoreReceipt | None] = relationship(
-        back_populates="run",
-        cascade="all, delete-orphan",
-        uselist=False,
-    )
 
 
-class StaffApplicationEntry(Base):
-    __tablename__ = "staff_application_entries"
-    __table_args__ = (
-        UniqueConstraint(
-            "run_id", "ordinal", name="uq_staff_application_entry_ordinal"
-        ),
-        UniqueConstraint(
-            "run_id", "entry_key", name="uq_staff_application_entry_key"
-        ),
-        CheckConstraint(
-            "entity_type IN ('staff', 'source_account', 'service_period', "
-            "'service_assignment')",
-            name="staff_application_entries_entity_type_check",
-        ),
-        CheckConstraint(
-            "action IN ('create', 'update')",
-            name="staff_application_entries_action_check",
-        ),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    run_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_application_runs.id", ondelete="CASCADE"), index=True
-    )
-    ordinal: Mapped[int] = mapped_column(Integer)
-    entry_key: Mapped[str] = mapped_column(String(140))
-    entity_type: Mapped[str] = mapped_column(String(40), index=True)
-    action: Mapped[str] = mapped_column(String(20))
-    row_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), index=True)
-    natural_key: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    before_state: Mapped[dict[str, Any] | None] = mapped_column(
-        JSON_DATA, nullable=True
-    )
-    after_state: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    before_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    after_fingerprint: Mapped[str] = mapped_column(String(64))
-    dependency_keys: Mapped[list[str]] = mapped_column(JSON_DATA, default=list)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-
-    run: Mapped[StaffApplicationRun] = relationship(back_populates="entries")
 
 
-class StaffApplicationBackupProof(Base):
-    __tablename__ = "staff_application_backup_proofs"
-    __table_args__ = (
-        UniqueConstraint("run_id", name="uq_staff_application_backup_proof_run"),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    run_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_application_runs.id", ondelete="CASCADE"), index=True
-    )
-    evidence_filename: Mapped[str] = mapped_column(String(220))
-    evidence_sha256: Mapped[str] = mapped_column(String(64))
-    dump_filename: Mapped[str] = mapped_column(String(220))
-    dump_bytes: Mapped[int] = mapped_column(BigInteger)
-    dump_sha256: Mapped[str] = mapped_column(String(64))
-    database_schema: Mapped[str] = mapped_column(String(80))
-    alembic_revision: Mapped[str] = mapped_column(String(80))
-    protected_state_fingerprint: Mapped[str] = mapped_column(String(64))
-    protected_tables: Mapped[list[dict[str, Any]]] = mapped_column(JSON_DATA)
-    source_created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    raw_payload: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    verified_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    verified_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-
-    run: Mapped[StaffApplicationRun] = relationship(back_populates="backup_proof")
-    verified_by: Mapped[User] = relationship(foreign_keys=[verified_by_id])
 
 
-class StaffApplicationRestoreReceipt(Base):
-    __tablename__ = "staff_application_restore_receipts"
-    __table_args__ = (
-        UniqueConstraint("run_id", name="uq_staff_application_restore_receipt_run"),
-    )
-
-    id: Mapped[UUID] = uuid_pk()
-    run_id: Mapped[UUID] = mapped_column(
-        ForeignKey("staff_application_runs.id", ondelete="CASCADE"), index=True
-    )
-    receipt_filename: Mapped[str] = mapped_column(String(220))
-    receipt_sha256: Mapped[str] = mapped_column(String(64))
-    dump_sha256: Mapped[str] = mapped_column(String(64))
-    restored_schema: Mapped[str] = mapped_column(String(80))
-    restored_alembic_revision: Mapped[str] = mapped_column(String(80))
-    restored_state_fingerprint: Mapped[str] = mapped_column(String(64))
-    restored_tables: Mapped[list[dict[str, Any]]] = mapped_column(JSON_DATA)
-    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    finished_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    cleanup_succeeded: Mapped[bool] = mapped_column(Boolean)
-    raw_payload: Mapped[dict[str, Any]] = mapped_column(JSON_DATA)
-    verified_by_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), index=True)
-    verified_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-
-    run: Mapped[StaffApplicationRun] = relationship(back_populates="restore_receipt")
-    verified_by: Mapped[User] = relationship(foreign_keys=[verified_by_id])
 
 
 class Room(Base):

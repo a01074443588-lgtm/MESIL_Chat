@@ -293,7 +293,6 @@ def test_resident_sync_rejects_empty_and_non_admin_access():
 def test_carefor_alias_roster_status_preview_and_manual_management(tmp_path):
     identity_path = tmp_path / "carefor_identity_map.local.json"
     resident_path = tmp_path / "carefor_residents.local.json"
-    staff_path = tmp_path / "carefor_staff.local.json"
     identity_path.write_text(
         json.dumps(
             {
@@ -303,7 +302,6 @@ def test_carefor_alias_roster_status_preview_and_manual_management(tmp_path):
                         "status": "captured",
                         "captured_at": "2026-07-27T11:50:00+09:00",
                         "resident_count": 1,
-                        "staff_count": 2,
                     },
                     "daycare": {"status": "login_required"},
                     "homecare": {"status": "login_required"},
@@ -339,11 +337,9 @@ def test_carefor_alias_roster_status_preview_and_manual_management(tmp_path):
     original_paths = (
         settings.carefor_identity_map_path,
         settings.carefor_resident_roster_path,
-        settings.carefor_staff_roster_path,
     )
     settings.carefor_identity_map_path = identity_path.as_posix()
     settings.carefor_resident_roster_path = resident_path.as_posix()
-    settings.carefor_staff_roster_path = staff_path.as_posix()
     try:
         with TestClient(app) as client:
             login_admin(client)
@@ -358,8 +354,6 @@ def test_carefor_alias_roster_status_preview_and_manual_management(tmp_path):
                 "status": "captured",
                 "captured_at": "2026-07-27T02:50:00Z",
                 "resident_count": 1,
-                "staff_count": 2,
-                "staff_aliases": [],
             }
             assert (
                 status_response.json()["sources"]["daycare"]["status"]
@@ -418,7 +412,6 @@ def test_carefor_alias_roster_status_preview_and_manual_management(tmp_path):
         (
             settings.carefor_identity_map_path,
             settings.carefor_resident_roster_path,
-            settings.carefor_staff_roster_path,
         ) = original_paths
 
 

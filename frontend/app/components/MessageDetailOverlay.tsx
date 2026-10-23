@@ -1,5 +1,7 @@
 "use client";
 
+import { MessageBody } from "./MessageBody";
+
 import { useCallback, useEffect, useState } from "react";
 import { apiFetch } from "../api";
 import { messageDisplayBody } from "../messagePresentation";
@@ -317,7 +319,7 @@ export function MessageDetailOverlay({
                   </small>
                 </div>
               ) : null}
-              {detailBody ? <p>{detailBody}</p> : null}
+              {detailBody ? <MessageBody text={detailBody} as="p" /> : null}
               {detail.message.attachments.length > 0 ? (
                 <div className="detail-attachments">
                   {detail.message.attachments.map((attachment) => (

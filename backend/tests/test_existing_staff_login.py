@@ -95,7 +95,7 @@ def _add_service_assignment(
     account = StaffSourceAccount(
         organization_id=staff.organization_id,
         staff_id=staff.id,
-        source_system="carefor",
+        source_system="manual",
         service_type=service_type,
         external_id=external_id,
         display_name_snapshot=staff.display_name,
@@ -130,7 +130,7 @@ def _add_service_assignment(
         job_title_snapshot=job_code,
         start_date=start_date,
         end_date=end_date,
-        assignment_basis="carefor_auto",
+        assignment_basis="admin_confirmed",
         is_test_data=True,
     )
     db.add(assignment)

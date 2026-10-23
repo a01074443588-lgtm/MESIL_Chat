@@ -107,9 +107,6 @@ class Settings(BaseSettings):
     carefor_resident_roster_path: str = (
         PROJECT_ROOT / "data" / "carefor_residents.local.json"
     ).as_posix()
-    carefor_staff_roster_path: str = (
-        PROJECT_ROOT / "data" / "carefor_staff.local.json"
-    ).as_posix()
     carefor_identity_map_path: str = (
         PROJECT_ROOT / "data" / "carefor_identity_map.local.json"
     ).as_posix()

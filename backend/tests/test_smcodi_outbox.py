@@ -669,17 +669,13 @@ def test_main_registers_outbox_routes_and_success_responses_are_not_cached():
         assert detail_response.headers["Cache-Control"] == "private, no-store"
 
 
-def test_migration_follows_ai_assist_and_contains_no_delivery_columns():
-    migration_path = (
-        Path(__file__).resolve().parents[1]
-        / "migrations"
-        / "postgres_versions"
-        / "029_smcodi_handover_outbox.py"
-    )
-    source = migration_path.read_text(encoding="utf-8")
-    assert 'down_revision: str | None = "028_ai_assist"' in source
-    assert "smcodi_handover_target_mappings" in source
-    assert "refusing destructive downgrade" in source
-    assert "sent_at" not in source
-    assert "external_response" not in source
-    assert "delivery_status" not in source
+def test_fresh_baseline_outbox_contains_no_delivery_columns():
+    import json
+    migration_root = Path(__file__).resolve().parents[1]/'migrations'
+    statements = json.loads((migration_root/'sql/public_baseline.json').read_text(encoding='utf-8'))
+    source = next(s for s in statements if s.startswith('CREATE TABLE smcodi_handover_target_mappings '))
+    for forbidden in ('sent_at', 'external_response', 'delivery_status'):
+        assert forbidden not in source
+    baseline = (migration_root/'postgres_versions/001_public_baseline.py').read_text(encoding='utf-8')
+    assert 'down_revision = None' in baseline
+    assert 'DESTRUCTIVE_DOWNGRADE_DISABLED' in baseline

@@ -3,3 +3,17 @@
 tests
 *.pyc
 __pycache__
+.git
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*service-account*.json
+data
+uploads
+sessions
+backups
+backup
+*.log

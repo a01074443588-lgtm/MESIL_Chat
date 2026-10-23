@@ -410,7 +410,7 @@ def test_staff_directory_keeps_staff_identity_separate_from_login_account(reques
                 account = StaffSourceAccount(
                     organization_id=organization.id,
                     staff_id=staff.id,
-                    source_system="carefor",
+                    source_system="manual",
                     service_type=service_type,
                     external_id=external_id,
                     display_name_snapshot=staff.display_name,
@@ -467,7 +467,7 @@ def test_staff_directory_keeps_staff_identity_separate_from_login_account(reques
             wrong_account = StaffSourceAccount(
                 organization_id=other_organization.id,
                 staff_id=staff.id,
-                source_system="carefor",
+                source_system="manual",
                 service_type="facility",
                 external_id="WRONG-ORG-ACCOUNT",
                 display_name_snapshot=staff.display_name,
@@ -500,7 +500,7 @@ def test_staff_directory_keeps_staff_identity_separate_from_login_account(reques
                     job_title_snapshot="다른 기관 자료",
                     start_date=wrong_period.start_date,
                     end_date=wrong_period.end_date,
-                    assignment_basis="carefor_auto",
+                    assignment_basis="admin_confirmed",
                 )
             )
             db.commit()
@@ -813,7 +813,7 @@ def test_service_period_allows_only_one_open_row_per_source_account() -> None:
             account = StaffSourceAccount(
                 organization_id=organization.id,
                 staff_id=staff.id,
-                source_system="carefor",
+                source_system="manual",
                 service_type="facility",
                 external_id="OPEN-PERIOD-GUARD",
                 display_name_snapshot=staff.display_name,
@@ -868,7 +868,7 @@ def test_service_assignment_allows_only_one_open_row_per_staff_service() -> None
                 account = StaffSourceAccount(
                     organization_id=organization.id,
                     staff_id=staff.id,
-                    source_system="carefor",
+                    source_system="manual",
                     service_type="facility",
                     external_id=f"OPEN-ASSIGNMENT-GUARD-{index}",
                     display_name_snapshot=staff.display_name,
@@ -899,7 +899,7 @@ def test_service_assignment_allows_only_one_open_row_per_staff_service() -> None
                         service_type="facility",
                         start_date=period.start_date,
                         end_date=None,
-                        assignment_basis="carefor_auto",
+                        assignment_basis="admin_confirmed",
                     )
                 )
             db.add_all(assignments)

@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { ApiError, apiFetch, apiUpload, websocketUrl } from "../api";
+import { useRoomComposer } from "../roomComposer";
 import {
   CHAT_ATTACHMENT_ACCEPT,
 } from "../attachmentFormats";
@@ -39,6 +40,7 @@ import {
 import { DeveloperLauncher } from "./DeveloperLauncher";
 import { LoginScreen } from "./LoginScreen";
 import { MessageDetailOverlay } from "./MessageDetailOverlay";
+import { MessageBody } from "./MessageBody";
 import { ResidentLinkReview } from "./ResidentLinkReview";
 import { NotificationSoundPanel } from "./NotificationSoundPanel";
 import { RoomFilesOverlay } from "./RoomFilesOverlay";
@@ -422,32 +424,17 @@ export function ChatApp() {
   const [loadingOlderMessages, setLoadingOlderMessages] = useState(false);
   const [residents, setResidents] = useState<Resident[]>([]);
   const [adminResidents, setAdminResidents] = useState<Resident[]>([]);
-  const [messageBody, setMessageBody] = useState("");
-  const [replyTarget, setReplyTarget] = useState<Message | null>(null);
-  const [selectedResidentIds, setSelectedResidentIds] = useState<string[]>([]);
+  const { store: composerStore, draft: composerDraft, setMessageBody, setReplyTarget,
+    setSelectedResidentIds, setReportImage, setNoticeMode, setComposerOptionsOpen,
+    setSendFeedback, setFiles } = useRoomComposer(activeRoomId);
+  const { body: messageBody, replyTarget, residentIds: selectedResidentIds, files,
+    reportImage, noticeMode, optionsOpen: composerOptionsOpen, feedback: sendFeedback,
+    sending: isSending, progress: uploadProgress, preparing: preparingFiles } = composerDraft;
   const [residentPickerOpen, setResidentPickerOpen] = useState(false);
-  const [files, setFilesState] = useState<File[]>([]);
-  const filesRef = useRef<File[]>([]);
-  const selectionEpoch = useRef(0);
-  const selectionTail = useRef<Promise<void>>(Promise.resolve());
-  const selectionCount = useRef(0);
-  const [preparingFiles, setPreparingFiles] = useState(false);
-  function setFiles(next: File[]) {
-    // Cancellation/room changes invalidate in-flight reads, without resurrecting drafts.
-    selectionEpoch.current += 1;
-    filesRef.current = next;
-    setFilesState(next);
-  }
   const [pendingSharedFiles, setPendingSharedFiles] = useState<File[]>([]);
   const [sharedTargetError, setSharedTargetError] = useState("");
   const [sharedRoomOpeningId, setSharedRoomOpeningId] = useState<string | null>(null);
-  const [reportImage, setReportImage] = useState(false);
-  const [noticeMode, setNoticeMode] = useState(false);
-  const [composerOptionsOpen, setComposerOptionsOpen] = useState(false);
-  const [sendFeedback, setSendFeedback] = useState("");
-  const [isSending, setIsSending] = useState(false);
   const [recallingMessageId, setRecallingMessageId] = useState<string | null>(null);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [connectionState, setConnectionState] = useState<"connecting" | "online" | "offline">(
     "connecting",
   );
@@ -514,8 +501,7 @@ export function ChatApp() {
   const socketRef = useRef<WebSocket | null>(null);
   const metadataRefreshesRef = useRef<Map<string, Promise<void>>>(new Map());
   const metadataRefreshedAtRef = useRef<Map<string, number>>(new Map());
-  const sendingRef = useRef(false);
-  const composerRequestIdRef = useRef(crypto.randomUUID());
+  const roomOpenRequestRef = useRef(0);
   const wakeSyncInFlightRef = useRef(false);
   const roomRefreshRequestRef = useRef(0);
   const lastWakeSyncAtRef = useRef(0);
@@ -849,18 +835,17 @@ export function ChatApp() {
 
   const resetSession = useCallback((message?: string) => {
     forcedLogoutRef.current = true;
+    roomOpenRequestRef.current += 1;
+    roomRefreshRequestRef.current += 1;
+    composerStore.clear();
     setMe(null);
     setRooms([]);
     setMessages([]);
     setResidents([]);
     setAdminResidents([]);
-    setSelectedResidentIds([]);
-    setFiles([]);
     setPendingSharedFiles([]);
     setSharedTargetError("");
     setSharedRoomOpeningId(null);
-    setReportImage(false);
-    setComposerOptionsOpen(false);
     setActiveRoomId(null);
     activeRoomRef.current = null;
     setAdminOpen(false);
@@ -898,12 +883,13 @@ export function ChatApp() {
       "replace",
     );
     setLoginNotice(message ?? "");
-  }, []);
+  }, [composerStore]);
 
   const refreshRooms = useCallback(async () => {
     const requestId = ++roomRefreshRequestRef.current;
     const nextRooms = await apiFetch<Room[]>("/api/rooms");
     if (requestId !== roomRefreshRequestRef.current) return roomsRef.current;
+    composerStore.retainRooms(new Set(nextRooms.map(room => room.id)));
     roomsRef.current = nextRooms;
     setRooms(nextRooms);
     const current = activeRoomRef.current;
@@ -912,17 +898,13 @@ export function ChatApp() {
       setActiveRoomId(null);
       setMessages([]);
       setResidents([]);
-      setSelectedResidentIds([]);
-      setFiles([]);
-      setReportImage(false);
-      setComposerOptionsOpen(false);
       selectedMessageRef.current = null;
       setSelectedMessageId(null);
       aiAssistMessageRef.current = null;
       setAiAssistMessage(null);
     }
     return nextRooms;
-  }, []);
+  }, [composerStore]);
 
   useEffect(() => {
     roomsRef.current = rooms;
@@ -992,9 +974,9 @@ export function ChatApp() {
 
   const openRoom = useCallback(
     async (roomId: string, synchronizeHistory = true) => {
+      const requestId = ++roomOpenRequestRef.current;
       if (activeRoomRef.current !== roomId) {
         messageReturnPositionRef.current = null;
-        composerRequestIdRef.current = crypto.randomUUID();
       }
       keepRoomAtLatestRef.current = !messageReturnPositionRef.current;
       if (synchronizeHistory) {
@@ -1019,7 +1001,6 @@ export function ChatApp() {
       }
       activeRoomRef.current = roomId;
       setRoomFilesOpen(false);
-      setReplyTarget(null);
       setCopySelectionActive(false);
       setCopySelectionIds([]);
       setActiveRoomId(roomId);
@@ -1030,24 +1011,23 @@ export function ChatApp() {
           apiFetch<Message[]>(`/api/rooms/${roomId}/messages?limit=31`),
           apiFetch<Resident[]>(`/api/rooms/${roomId}/residents`),
         ]);
+        if (requestId !== roomOpenRequestRef.current || activeRoomRef.current !== roomId) return null;
         const visibleMessages =
           nextMessages.length > 30 ? nextMessages.slice(-30) : nextMessages;
         setHasOlderMessages(nextMessages.length > 30);
         messagesRef.current = visibleMessages;
         setMessages(visibleMessages);
         setResidents(nextResidents);
-        setSelectedResidentIds([]);
-        setFiles([]);
-        setReportImage(false);
-        setComposerOptionsOpen(false);
         const last = visibleMessages.at(-1);
-        if (last) await markRead(roomId, last.id);
+        if (last) void markRead(roomId, last.id).catch(() => {});
         return visibleMessages;
       } catch (reason) {
-        setError(reason instanceof Error ? reason.message : "채팅방을 열지 못했습니다.");
+        if (requestId === roomOpenRequestRef.current && activeRoomRef.current === roomId) {
+          setError(reason instanceof Error ? reason.message : "채팅방을 열지 못했습니다.");
+        }
         return null;
       } finally {
-        setRoomLoading(false);
+        if (requestId === roomOpenRequestRef.current) setRoomLoading(false);
       }
     },
     [markRead],
@@ -1216,11 +1196,6 @@ export function ChatApp() {
       setActiveRoomId(null);
       setMessages([]);
       setResidents([]);
-      setSelectedResidentIds([]);
-      setReplyTarget(null);
-      setFiles([]);
-      setReportImage(false);
-      setComposerOptionsOpen(false);
       aiAssistMessageRef.current = null;
       setAiAssistMessage(null);
     };
@@ -2087,61 +2062,45 @@ export function ChatApp() {
     if (!sendFeedback) return;
     const timer = window.setTimeout(() => setSendFeedback(""), 4_000);
     return () => window.clearTimeout(timer);
-  }, [sendFeedback]);
+  }, [activeRoomId, sendFeedback]);
 
   function queueComposerFiles(added: File[], clipboard = false) {
-    if (sendingRef.current || mentorFullReview || !activeRoomId) {
+    if (composerDraft.sending || mentorFullReview || !activeRoomId) {
       setError(mentorFullReview ? "검토 계정은 새 파일을 첨부할 수 없습니다." : "전송이 끝난 뒤 파일을 추가해 주세요.");
       return;
     }
-    const epoch = selectionEpoch.current;
-    const roomId = activeRoomId;
-    selectionCount.current += 1;
-    setPreparingFiles(true);
-    selectionTail.current = selectionTail.current.then(async () => {
-      if (epoch !== selectionEpoch.current || activeRoomRef.current !== roomId) return;
-      const selected = await prepareComposerFiles(filesRef.current, added, {clipboard});
-      if (epoch !== selectionEpoch.current || activeRoomRef.current !== roomId || sendingRef.current) return;
-      filesRef.current = selected;
-      setFilesState(selected);
-      setError("");
-      if (!selected.some(file => file.type.startsWith("image/"))) setReportImage(false);
-    }).catch(reason => {
-      if (epoch === selectionEpoch.current) setError(reason instanceof Error ? reason.message : "파일을 읽지 못했습니다. 파일 선택 버튼으로 다시 추가해 주세요.");
-    }).finally(() => {
-      selectionCount.current -= 1;
-      setPreparingFiles(selectionCount.current > 0);
-    });
+    setError("");
+    void composerStore.prepareFiles(activeRoomId, added,
+      (current, incoming) => prepareComposerFiles(current, incoming, {clipboard}));
   }
 
   async function sendMessage(event: FormEvent) {
     event.preventDefault();
-    if (sendingRef.current || selectionCount.current > 0) return;
-    if (!activeRoomId || (!messageBody.trim() && files.length === 0)) return;
-    const body = messageBody.trim();
-    const residentIds = selectedResidentIds;
-    const selectedFiles = files;
-    const selectedReplyTarget = replyTarget;
+    if (!activeRoomId) return;
+    const roomId = activeRoomId;
+    const currentDraft = composerStore.get(roomId);
+    if (currentDraft.sending || currentDraft.preparing || (!currentDraft.body.trim() && !currentDraft.files.length)) return;
+    const body = currentDraft.body.trim();
+    const residentIds = currentDraft.residentIds;
+    const selectedFiles = currentDraft.files;
+    const selectedReplyTarget = currentDraft.replyTarget;
+    const selectedNoticeMode = currentDraft.noticeMode;
     const fileSelectionError = attachmentSelectionError(selectedFiles);
     if (fileSelectionError) {
       setError(fileSelectionError);
       return;
     }
-    const selectedReportImage = reportImage;
-    setMessageBody("");
-    setReplyTarget(null);
-    setSelectedResidentIds([]);
+    const selectedReportImage = currentDraft.reportImage;
+    const job = composerStore.beginSend(roomId);
+    if (!job) return;
     setError("");
-    sendingRef.current = true;
-    setIsSending(true);
     try {
       let sent: Message;
       if (selectedFiles.length > 0) {
-        setUploadProgress(0);
         const formData = new FormData();
         formData.append("body", body);
-        formData.append("client_request_id", composerRequestIdRef.current);
-        if (noticeMode) formData.append("message_type", "notice");
+        formData.append("client_request_id", job.draft.requestId);
+        if (selectedNoticeMode) formData.append("message_type", "notice");
         residentIds.forEach((residentId) =>
           formData.append("resident_ids", residentId),
         );
@@ -2151,17 +2110,17 @@ export function ChatApp() {
         formData.append("report_image", selectedReportImage ? "true" : "false");
         selectedFiles.forEach((file) => formData.append("files", file));
         sent = await apiUpload<Message>(
-          `/api/rooms/${activeRoomId}/messages-with-files`,
+          `/api/rooms/${roomId}/messages-with-files`,
           formData,
-          setUploadProgress,
+          progress => composerStore.progress(job, progress),
         );
       } else {
-        sent = await apiFetch<Message>(`/api/rooms/${activeRoomId}/messages`, {
+        sent = await apiFetch<Message>(`/api/rooms/${roomId}/messages`, {
           method: "POST",
           body: JSON.stringify({
             body,
-            client_request_id: composerRequestIdRef.current,
-            ...(noticeMode ? { message_type: "notice" } : {}),
+            client_request_id: job.draft.requestId,
+            ...(selectedNoticeMode ? { message_type: "notice" } : {}),
             resident_id: residentIds[0] ?? null,
             resident_ids: residentIds,
             reply_to_message_id: selectedReplyTarget?.id ?? null,
@@ -2169,34 +2128,24 @@ export function ChatApp() {
           }),
         });
       }
-      keepRoomAtLatestRef.current = true;
-      setMessages((current) =>
-        current.some((item) => item.id === sent.id) ? current : [...current, sent],
-      );
-      setFiles([]);
-      composerRequestIdRef.current = crypto.randomUUID();
-      setReportImage(false);
-      await markRead(activeRoomId, sent.id);
-      setSendFeedback(
-        noticeMode
+      if (!composerStore.isCurrent(job)) return;
+      if (activeRoomRef.current === roomId) {
+        keepRoomAtLatestRef.current = true;
+        setMessages((current) =>
+          current.some((item) => item.id === sent.id) ? current : [...current, sent],
+        );
+        // A failed read acknowledgement must never restore an already sent draft.
+        void markRead(roomId, sent.id).catch(() => {});
+      }
+      composerStore.succeed(job,
+        selectedNoticeMode
           ? "공지로 보냈습니다."
           : selectedFiles.some((file) => file.type.startsWith("image/"))
             ? "이미지를 보냈습니다. 글자가 있으면 자동으로 판독합니다."
             : "메시지를 보냈습니다. 내용은 자동으로 분류됩니다.",
       );
-      setNoticeMode(false);
-      setComposerOptionsOpen(false);
     } catch (reason) {
-      setMessageBody(body);
-      setReplyTarget(selectedReplyTarget);
-      setSelectedResidentIds(residentIds);
-      setFiles(selectedFiles);
-      setReportImage(selectedReportImage);
-      setError(reason instanceof Error ? reason.message : "메시지를 보내지 못했습니다.");
-    } finally {
-      sendingRef.current = false;
-      setIsSending(false);
-      setUploadProgress(null);
+      composerStore.fail(job, reason instanceof Error ? reason.message : "메시지를 보내지 못했습니다.");
     }
   }
 
@@ -2820,14 +2769,20 @@ export function ChatApp() {
         setSharedTargetError("선택한 채팅방을 열지 못했습니다. 다른 방을 선택해 주세요.");
         return;
       }
-      setFiles(sharedFiles);
-      setReportImage(false);
+      const draft = composerStore.get(roomId);
+      if (activeRoomRef.current !== roomId || draft.sending) return;
+      const combined = await prepareComposerFiles(draft.files, sharedFiles);
+      if (activeRoomRef.current !== roomId || composerStore.get(roomId) !== draft) return;
+      composerStore.setFiles(roomId, combined);
+      composerStore.patch(roomId, {reportImage: false});
       setPendingSharedFiles([]);
       setSendFeedback(
         sharedFiles.length === 1
           ? "공유한 파일 1개를 첨부했습니다. 확인한 뒤 보내기를 눌러 주세요."
           : `공유한 파일 ${sharedFiles.length}개를 첨부했습니다. 확인한 뒤 보내기를 눌러 주세요.`,
       );
+    } catch (reason) {
+      setSharedTargetError(reason instanceof Error ? reason.message : "공유 파일을 추가하지 못했습니다. 다시 선택해 주세요.");
     } finally {
       setSharedRoomOpeningId(null);
     }
@@ -3072,11 +3027,7 @@ export function ChatApp() {
     setActiveRoomId(null);
     setMessages([]);
     setResidents([]);
-    setSelectedResidentIds([]);
-    setFiles([]);
-    setReportImage(false);
     setRoomFilesOpen(false);
-    setComposerOptionsOpen(false);
   }
 
   if (loading) {
@@ -3282,6 +3233,7 @@ export function ChatApp() {
         onDismissError={voiceCall.dismissError}
       />
       <main
+        data-app-update-dirty={composerStore.hasPendingWork() ? "true" : undefined}
         className={`chat-shell ${activeRoom ? "room-open" : ""} ${
           me.is_dev_impersonated ? "dev-impersonating" : ""
         } ${me.is_reviewer_session ? "reviewer-session" : ""}`}
@@ -3690,20 +3642,7 @@ export function ChatApp() {
                                 }
                               </span>
                             ) : null}
-                            {displayBody ? (
-                              longMessage ? (
-                                <button
-                                  type="button"
-                                  className="long-message-preview notice-long-message-preview"
-                                  aria-label="긴 글 전체 내용 열기"
-                                  onClick={() => openMessageDetail(message.id)}
-                                >
-                                  <span className="long-message-preview-body">{displayBody}</span>
-                                </button>
-                              ) : (
-                                <p>{displayBody}</p>
-                              )
-                            ) : null}
+                            {displayBody ? (<MessageBody text={displayBody} as="p" className="notice-long-message-preview" collapsed={longMessage} onOpenDetail={() => openMessageDetail(message.id)} />) : null}
                             {message.attachments.length > 0 ? (
                               <div
                                 className={`bubble-attachments ${
@@ -3828,20 +3767,7 @@ export function ChatApp() {
                                     }
                                   </span>
                                 ) : null}
-                                {displayBody ? (
-                                  longMessage ? (
-                                    <button
-                                      type="button"
-                                      className="bubble-text long-message-preview"
-                                      aria-label="긴 글 전체 내용 열기"
-                                      onClick={() => openMessageDetail(message.id)}
-                                    >
-                                      <span className="long-message-preview-body">{displayBody}</span>
-                                    </button>
-                                  ) : (
-                                    <span className="bubble-text">{displayBody}</span>
-                                  )
-                                ) : null}
+                                {displayBody ? (<MessageBody text={displayBody} className="bubble-text" collapsed={longMessage} onOpenDetail={() => openMessageDetail(message.id)} />) : null}
                                 {message.ai_help?.role === "assistant" ? (
                                   <div className={`ai-help-status status-${message.ai_help.status}`}>
                                     {message.ai_help.status === "completed"
@@ -3944,9 +3870,9 @@ export function ChatApp() {
               )}
               <div ref={messageEndRef} />
             </div>
-            {error ? (
+            {error || composerDraft.error ? (
               <p className="chat-error" role="alert">
-                {error}
+                {error || composerDraft.error}
               </p>
             ) : null}
             {sendFeedback ? (
@@ -3989,11 +3915,7 @@ export function ChatApp() {
               className="composer"
               onSubmit={sendMessage}
               aria-busy={isSending}
-              data-app-update-dirty={
-                messageBody.trim().length > 0 || files.length > 0 || isSending
-                  ? "true"
-                  : undefined
-              }
+              data-app-update-dirty={composerStore.hasPendingWork() ? "true" : undefined}
             >
               {replyTarget ? (
                 <div className="composer-reply-preview" role="status">

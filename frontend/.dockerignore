@@ -8,3 +8,16 @@ output
 test-results
 **/*.apk
 public/downloads/staff-test-release.json
+.git
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*service-account*.json
+backups
+backup
+data
+uploads
+sessions

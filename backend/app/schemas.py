@@ -373,7 +373,7 @@ class StaffServiceAssignmentResponse(BaseModel):
     start_date: date
     end_date: date | None
     assignment_basis: Literal[
-        "carefor_auto", "admin_confirmed", "legacy_manual"
+        "admin_confirmed", "legacy_manual"
     ]
     is_current: bool
 
@@ -554,20 +554,12 @@ class BulkTransferApplyRequest(BaseModel):
     item_ids: list[UUID] = Field(min_length=1, max_length=1000)
 
 
-class CareforStaffAliasResponse(BaseModel):
-    display_name: str
-    service_type: Literal["facility", "daycare", "homecare"]
-    status: str
-    job_name: str
-    is_active: bool
 
 
 class CareforRosterSourceStatus(BaseModel):
     status: Literal["captured", "login_required", "missing"]
     captured_at: datetime | None = None
     resident_count: int = 0
-    staff_count: int = 0
-    staff_aliases: list[CareforStaffAliasResponse] = Field(default_factory=list)
 
 
 class CareforRosterStatusResponse(BaseModel):
@@ -649,133 +641,22 @@ class ResidentSyncApplyRequest(BaseModel):
         return value
 
 
-class CareforStaffSyncSourceResponse(BaseModel):
-    status: Literal["ready", "missing", "invalid"]
-    original_name: str
-    generated_at: datetime | None = None
-    row_count: int = 0
-    unique_name_count: int = 0
-    service_counts: dict[str, int] = Field(default_factory=dict)
-    message: str
 
 
-class StaffSyncItemResponse(BaseModel):
-    id: UUID
-    source_key: str
-    service_type: Literal["facility", "daycare", "homecare"] | str
-    external_id: str
-    change_type: Literal[
-        "new", "update", "leave", "retire", "unchanged", "conflict"
-    ]
-    status: Literal["pending", "not_required", "blocked"]
-    current_staff_id: UUID | None
-    incoming_payload: dict
-    current_snapshot: dict | None
-    conflict_reason: str | None
 
 
-class StaffSyncBatchResponse(BaseModel):
-    id: UUID
-    source: str
-    original_name: str
-    file_sha256: str
-    source_generated_at: datetime | None
-    status: Literal["preview"]
-    summary: dict[str, int]
-    created_by_name: str
-    created_at: datetime
-    updated_at: datetime
-    items: list[StaffSyncItemResponse] = Field(default_factory=list)
 
 
-class StaffOrganizationProposalResponse(BaseModel):
-    unit_type: Literal["business", "department", "floor", "team"]
-    proposed_name: str | None
-    unit_id: UUID | None
-    match_status: Literal[
-        "matched", "reference_only", "not_proposed", "manual", "missing", "ambiguous"
-    ]
-    catalog_is_test_data: bool | None
-    reason: str
 
 
-class StaffJobProposalResponse(BaseModel):
-    source_name: str
-    code: str | None
-    proposed_name: str | None
-    match_status: Literal["matched", "manual", "missing"]
-    required_for_review: bool
-    reason: str
 
 
-class StaffPositionProposalResponse(BaseModel):
-    proposed_name: str | None
-    position_id: UUID | None
-    match_status: Literal["not_proposed", "suggested", "missing"]
-    manual_confirmation: bool
-    reason: str
 
 
-class StaffAssignmentAccountResponse(BaseModel):
-    source_key: str
-    external_id: str
-    service_type: Literal["facility", "daycare", "homecare"] | str
-    employment_status: Literal["active", "leave", "retired", "unknown"] | str
-    source_status: str
-    source_job_name: str
-    assignment_required: bool
-    assignment_ready: bool
-    organizations: list[StaffOrganizationProposalResponse]
-    job: StaffJobProposalResponse
-    position: StaffPositionProposalResponse
-    notes: list[str] = Field(default_factory=list)
 
 
-class StaffReviewPersonGroup(BaseModel):
-    source_keys: list[str] = Field(min_length=1, max_length=20)
-    primary_source_key: str | None = Field(default=None, max_length=140)
-    primary_job_code: str | None = Field(default=None, max_length=80)
-    primary_position_title: str | None = Field(default=None, max_length=100)
-
-    @field_validator("source_keys")
-    @classmethod
-    def unique_source_keys(cls, value: list[str]) -> list[str]:
-        normalized = [item.strip() for item in value]
-        if any(not item or len(item) > 140 for item in normalized):
-            raise ValueError("사람 묶음의 계정 식별값이 올바르지 않습니다.")
-        if len(set(normalized)) != len(normalized):
-            raise ValueError("한 사람 묶음에 같은 계정이 중복되어 있습니다.")
-        return normalized
-
-    @field_validator(
-        "primary_source_key",
-        "primary_job_code",
-        "primary_position_title",
-    )
-    @classmethod
-    def strip_optional_group_text(cls, value: str | None) -> str | None:
-        if value is None:
-            return None
-        return value.strip() or None
 
 
-class StaffReviewAccountAssignment(BaseModel):
-    source_key: str = Field(min_length=1, max_length=140)
-    department_name: str | None = Field(default=None, max_length=100)
-    job_code: str | None = Field(default=None, max_length=80)
-    position_title: str | None = Field(default=None, max_length=100)
-
-    @field_validator("source_key")
-    @classmethod
-    def strip_source_key(cls, value: str) -> str:
-        return value.strip()
-
-    @field_validator("department_name", "job_code", "position_title")
-    @classmethod
-    def strip_optional_assignment_text(cls, value: str | None) -> str | None:
-        if value is None:
-            return None
-        return value.strip() or None
 
 
 StaffReviewIdentityDecision = Literal[
@@ -787,184 +668,26 @@ StaffReviewIdentityDecision = Literal[
 ]
 
 
-class StaffSyncReviewDraftSaveRequest(BaseModel):
-    expected_revision: int | None = Field(default=None, ge=1)
-    identity_decision: StaffReviewIdentityDecision
-    person_groups: list[StaffReviewPersonGroup] = Field(
-        default_factory=list, max_length=20
-    )
-    account_assignments: list[StaffReviewAccountAssignment] = Field(
-        default_factory=list, max_length=20
-    )
-    note: str = Field(default="", max_length=1000)
-
-    @field_validator("note")
-    @classmethod
-    def strip_review_note(cls, value: str) -> str:
-        return value.strip()
-
-    @model_validator(mode="after")
-    def unique_account_assignments(self):
-        source_keys = [item.source_key for item in self.account_assignments]
-        if len(set(source_keys)) != len(source_keys):
-            raise ValueError("같은 계정의 배정 결정이 중복되어 있습니다.")
-        return self
 
 
-class StaffSyncReviewDraftResponse(BaseModel):
-    id: UUID
-    batch_id: UUID
-    candidate_key: str
-    identity_decision: StaffReviewIdentityDecision
-    person_groups: list[StaffReviewPersonGroup] = Field(default_factory=list)
-    account_assignments: list[StaffReviewAccountAssignment] = Field(
-        default_factory=list
-    )
-    note: str
-    completion_status: Literal["draft", "complete"]
-    completion_issues: list[str] = Field(default_factory=list)
-    revision: int
-    updated_by_name: str
-    created_at: datetime
-    updated_at: datetime
 
 
-class StaffPersonCandidateResponse(BaseModel):
-    candidate_key: str
-    display_name: str
-    identity_status: Literal[
-        "single_account",
-        "linked_account",
-        "linked_accounts",
-        "verified_identity",
-        "confirmation_required",
-        "data_conflict",
-    ]
-    identity_evidence: Literal["name_birth", "name_only"]
-    same_name_candidate_count: int = Field(ge=1)
-    review_status: Literal[
-        "proposal_ready", "identity_review", "assignment_review", "blocked"
-    ]
-    account_count: int
-    requires_identity_confirmation: bool
-    requires_assignment_confirmation: bool
-    linked_staff_ids: list[UUID] = Field(default_factory=list)
-    accounts: list[StaffAssignmentAccountResponse] = Field(default_factory=list)
-    notes: list[str] = Field(default_factory=list)
-    review_draft: StaffSyncReviewDraftResponse | None = None
 
 
-class StaffAssignmentPreviewResponse(BaseModel):
-    batch_id: UUID
-    source_generated_at: datetime | None
-    summary: dict[str, int]
-    candidates: list[StaffPersonCandidateResponse] = Field(default_factory=list)
 
 
-class StaffApplicationPlanBlockerResponse(BaseModel):
-    code: str
-    message: str
-    affected_people: int = Field(ge=0)
-    affected_accounts: int = Field(ge=0)
 
 
-class StaffApplicationPersonPlanResponse(BaseModel):
-    plan_key: str
-    source_keys: list[str] = Field(default_factory=list)
-    planned_internal_code: str
-    target_staff_id: UUID | None
-    staff_action: Literal["create", "update", "no_change", "blocked"]
-    employment_status: Literal["active", "leave", "retired"]
-    service_types: list[str] = Field(default_factory=list)
-    source_account_actions: dict[str, int]
-    service_period_actions: dict[str, int]
-    service_assignment_actions: dict[str, int]
-    current_assignment_account_count: int = Field(ge=0)
-    history_only_account_count: int = Field(ge=0)
-    login_action: Literal["none"]
-    access_policy: Literal["active_access", "leave_suspended"]
-    blocker_codes: list[str] = Field(default_factory=list)
 
 
-class StaffApplicationCandidatePlanResponse(BaseModel):
-    candidate_key: str
-    display_name: str
-    decision_source: Literal[
-        "auto_proposal", "saved_review", "missing_review", "blocked_source"
-    ]
-    outcome: Literal["prepared", "needs_design", "blocked"]
-    account_count: int = Field(ge=0)
-    history_only_account_count: int = Field(ge=0)
-    person_plans: list[StaffApplicationPersonPlanResponse] = Field(default_factory=list)
-    blocker_codes: list[str] = Field(default_factory=list)
-    changes: list[str] = Field(default_factory=list)
 
 
-class StaffApplicationPlanResponse(BaseModel):
-    plan_schema_version: Literal[2]
-    batch_id: UUID
-    file_sha256: str
-    read_only: Literal[True]
-    apply_locked: Literal[True]
-    can_apply: Literal[False]
-    plan_fingerprint: str
-    change_fingerprint: str
-    change_manifest_supported: bool
-    organization_catalog_version: str
-    organization_catalog_fingerprint: str
-    leave_access_policy_version: str
-    leave_access_policy_fingerprint: str
-    leave_access_policy: dict[str, str]
-    summary: dict[str, int]
-    blockers: list[StaffApplicationPlanBlockerResponse] = Field(default_factory=list)
-    candidates: list[StaffApplicationCandidatePlanResponse] = Field(
-        default_factory=list
-    )
-    safety_notes: list[str] = Field(default_factory=list)
-    protected_tables: list[str] = Field(default_factory=list)
 
 
-class StaffApplicationRunPrepareRequest(BaseModel):
-    expected_plan_fingerprint: str = Field(pattern=r"^[0-9a-f]{64}$")
-    expected_change_fingerprint: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
-class StaffApplicationEvidenceRequest(BaseModel):
-    evidence_filename: str = Field(min_length=1, max_length=220)
-
-    @field_validator("evidence_filename")
-    @classmethod
-    def strip_evidence_filename(cls, value: str) -> str:
-        return value.strip()
 
 
-class StaffApplicationRunResponse(BaseModel):
-    id: UUID
-    batch_id: UUID
-    manifest_schema_version: Literal[1]
-    plan_schema_version: Literal[2]
-    plan_fingerprint: str
-    change_fingerprint: str
-    manifest_fingerprint: str
-    organization_catalog_version: str
-    leave_access_policy_version: str
-    status: Literal[
-        "prepared",
-        "backup_verified",
-        "restore_verified",
-        "evidence_ready",
-        "stale",
-    ]
-    entry_count: int = Field(ge=0)
-    entry_summary: dict[str, int]
-    plan_summary: dict[str, int]
-    backup_verified: bool
-    restore_verified: bool
-    evidence_ready: bool
-    apply_locked: Literal[True]
-    can_apply: Literal[False]
-    created_at: datetime
-    updated_at: datetime
 
 
 class RoomMemberResponse(BaseModel):

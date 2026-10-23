@@ -152,10 +152,6 @@ from .models import (
     StaffServiceAssignment,
     StaffServicePeriod,
     StaffSourceAccount,
-    StaffApplicationRun,
-    StaffSyncBatch,
-    StaffSyncItem,
-    StaffSyncReviewDraft,
     User,
     WorkItem,
     WorkItemDocumentDraft,
@@ -299,8 +295,6 @@ from .schemas import (
     CareDocumentCandidateType,
     CareforRosterSourceStatus,
     CareforRosterStatusResponse,
-    CareforStaffSyncSourceResponse,
-    CareforStaffAliasResponse,
     BulkTransferApplyRequest,
     CoordinateBox,
     CoordinateRegion,
@@ -389,13 +383,6 @@ from .schemas import (
     ResidentSyncApplyRequest,
     ResidentSyncBatchResponse,
     ResidentSyncItemResponse,
-    StaffSyncBatchResponse,
-    StaffSyncItemResponse,
-    StaffAssignmentPreviewResponse,
-    StaffApplicationPlanResponse,
-    StaffApplicationEvidenceRequest,
-    StaffApplicationRunPrepareRequest,
-    StaffApplicationRunResponse,
     StaffDirectoryAdminCreate,
     StaffDirectoryAdminUpdate,
     StaffDirectoryResponse,
@@ -407,8 +394,6 @@ from .schemas import (
     StaffRoomResponse,
     StaffRoomMemberResponse,
     StaffRoomUpdate,
-    StaffSyncReviewDraftResponse,
-    StaffSyncReviewDraftSaveRequest,
     ReviewerSessionRequest,
     UsernameAvailabilityResponse,
     ReviewerSessionResponse,
@@ -457,21 +442,6 @@ from .resident_care_planning import (
 )
 from .social_worker_guidance import build_social_worker_guidance
 from .search_context import isolate_search_entries_for_resident, resident_specific_search_text
-from .staff_application_manifest import (
-    StaffApplicationManifestError,
-    application_run_response,
-    attach_backup_proof,
-    attach_restore_receipt,
-    prepare_application_run,
-)
-from .staff_sync import (
-    StaffSyncError,
-    build_staff_application_plan,
-    build_staff_assignment_preview,
-    build_staff_preview_entries,
-    normalize_staff_review_draft,
-    parse_staff_roster_file,
-)
 from .security import (
     MENTOR_FULL_REVIEW_EXPERIENCE,
     REVIEWER_SESSION_USER_AGENT_PREFIX,
@@ -3264,6 +3234,12 @@ async def _run_new_attachment_processing_batch(
 
 
 def bootstrap_database() -> None:
+    from .public_install_guard import guard_runtime
+    if settings.environment != "test":
+        if settings.auto_create_schema:
+            raise RuntimeError("PUBLIC_AUTO_CREATE_SCHEMA_DISABLED")
+        with engine.connect() as connection:
+            guard_runtime(connection, settings.database_schema, Base.metadata.tables)
     if settings.auto_create_schema:
         Base.metadata.create_all(bind=engine)
     Path(settings.upload_dir).resolve().mkdir(parents=True, exist_ok=True)
@@ -11228,719 +11204,42 @@ def _parse_local_timestamp(value: object) -> datetime | None:
     return _as_utc(parsed)
 
 
-def _carefor_staff_sync_source() -> CareforStaffSyncSourceResponse:
-    path = Path(settings.carefor_staff_roster_path)
-    original_name = path.name[:180] or "carefor_staff.local.json"
-    if not path.is_file():
-        return CareforStaffSyncSourceResponse(
-            status="missing",
-            original_name=original_name,
-            message="개발본에 케어포 직원 명단이 아직 준비되지 않았습니다.",
-        )
-    try:
-        content = path.read_bytes()
-        if not content:
-            raise StaffSyncError("직원 명단 파일이 비어 있습니다.")
-        if len(content) > MAX_RESIDENT_SYNC_FILE_BYTES:
-            raise StaffSyncError("직원 명단 파일은 2MB 이하여야 합니다.")
-        generated_at, rows = parse_staff_roster_file(content)
-    except (OSError, StaffSyncError) as exc:
-        return CareforStaffSyncSourceResponse(
-            status="invalid",
-            original_name=original_name,
-            message=str(exc),
-        )
-    service_counts = {"facility": 0, "daycare": 0, "homecare": 0}
-    unique_names: set[str] = set()
-    for row in rows:
-        display_name = (
-            str(
-                row.get("display_name")
-                or row.get("staff_name")
-                or row.get("employee_name")
-                or row.get("name")
-                or ""
-            )
-            .replace(" ", "")
-            .strip()
-        )
-        if display_name:
-            unique_names.add(display_name)
-        raw = str(row.get("service_type", "")).strip().lower()
-        service_type = {
-            "facility_care": "facility",
-            "시설": "facility",
-            "요양원": "facility",
-            "day_care": "daycare",
-            "주간": "daycare",
-            "주간보호": "daycare",
-            "home_care": "homecare",
-            "방문": "homecare",
-            "방문요양": "homecare",
-        }.get(raw, raw)
-        if service_type in service_counts:
-            service_counts[service_type] += 1
-    return CareforStaffSyncSourceResponse(
-        status="ready",
-        original_name=original_name,
-        generated_at=generated_at,
-        row_count=len(rows),
-        unique_name_count=len(unique_names),
-        service_counts=service_counts,
-        message="읽기 전용 직원 명단을 안전하게 미리볼 수 있습니다.",
-    )
 
 
-def _staff_sync_batch_response(
-    batch: StaffSyncBatch,
-    *,
-    include_items: bool = True,
-) -> StaffSyncBatchResponse:
-    items = batch.items if include_items else []
-    return StaffSyncBatchResponse(
-        id=batch.id,
-        source=batch.source,
-        original_name=batch.original_name,
-        file_sha256=batch.file_sha256,
-        source_generated_at=(
-            _as_utc(batch.source_generated_at) if batch.source_generated_at else None
-        ),
-        status="preview",
-        summary=batch.summary,
-        created_by_name=batch.created_by.full_name,
-        created_at=_as_utc(batch.created_at),
-        updated_at=_as_utc(batch.updated_at),
-        items=[
-            StaffSyncItemResponse(
-                id=item.id,
-                source_key=item.source_key,
-                service_type=item.service_type,
-                external_id=item.external_id,
-                change_type=item.change_type,
-                status=item.status,
-                current_staff_id=item.current_staff_id,
-                incoming_payload=item.incoming_payload,
-                current_snapshot=item.current_snapshot,
-                conflict_reason=item.conflict_reason,
-            )
-            for item in items
-        ],
-    )
 
 
-def _staff_sync_review_draft_response(
-    draft: StaffSyncReviewDraft,
-) -> StaffSyncReviewDraftResponse:
-    payload = draft.decision_payload or {}
-    return StaffSyncReviewDraftResponse(
-        id=draft.id,
-        batch_id=draft.batch_id,
-        candidate_key=draft.candidate_key,
-        identity_decision=payload.get("identity_decision", "pending"),
-        person_groups=payload.get("person_groups") or [],
-        account_assignments=payload.get("account_assignments") or [],
-        note=str(payload.get("note") or ""),
-        completion_status=draft.completion_status,
-        completion_issues=draft.completion_issues or [],
-        revision=draft.revision,
-        updated_by_name=draft.updated_by.full_name,
-        created_at=_as_utc(draft.created_at),
-        updated_at=_as_utc(draft.updated_at),
-    )
 
 
-def _staff_assignment_preview_for_batch(
-    db: Session,
-    batch: StaffSyncBatch,
-    *,
-    include_review_drafts: bool = True,
-) -> dict[str, Any]:
-    entries = [
-        {
-            "source_key": item.source_key,
-            "service_type": item.service_type,
-            "external_id": item.external_id,
-            "change_type": item.change_type,
-            "status": item.status,
-            "current_staff_id": item.current_staff_id,
-            "incoming_payload": item.incoming_payload,
-            "conflict_reason": item.conflict_reason,
-        }
-        for item in batch.items
-    ]
-    preview = build_staff_assignment_preview(
-        db,
-        batch.organization_id,
-        entries,
-    )
-    drafts_by_candidate = (
-        {
-            draft.candidate_key: draft
-            for draft in db.scalars(
-                select(StaffSyncReviewDraft).where(
-                    StaffSyncReviewDraft.batch_id == batch.id,
-                    StaffSyncReviewDraft.organization_id == batch.organization_id,
-                )
-            ).all()
-        }
-        if include_review_drafts
-        else {}
-    )
-    for candidate in preview["candidates"]:
-        draft = drafts_by_candidate.get(candidate["candidate_key"])
-        candidate["review_draft"] = (
-            _staff_sync_review_draft_response(draft) if draft is not None else None
-        )
-    review_required = [
-        candidate
-        for candidate in preview["candidates"]
-        if candidate["review_status"] in {"identity_review", "assignment_review"}
-    ]
-    review_drafts = [
-        drafts_by_candidate[candidate["candidate_key"]]
-        for candidate in review_required
-        if candidate["candidate_key"] in drafts_by_candidate
-    ]
-    preview["summary"].update(
-        {
-            "review_required_total": len(review_required),
-            "decision_saved": len(review_drafts),
-            "decision_complete": sum(
-                draft.completion_status == "complete" for draft in review_drafts
-            ),
-            "decision_draft": sum(
-                draft.completion_status == "draft" for draft in review_drafts
-            ),
-        }
-    )
-    return preview
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/status",
-    response_model=CareforStaffSyncSourceResponse,
-)
-def carefor_staff_sync_status(admin: User = Depends(require_admin)):
-    del admin
-    return _carefor_staff_sync_source()
 
 
-@app.post(
-    "/api/admin/carefor-staff-sync/preview",
-    response_model=StaffSyncBatchResponse,
-    status_code=201,
-)
-def preview_carefor_staff_sync(
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    path = Path(settings.carefor_staff_roster_path)
-    try:
-        content = path.read_bytes()
-    except OSError as exc:
-        raise HTTPException(
-            status_code=422,
-            detail="개발본에 케어포 직원 명단이 아직 준비되지 않았습니다.",
-        ) from exc
-    if not content:
-        raise HTTPException(
-            status_code=422, detail="빈 직원 명단은 미리볼 수 없습니다."
-        )
-    if len(content) > MAX_RESIDENT_SYNC_FILE_BYTES:
-        raise HTTPException(
-            status_code=413, detail="직원 명단 파일은 2MB 이하여야 합니다."
-        )
-    try:
-        source_generated_at, rows = parse_staff_roster_file(content)
-        entries, summary = build_staff_preview_entries(
-            db,
-            admin.organization_id,
-            rows,
-        )
-    except StaffSyncError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
-
-    batch = StaffSyncBatch(
-        organization_id=admin.organization_id,
-        source="carefor_read_only_capture",
-        original_name=path.name[:180] or "carefor_staff.local.json",
-        file_sha256=sha256(content).hexdigest(),
-        source_generated_at=source_generated_at,
-        status="preview",
-        summary=summary,
-        created_by_id=admin.id,
-    )
-    db.add(batch)
-    db.flush()
-    db.add_all(
-        [
-            StaffSyncItem(
-                batch_id=batch.id,
-                organization_id=admin.organization_id,
-                **entry,
-            )
-            for entry in entries
-        ]
-    )
-    record_audit(
-        db,
-        actor_id=admin.id,
-        action="staff.carefor_sync_preview_created",
-        target_type="staff_sync_batch",
-        target_id=batch.id,
-        details={
-            "source": batch.source,
-            "original_name": batch.original_name,
-            "file_sha256": batch.file_sha256,
-            "summary": summary,
-            "safety": "preview_only_missing_rows_not_retired",
-        },
-    )
-    db.commit()
-    db.refresh(batch)
-    return _staff_sync_batch_response(batch)
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/batches",
-    response_model=list[StaffSyncBatchResponse],
-)
-def list_carefor_staff_sync_batches(
-    limit: int = 10,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    safe_limit = max(1, min(limit, 30))
-    batches = db.scalars(
-        select(StaffSyncBatch)
-        .where(StaffSyncBatch.organization_id == admin.organization_id)
-        .order_by(StaffSyncBatch.created_at.desc())
-        .limit(safe_limit)
-    ).all()
-    return [_staff_sync_batch_response(batch, include_items=False) for batch in batches]
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/batches/{batch_id}",
-    response_model=StaffSyncBatchResponse,
-)
-def get_carefor_staff_sync_batch(
-    batch_id: UUID,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == batch_id,
-            StaffSyncBatch.organization_id == admin.organization_id,
-        )
-    )
-    if batch is None:
-        raise HTTPException(
-            status_code=404, detail="직원 동기화 미리보기를 찾을 수 없습니다."
-        )
-    return _staff_sync_batch_response(batch)
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/batches/{batch_id}/assignment-preview",
-    response_model=StaffAssignmentPreviewResponse,
-)
-def get_carefor_staff_assignment_preview(
-    batch_id: UUID,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == batch_id,
-            StaffSyncBatch.organization_id == admin.organization_id,
-        )
-    )
-    if batch is None:
-        raise HTTPException(
-            status_code=404, detail="직원 동기화 미리보기를 찾을 수 없습니다."
-        )
-    preview = _staff_assignment_preview_for_batch(db, batch)
-    return StaffAssignmentPreviewResponse(
-        batch_id=batch.id,
-        source_generated_at=(
-            _as_utc(batch.source_generated_at) if batch.source_generated_at else None
-        ),
-        summary=preview["summary"],
-        candidates=preview["candidates"],
-    )
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/batches/{batch_id}/application-plan",
-    response_model=StaffApplicationPlanResponse,
-)
-def get_carefor_staff_application_plan(
-    batch_id: UUID,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == batch_id,
-            StaffSyncBatch.organization_id == admin.organization_id,
-        )
-    )
-    if batch is None:
-        raise HTTPException(
-            status_code=404, detail="직원 동기화 미리보기를 찾을 수 없습니다."
-        )
-
-    plan = _staff_application_plan_for_batch(db, batch)
-    return StaffApplicationPlanResponse(**plan)
 
 
-def _staff_application_plan_for_batch(
-    db: Session,
-    batch: StaffSyncBatch,
-) -> dict[str, Any]:
-    preview = _staff_assignment_preview_for_batch(db, batch)
-    entries = [
-        {
-            "source_key": item.source_key,
-            "service_type": item.service_type,
-            "external_id": item.external_id,
-            "change_type": item.change_type,
-            "status": item.status,
-            "current_staff_id": item.current_staff_id,
-            "incoming_payload": item.incoming_payload,
-            "current_snapshot": item.current_snapshot,
-            "conflict_reason": item.conflict_reason,
-        }
-        for item in batch.items
-    ]
-    plan = build_staff_application_plan(
-        db,
-        batch.organization_id,
-        batch_id=batch.id,
-        file_sha256=batch.file_sha256,
-        batch_status=batch.status,
-        entries=entries,
-        candidates=preview["candidates"],
-    )
-    return plan
 
 
-def _staff_application_run_for_admin(
-    db: Session,
-    admin: User,
-    run_id: UUID,
-) -> StaffApplicationRun:
-    run = db.scalar(
-        select(StaffApplicationRun).where(
-            StaffApplicationRun.id == run_id,
-            StaffApplicationRun.organization_id == admin.organization_id,
-        )
-    )
-    if run is None:
-        raise HTTPException(
-            status_code=404, detail="직원 반영 실행기록을 찾을 수 없습니다."
-        )
-    return run
 
 
-def _revalidate_staff_application_run(
-    db: Session,
-    run: StaffApplicationRun,
-) -> dict[str, Any]:
-    if run.status == "stale":
-        raise HTTPException(
-            status_code=409, detail="현재 실행기록은 자료 변경으로 만료되었습니다."
-        )
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == run.batch_id,
-            StaffSyncBatch.organization_id == run.organization_id,
-        )
-    )
-    if batch is None:
-        run.status = "stale"
-        db.commit()
-        raise HTTPException(
-            status_code=409,
-            detail="원본 직원 배치를 찾을 수 없어 실행기록이 만료됐습니다.",
-        )
-    plan = _staff_application_plan_for_batch(db, batch)
-    matches = (
-        plan["plan_fingerprint"] == run.plan_fingerprint
-        and plan["change_fingerprint"] == run.change_fingerprint
-        and plan["organization_catalog_fingerprint"]
-        == run.organization_catalog_fingerprint
-        and plan["leave_access_policy_fingerprint"]
-        == run.leave_access_policy_fingerprint
-    )
-    if not matches:
-        run.status = "stale"
-        db.commit()
-        raise HTTPException(
-            status_code=409,
-            detail="원본·결정안·조직표 또는 현재 직원 상태가 달라져 실행기록이 만료됐습니다.",
-        )
-    return plan
 
 
-@app.post(
-    "/api/admin/carefor-staff-sync/batches/{batch_id}/application-runs",
-    response_model=StaffApplicationRunResponse,
-    status_code=201,
-)
-def prepare_carefor_staff_application_run(
-    batch_id: UUID,
-    payload: StaffApplicationRunPrepareRequest,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == batch_id,
-            StaffSyncBatch.organization_id == admin.organization_id,
-        )
-    )
-    if batch is None:
-        raise HTTPException(
-            status_code=404, detail="직원 동기화 미리보기를 찾을 수 없습니다."
-        )
-    plan = _staff_application_plan_for_batch(db, batch)
-    if (
-        plan["plan_fingerprint"] != payload.expected_plan_fingerprint
-        or plan["change_fingerprint"] != payload.expected_change_fingerprint
-    ):
-        raise HTTPException(
-            status_code=409,
-            detail="화면에서 확인한 계획이 달라졌습니다. 계획을 새로 조회해 주세요.",
-        )
-    try:
-        run = prepare_application_run(
-            db,
-            organization_id=admin.organization_id,
-            batch=batch,
-            created_by_id=admin.id,
-            plan=plan,
-        )
-    except StaffApplicationManifestError as exc:
-        db.rollback()
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
-    db.commit()
-    db.refresh(run)
-    return StaffApplicationRunResponse(**application_run_response(run))
 
 
-@app.get(
-    "/api/admin/carefor-staff-sync/application-runs/{run_id}",
-    response_model=StaffApplicationRunResponse,
-)
-def get_carefor_staff_application_run(
-    run_id: UUID,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    run = _staff_application_run_for_admin(db, admin, run_id)
-    return StaffApplicationRunResponse(**application_run_response(run))
 
 
-@app.post(
-    "/api/admin/carefor-staff-sync/application-runs/{run_id}/revalidate",
-    response_model=StaffApplicationRunResponse,
-)
-def revalidate_carefor_staff_application_run(
-    run_id: UUID,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    run = _staff_application_run_for_admin(db, admin, run_id)
-    _revalidate_staff_application_run(db, run)
-    return StaffApplicationRunResponse(**application_run_response(run))
 
 
-@app.post(
-    "/api/admin/carefor-staff-sync/application-runs/{run_id}/backup-proof",
-    response_model=StaffApplicationRunResponse,
-)
-def verify_carefor_staff_application_backup(
-    run_id: UUID,
-    payload: StaffApplicationEvidenceRequest,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    run = _staff_application_run_for_admin(db, admin, run_id)
-    _revalidate_staff_application_run(db, run)
-    try:
-        attach_backup_proof(
-            db,
-            run=run,
-            evidence_filename=payload.evidence_filename,
-            verified_by_id=admin.id,
-        )
-    except StaffApplicationManifestError as exc:
-        db.rollback()
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
-    db.commit()
-    db.refresh(run)
-    return StaffApplicationRunResponse(**application_run_response(run))
 
 
-@app.post(
-    "/api/admin/carefor-staff-sync/application-runs/{run_id}/restore-receipt",
-    response_model=StaffApplicationRunResponse,
-)
-def verify_carefor_staff_application_restore(
-    run_id: UUID,
-    payload: StaffApplicationEvidenceRequest,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    run = _staff_application_run_for_admin(db, admin, run_id)
-    _revalidate_staff_application_run(db, run)
-    try:
-        attach_restore_receipt(
-            db,
-            run=run,
-            receipt_filename=payload.evidence_filename,
-            verified_by_id=admin.id,
-        )
-    except StaffApplicationManifestError as exc:
-        db.rollback()
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
-    db.commit()
-    db.refresh(run)
-    return StaffApplicationRunResponse(**application_run_response(run))
 
 
-@app.put(
-    "/api/admin/carefor-staff-sync/batches/{batch_id}/review-drafts/{candidate_key}",
-    response_model=StaffSyncReviewDraftResponse,
-)
-def save_carefor_staff_review_draft(
-    batch_id: UUID,
-    candidate_key: str,
-    payload: StaffSyncReviewDraftSaveRequest,
-    admin: User = Depends(require_admin),
-    db: Session = Depends(get_db),
-):
-    batch = db.scalar(
-        select(StaffSyncBatch).where(
-            StaffSyncBatch.id == batch_id,
-            StaffSyncBatch.organization_id == admin.organization_id,
-            StaffSyncBatch.status == "preview",
-        )
-    )
-    if batch is None:
-        raise HTTPException(
-            status_code=404, detail="직원 동기화 미리보기를 찾을 수 없습니다."
-        )
-
-    preview = _staff_assignment_preview_for_batch(
-        db,
-        batch,
-        include_review_drafts=False,
-    )
-    candidate = next(
-        (
-            item
-            for item in preview["candidates"]
-            if item["candidate_key"] == candidate_key
-        ),
-        None,
-    )
-    if candidate is None:
-        raise HTTPException(
-            status_code=404, detail="검토할 사람 후보를 찾을 수 없습니다."
-        )
-    if candidate["review_status"] == "blocked":
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="자료 충돌을 먼저 해결해야 결정안을 저장할 수 있습니다.",
-        )
-    if candidate["review_status"] == "proposal_ready":
-        raise HTTPException(
-            status_code=422,
-            detail="이 후보는 별도 관리자 결정이 필요한 대상이 아닙니다.",
-        )
-
-    try:
-        normalized_payload, completion_issues = normalize_staff_review_draft(
-            db,
-            admin.organization_id,
-            candidate,
-            payload.model_dump(exclude={"expected_revision"}),
-        )
-    except StaffSyncError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
-
-    draft = db.scalar(
-        select(StaffSyncReviewDraft)
-        .where(
-            StaffSyncReviewDraft.batch_id == batch.id,
-            StaffSyncReviewDraft.candidate_key == candidate_key,
-            StaffSyncReviewDraft.organization_id == admin.organization_id,
-        )
-        .with_for_update()
-        .execution_options(populate_existing=True)
-    )
-    try:
-        if draft is None:
-            if payload.expected_revision is not None:
-                raise HTTPException(
-                    status_code=status.HTTP_409_CONFLICT,
-                    detail="다른 화면에서 결정안 상태가 바뀌었습니다. 새로고침 후 다시 저장해 주세요.",
-                )
-            draft = StaffSyncReviewDraft(
-                organization_id=admin.organization_id,
-                batch_id=batch.id,
-                candidate_key=candidate_key,
-                decision_payload=normalized_payload,
-                completion_status="complete" if not completion_issues else "draft",
-                completion_issues=completion_issues,
-                revision=1,
-                created_by_id=admin.id,
-                updated_by_id=admin.id,
-            )
-            db.add(draft)
-            db.flush()
-        else:
-            if payload.expected_revision != draft.revision:
-                raise HTTPException(
-                    status_code=status.HTTP_409_CONFLICT,
-                    detail="다른 화면에서 결정안이 수정되었습니다. 새로고침 후 다시 저장해 주세요.",
-                )
-            draft.decision_payload = normalized_payload
-            draft.completion_status = "complete" if not completion_issues else "draft"
-            draft.completion_issues = completion_issues
-            draft.revision += 1
-            draft.updated_by_id = admin.id
-            draft.updated_at = utcnow()
-
-        record_audit(
-            db,
-            actor_id=admin.id,
-            action="staff.carefor_review_draft_saved",
-            target_type="staff_sync_review_draft",
-            target_id=draft.id,
-            details={
-                "batch_id": str(batch.id),
-                "candidate_key": candidate_key,
-                "revision": draft.revision,
-                "identity_decision": normalized_payload["identity_decision"],
-                "group_count": len(normalized_payload["person_groups"]),
-                "completion_status": draft.completion_status,
-                "safety": "review_draft_only_no_staff_mutation",
-            },
-        )
-        db.commit()
-    except IntegrityError as exc:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="다른 화면에서 결정안이 먼저 저장되었습니다. 새로고침 후 다시 확인해 주세요.",
-        ) from exc
-    db.refresh(draft)
-    return _staff_sync_review_draft_response(draft)
 
 
 @app.get(
@@ -11957,38 +11256,6 @@ def carefor_roster_status(
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         payload = {}
-    staff_path = Path(settings.carefor_staff_roster_path)
-    try:
-        staff_payload = json.loads(staff_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        staff_payload = {}
-    raw_staff = (
-        staff_payload.get("staff", []) if isinstance(staff_payload, dict) else []
-    )
-    staff_by_service: dict[str, list[CareforStaffAliasResponse]] = {
-        "facility": [],
-        "daycare": [],
-        "homecare": [],
-    }
-    if isinstance(raw_staff, list):
-        for row in raw_staff:
-            if not isinstance(row, dict):
-                continue
-            service_type = str(row.get("service_type", "")).strip()
-            display_name = str(row.get("display_name", "")).strip()
-            if service_type not in staff_by_service or "(가명)" not in display_name:
-                continue
-            staff_by_service[service_type].append(
-                CareforStaffAliasResponse(
-                    display_name=display_name,
-                    service_type=service_type,
-                    status=str(row.get("status", "")).strip() or "상태 미확인",
-                    job_name=str(row.get("job_name", "")).strip() or "직종 미확인",
-                    is_active=bool(row.get("is_active", True)),
-                )
-            )
-    for aliases in staff_by_service.values():
-        aliases.sort(key=lambda item: item.display_name)
     raw_sources = payload.get("sources", {}) if isinstance(payload, dict) else {}
     sources: dict[str, CareforRosterSourceStatus] = {}
     for service_type in ("facility", "daycare", "homecare"):
@@ -12003,8 +11270,6 @@ def carefor_roster_status(
             status=source_status,
             captured_at=_parse_local_timestamp(raw.get("captured_at")),
             resident_count=max(0, int(raw.get("resident_count", 0) or 0)),
-            staff_count=max(0, int(raw.get("staff_count", 0) or 0)),
-            staff_aliases=staff_by_service[service_type],
         )
     return CareforRosterStatusResponse(
         generated_at=_parse_local_timestamp(

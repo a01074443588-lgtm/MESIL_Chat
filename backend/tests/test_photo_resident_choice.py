@@ -323,27 +323,18 @@ def test_ocr_arriving_after_unrelated_decision_cannot_recreate_candidate(context
     assert detail(own,mid)['resident_links']==[]
 
 
-def test_additive_status_migration_preserves_rows_and_refuses_lossy_downgrade(migration_fixture,monkeypatch):
-    import importlib.util
-    from pathlib import Path
-    from alembic.migration import MigrationContext
-    from alembic.operations import Operations
+def test_fresh_photo_status_constraints_preserve_rows(migration_fixture):
+    from app.public_install_guard import require_empty_install
     from sqlalchemy import text
-    migration=Path(__file__).parents[1]/'migrations/postgres_versions/047_photo_reading_states.py'
-    spec=importlib.util.spec_from_file_location('photo_status_migration',migration);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     conn = migration_fixture
-    op=Operations(MigrationContext.configure(conn));monkeypatch.setattr(module,'op',op)
-    before=conn.execute(text('SELECT to_jsonb(m)::text FROM staff_hub_messages m')).scalars().all()
+    before = conn.execute(text('SELECT to_jsonb(m)::text FROM staff_hub_messages m')).scalars().all()
     assert len(before) == 1
-    op.drop_constraint('attachment_text_extractions_status_check','attachment_text_extractions',type_='check')
-    op.create_check_constraint('attachment_text_extractions_status_check','attachment_text_extractions',
-        "status IN ('pending','processing','completed','failed','reviewed')")
-    module.upgrade()
-    assert conn.execute(text('SELECT to_jsonb(m)::text FROM staff_hub_messages m')).scalars().all()==before
-    assert conn.execute(text('SELECT extracted_text FROM attachment_text_extractions')).scalar() == '합성 원문'
+    with pytest.raises(RuntimeError, match='NEW_INSTALL_REQUIRES_EMPTY_SCHEMA'):
+        require_empty_install(['staff_hub_messages'])
     conn.execute(text("UPDATE attachment_text_extractions SET status='not_required'"))
-    with pytest.raises(RuntimeError,match='preserved'):module.downgrade()
-    assert conn.execute(text('SELECT status FROM attachment_text_extractions')).scalar()=='not_required'
+    assert conn.execute(text('SELECT status FROM attachment_text_extractions')).scalar() == 'not_required'
+    assert conn.execute(text('SELECT to_jsonb(m)::text FROM staff_hub_messages m')).scalars().all() == before
+    assert conn.execute(text('SELECT extracted_text FROM attachment_text_extractions')).scalar() == '합성 원문'
 
 
 def test_duplicate_read_is_single_job_and_processor_can_review_in_scope(context,monkeypatch):

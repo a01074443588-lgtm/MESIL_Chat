@@ -1,5 +1,9 @@
 # MESIL Chat 데모 영상
 
+> 이전 공개본의 영상 출처 기록입니다. 2026-10-23 신규 설치 후보에는 아래 MP4 두 개를
+> 포함하지 않았습니다. 아래 링크와 수치는 과거 공개본의 것으로 현재 후보의 검증 근거나
+> 포함 목록이 아닙니다. [현재 자산 목록](PUBLIC_ASSETS_AND_LICENSES.md)을 확인하세요.
+
 [영상 보기](demo/mesil-chat-demo-v3.mp4) · [MP4 직접 다운로드](https://raw.githubusercontent.com/a01074443588-lgtm/MESIL_Chat/challenge-final-20260913/docs/demo/mesil-chat-demo-v3.mp4)
 
 - 파일: `docs/demo/mesil-chat-demo-v3.mp4` (최종 편집본)
